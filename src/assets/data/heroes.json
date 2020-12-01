@@ -1,0 +1,9 @@
+[
+  { "id": "ama", "name": "Amazon" },
+  { "id": "sor", "name": "Sorceress" },
+  { "id": "nec", "name": "Necromancer" },
+  { "id": "pal", "name": "Paladin" },
+  { "id": "bar", "name": "Barbarian" },
+  { "id": "dru", "name": "Druid" },
+  { "id": "asn", "name": "Assassin" }
+]

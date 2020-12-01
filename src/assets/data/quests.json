@@ -1,0 +1,198 @@
+{
+  "81": {
+    "act": 1,
+    "order": 1,
+    "boss": false,
+    "name": "Den of Evil",
+    "short_name": "Den"
+  },
+  "82": {
+    "act": 1,
+    "order": 2,
+    "boss": false,
+    "name": "Sisters' Burial Grounds",
+    "short_name": "Raven"
+  },
+  "83": {
+    "act": 1,
+    "order": 5,
+    "boss": false,
+    "name": "Tools of the Trade",
+    "short_name": "Imbue"
+  },
+  "84": {
+    "act": 1,
+    "order": 3,
+    "boss": false,
+    "name": "The Search for Cain",
+    "short_name": "Cain"
+  },
+  "85": {
+    "act": 1,
+    "order": 4,
+    "boss": false,
+    "name": "The Forgotten Tower",
+    "short_name": "Countess"
+  },
+  "12": {
+    "act": 1,
+    "order": 6,
+    "boss": true,
+    "name": "Sisters to the Slaughter",
+    "short_name": "Andariel"
+  },
+  "86": {
+    "act": 2,
+    "order": 1,
+    "boss": false,
+    "name": "Radament's Lair",
+    "short_name": "Radament"
+  },
+  "87": {
+    "act": 2,
+    "order": 2,
+    "boss": false,
+    "name": "The Horadric Staff",
+    "short_name": "Staff"
+  },
+  "88": {
+    "act": 2,
+    "order": 3,
+    "boss": false,
+    "name": "Tainted Sun",
+    "short_name": "Temple"
+  },
+  "89": {
+    "act": 2,
+    "order": 4,
+    "boss": false,
+    "name": "Arcane Sanctuary",
+    "short_name": "Arcane"
+  },
+  "90": {
+    "act": 2,
+    "order": 5,
+    "boss": false,
+    "name": "The Summoner",
+    "short_name": "Horazon"
+  },
+  "28": {
+    "act": 2,
+    "order": 6,
+    "boss": true,
+    "name": "The Seven Tombs",
+    "short_name": "Duriel"
+  },
+  "91": {
+    "act": 3,
+    "order": 4,
+    "boss": false,
+    "name": "Lam Esen's Tome",
+    "short_name": "Sarina"
+  },
+  "92": {
+    "act": 3,
+    "order": 3,
+    "boss": false,
+    "name": "Khalim's Will",
+    "short_name": "Organs"
+  },
+  "93": {
+    "act": 3,
+    "order": 2,
+    "boss": false,
+    "name": "Blade of the Old Religion",
+    "short_name": "Gibdinn"
+  },
+  "94": {
+    "act": 3,
+    "order": 1,
+    "boss": false,
+    "name": "The Golden Bird",
+    "short_name": "Alkor"
+  },
+  "95": {
+    "act": 3,
+    "order": 5,
+    "boss": false,
+    "name": "The Blackened Temple",
+    "short_name": "Travincal"
+  },
+  "44": {
+    "act": 3,
+    "order": 6,
+    "boss": true,
+    "name": "The Guardian",
+    "short_name": "Mephisto"
+  },
+  "96": {
+    "act": 4,
+    "order": 1,
+    "boss": false,
+    "name": "The Fallen Angel",
+    "short_name": "Izual"
+  },
+  "52": {
+    "act": 4,
+    "order": 3,
+    "boss": true,
+    "name": "Terror's End",
+    "short_name": "Diablo"
+  },
+  "97": {
+    "act": 4,
+    "order": 2,
+    "boss": false,
+    "name": "Hell's Forge",
+    "short_name": "Forge"
+  },
+  "98": {
+    "act": 5,
+    "order": 1,
+    "boss": false,
+    "name": "Siege on Harrogath",
+    "short_name": "Shenk"
+  },
+  "99": {
+    "act": 5,
+    "order": 2,
+    "boss": false,
+    "name": "Rescue on Mount Arreat",
+    "short_name": "Barbs"
+  },
+  "100": {
+    "act": 5,
+    "order": 3,
+    "boss": false,
+    "name": "Prison of Ice",
+    "short_name": "Anya"
+  },
+  "101": {
+    "act": 5,
+    "order": 4,
+    "boss": false,
+    "name": "Betrayal of Harrogath",
+    "short_name": "Nihlathak"
+  },
+  "102": {
+    "act": 5,
+    "order": 5,
+    "boss": false,
+    "name": "Rite of Passage",
+    "short_name": "Ancients"
+  },
+  "80": {
+    "act": 5,
+    "order": 6,
+    "boss": true,
+    "name": "Eve of Destruction",
+    "short_name": "Baal"
+  },
+  "103": {
+    "act": 0,
+    "order": 1,
+    "boss": false,
+    "name": "Cow King",
+    "short_name": "Cow King"
+  }
+}
