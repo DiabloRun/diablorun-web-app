@@ -1,0 +1,75 @@
+name: Deploy master to S3
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install AWS CLI
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      uses: chrislennon/action-aws-cli@v1.1
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Create deployment
+      uses: chrnorm/deployment-action@v1.2.0
+      id: deployment
+      with:
+        token: "${{ github.token }}"
+        target_url: https://diablo.run
+        environment: production
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Deploy
+      run: aws s3 sync dist/ s3://d2.leede.ee/ --cache-control "public, must-revalidate, proxy-revalidate, max-age=0"
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Deployment success
+      if: success()
+      uses: chrnorm/deployment-status@v1.0.0
+      with:
+        token: "${{ github.token }}"
+        target_url: https://diablo.run
+        state: "success"
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+    - name: Deployment failure
+      if: failure()
+      uses: chrnorm/deployment-status@v1.0.0
+      with:
+        token: "${{ github.token }}"
+        target_url: https://diablo.run
+        state: "failure"
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
