@@ -12,6 +12,7 @@
     "bulma-tooltip": "^3.0.2",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.4",
+    "diablorun-data": "github:DiabloRun/diablorun-data#master",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
     "register-service-worker": "^1.7.1",

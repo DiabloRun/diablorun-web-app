@@ -298,9 +298,7 @@
 import { mapState } from "vuex";
 import RaceCountdown from "@/components/RaceCountdown.vue";
 import DateTimeInput from "@/components/DateTimeInput.vue";
-import heroes from "@/assets/data/heroes.json";
-import quests from "@/assets/data/quests.json";
-import stats from "@/assets/data/stats.json";
+import { heroes, quests, stats } from 'diablorun-data';
 
 export default {
   name: "RaceEditor",

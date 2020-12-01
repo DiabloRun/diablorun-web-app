@@ -57,7 +57,7 @@
 </style>
 
 <script>
-import itemImages from '@/assets/data/item-images.json';
+import { itemImages } from 'diablorun-data';
 
 export default {
   name: 'CharacterItem',
