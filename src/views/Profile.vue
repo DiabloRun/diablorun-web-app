@@ -128,7 +128,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'Profile',
   data() {
-    const redirect_uri = `${process.env.VUE_APP_API_URL}/profile`;
+    const redirect_uri = `${process.env.VUE_APP_WEB_URL}/profile`;
 
     return {
       loading: false,

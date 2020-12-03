@@ -472,10 +472,7 @@ export default {
       try {
         const rules = this.getRules();
 
-        const res = await fetch(
-          // TODO: move save race from separate Lambda function to API function
-          "https://1pr4o54qtj.execute-api.eu-central-1.amazonaws.com/staging/d2id-save-race",
-          {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/races`, {
             method: "POST",
             mode: "cors",
             headers: {
