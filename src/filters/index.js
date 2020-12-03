@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment-duration-format';
-import { areas, stats, quests, heroes } from 'diablorun-data';
+import { areas, stats, quests, heroes } from '@diablorun/diablorun-data';
 
 export function DurationFilter(seconds) {
   return moment.duration(seconds, 'seconds').format('hh:mm:ss', 0, { trim: false });
