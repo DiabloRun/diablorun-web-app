@@ -53,7 +53,7 @@
           Diablo.run built by <router-link :to="{name: 'Team'}">OverseerShenk</router-link> and <router-link :to="{name: 'Team'}">Indrek</router-link>. Join our <a href="https://discord.gg/QMMDR2a">Discord</a>. Powered by <a href="https://github.com/Zutatensuppe/DiabloInterface/releases">Diablo Interface</a>.
         </p>
         <p>
-          Support the development and server costs by <a href="https://www.patreon.com/diablorun">becoming a Patreon</a>.
+          Support the development and server costs by <a href="https://www.patreon.com/diablorun">becoming a Patreon</a>. Contribute code on <a href="https://www.patreon.com/diablorun">GitHub.</a>
         </p>
       </div>
     </footer>
