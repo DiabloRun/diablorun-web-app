@@ -10,9 +10,17 @@
             </div>
             <div class="column is-narrow">
               <figure class="image is-48x48">
-                <img class="has-glow is-rounded" src="@/assets/img/d2_cover.png" v-if="!heroFilter">
-                <Icon imgClass="has-glow is-rounded" :name="`big-${heroFilter}`" v-if="heroFilter" />
-            </figure>
+                <img
+                  class="has-glow is-rounded"
+                  src="@/assets/img/d2_cover.png"
+                  v-if="!heroFilter"
+                />
+                <Icon
+                  imgClass="has-glow is-rounded"
+                  :name="`big-${heroFilter}`"
+                  v-if="heroFilter"
+                />
+              </figure>
             </div>
           </div>
         </div>
@@ -24,12 +32,19 @@
         <div class="container">
           <div class="columns is-mobile is-vcentered">
             <div class="column">
-              <h1 class="subtitle is-4">{{ statistics.speedruns }} runs by {{ statistics.users }} runners</h1>
+              <h1 class="subtitle is-4">
+                {{ statistics.speedruns }} runs by
+                {{ statistics.users }} runners
+              </h1>
             </div>
             <div class="column is-narrow">
-              <button class="button is-primary has-tooltip-bottom" data-tooltip="Reset Filters" @click="resetFilters()">
+              <button
+                class="button is-primary has-tooltip-bottom"
+                data-tooltip="Reset Filters"
+                @click="resetFilters()"
+              >
                 <span class="icon is-small">
-                  <img src="@/assets/img/icons/reset.png">
+                  <img src="@/assets/img/icons/reset.png" />
                 </span>
               </button>
             </div>
@@ -84,7 +99,7 @@
     <!-- Category is empty -->
     <section class="section" v-if="!runs.length > 0">
       <div class="container">
-        <div class = "notification is-dark has-text-centered">
+        <div class="notification is-dark has-text-centered">
           <p>There are no submitted runs in this category.</p>
         </div>
       </div>
@@ -109,31 +124,49 @@
               <tbody>
                 <tr v-for="(run, index) of runs" :key="run.id">
                   <td class="is-narrow has-text-centered">
-                    <p :class="`subtitle is-6 has-text-fade rank-${index + 1}`">{{ index + 1 }}</p>
+                    <p :class="`subtitle is-6 has-text-fade rank-${index + 1}`">
+                      {{ index + 1 }}
+                    </p>
                   </td>
                   <td class="is-narrow">
-                    <CountryIcon imgClass="flag" :code="run.speedrun_user_country_code" />
+                    <CountryIcon
+                      imgClass="flag"
+                      :code="run.speedrun_user_country_code"
+                    />
                     <p class="subtitle is-5">
                       <a
                         v-if="!run.user_id"
                         :style="`color: ${run.speedrun_user_dark_color_from};`"
-                        :href="run.speedrun_user_weblink" target="_blank"
+                        :href="run.speedrun_user_weblink"
+                        target="_blank"
                       >
                         {{ run.speedrun_user_name }}
                       </a>
                       <router-link
                         v-if="run.user_id"
-                        :to="{ name: 'User', params: { user_name: run.user_name } }"
-                        :style="`color: ${run.user_color || run.speedrun_user_dark_color_from};`"
+                        :to="{
+                          name: 'User',
+                          params: { user_name: run.user_name }
+                        }"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>
                       <span v-if="run.character_id">
                         <span class="has-text-fade">as</span>
-                        <router-link :to="{
-                          name: 'Character',
-                          params: { user_name: run.user_name, character_slug: run.character_name + run.character_id }
-                        }">
+                        <router-link
+                          :to="{
+                            name: 'Character',
+                            params: {
+                              user_name: run.user_name,
+                              character_slug:
+                                run.character_name + run.character_id
+                            }
+                          }"
+                        >
                           {{ run.character_name }}
                         </router-link>
                       </span>
@@ -141,33 +174,53 @@
                   </td>
                   <td class="has-text-centered has-text-right-mobile">
                     <p class="subtitle is-5">
-                    <a :href="run.speedrun_link" target="_blank">
-                      {{ run.seconds_played | DurationFilter }}
-                    </a>
+                      <a :href="run.speedrun_link" target="_blank">
+                        {{ run.seconds_played | DurationFilter }}
+                      </a>
                     </p>
                   </td>
                   <td class="has-text-centered">
-                    <span :class="`is-hidden-touch has-hero ${ run.hero } subtitle is-5`">{{ run.hero | HeroNameFilter }}</span>
-                    <span :class="`is-hidden-desktop has-hero ${ run.hero } subtitle is-5`">{{ run.hero }}</span>
+                    <span
+                      :class="
+                        `is-hidden-touch has-hero ${run.hero} subtitle is-5`
+                      "
+                      >{{ run.hero | HeroNameFilter }}</span
+                    >
+                    <span
+                      :class="
+                        `is-hidden-desktop has-hero ${run.hero} subtitle is-5`
+                      "
+                      >{{ run.hero }}</span
+                    >
                   </td>
                   <td class="has-text-centered is-hidden-mobile">
-                    <span v-if="!run.hc" class="subtitle is-5"><span class="has-text-grey">SC</span></span>
-                    <span v-if="run.hc" class="subtitle is-5"><span class="has-text-warning">HC</span></span>
+                    <span v-if="!run.hc" class="subtitle is-5"
+                      ><span class="has-text-grey">SC</span></span
+                    >
+                    <span v-if="run.hc" class="subtitle is-5"
+                      ><span class="has-text-warning">HC</span></span
+                    >
                   </td>
                   <td class="has-text-centered is-hidden-mobile">
                     <p class="subtitle is-5">{{ run.players_category }}</p>
                   </td>
                   <td class="is-narrow is-hidden-touch has-text-right">
-                    <p class="subtitle is-6">{{ run.submit_time | FromNowFilter }}</p>
+                    <p class="subtitle is-6">
+                      {{ run.submit_time | FromNowFilter }}
+                    </p>
                   </td>
                 </tr>
               </tbody>
             </table>
 
-            <button v-if="pagination.more"
+            <button
+              v-if="pagination.more"
               class="button is-primary"
               :class="{ 'is-loading': pagination.loading }"
-              @click="loadMore()">Load more</button>
+              @click="loadMore()"
+            >
+              Load more
+            </button>
           </div>
         </div>
       </div>
@@ -216,35 +269,63 @@ export default {
 
       if (filters.category_id !== '') {
         switch (filters.category_id + '') {
-          case '2': categoryName += 'Hell '; break;
-          case '3': categoryName += 'Pacifist '; break;
+          case '2':
+            categoryName += 'Hell ';
+            break;
+          case '3':
+            categoryName += 'Pacifist ';
+            break;
         }
       }
 
       if (filters.hc !== '') {
         switch (filters.hc) {
-          case 0: categoryName += 'Softcore '; break;
-          case 1: categoryName += 'Hardcore '; break;
+          case 0:
+            categoryName += 'Softcore ';
+            break;
+          case 1:
+            categoryName += 'Hardcore ';
+            break;
         }
       }
 
       if (filters.hero !== '') {
         switch (filters.hero) {
-          case 'ama': categoryName += 'Amazon '; break;
-          case 'asn': categoryName += 'Assassin '; break;
-          case 'nec': categoryName += 'Necromancer '; break;
-          case 'bar': categoryName += 'Barbarian '; break;
-          case 'pal': categoryName += 'Paladin '; break;
-          case 'sor': categoryName += 'Sorceress '; break;
-          case 'dru': categoryName += 'Druid '; break;
+          case 'ama':
+            categoryName += 'Amazon ';
+            break;
+          case 'asn':
+            categoryName += 'Assassin ';
+            break;
+          case 'nec':
+            categoryName += 'Necromancer ';
+            break;
+          case 'bar':
+            categoryName += 'Barbarian ';
+            break;
+          case 'pal':
+            categoryName += 'Paladin ';
+            break;
+          case 'sor':
+            categoryName += 'Sorceress ';
+            break;
+          case 'dru':
+            categoryName += 'Druid ';
+            break;
         }
       }
 
       if (filters.players_category !== '') {
         switch (filters.players_category) {
-          case 'p1': categoryName += 'Players 1 '; break;
-          case 'px': categoryName += 'Players X '; break;
-          case 'p8': categoryName += 'Players 8 '; break;
+          case 'p1':
+            categoryName += 'Players 1 ';
+            break;
+          case 'px':
+            categoryName += 'Players X ';
+            break;
+          case 'p8':
+            categoryName += 'Players 8 ';
+            break;
         }
       }
 
@@ -258,8 +339,12 @@ export default {
       const filters = this.$store.state.leaderboard.filters;
 
       switch (filters.category_id + '') {
-        case '2': parts.push('hell'); break;
-        case '3': parts.push('pacifist'); break;
+        case '2':
+          parts.push('hell');
+          break;
+        case '3':
+          parts.push('pacifist');
+          break;
       }
 
       if (filters.hc === 0) {

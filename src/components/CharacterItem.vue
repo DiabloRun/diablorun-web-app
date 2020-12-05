@@ -4,18 +4,23 @@
       <div class="content has-text-centered">
         <div class="columns is-mobile is-centered is-gapless">
           <div class="column is-narrow">
-            <img :src="imageSrc">
+            <img :src="imageSrc" />
           </div>
           <div class="column is-10">
             <h1 :class="`title is-item has-small-margin`">
-              <span v-if="runeword" class="quality-gold">{{ runeword }}<br></span>
+              <span v-if="runeword" class="quality-gold"
+                >{{ runeword }}<br
+              /></span>
               <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
                 {{ runeword ? item.base_name : item.name }}
               </span>
             </h1>
-            <p class="has-text-small has-no-margin"
+            <p
+              class="has-text-small has-no-margin"
               :class="{ 'has-text-warning': property.includes('ÿc1') }"
-              v-for="property of properties" :key="property">
+              v-for="property of properties"
+              :key="property"
+            >
               {{ property.replace(/^ÿc1/, '') }}
             </p>
           </div>
@@ -27,32 +32,32 @@
 
 <style scoped lang="scss">
 .quality-yellow {
-    color: #fdfd70;
+  color: #fdfd70;
 }
 
 .quality-orange {
-    color: #f7c100;
+  color: #f7c100;
 }
 
 .quality-green {
-    color: #01fd00;
+  color: #01fd00;
 }
 
 .quality-gold {
-    color: #dcc784;
+  color: #dcc784;
 }
 
 .quality-blue {
-    color: #7575fd;
+  color: #7575fd;
 }
 
 .quality-socketed {
-    opacity: .5;
-    font-size: .95rem;
+  opacity: 0.5;
+  font-size: 0.95rem;
 }
 
 .quality-white {
-    color: #fdfdfd;
+  color: #fdfdfd;
 }
 </style>
 
@@ -77,7 +82,7 @@ export default {
       handler(item) {
         this.imageSrc = itemImages[item.name] || itemImages[item.base_name];
         this.properties = JSON.parse(item.properties);
-        
+
         const runewordMatch = item.name.match(/^(.*?) \[(.*?)\]$/);
 
         if (runewordMatch) {

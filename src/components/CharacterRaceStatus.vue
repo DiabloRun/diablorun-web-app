@@ -13,7 +13,8 @@
       Dead
     </p>
     <p v-if="status === 'playing'" class="has-text-grey subtitle is-5">
-      <span v-if="time_left === null">Playing</span><span v-if="time_left !== null">({{ time_left }})</span>
+      <span v-if="time_left === null">Playing</span
+      ><span v-if="time_left !== null">({{ time_left }})</span>
     </p>
   </div>
 </template>
@@ -53,7 +54,9 @@ export default {
         return;
       }
 
-      const time = Math.floor((new Date().getTime() + this.$store.state.ws.timeOffset) / 1000);
+      const time = Math.floor(
+        (new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
+      );
 
       if (!this.start || time <= this.start) {
         this.status = 'ready';
@@ -65,7 +68,9 @@ export default {
 
       if (finish && time > finish) {
         this.status = 'finished';
-        this.finish_time_from_now = FromNowFilter(finish + this.$store.state.ws.timeOffset / 1000);
+        this.finish_time_from_now = FromNowFilter(
+          finish + this.$store.state.ws.timeOffset / 1000
+        );
       } else if (this.character.hc && this.character.dead) {
         this.status = 'dead';
       } else {
@@ -74,17 +79,20 @@ export default {
       }
 
       if (
-        prevStatus !== 'finished' && this.status === 'finished'
-        && !this.character.is_finished
-        && this.character.finish_time !== this.finish
+        prevStatus !== 'finished' &&
+        this.status === 'finished' &&
+        !this.character.is_finished &&
+        this.character.finish_time !== this.finish
       ) {
         this.character.is_finished = true;
         this.$store.dispatch('ws/updateRace', {
-          characters: [{
-            id: this.character.id,
-            user_id: this.character.user_id,
-            is_finished: true
-          }],
+          characters: [
+            {
+              id: this.character.id,
+              user_id: this.character.user_id,
+              is_finished: true
+            }
+          ],
           notifications: []
         });
       }

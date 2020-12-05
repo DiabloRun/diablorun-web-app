@@ -11,8 +11,8 @@
                   name: 'Character',
                   params: {
                     user_name: character.user_name,
-                    character_slug: character.name + character.id,
-                  },
+                    character_slug: character.name + character.id
+                  }
                 }"
               >
                 <Icon imgClass="has-glow" :name="`big-${character.hero}`" />
@@ -25,29 +25,34 @@
                     name: 'Character',
                     params: {
                       user_name: character.user_name,
-                      character_slug: character.name + character.id,
-                    },
+                      character_slug: character.name + character.id
+                    }
                   }"
                 >
-                {{ character.name }}</router-link>
+                  {{ character.name }}
+                </router-link>
               </h1>
             </div>
             <div class="column is-narrow">
-               <h1 class="title is-5">
-                 <span class="has-text-fade">Added by </span>
+              <h1 class="title is-5">
+                <span class="has-text-fade">Added by </span>
                 <router-link
                   :to="{
                     name: 'User',
-                    params: { user_name: character.user_name },
+                    params: { user_name: character.user_name }
                   }"
-                >{{ character.user_name }}</router-link>
-               </h1>
+                  >{{ character.user_name }}</router-link
+                >
+              </h1>
             </div>
-            <div v-if="character.user_profile_image_url" class="column is-narrow">
+            <div
+              v-if="character.user_profile_image_url"
+              class="column is-narrow"
+            >
               <router-link
                 :to="{
                   name: 'User',
-                  params: { user_name: character.user_name },
+                  params: { user_name: character.user_name }
                 }"
               >
                 <figure class="image is-64x64">
@@ -112,16 +117,16 @@
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 </style>
 
 <script>
-import { mapState } from "vuex";
-import Icon from "@/components/Icon.vue";
-import ScatterChart from "@/components/ScatterChart.vue";
+import { mapState } from 'vuex';
+import Icon from '@/components/Icon.vue';
+import ScatterChart from '@/components/ScatterChart.vue';
 
 export default {
-  name: "CharacterStatistics",
+  name: 'CharacterStatistics',
   data() {
     return {
       experienceChartData: {
@@ -132,61 +137,66 @@ export default {
       }
     };
   },
-  filters: {
-  },
+  filters: {},
   components: {
     Icon,
-    ScatterChart,
+    ScatterChart
   },
   computed: {
     ...mapState({
-      character: (state) => state.ws.character,
+      character: state => state.ws.character,
       characterId: state => state.ws.character.id
-    }),
+    })
   },
   watch: {
     $route: {
       immediate: true,
       async handler({ params: { user_name, character_slug } }) {
         const id = character_slug
-          ? character_slug.replace(/^[^0-9]+/i, "")
-          : "";
+          ? character_slug.replace(/^[^0-9]+/i, '')
+          : '';
         const name = user_name.toLowerCase();
 
-        await this.$store.dispatch("ws/subscribeToCharacter", { name, id });
+        await this.$store.dispatch('ws/subscribeToCharacter', { name, id });
       }
     },
 
     async characterId(id) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/characters/${id}/statistics`);
+      const res = await fetch(
+        `${process.env.VUE_APP_API_URL}/characters/${id}/statistics`
+      );
       const { experience, gold_total } = await res.json();
 
-      this.experienceChartData.datasets = [{
-        label: 'Experience',
-        data: experience.map(row => ({
-          x: row.in_game_time,
-          y: row.value
-        })),
-        borderColor: 'white',
-        fill: false,
-        showLine: true
-      }];
+      this.experienceChartData.datasets = [
+        {
+          label: 'Experience',
+          data: experience.map(row => ({
+            x: row.in_game_time,
+            y: row.value
+          })),
+          borderColor: 'white',
+          fill: false,
+          showLine: true
+        }
+      ];
 
       this.$refs.experienceChart.update();
 
-      this.goldTotalChartData.datasets = [{
-        label: 'Gold',
-        data: gold_total.map(row => ({
-          x: row.in_game_time,
-          y: row.value
-        })),
-        borderColor: 'orange',
-        fill: false,
-        showLine: true
-      }];
+      this.goldTotalChartData.datasets = [
+        {
+          label: 'Gold',
+          data: gold_total.map(row => ({
+            x: row.in_game_time,
+            y: row.value
+          })),
+          borderColor: 'orange',
+          fill: false,
+          showLine: true
+        }
+      ];
 
       this.$refs.goldTotalChart.update();
     }
-  },
+  }
 };
 </script>

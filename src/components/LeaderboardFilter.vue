@@ -16,6 +16,6 @@ export default {
     value() {
       return this.$store.state.leaderboard.filters[this.column];
     }
-  },
-}
+  }
+};
 </script>

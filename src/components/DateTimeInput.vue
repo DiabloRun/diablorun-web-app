@@ -1,10 +1,10 @@
 <template>
   <div class="columns">
     <div class="column">
-      <input class="input" type="date" placeholder="Date" v-model="date">
+      <input class="input" type="date" placeholder="Date" v-model="date" />
     </div>
     <div class="column">
-      <input class="input" type="time" placeholder="Time" v-model="time">
+      <input class="input" type="time" placeholder="Time" v-model="time" />
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
           return;
         }
 
-        const d = moment(value*1000);
+        const d = moment(value * 1000);
         this.date = d.format('YYYY-MM-DD');
         this.time = d.format('HH:mm');
       },
@@ -47,10 +47,13 @@ export default {
   },
   methods: {
     updateDateTime() {
-      this.$emit('change', Math.floor(new Date(
-        `${this.date || ''} ${this.time || ''}`
-      ).getTime() / 1000));
+      this.$emit(
+        'change',
+        Math.floor(
+          new Date(`${this.date || ''} ${this.time || ''}`).getTime() / 1000
+        )
+      );
     }
   }
-}
+};
 </script>

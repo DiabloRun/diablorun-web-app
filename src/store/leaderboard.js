@@ -45,7 +45,7 @@ export default {
     }
   },
   actions: {
-    async loadRuns({ state, commit }, paginate=false) {
+    async loadRuns({ state, commit }, paginate = false) {
       let query = '?';
 
       for (const key in state.filters) {
@@ -65,7 +65,9 @@ export default {
 
       commit(paginate ? 'setPaginationLoading' : 'setLoading', true);
 
-      const rest = await fetch(`${process.env.VUE_APP_API_URL}/speedruns${query}`);
+      const rest = await fetch(
+        `${process.env.VUE_APP_API_URL}/speedruns${query}`
+      );
       const { statistics, speedruns, pagination } = await rest.json();
       const data = {
         runs: paginate ? state.runs.concat(speedruns) : speedruns,
@@ -88,7 +90,7 @@ export default {
       for (const column in state.filters) {
         commit('setFilterValue', {
           column,
-          value: (column === 'category_id') ? 1 : ''
+          value: column === 'category_id' ? 1 : ''
         });
       }
 

@@ -49,8 +49,8 @@
                           name: 'Character',
                           params: {
                             user_name: latestCharacter.user_name,
-                            character_slug: '@',
-                          },
+                            character_slug: '@'
+                          }
                         }"
                       >
                         <Icon
@@ -66,8 +66,8 @@
                             name: 'Character',
                             params: {
                               user_name: latestCharacter.user_name,
-                              character_slug: '@',
-                            },
+                              character_slug: '@'
+                            }
                           }"
                           >{{ latestCharacter.name }}</router-link
                         >
@@ -109,7 +109,7 @@
                 class="is-hidden-mobile"
                 :class="{
                   'has-text-centered': isEditor,
-                  'has-text-right': !isEditor,
+                  'has-text-right': !isEditor
                 }"
               >
                 Added
@@ -127,7 +127,9 @@
               <td class="is-narrow has-no-overflow">
                 <p class="subtitle is-5">
                   <router-link
-                    :to="`/${character.user_name}/${character.name}${character.id}`"
+                    :to="
+                      `/${character.user_name}/${character.name}${character.id}`
+                    "
                   >
                     {{ character.name }}
                   </router-link>
@@ -136,11 +138,15 @@
               <!-- Hero -->
               <td class="has-text-centered">
                 <span
-                  :class="`is-hidden-desktop has-hero ${character.hero} subtitle is-5`"
+                  :class="
+                    `is-hidden-desktop has-hero ${character.hero} subtitle is-5`
+                  "
                   >{{ character.hero }}</span
                 >
                 <span
-                  :class="`is-hidden-touch has-hero ${character.hero} subtitle is-5`"
+                  :class="
+                    `is-hidden-touch has-hero ${character.hero} subtitle is-5`
+                  "
                   >{{ character.hero | HeroNameFilter }}</span
                 >
               </td>
@@ -197,7 +203,7 @@
                 class="is-narrow is-hidden-mobile"
                 :class="{
                   'has-text-centered': isEditor,
-                  'has-text-right': !isEditor,
+                  'has-text-right': !isEditor
                 }"
               >
                 {{ character.start_time | FromNowFilter }}
@@ -274,7 +280,9 @@
               <!-- Rank -->
               <td class="is-narrow has-text-centered">
                 <p
-                  :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                  :class="
+                    `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                  "
                 >
                   {{ run.category_rank }}
                 </p>
@@ -298,15 +306,15 @@
                       name: 'Leaderboard',
                       hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
                         run.hero
-                      }/${run.players_category}`,
+                      }/${run.players_category}`
                     }"
                   >
                     {{ run.category_name }}
                     <span class="is-hidden-touch">
-                      {{ run.hc ? "Hardcore" : "Softcore" }}
+                      {{ run.hc ? 'Hardcore' : 'Softcore' }}
                     </span>
                     <span class="is-hidden-desktop">
-                      {{ run.hc ? "HC" : "SC" }}
+                      {{ run.hc ? 'HC' : 'SC' }}
                     </span>
                     <span class="is-hidden-touch">
                       {{ run.players_category | PlayersCategoryNameFilter }}
@@ -336,8 +344,8 @@
                       name: 'Character',
                       params: {
                         user_name: run.user_name,
-                        character_slug: run.character_name + run.character_id,
-                      },
+                        character_slug: run.character_name + run.character_id
+                      }
                     }"
                   >
                     {{ run.character_name }}
@@ -366,7 +374,7 @@
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 .table th {
   word-wrap: none;
@@ -375,45 +383,45 @@
 </style>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 import {
   FromNowFilter,
   DifficultyFilter,
   AreaNameFilter,
   DurationFilter,
   HeroNameFilter,
-  PlayersCategoryNameFilter,
-} from "@/filters";
-import Icon from "@/components/Icon.vue";
+  PlayersCategoryNameFilter
+} from '@/filters';
+import Icon from '@/components/Icon.vue';
 
 export default {
-  name: "Character",
+  name: 'Character',
   filters: {
     FromNowFilter,
     DifficultyFilter,
     AreaNameFilter,
     DurationFilter,
     HeroNameFilter,
-    PlayersCategoryNameFilter,
+    PlayersCategoryNameFilter
   },
   components: {
-    Icon,
+    Icon
   },
   data: () => ({
     user: null,
-    username: "",
+    username: '',
     characters: [],
     moreCharacters: false,
-    offsetCharacters: "",
+    offsetCharacters: '',
     loadingCharacters: true,
     speedruns: [],
     speedrunsStatistics: {},
     speedrunsPagination: {},
-    loadingSpeedruns: true,
+    loadingSpeedruns: true
   }),
   computed: {
     ...mapState({
-      latestCharacter: (state) => state.ws.character,
+      latestCharacter: state => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -421,7 +429,7 @@ export default {
       }
 
       return this.$store.state.auth.user.login === this.username.toLowerCase();
-    },
+    }
   },
   watch: {
     $route: {
@@ -436,9 +444,9 @@ export default {
 
         this.user = user;
 
-        await this.$store.dispatch("ws/subscribeToCharacter", {
+        await this.$store.dispatch('ws/subscribeToCharacter', {
           name: this.username,
-          lastUpdate,
+          lastUpdate
         });
 
         this.characters = characters.data;
@@ -450,8 +458,8 @@ export default {
         this.speedrunsStatistics = speedruns.statistics;
         this.speedrunsPagination = speedruns.pagination;
         this.loadingSpeedruns = false;
-      },
-    },
+      }
+    }
   },
   methods: {
     async loadMoreCharacters() {
@@ -484,20 +492,20 @@ export default {
 
     async deleteCharacter(character) {
       if (
-        await this.$store.dispatch("app/confirm", {
-          title: "Delete character",
+        await this.$store.dispatch('app/confirm', {
+          title: 'Delete character',
           message: `Are you sure you wish to delete the character ${character.name}?`,
-          verify: "Delete",
+          verify: 'Delete'
         })
       ) {
         try {
           const res = await fetch(
             `${process.env.VUE_APP_API_URL}/characters/${character.id}`,
             {
-              method: "DELETE",
+              method: 'DELETE',
               headers: {
-                Authorization: `Bearer ${this.$store.state.auth.user.api_key}`,
-              },
+                Authorization: `Bearer ${this.$store.state.auth.user.api_key}`
+              }
             }
           );
 
@@ -505,23 +513,23 @@ export default {
             throw new Error(await res.text());
           }
         } catch ({ message }) {
-          await this.$store.dispatch("app/confirm", {
-            title: "Failed to delete character",
+          await this.$store.dispatch('app/confirm', {
+            title: 'Failed to delete character',
             message,
-            verify: "OK",
-            verifyClass: "",
-            cancelable: false,
+            verify: 'OK',
+            verifyClass: '',
+            cancelable: false
           });
           return;
         }
 
-        this.characters = this.characters.filter((c) => c !== character);
+        this.characters = this.characters.filter(c => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>

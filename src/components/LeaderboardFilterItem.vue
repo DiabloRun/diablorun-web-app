@@ -1,5 +1,10 @@
 <template>
-  <li class="tab" :class="{ 'is-active': any ? ($parent.value === '') : (value === $parent.value) }">
+  <li
+    class="tab"
+    :class="{
+      'is-active': any ? $parent.value === '' : value === $parent.value
+    }"
+  >
     <a @click="select()">
       <span v-if="label">{{ label }}</span>
       <span v-if="icon" class="icon">
@@ -31,5 +36,5 @@ export default {
       });
     }
   }
-}
+};
 </script>

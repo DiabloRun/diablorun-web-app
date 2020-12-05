@@ -15,8 +15,8 @@
                   name: 'Character',
                   params: {
                     user_name: character.user_name,
-                    character_slug: character.name + character.id,
-                  },
+                    character_slug: character.name + character.id
+                  }
                 }"
               >
                 <Icon
@@ -33,8 +33,8 @@
                     name: 'Character',
                     params: {
                       user_name: character.user_name,
-                      character_slug: character.name + character.id,
-                    },
+                      character_slug: character.name + character.id
+                    }
                   }"
                 >
                   {{ character.name }}
@@ -48,7 +48,7 @@
                 <router-link
                   :to="{
                     name: 'User',
-                    params: { user_name: character.user_name },
+                    params: { user_name: character.user_name }
                   }"
                 >
                   {{ character.user_name }}
@@ -63,7 +63,7 @@
               <router-link
                 :to="{
                   name: 'User',
-                  params: { user_name: character.user_name },
+                  params: { user_name: character.user_name }
                 }"
               >
                 <figure class="image is-48x48">
@@ -696,48 +696,48 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 import {
   DurationFilter,
   FromNowFilter,
   DifficultyFilter,
   AreaNameFilter,
-  HeroNameFilter,
-} from "@/filters";
-import Icon from "@/components/Icon.vue";
-import CharacterItem from "@/components/CharacterItem.vue";
+  HeroNameFilter
+} from '@/filters';
+import Icon from '@/components/Icon.vue';
+import CharacterItem from '@/components/CharacterItem.vue';
 
 export default {
-  name: "Character",
+  name: 'Character',
   filters: {
     FromNowFilter,
     DurationFilter,
     DifficultyFilter,
     AreaNameFilter,
-    HeroNameFilter,
+    HeroNameFilter
   },
   components: {
     Icon,
-    CharacterItem,
+    CharacterItem
   },
   computed: {
     ...mapState({
-      character: (state) => state.ws.character,
-      streamOverlay: (state) => state.app.windowStyle === "overlay",
-    }),
+      character: state => state.ws.character,
+      streamOverlay: state => state.app.windowStyle === 'overlay'
+    })
   },
   watch: {
     $route: {
       immediate: true,
       async handler({ params: { user_name, character_slug } }) {
         const id = character_slug
-          ? character_slug.replace(/^[^0-9]+/i, "")
-          : "";
+          ? character_slug.replace(/^[^0-9]+/i, '')
+          : '';
         const name = user_name.toLowerCase();
 
-        await this.$store.dispatch("ws/subscribeToCharacter", { name, id });
-      },
-    },
-  },
+        await this.$store.dispatch('ws/subscribeToCharacter', { name, id });
+      }
+    }
+  }
 };
 </script>
