@@ -11,20 +11,22 @@ export default {
       default: null
     }
   },
-  mounted () {
+  mounted() {
     this.renderChart(this.chartData, {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        xAxes: [{
-          ticks: {
-            userCallback: (label) => {
-              const h = Math.floor(label / 3600);
-              const m = Math.floor(label % 3600 / 60);
-              return `${h}h ${m}m`;
+        xAxes: [
+          {
+            ticks: {
+              userCallback: label => {
+                const h = Math.floor(label / 3600);
+                const m = Math.floor((label % 3600) / 60);
+                return `${h}h ${m}m`;
+              }
             }
           }
-        }]
+        ]
       }
     });
   },
@@ -37,5 +39,5 @@ export default {
       }
     }
   }
-}
+};
 </script>

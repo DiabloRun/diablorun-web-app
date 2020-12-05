@@ -8,7 +8,7 @@ export default {
     setConfirmModal(state, settings) {
       state.confirmModal = settings;
     },
-    
+
     setWindowStyle(state, windowStyle) {
       state.windowStyle = windowStyle;
 
@@ -27,7 +27,10 @@ export default {
     }
   },
   actions: {
-    async confirm({ commit }, { title, message, verify, verifyClass, cancelable }) {
+    async confirm(
+      { commit },
+      { title, message, verify, verifyClass, cancelable }
+    ) {
       return await new Promise(resolve => {
         commit('setConfirmModal', {
           title,

@@ -1,5 +1,5 @@
 <template>
-  <img :class="imgClass" :src="icons[`./${id}.png`]">
+  <img :class="imgClass" :src="icons[`./${id}.png`]" />
 </template>
 
 <script>
@@ -21,5 +21,5 @@ export default {
       icons
     };
   }
-}
+};
 </script>

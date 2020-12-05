@@ -59,7 +59,9 @@ export default {
 
     addNotifications(state, notifications) {
       state.notifications = [
-        ...notifications.filter(a => !state.notifications.find(b => a.id === b.id)),
+        ...notifications.filter(
+          a => !state.notifications.find(b => a.id === b.id)
+        ),
         ...state.notifications
       ].slice(0, 6);
     },
@@ -103,8 +105,9 @@ export default {
 
       state.characters = state.characters.map((character, i) => {
         if (
-          !i || character.points !== state.characters[i - 1].points
-          || character.finish_time !== state.characters[i - 1].finish_time
+          !i ||
+          character.points !== state.characters[i - 1].points ||
+          character.finish_time !== state.characters[i - 1].finish_time
         ) {
           ++rank;
         }
@@ -266,7 +269,10 @@ export default {
 
       switch (action) {
         case 'character':
-          if (!state.subscribedToCharacterById || state.character.id === payload.character.id) {
+          if (
+            !state.subscribedToCharacterById ||
+            state.character.id === payload.character.id
+          ) {
             commit('updateCharacter', payload);
           }
           break;
@@ -286,7 +292,10 @@ export default {
       commit('clearQueue');
     },
 
-    async updateRace({ state, commit }, { time, race, rules, characters, notifications, pointsLog }) {
+    async updateRace(
+      { state, commit },
+      { time, race, rules, characters, notifications, pointsLog }
+    ) {
       if (time) {
         commit('setTimeOffset', time - new Date().getTime());
       }
@@ -321,21 +330,26 @@ export default {
         let updatedCharacters = [...state.characters];
 
         for (const character of characters) {
-          const index = updatedCharacters.findIndex(c => c.user_id === character.user_id);
+          const index = updatedCharacters.findIndex(
+            c => c.user_id === character.user_id
+          );
 
           if (index !== -1) {
             // Only update rankings if finish or points are changed
             if (
-              updatedCharacters[index].is_finished !== character.is_finished
-              || updatedCharacters[index].finish_time !== character.finish_time
-              || updatedCharacters[index].points !== character.points
-              || updatedCharacters[index].disqualified !== character.disqualified
+              updatedCharacters[index].is_finished !== character.is_finished ||
+              updatedCharacters[index].finish_time !== character.finish_time ||
+              updatedCharacters[index].points !== character.points ||
+              updatedCharacters[index].disqualified !== character.disqualified
             ) {
               updateRankings = true;
             }
 
             // Update points log if new points available
-            if (updatedCharacters[index].points !== character.points && state.race.start_time) {
+            if (
+              updatedCharacters[index].points !== character.points &&
+              state.race.start_time
+            ) {
               state.pointsLog.push({
                 user_id: character.user_id,
                 update_time: character.update_time,
@@ -353,7 +367,11 @@ export default {
             updatedCharacters.push(character);
           }
 
-          if (!forceFinish && character.is_finished && state.race.finish_conditions_global) {
+          if (
+            !forceFinish &&
+            character.is_finished &&
+            state.race.finish_conditions_global
+          ) {
             forceFinish = true;
             forceFinishTime = character.finish_time;
           }
@@ -382,6 +400,6 @@ export default {
 
         commit('setLastUpdateTime', new Date());
       }
-    },
+    }
   }
 };

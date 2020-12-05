@@ -1,14 +1,19 @@
 <template>
   <div>
     <p v-for="point of points" :key="point.id">
-      <span class="subtitle is-5" :class="{
-        'has-text-success': point.amount > 0,
-        'has-text-warning': point.amount < 0 }">
+      <span
+        class="subtitle is-5"
+        :class="{
+          'has-text-success': point.amount > 0,
+          'has-text-warning': point.amount < 0
+        }"
+      >
         {{ point.amount > 0 ? '+' : '' }}{{ point.amount }}
       </span>
       <span v-if="point.type === 'quest'">
         <!-- <QuestIcon :id="point.quest_id" /> -->
-        for {{ point.quest_id | QuestShortNameFilter }} quest in {{ point.difficulty | DifficultyFilter }}
+        for {{ point.quest_id | QuestShortNameFilter }} quest in
+        {{ point.difficulty | DifficultyFilter }}
         <span v-if="point.time_type === 'first'">
           first
         </span>
@@ -38,7 +43,7 @@ import {
 } from '@/filters';
 
 export default {
-  name: "RacePoints",
+  name: 'RacePoints',
   filters: {
     DifficultyFilter,
     QuestNameFilter,
@@ -46,7 +51,7 @@ export default {
     StatNameFilter
   },
   props: {
-    points: Array,
+    points: Array
   }
 };
 </script>

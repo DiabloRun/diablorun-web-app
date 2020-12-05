@@ -1,25 +1,54 @@
 <template>
-  <span :class="{ 'title is-4': !tag, 'tag is-large': tag, 'has-text-success': status === 'started', 'has-text-danger': status === 'starting', 'has-text-danger': status === 'finished' }">
+  <span
+    :class="{
+      'title is-4': !tag,
+      'tag is-large': tag,
+      'has-text-success': status === 'started',
+      'has-text-danger': status === 'starting',
+      'has-text-danger': status === 'finished'
+    }"
+  >
     <audio ref="hostile">
-      <source src="https://diablo.run/static/audio/hostile.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/hostile.wav"
+        type="audio/wav"
+      />
     </audio>
     <audio ref="whip1">
-      <source src="https://diablo.run/static/audio/overseer/whip1.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/overseer/whip1.wav"
+        type="audio/wav"
+      />
     </audio>
     <audio ref="whipcrack1">
-      <source src="https://diablo.run/static/audio/overseer/whipcrack1.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/overseer/whipcrack1.wav"
+        type="audio/wav"
+      />
     </audio>
     <audio ref="whip2">
-      <source src="https://diablo.run/static/audio/overseer/whip2.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/overseer/whip2.wav"
+        type="audio/wav"
+      />
     </audio>
     <audio ref="whipcrack2">
-      <source src="https://diablo.run/static/audio/overseer/whipcrack2.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/overseer/whipcrack2.wav"
+        type="audio/wav"
+      />
     </audio>
     <audio ref="whip3">
-      <source src="https://diablo.run/static/audio/overseer/whip3.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/overseer/whip3.wav"
+        type="audio/wav"
+      />
     </audio>
     <audio ref="whipcrack3">
-      <source src="https://diablo.run/static/audio/overseer/whipcrack3.wav" type="audio/wav">
+      <source
+        src="https://diablo.run/static/audio/overseer/whipcrack3.wav"
+        type="audio/wav"
+      />
     </audio>
     <span v-if="status === ''">
       Race hasn't started yet
@@ -68,13 +97,15 @@ export default {
   },
   methods: {
     update() {
-      const time = Math.floor((new Date().getTime() + this.$store.state.ws.timeOffset) / 1000);
+      const time = Math.floor(
+        (new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
+      );
       const prevStatus = this.status;
 
       if (this.start && this.finish && time > this.finish) {
         this.status = 'finished';
         this.seconds = null;
-      } else if (this.start && time > (this.start + 1)) {
+      } else if (this.start && time > this.start + 1) {
         this.status = 'started';
         this.seconds = time - this.start; //this.finish ? (this.finish - time) : null;
       } else if (this.start) {
@@ -109,7 +140,9 @@ export default {
       }
 
       if (this.seconds !== null) {
-        this.duration = moment.duration(this.seconds, 'seconds').format('hh:mm:ss');
+        this.duration = moment
+          .duration(this.seconds, 'seconds')
+          .format('hh:mm:ss');
       } else {
         this.duration = '';
       }
@@ -120,5 +153,5 @@ export default {
       }
     }
   }
-}
+};
 </script>

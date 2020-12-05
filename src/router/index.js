@@ -7,7 +7,8 @@ const routes = [
   {
     path: '/',
     name: 'Leaderboard',
-    component: () => import(/* webpackChunkName: "leaderboard" */ '../views/Leaderboard.vue')
+    component: () =>
+      import(/* webpackChunkName: "leaderboard" */ '../views/Leaderboard.vue')
   },
   {
     path: '/team',
@@ -17,22 +18,26 @@ const routes = [
   {
     path: '/setup',
     name: 'Setup',
-    component: () => import(/* webpackChunkName: "setup" */ '../views/Profile.vue')
+    component: () =>
+      import(/* webpackChunkName: "setup" */ '../views/Profile.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import(/* webpackChunkName: "setup" */ '../views/Profile.vue')
+    component: () =>
+      import(/* webpackChunkName: "setup" */ '../views/Profile.vue')
   },
   {
     path: '/profile/patreon',
     name: 'Patreon',
-    component: () => import(/* webpackChunkName: "setup" */ '../views/Patreon.vue')
+    component: () =>
+      import(/* webpackChunkName: "setup" */ '../views/Patreon.vue')
   },
   {
     path: '/race-editor/:editor_token',
     name: 'RaceEditor',
-    component: () => import(/* webpackChunkName: "editor" */ '../views/RaceEditor.vue')
+    component: () =>
+      import(/* webpackChunkName: "editor" */ '../views/RaceEditor.vue')
   },
   {
     path: '/race/:slug',
@@ -42,7 +47,8 @@ const routes = [
   {
     path: '/races',
     name: 'Races',
-    component: () => import(/* webpackChunkName: "races" */ '../views/Races.vue')
+    component: () =>
+      import(/* webpackChunkName: "races" */ '../views/Races.vue')
   },
   {
     path: '/active',
@@ -57,12 +63,14 @@ const routes = [
   {
     path: '/:user_name/:character_slug',
     name: 'Character',
-    component: () => import(/* webpackChunkName: "races" */ '../views/Character.vue')
+    component: () =>
+      import(/* webpackChunkName: "races" */ '../views/Character.vue')
   },
   {
     path: '/:user_name/:character_slug/statistics',
     name: 'CharacterStatistics',
-    component: () => import(/* webpackChunkName: "races" */ '../views/CharacterStatistics.vue')
+    component: () =>
+      import(/* webpackChunkName: "races" */ '../views/CharacterStatistics.vue')
   }
 ];
 

@@ -1,5 +1,8 @@
 <template>
-  <img :class="imgClass" :src="icons[`./${code ? code.toUpperCase() : 'ZZZ'}.png`]">
+  <img
+    :class="imgClass"
+    :src="icons[`./${code ? code.toUpperCase() : 'ZZZ'}.png`]"
+  />
 </template>
 
 <script>
@@ -21,5 +24,5 @@ export default {
       icons
     };
   }
-}
+};
 </script>

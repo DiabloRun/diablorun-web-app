@@ -14,8 +14,13 @@
         <div class="container">
           <div class="box">
             <p>
-              The race editor is only available for diablo.run supporters on Patreon. Please <a href="https://www.patreon.com/diablorun">become a Patreon</a>
-              and <router-link :to="{ name: 'Patreon' }">link your Patreon account</router-link>
+              The race editor is only available for diablo.run supporters on
+              Patreon. Please
+              <a href="https://www.patreon.com/diablorun">become a Patreon</a>
+              and
+              <router-link :to="{ name: 'Patreon' }"
+                >link your Patreon account</router-link
+              >
               to create and run races.
             </p>
           </div>
@@ -27,16 +32,33 @@
           <div class="container">
             <div class="columns is-vcentered is-mobile">
               <div class="column">
-                <button v-if="dirty" class="button is-primary" :class="{ 'is-loading': saving }" @click="save()">Save changes</button>
-                <button v-if="!dirty" class="button is-primary">No changes since saving</button>
+                <button
+                  v-if="dirty"
+                  class="button is-primary"
+                  :class="{ 'is-loading': saving }"
+                  @click="save()"
+                >
+                  Save changes
+                </button>
+                <button v-if="!dirty" class="button is-primary">
+                  No changes since saving
+                </button>
               </div>
               <div class="column is-narrow">
                 <p v-if="token && !start_time">
-                  <RaceCountdown ref="countdown" :start="start_time" :finish="finish_time" />
+                  <RaceCountdown
+                    ref="countdown"
+                    :start="start_time"
+                    :finish="finish_time"
+                  />
                 </p>
               </div>
               <div v-if="token && !start_time" class="column is-narrow">
-                <button v-if="canHost" class="button is-primary" @click="startCountdown()">
+                <button
+                  v-if="canHost"
+                  class="button is-primary"
+                  @click="startCountdown()"
+                >
                   Start race countdown from 10s
                 </button>
                 <button v-if="!canHost" class="button is-primary">
@@ -55,23 +77,36 @@
                 <div class="field">
                   <h1 class="subtitle is-4">Name</h1>
                   <div class="control">
-                    <input class="input" type="text" placeholder="How would you like to call your race?" v-model="form.name">
+                    <input
+                      class="input"
+                      type="text"
+                      placeholder="How would you like to call your race?"
+                      v-model="form.name"
+                    />
                   </div>
                 </div>
                 <div class="field">
                   <h1 class="subtitle is-4 has-margin-top">Description</h1>
                   <div class="control">
-                    <textarea class="textarea" placeholder="Describe the race" v-model="form.description"></textarea>
+                    <textarea
+                      class="textarea"
+                      placeholder="Describe the race"
+                      v-model="form.description"
+                    ></textarea>
                   </div>
                 </div>
                 <div class="field" v-if="canHost">
-                  <h1 class="subtitle is-4 has-margin-top">Estimated start time</h1>
+                  <h1 class="subtitle is-4 has-margin-top">
+                    Estimated start time
+                  </h1>
                   <div class="control">
                     <DateTimeInput v-model="form.estimated_start_time" />
                   </div>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle is-4 has-margin-top">Allowed Players Setting</h1>
+                  <h1 class="subtitle is-4 has-margin-top">
+                    Allowed Players Setting
+                  </h1>
                   <div class="control">
                     <div class="select">
                       <select v-model="form.entry_players">
@@ -86,15 +121,41 @@
                   <div class="column">
                     <div class="field">
                       <h1 class="subtitle is-4 has-margin-top">Token</h1>
-                      <input v-if="token" readonly class="input" type="text" placeholder="Token" :value="'RACE_TOKEN=' + token"> 
-                      <input v-if="!token" readonly class="input" type="text" placeholder="Race token is generated after saving"> 
+                      <input
+                        v-if="token"
+                        readonly
+                        class="input"
+                        type="text"
+                        placeholder="Token"
+                        :value="'RACE_TOKEN=' + token"
+                      />
+                      <input
+                        v-if="!token"
+                        readonly
+                        class="input"
+                        type="text"
+                        placeholder="Race token is generated after saving"
+                      />
                     </div>
                   </div>
                   <div class="column">
                     <div class="field">
                       <h1 class="subtitle is-4 has-margin-top">Race Page</h1>
-                      <input v-if="leaderboard_url" readonly class="input" type="text" placeholder="Token" :value="leaderboard_url"> 
-                      <input v-if="!leaderboard_url" readonly class="input" type="text" placeholder="Race page link is generated after saving"> 
+                      <input
+                        v-if="leaderboard_url"
+                        readonly
+                        class="input"
+                        type="text"
+                        placeholder="Token"
+                        :value="leaderboard_url"
+                      />
+                      <input
+                        v-if="!leaderboard_url"
+                        readonly
+                        class="input"
+                        type="text"
+                        placeholder="Race page link is generated after saving"
+                      />
                     </div>
                   </div>
                 </div>
@@ -103,28 +164,39 @@
                 <h1 class="subtitle is-4">Entry Conditions</h1>
                 <div class="field">
                   <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_new_character">
+                    <input type="checkbox" v-model="form.entry_new_character" />
                     Must make new character
                   </label>
                 </div>
                 <div class="field">
                   <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_classic">
+                    <input type="checkbox" v-model="form.entry_classic" />
                     Classic only
                   </label>
                 </div>
                 <div class="field">
                   <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_hc">
+                    <input type="checkbox" v-model="form.entry_hc" />
                     Hardcore only
                   </label>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle is-4 has-margin-top has-tiny-margin">Allowed Classes</h1>
+                  <h1 class="subtitle is-4 has-margin-top has-tiny-margin">
+                    Allowed Classes
+                  </h1>
                   <p class="has-text-fade">Hold control to select multiple</p>
                   <div class="select is-multiple">
-                    <select multiple :size="heroes.length" v-model="form.entry_hero">
-                      <option v-for="hero of heroes" :key="hero.id" :value="hero.id">{{ hero.name }}</option>
+                    <select
+                      multiple
+                      :size="heroes.length"
+                      v-model="form.entry_hero"
+                    >
+                      <option
+                        v-for="hero of heroes"
+                        :key="hero.id"
+                        :value="hero.id"
+                        >{{ hero.name }}</option
+                      >
                     </select>
                   </div>
                 </div>
@@ -138,9 +210,17 @@
           <!-- Points -->
           <div class="box">
             <h1 class="subtitle is-4">Points</h1>
-            <div class="field has-addons" v-for="(point, index) of form.points" :key="index">
+            <div
+              class="field has-addons"
+              v-for="(point, index) of form.points"
+              :key="index"
+            >
               <p class="control">
-                <input class="input is-small" type="number" v-model="point.amount">
+                <input
+                  class="input is-small"
+                  type="number"
+                  v-model="point.amount"
+                />
               </p>
               <p class="control">
                 <span class="select is-small">
@@ -151,14 +231,28 @@
                   </select>
                 </span>
               </p>
-              <p class="control" v-if="point.type === 'per' || point.type === 'for'">
-                <input class="input is-small" type="number" v-model="point.counter">
+              <p
+                class="control"
+                v-if="point.type === 'per' || point.type === 'for'"
+              >
+                <input
+                  class="input is-small"
+                  type="number"
+                  v-model="point.counter"
+                />
               </p>
-              <p class="control" v-if="point.type === 'per' || point.type === 'for'">
+              <p
+                class="control"
+                v-if="point.type === 'per' || point.type === 'for'"
+              >
                 <span class="select is-small">
                   <select v-model="point.stat">
                     <option value="">select</option>
-                    <option v-for="stat of stats" :key="stat.id" :value="stat.id">
+                    <option
+                      v-for="stat of stats"
+                      :key="stat.id"
+                      :value="stat.id"
+                    >
                       {{ stat.name }}
                     </option>
                   </select>
@@ -168,7 +262,11 @@
                 <span class="select is-small">
                   <select v-model="point.difficulty">
                     <option value="">select</option>
-                    <option v-for="difficulty of difficulties" :key="difficulty.id" :value="difficulty.id">
+                    <option
+                      v-for="difficulty of difficulties"
+                      :key="difficulty.id"
+                      :value="difficulty.id"
+                    >
                       {{ difficulty.name }}
                     </option>
                   </select>
@@ -178,8 +276,16 @@
                 <span class="select is-small">
                   <select v-model="point.quest_id">
                     <option value="">select</option>
-                    <optgroup v-for="act of acts" :key="act.id" :label="act.name">
-                      <option v-for="quest of act.quests" :key="quest.id" :value="quest.id">
+                    <optgroup
+                      v-for="act of acts"
+                      :key="act.id"
+                      :label="act.name"
+                    >
+                      <option
+                        v-for="quest of act.quests"
+                        :key="quest.id"
+                        :value="quest.id"
+                      >
                         {{ quest.short_name }}
                       </option>
                     </optgroup>
@@ -190,27 +296,47 @@
                 <span class="select is-small">
                   <select v-model="point.time_type">
                     <option value="state">by latest state</option>
-                    <option value="max" :disabled="point.type !== 'per'">by max value</option>
-                    <option value="in_under" :disabled="point.type === 'per'">in under</option>
-                    <option value="first" :disabled="point.type === 'per'">for first claimed</option>
+                    <option value="max" :disabled="point.type !== 'per'"
+                      >by max value</option
+                    >
+                    <option value="in_under" :disabled="point.type === 'per'"
+                      >in under</option
+                    >
+                    <option value="first" :disabled="point.type === 'per'"
+                      >for first claimed</option
+                    >
                   </select>
                 </span>
               </p>
               <p class="control" v-if="point.time_type === 'in_under'">
-                <input class="input is-small" type="text" placeholder="eg: 1d 2h 30m 50s" v-model="point.time">
+                <input
+                  class="input is-small"
+                  type="text"
+                  placeholder="eg: 1d 2h 30m 50s"
+                  v-model="point.time"
+                />
               </p>
               <p class="control">
-                <a class="button is-small is-static" @click="removePoint(index)">
+                <a
+                  class="button is-small is-static"
+                  @click="removePoint(index)"
+                >
                   <span class="delete"></span>
                 </a>
               </p>
             </div>
-            <button class="button is-small is-primary" @click="addPoint()">Add</button>
+            <button class="button is-small is-primary" @click="addPoint()">
+              Add
+            </button>
           </div>
           <!--Finish-->
           <div class="box">
             <h1 class="subtitle is-4">Finish conditions</h1>
-            <div v-for="(condition, index) of form.finish_conditions" :key="index" class="field has-addons">
+            <div
+              v-for="(condition, index) of form.finish_conditions"
+              :key="index"
+              class="field has-addons"
+            >
               <p class="control">
                 <span class="select is-small">
                   <select v-model="condition.type">
@@ -221,7 +347,12 @@
                 </span>
               </p>
               <p class="control" v-if="condition.type === 'time'">
-                <input class="input is-small" type="text" placeholder="eg: 1d 2h 30m 50s" v-model="condition.time">
+                <input
+                  class="input is-small"
+                  type="text"
+                  placeholder="eg: 1d 2h 30m 50s"
+                  v-model="condition.time"
+                />
               </p>
               <p class="control" v-if="condition.type === 'time'">
                 <span class="select is-small">
@@ -232,13 +363,21 @@
                 </span>
               </p>
               <p class="control" v-if="condition.type === 'stat'">
-                <input class="input is-small" type="number" v-model="condition.counter">
+                <input
+                  class="input is-small"
+                  type="number"
+                  v-model="condition.counter"
+                />
               </p>
               <p class="control" v-if="condition.type === 'stat'">
                 <span class="select is-small">
                   <select v-model="condition.stat">
                     <option value="">select</option>
-                    <option v-for="stat of stats" :key="stat.id" :value="stat.id">
+                    <option
+                      v-for="stat of stats"
+                      :key="stat.id"
+                      :value="stat.id"
+                    >
                       {{ stat.name }}
                     </option>
                   </select>
@@ -248,7 +387,11 @@
                 <span class="select is-small">
                   <select v-model="condition.difficulty">
                     <option value="">select</option>
-                    <option v-for="difficulty of difficulties" :key="difficulty.id" :value="difficulty.id">
+                    <option
+                      v-for="difficulty of difficulties"
+                      :key="difficulty.id"
+                      :value="difficulty.id"
+                    >
                       {{ difficulty.name }}
                     </option>
                   </select>
@@ -258,8 +401,16 @@
                 <span class="select is-small">
                   <select v-model="condition.quest_id">
                     <option value="">select</option>
-                    <optgroup v-for="act of acts" :key="act.id" :label="act.name">
-                      <option v-for="quest of act.quests" :key="quest.id" :value="quest.id">
+                    <optgroup
+                      v-for="act of acts"
+                      :key="act.id"
+                      :label="act.name"
+                    >
+                      <option
+                        v-for="quest of act.quests"
+                        :key="quest.id"
+                        :value="quest.id"
+                      >
                         {{ quest.short_name }}
                       </option>
                     </optgroup>
@@ -267,17 +418,28 @@
                 </span>
               </p>
               <p class="control">
-                <a class="button is-small is-static" @click="removeFinishCondition(index)">
+                <a
+                  class="button is-small is-static"
+                  @click="removeFinishCondition(index)"
+                >
                   <span class="delete"></span>
                 </a>
               </p>
             </div>
             <div class="field">
-              <button class="button is-small is-primary" @click="addFinishCondition()">Add</button>
+              <button
+                class="button is-small is-primary"
+                @click="addFinishCondition()"
+              >
+                Add
+              </button>
             </div>
             <div class="field">
               <label class="checkbox">
-                <input type="checkbox" v-model="form.finish_conditions_global">
+                <input
+                  type="checkbox"
+                  v-model="form.finish_conditions_global"
+                />
                 Finish conditions are global
               </label>
             </div>
@@ -286,8 +448,17 @@
       </section>
       <section class="section" v-if="canEdit">
         <div class="container">
-          <button v-if="dirty" class="button is-primary" :class="{ 'is-loading': saving }" @click="save()">Save changes</button>
-          <button v-if="!dirty" class="button is-primary">No changes since saving</button>
+          <button
+            v-if="dirty"
+            class="button is-primary"
+            :class="{ 'is-loading': saving }"
+            @click="save()"
+          >
+            Save changes
+          </button>
+          <button v-if="!dirty" class="button is-primary">
+            No changes since saving
+          </button>
         </div>
       </section>
     </fieldset>
@@ -295,38 +466,38 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import RaceCountdown from "@/components/RaceCountdown.vue";
-import DateTimeInput from "@/components/DateTimeInput.vue";
+import { mapState } from 'vuex';
+import RaceCountdown from '@/components/RaceCountdown.vue';
+import DateTimeInput from '@/components/DateTimeInput.vue';
 import { heroes, quests, stats } from '@diablorun/diablorun-data';
 
 export default {
-  name: "RaceEditor",
+  name: 'RaceEditor',
   components: {
     RaceCountdown,
-    DateTimeInput,
+    DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map((id) => ({
+    const statsList = Object.keys(stats).map(id => ({
       id,
-      name: stats[id],
+      name: stats[id]
     }));
 
-    const questsList = Object.keys(quests).map((id) => ({
+    const questsList = Object.keys(quests).map(id => ({
       id,
-      ...quests[id],
+      ...quests[id]
     }));
 
     const acts = [
-      { name: "Act I", quests: questsList.filter((quest) => quest.act === 1) },
-      { name: "Act II", quests: questsList.filter((quest) => quest.act === 2) },
+      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
+      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
       {
-        name: "Act III",
-        quests: questsList.filter((quest) => quest.act === 3),
+        name: 'Act III',
+        quests: questsList.filter(quest => quest.act === 3)
       },
-      { name: "Act IV", quests: questsList.filter((quest) => quest.act === 4) },
-      { name: "Act V", quests: questsList.filter((quest) => quest.act === 5) },
-      { name: "Other", quests: questsList.filter((quest) => quest.act === 0) },
+      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
+      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
+      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
     ];
 
     for (const act of acts) {
@@ -339,46 +510,46 @@ export default {
       acts,
       stats: statsList,
       difficulties: [
-        { id: "normal", name: "Normal" },
-        { id: "nightmare", name: "Nightmare" },
-        { id: "hell", name: "Hell" },
+        { id: 'normal', name: 'Normal' },
+        { id: 'nightmare', name: 'Nightmare' },
+        { id: 'hell', name: 'Hell' }
       ],
       // Form
       form: {
-        name: "",
-        slug: "",
-        description: "",
+        name: '',
+        slug: '',
+        description: '',
         entry_new_character: true,
-        entry_hero: heroes.map((hero) => hero.id),
+        entry_hero: heroes.map(hero => hero.id),
         entry_classic: false,
         entry_hc: false,
-        entry_players: "p1",
+        entry_players: 'p1',
         finish_conditions_global: false,
         points: [],
         finish_conditions: [
           {
-            context: "finish_conditions",
-            type: "quest",
-            difficulty: "normal",
+            context: 'finish_conditions',
+            type: 'quest',
+            difficulty: 'normal',
             quest_id: 80,
-            since: "race",
-            stat: "",
-            time_type: "race",
-            time: "",
-          },
+            since: 'race',
+            stat: '',
+            time_type: 'race',
+            time: ''
+          }
         ],
-        estimated_start_time: 0,
+        estimated_start_time: 0
       },
       dirty: false,
       loading: true,
       saving: false,
       // Generated values
-      token: "",
-      leaderboard_url: "",
-      editor_token: "",
+      token: '',
+      leaderboard_url: '',
+      editor_token: '',
       // Countdown
       start_time: null,
-      finish_time: null,
+      finish_time: null
     };
   },
   computed: {
@@ -387,14 +558,16 @@ export default {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
       canHost: state => {
-        return !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000;
+        return (
+          !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
+        );
       }
-    }),
+    })
   },
   async mounted() {
     const { editor_token } = this.$route.params;
 
-    if (editor_token === "new") {
+    if (editor_token === 'new') {
       this.dirty = true;
       this.loading = false;
       return;
@@ -410,14 +583,14 @@ export default {
       slug: race.slug,
       description: race.description,
       entry_new_character: race.entry_new_character,
-      entry_hero: race.entry_hero.split(","),
+      entry_hero: race.entry_hero.split(','),
       entry_classic: race.entry_classic,
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter((rule) => rule.context === "points"),
+      points: rules.filter(rule => rule.context === 'points'),
       finish_conditions: rules.filter(
-        (rule) => rule.context === "finish_conditions"
+        rule => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };
@@ -436,13 +609,13 @@ export default {
   methods: {
     addPoint() {
       this.form.points.push({
-        context: "points",
-        type: "quest",
-        stat: "",
-        difficulty: "normal",
-        quest_id: "",
-        time_type: "state",
-        time: "",
+        context: 'points',
+        type: 'quest',
+        stat: '',
+        difficulty: 'normal',
+        quest_id: '',
+        time_type: 'state',
+        time: ''
       });
     },
 
@@ -452,13 +625,13 @@ export default {
 
     addFinishCondition() {
       this.form.finish_conditions.push({
-        context: "finish_conditions",
-        type: "quest",
-        stat: "",
-        difficulty: "normal",
-        quest_id: "",
-        time_type: "race",
-        time: "",
+        context: 'finish_conditions',
+        type: 'quest',
+        stat: '',
+        difficulty: 'normal',
+        quest_id: '',
+        time_type: 'race',
+        time: ''
       });
     },
 
@@ -473,25 +646,24 @@ export default {
         const rules = this.getRules();
 
         const res = await fetch(`${process.env.VUE_APP_API_URL}/races`, {
-            method: "POST",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...this.form,
-              entry_hero: this.form.entry_hero.join(","),
-              update_rules,
-              rules,
-              editor_token: this.editor_token,
-              start_time: this.start_time,
-              finish_time: this.finish_time,
-              start_in: this.start_time
-                ? this.start_time - Math.floor(new Date() / 1000)
-                : undefined,
-            }),
-          }
-        );
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ...this.form,
+            entry_hero: this.form.entry_hero.join(','),
+            update_rules,
+            rules,
+            editor_token: this.editor_token,
+            start_time: this.start_time,
+            finish_time: this.finish_time,
+            start_in: this.start_time
+              ? this.start_time - Math.floor(new Date() / 1000)
+              : undefined
+          })
+        });
 
         const body = await res.json();
 
@@ -501,10 +673,10 @@ export default {
           this.leaderboard_url = `${process.env.VUE_APP_WEB_URL}/race/${body.slug}${body.id}`;
 
           this.$router.push({
-            name: "RaceEditor",
+            name: 'RaceEditor',
             params: {
-              editor_token: body.editor_token,
-            },
+              editor_token: body.editor_token
+            }
           });
         }
       } catch (err) {
@@ -519,7 +691,7 @@ export default {
       this.start_time = Math.floor(new Date() / 1000) + 10;
 
       const raceTimeConditions = this.form.finish_conditions.filter(
-        ({ type, time_type }) => type === "time" && time_type === "race"
+        ({ type, time_type }) => type === 'time' && time_type === 'race'
       );
 
       if (!raceTimeConditions.length) {
@@ -539,7 +711,7 @@ export default {
       const rules = [...this.form.points, ...this.form.finish_conditions];
 
       for (const rule of rules) {
-        if (rule.type === "time" || rule.time_type === "in_under") {
+        if (rule.type === 'time' || rule.time_type === 'in_under') {
           const match = rule.time
             .trim()
             .match(/^((\d+)d)?\s*((\d+)h)?\s*((\d+)m)?\s*((\d+)s)?$/);
@@ -569,15 +741,15 @@ export default {
       }
 
       return rules;
-    },
+    }
   },
   watch: {
     form: {
       handler() {
         this.dirty = true;
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 };
 </script>
