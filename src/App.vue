@@ -27,19 +27,9 @@
 
       <div class="navbar-menu" :class="{ 'is-active': showMenu }">
         <div class="navbar-start">
-          <router-link
-            exact
-            active-class="is-active"
-            class="navbar-item"
-            :to="{ name: 'Leaderboard' }"
-            >Leaderboard</router-link
-          >
-          <router-link
-            active-class="is-active"
-            class="navbar-item"
-            :to="{ name: 'Races' }"
-            >Races</router-link
-          >
+          <router-link exact active-class="is-active" class="navbar-item" :to="{ name: 'Leaderboard' }">Leaderboard</router-link>
+          <router-link active-class="is-active" class="navbar-item" :to="{ name: 'Races' }">Races</router-link>
+          <router-link active-class="is-active" class="navbar-item" :to="{ name: 'ActiveUsers' }">Active Users</router-link>
         </div>
         <div class="navbar-end">
           <a class="navbar-item" v-if="!user" :href="twitchAuthenticationUrl">

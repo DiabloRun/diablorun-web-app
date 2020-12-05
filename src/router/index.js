@@ -51,6 +51,11 @@ const routes = [
       import(/* webpackChunkName: "races" */ '../views/Races.vue')
   },
   {
+    path: '/active',
+    name: 'ActiveUsers',
+    component: () => import(/* webpackChunkName: "leaderboard" */ '../views/ActiveUsers.vue')
+  },
+  {
     path: '/:user_name',
     name: 'User',
     component: () => import(/* webpackChunkName: "races" */ '../views/User.vue')

@@ -112,6 +112,10 @@ h1.title.is-item {
   background-color: $light;
 }
 
+.box:hover {
+  background: $primary;
+}
+
 a:hover {
   color: #a093ff;
 }
