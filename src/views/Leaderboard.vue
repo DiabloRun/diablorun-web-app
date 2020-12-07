@@ -39,7 +39,7 @@
             </div>
             <div class="column is-narrow">
               <button
-                class="button is-primary has-tooltip-bottom"
+                class="button is-primary has-tooltip-left"
                 data-tooltip="Reset Filters"
                 @click="resetFilters()"
               >
