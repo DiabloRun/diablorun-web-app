@@ -11,7 +11,7 @@
           @click.native="resetFilters()"
           class="navbar-item"
           :to="{ name: 'Leaderboard' }"
-          ><img src="@/assets/img/logo.png" width="153" height="23"
+          ><img src="@/assets/img/logo.png" width="154" height="23"
         /></router-link>
 
         <a
