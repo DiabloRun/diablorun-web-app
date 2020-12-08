@@ -129,7 +129,7 @@
                     </p>
                   </td>
                   <td
-                    class="is-narrow white-scape-normal-mobile width-auto-mobile"
+                    class="is-narrow white-space-normal-mobile width-auto-mobile"
                   >
                     <CountryIcon
                       imgClass="flag"
