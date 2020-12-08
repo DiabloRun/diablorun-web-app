@@ -128,7 +128,7 @@
                       {{ index + 1 }}
                     </p>
                   </td>
-                  <td class="is-narrow">
+                  <td class="is-narrow wa-xs whsn-xs">
                     <CountryIcon
                       imgClass="flag"
                       :code="run.speedrun_user_country_code"
@@ -173,7 +173,7 @@
                     </p>
                   </td>
                   <td class="has-text-centered has-text-right-mobile">
-                    <p class="subtitle is-5">
+                    <p class="subtitle is-5 whsnw">
                       <a :href="run.speedrun_link" target="_blank">
                         {{ run.seconds_played | DurationFilter }}
                       </a>

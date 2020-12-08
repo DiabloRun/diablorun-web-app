@@ -281,3 +281,17 @@ table,
 .tab img {
   border-radius: $radius;
 }
+
+.whsnw {
+  white-space: nowrap;
+}
+
+@media (max-width: 500px) {
+  .wa-xs {
+    width: auto !important;
+  }
+
+  .whsn-xs {
+    white-space: normal !important;
+  }
+}
