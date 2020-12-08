@@ -747,8 +747,8 @@ export default {
   },
   computed: {
     ...mapState({
-      character: (state) => state.ws.character,
-      streamOverlay: (state) => state.app.windowStyle === 'overlay'
+      character: state => state.ws.character,
+      streamOverlay: state => state.app.windowStyle === 'overlay'
     })
   },
   watch: {

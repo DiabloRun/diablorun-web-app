@@ -137,7 +137,9 @@
               <td class="is-narrow has-no-overflow">
                 <p class="subtitle is-5">
                   <router-link
-                    :to="`/${character.user_name}/${character.name}${character.id}`"
+                    :to="
+                      `/${character.user_name}/${character.name}${character.id}`
+                    "
                   >
                     {{ character.name }}
                   </router-link>
@@ -146,11 +148,15 @@
               <!-- Hero -->
               <td class="has-text-centered">
                 <span
-                  :class="`is-hidden-desktop has-hero ${character.hero} subtitle is-5`"
+                  :class="
+                    `is-hidden-desktop has-hero ${character.hero} subtitle is-5`
+                  "
                   >{{ character.hero }}</span
                 >
                 <span
-                  :class="`is-hidden-touch has-hero ${character.hero} subtitle is-5`"
+                  :class="
+                    `is-hidden-touch has-hero ${character.hero} subtitle is-5`
+                  "
                   >{{ character.hero | HeroNameFilter }}</span
                 >
               </td>
@@ -284,7 +290,9 @@
               <!-- Rank -->
               <td class="is-narrow has-text-centered">
                 <p
-                  :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                  :class="
+                    `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                  "
                 >
                   {{ run.category_rank }}
                 </p>
@@ -423,7 +431,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: (state) => state.ws.character
+      latestCharacter: state => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -525,7 +533,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter((c) => c !== character);
+        this.characters = this.characters.filter(c => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();
