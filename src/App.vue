@@ -7,8 +7,11 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <router-link class="navbar-item" :to="{ name: 'Leaderboard' }"
-          ><img src="@/assets/img/logo.png" width="153" height="30"
+        <router-link
+          @click.native="resetFilters()"
+          class="navbar-item"
+          :to="{ name: 'Leaderboard' }"
+          ><img src="@/assets/img/logo.png" width="154" height="23"
         /></router-link>
 
         <a
@@ -27,9 +30,25 @@
 
       <div class="navbar-menu" :class="{ 'is-active': showMenu }">
         <div class="navbar-start">
-          <router-link exact active-class="is-active" class="navbar-item" :to="{ name: 'Leaderboard' }">Leaderboard</router-link>
-          <router-link active-class="is-active" class="navbar-item" :to="{ name: 'Races' }">Races</router-link>
-          <router-link active-class="is-active" class="navbar-item" :to="{ name: 'ActiveUsers' }">Active Users</router-link>
+          <router-link
+            exact
+            active-class="is-active"
+            class="navbar-item"
+            :to="{ name: 'Leaderboard' }"
+            >Leaderboard</router-link
+          >
+          <router-link
+            active-class="is-active"
+            class="navbar-item"
+            :to="{ name: 'Races' }"
+            >Races</router-link
+          >
+          <router-link
+            active-class="is-active"
+            class="navbar-item"
+            :to="{ name: 'ActiveUsers' }"
+            >Active Users</router-link
+          >
         </div>
         <div class="navbar-end">
           <a class="navbar-item" v-if="!user" :href="twitchAuthenticationUrl">
@@ -154,6 +173,10 @@ export default {
     signOut() {
       this.showUserMenu = false;
       this.$store.dispatch('auth/signOut');
+    },
+
+    async resetFilters() {
+      await this.$store.dispatch('leaderboard/resetFilters');
     }
   },
   watch: {
