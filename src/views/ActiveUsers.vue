@@ -29,21 +29,25 @@
     <section class="section">
       <div class="container">
         <div class="columns is-multiline">
-          <div v-for="user of activeUsers" :key="user.id" class="column is-4">
+          <div
+            v-for="user of activeUsers"
+            :key="user.id"
+            class="column is-4 is-full-touch"
+          >
             <div class="box">
-              <router-link
-                :to="{
-                  name: 'Character',
-                  params: {
-                    user_name: user.user_name,
-                    character_slug: '@',
-                  },
-                }"
-              >
-                <div class="columns is-vcentered">
-                  <div
-                    v-if="user.user_profile_image_url !== ''"
-                    class="column is-narrow"
+              <div class="columns is-vcentered is-mobile">
+                <div
+                  v-if="user.user_profile_image_url !== ''"
+                  class="column is-narrow"
+                >
+                  <router-link
+                    :to="{
+                      name: 'Character',
+                      params: {
+                        user_name: user.user_name,
+                        character_slug: '@'
+                      }
+                    }"
                   >
                     <figure class="image is-48x48">
                       <img
@@ -51,15 +55,39 @@
                         class="is-rounded"
                       />
                     </figure>
-                  </div>
-                  <div class="column">
-                    <h1 class="title">{{ user.user_name }}</h1>
-                    <h1 class="subtitle">
-                      Level {{ user.level }} {{ user.hero | HeroNameFilter }}
-                    </h1>
-                  </div>
+                  </router-link>
                 </div>
-              </router-link>
+                <div class="column">
+                  <h2 class="title is-5">
+                    <router-link
+                      :to="{
+                        name: 'Character',
+                        params: {
+                          user_name: user.user_name,
+                          character_slug: '@'
+                        }
+                      }"
+                      >{{ user.user_name }}
+                    </router-link>
+                  </h2>
+                  <h1 class="subtitle is-5">
+                    Level {{ user.level }} {{ user.hero | HeroNameFilter }}
+                  </h1>
+                </div>
+                <div
+                  class="column is-narrow has-tooltip-left"
+                  :data-tooltip="user.user_name + ' on Twitch'"
+                >
+                  <figure class="image is-24x24">
+                    <a
+                      :href="`https://twitch.com/${user.user_name}`"
+                      target="_blank"
+                    >
+                      <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
+                    </a>
+                  </figure>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -69,16 +97,16 @@
 </template>
 
 <script>
-import { HeroNameFilter } from "@/filters";
+import { HeroNameFilter } from '@/filters';
 
 export default {
   filters: {
-    HeroNameFilter,
+    HeroNameFilter
   },
-  name: "ActiveUsers",
+  name: 'ActiveUsers',
   data() {
     return {
-      activeUsers: [],
+      activeUsers: []
     };
   },
   async mounted() {
@@ -93,7 +121,7 @@ export default {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/active-users`);
       this.activeUsers = await res.json();
       console.log(this.activeUsers);
-    },
-  },
+    }
+  }
 };
 </script>

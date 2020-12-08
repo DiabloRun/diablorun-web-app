@@ -47,7 +47,7 @@
             active-class="is-active"
             class="navbar-item"
             :to="{ name: 'ActiveUsers' }"
-            >Active Users</router-link
+            >Users</router-link
           >
         </div>
         <div class="navbar-end">

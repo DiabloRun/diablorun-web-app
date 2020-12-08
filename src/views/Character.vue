@@ -44,7 +44,9 @@
             <!-- Username -->
             <div class="column is-narrow">
               <h1 class="title is-5">
-                <span class="has-light-text-fade">Added by </span>
+                <span class="has-light-text-fade"
+                  ><span class="is-hidden-mobile">Added</span> by
+                </span>
                 <router-link
                   :to="{
                     name: 'User',
@@ -107,11 +109,27 @@
             </div>
             <div class="column is-narrow has-text-right">
               <p class="subtitle is-5">
-                Players set to {{ character.players }}
+                Players <span class="is-hidden-mobile">set to </span
+                >{{ character.players }}
               </p>
+            </div>
+            <div
+              class="column is-narrow has-tooltip-left"
+              :data-tooltip="'Toggle ' + character.user_name + ' Twitch stream'"
+            >
+              <figure class="image is-24x24">
+                <a @click="toggleTwitchEmbed()">
+                  <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
+                </a>
+              </figure>
             </div>
           </div>
         </div>
+      </div>
+    </section>
+    <section v-if="!showTwitchEmbed" class="section is-paddingless">
+      <div class="container">
+        <TwitchEmbed :username="character.user_name" />
       </div>
     </section>
     <section class="section" v-if="!streamOverlay">
@@ -706,6 +724,7 @@ import {
 } from '@/filters';
 import Icon from '@/components/Icon.vue';
 import CharacterItem from '@/components/CharacterItem.vue';
+import TwitchEmbed from '@/components/TwitchEmbed.vue';
 
 export default {
   name: 'Character',
@@ -718,12 +737,18 @@ export default {
   },
   components: {
     Icon,
-    CharacterItem
+    CharacterItem,
+    TwitchEmbed
+  },
+  data() {
+    return {
+      showTwitchEmbed: false
+    };
   },
   computed: {
     ...mapState({
-      character: state => state.ws.character,
-      streamOverlay: state => state.app.windowStyle === 'overlay'
+      character: (state) => state.ws.character,
+      streamOverlay: (state) => state.app.windowStyle === 'overlay'
     })
   },
   watch: {
@@ -737,6 +762,11 @@ export default {
 
         await this.$store.dispatch('ws/subscribeToCharacter', { name, id });
       }
+    }
+  },
+  methods: {
+    toggleTwitchEmbed() {
+      this.showTwitchEmbed = !this.showTwitchEmbed;
     }
   }
 };
