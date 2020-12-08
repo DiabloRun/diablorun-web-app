@@ -36,8 +36,8 @@
                   name: 'Character',
                   params: {
                     user_name: user.user_name,
-                    character_slug: '@',
-                  },
+                    character_slug: '@'
+                  }
                 }"
               >
                 <div class="columns is-vcentered">
@@ -69,16 +69,16 @@
 </template>
 
 <script>
-import { HeroNameFilter } from "@/filters";
+import { HeroNameFilter } from '@/filters';
 
 export default {
   filters: {
-    HeroNameFilter,
+    HeroNameFilter
   },
-  name: "ActiveUsers",
+  name: 'ActiveUsers',
   data() {
     return {
-      activeUsers: [],
+      activeUsers: []
     };
   },
   async mounted() {
@@ -93,7 +93,7 @@ export default {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/active-users`);
       this.activeUsers = await res.json();
       console.log(this.activeUsers);
-    },
-  },
+    }
+  }
 };
 </script>
