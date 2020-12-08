@@ -135,7 +135,7 @@
                       imgClass="flag"
                       :code="run.speedrun_user_country_code"
                     />
-                    <p class="subtitle is-5">
+                    <p class="subtitle is-5 font-size-1-rem-mobile">
                       <a
                         v-if="!run.user_id"
                         :style="`color: ${run.speedrun_user_dark_color_from};`"
@@ -175,7 +175,9 @@
                     </p>
                   </td>
                   <td class="has-text-centered has-text-right-mobile">
-                    <p class="subtitle is-5 white-space-nowrap">
+                    <p
+                      class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
+                    >
                       <a :href="run.speedrun_link" target="_blank">
                         {{ run.seconds_played | DurationFilter }}
                       </a>
@@ -190,7 +192,7 @@
                     >
                     <span
                       :class="
-                        `is-hidden-desktop has-hero ${run.hero} subtitle is-5`
+                        `is-hidden-desktop font-size-1-rem-mobile has-hero ${run.hero} subtitle is-5`
                       "
                       >{{ run.hero }}</span
                     >
