@@ -282,16 +282,16 @@ table,
   border-radius: $radius;
 }
 
-.whsnw {
+.white-space-nowrap {
   white-space: nowrap;
 }
 
-@media (max-width: 500px) {
-  .wa-xs {
+@media (max-width: $tablet) {
+  .width-auto-mobile {
     width: auto !important;
   }
 
-  .whsn-xs {
+  .white-scape-normal-mobile {
     white-space: normal !important;
   }
 }
