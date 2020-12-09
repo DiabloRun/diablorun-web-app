@@ -7,9 +7,7 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <router-link
-          class="navbar-item"
-          :to="{ name: 'Home' }"
+        <router-link class="navbar-item" :to="{ name: 'Home' }"
           ><img src="@/assets/img/logo.png" width="154" height="23"
         /></router-link>
 

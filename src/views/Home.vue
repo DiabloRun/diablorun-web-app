@@ -20,7 +20,11 @@
             </div>
             <div class="column is-narrow-tablet">
               <router-link :to="{ name: 'Setup' }">
-              <button class="button is-medium is-outlined is-primary is-inverted has-glow">Diablo.run Setup</button>
+                <button
+                  class="button is-medium is-outlined is-primary is-inverted has-glow"
+                >
+                  Diablo.run Setup
+                </button>
               </router-link>
             </div>
           </div>

@@ -30,23 +30,25 @@
         <div class="container">
           <div class="columns is-vcentered is-multiline">
             <div class="column">
-              <h1 class="title is-4"><RaceCountdown
+              <h1 class="title is-4">
+                <RaceCountdown
                   :start="race.start_time"
                   :finish="race.finish_time"
-                /></h1>
+                />
+              </h1>
             </div>
-              <div
-                class="column is-narrow-tablet"
-                v-if="!race.start_time && race.estimated_start_time"
-              >
-                <h1 class="subtitle is-5">
-                  Estimated start:
-                  {{ race.estimated_start_time | LocalTimeFilter }} ({{
-                    race.estimated_start_time | FromNowFilter
-                  }})
-                </h1>
-              </div>
+            <div
+              class="column is-narrow-tablet"
+              v-if="!race.start_time && race.estimated_start_time"
+            >
+              <h1 class="subtitle is-5">
+                Estimated start:
+                {{ race.estimated_start_time | LocalTimeFilter }} ({{
+                  race.estimated_start_time | FromNowFilter
+                }})
+              </h1>
             </div>
+          </div>
           <!-- Race is empty -->
           <div
             class="notification is-dark has-text-centered"
