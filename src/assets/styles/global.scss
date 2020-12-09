@@ -112,12 +112,13 @@ h1.title.is-item {
   background-color: $light;
 }
 
-.box:hover {
-  background: $primary;
+a:hover, h2.title.is-5 a:hover {
+  color: #a093ff;
 }
 
-a:hover {
-  color: #a093ff;
+h2.title.is-5 a { 
+  border-bottom: none;
+  color: $link;
 }
 
 h1 a {

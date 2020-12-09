@@ -27,6 +27,16 @@
                 Active {{ latestCharacter.update_time | FromNowFilter }}
               </h1>
             </div>
+            <div
+              class="column is-narrow has-tooltip-left"
+              :data-tooltip="user.name + ' on Twitch'"
+            >
+              <figure class="image is-24x24">
+                <a :href="`https://twitch.com/${user.name}`" target="_blank">
+                  <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
+                </a>
+              </figure>
+            </div>
           </div>
         </div>
       </div>
