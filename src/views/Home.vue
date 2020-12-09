@@ -63,16 +63,18 @@
                 <tr v-for="run of latestSpeedruns" :key="run.id" class="">
                   <td class="px-2 is-narrow">
                     <p
-                      :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                      :class="
+                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                      "
                     >
                       {{ run.category_rank }}
                     </p>
                   </td>
                   <td class="px-0 white-space-normal-mobile width-auto-mobile">
                     <CountryIcon
-                  imgClass="flag"
-                  :code="run.speedrun_user_country_code"
-                />
+                      imgClass="flag"
+                      :code="run.speedrun_user_country_code"
+                    />
                     <p class="subtitle is-5 font-size-1-rem-mobile">
                       <a
                         v-if="!run.user_id"
@@ -88,9 +90,10 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="`color: ${
-                          run.user_color || run.speedrun_user_dark_color_from
-                        };`"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -130,7 +133,7 @@
               </tbody>
             </table>
           </div>
-<div class="column is-6">
+          <div class="column is-6">
             <h1 class="subtitle is-4">Fresh World Records</h1>
             <table class="table is-striped is-hoverable is-fullwidth">
               <thead>
@@ -146,16 +149,18 @@
                 <tr v-for="run of latestRecords" :key="run.id" class="">
                   <td class="px-2 is-narrow">
                     <p
-                      :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                      :class="
+                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                      "
                     >
                       {{ run.category_rank }}
                     </p>
                   </td>
                   <td class="px-0 white-space-normal-mobile width-auto-mobile">
                     <CountryIcon
-                  imgClass="flag"
-                  :code="run.speedrun_user_country_code"
-                />
+                      imgClass="flag"
+                      :code="run.speedrun_user_country_code"
+                    />
                     <p class="subtitle is-5 font-size-1-rem-mobile">
                       <a
                         v-if="!run.user_id"
@@ -171,9 +176,10 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="`color: ${
-                          run.user_color || run.speedrun_user_dark_color_from
-                        };`"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>
