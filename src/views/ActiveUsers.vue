@@ -1,38 +1,26 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-primary">
+    <section class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column">
-              <h1 class="title is-2">Active Users</h1>
+              <h1 class="title is-2">Users</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- Toolbar -->
-    <section class="hero is-dark has-margin-bottom">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-multiline is-mobile">
-            <div class="column">
-              <h1 class="subtitle is-4">
-                Users that are currently playing the game
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
+    <!-- Userlist -->
+    <section class="section mt-5">
       <div class="container">
+        <h1 class="title is-4">Currently active players</h1>
         <div class="columns is-multiline">
           <div
             v-for="user of activeUsers"
             :key="user.id"
-            class="column is-4 is-full-touch"
+            class="column is-4-desktop is-6-tablet is-full-mobile"
           >
             <div class="box">
               <div class="columns is-vcentered is-mobile">

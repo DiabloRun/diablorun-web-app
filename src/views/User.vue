@@ -1,31 +1,24 @@
 <template>
   <div>
-    <!-- Hero account -->
-    <section class="hero is-primary" v-if="user">
+    <!-- Hero -->
+    <section class="hero is-primary is-bold" v-if="user">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div v-if="user.profile_image_url !== ''" class="column is-narrow">
               <figure class="image is-64x64">
-                <img :src="user.profile_image_url" class="is-rounded" />
+                <img
+                  :src="user.profile_image_url"
+                  class="is-rounded has-glow"
+                />
               </figure>
             </div>
             <div class="column">
+              <CountryIcon
+                imgClass="flag mt-1 mr-1"
+                :code="user.country_code"
+              />
               <h1 class="title is-2">{{ user.name }}</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Quick Statistics -->
-    <section class="hero is-dark has-margin-bottom" v-if="latestCharacter">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-multiline is-mobile">
-            <div class="column">
-              <h1 class="subtitle is-4">
-                Active {{ latestCharacter.update_time | FromNowFilter }}
-              </h1>
             </div>
             <div
               class="column is-narrow has-tooltip-left"
@@ -42,61 +35,84 @@
       </div>
     </section>
     <!-- Latest active hero -->
-    <section class="section" v-if="latestCharacter">
+    <section class="section mt-5" v-if="latestCharacter">
       <div class="container">
+        <div class="columns is-vcentered is-multiline">
+          <div class="column is-full">
+            <h1 class="title is-4">
+              Active {{ latestCharacter.update_time | FromNowFilter }}
+            </h1>
+          </div>
+          <div class="column">
+            <p class="subtitle is-5">
+              <router-link
+                :to="{
+                  name: 'Character',
+                  params: {
+                    user_name: latestCharacter.user_name,
+                    character_slug: '@'
+                  }
+                }"
+              >
+                diablo.run/{{ latestCharacter.user_name }}/@
+              </router-link>
+              always links to latest character
+            </p>
+          </div>
+        </div>
         <div class="columns">
-          <div class="column is-4-desktop">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title">Latest character</p>
-              </header>
-              <div class="card-content">
-                <div class="content">
-                  <div class="columns is-mobile">
-                    <div class="column is-narrow">
-                      <router-link
-                        :to="{
-                          name: 'Character',
-                          params: {
-                            user_name: latestCharacter.user_name,
-                            character_slug: '@'
-                          }
-                        }"
-                      >
-                        <Icon
-                          imgClass="has-glow"
-                          :name="`big-${latestCharacter.hero}`"
-                        />
-                      </router-link>
-                    </div>
-                    <div class="column">
-                      <p class="title">
-                        <router-link
-                          :to="{
-                            name: 'Character',
-                            params: {
-                              user_name: latestCharacter.user_name,
-                              character_slug: '@'
-                            }
-                          }"
-                          >{{ latestCharacter.name }}</router-link
-                        >
-                      </p>
-                      <p class="subtitle is-5">
-                        {{ latestCharacter.area | AreaNameFilter }}
-                      </p>
-                    </div>
-                  </div>
+          <div class="column is-6-desktop">
+            <div class="box">
+              <div class="columns is-mobile is-vcentered">
+                <div class="column is-narrow is-paddingless ml-2 mt-2">
+                  <router-link
+                    :to="{
+                      name: 'Character',
+                      params: {
+                        user_name: latestCharacter.user_name,
+                        character_slug: '@'
+                      }
+                    }"
+                  >
+                    <Icon
+                      imgClass="is-rounded"
+                      :name="`big-${latestCharacter.hero}`"
+                    />
+                  </router-link>
+                </div>
+                <div class="column ml-2">
+                  <p class="title">
+                    <router-link
+                      :to="{
+                        name: 'Character',
+                        params: {
+                          user_name: latestCharacter.user_name,
+                          character_slug: '@'
+                        }
+                      }"
+                      >{{ latestCharacter.name }}</router-link
+                    >
+                  </p>
+                  <p class="subtitle is-5">
+                    {{ latestCharacter.area | AreaNameFilter }} in
+                    {{ latestCharacter.difficulty | DifficultyFilter }}
+                  </p>
+                </div>
+                <div class="column is-narrow is-paddingless">
+                  <p class="subtitle is-5">
+                    <span class="tag is-primary is-rounded"
+                      >Level {{ latestCharacter.level }}</span
+                    >
+                  </p>
+                </div>
+                <div class="column is-narrow is-paddingless mx-2">
+                  <p class="subtitle is-5">
+                    <span class="tag is-warning is-rounded"
+                      >{{ latestCharacter.deaths }} Deaths</span
+                    >
+                  </p>
                 </div>
               </div>
-              <footer class="card-footer">
-                <p class="card-footer-item">
-                  Level {{ latestCharacter.level }}
-                </p>
-                <p class="card-footer-item">
-                  {{ latestCharacter.difficulty | DifficultyFilter }} Difficulty
-                </p>
-              </footer>
             </div>
           </div>
         </div>
@@ -105,7 +121,7 @@
     <!-- Character history -->
     <section class="section" v-if="characters.length > 0">
       <div class="container">
-        <h1 class="subtitle is-4">{{ user.name }}'s character history</h1>
+        <h1 class="title is-4">{{ user.name }}'s character history</h1>
         <table class="table is-fullwidth is-striped is-hoverable">
           <thead>
             <tr>
@@ -129,11 +145,9 @@
           </thead>
           <tbody class="has-no-overflow">
             <tr v-for="character of characters" :key="character.id">
-              <!-- Rank -->
               <td class="has-text-centered is-narrow">
                 <p class="subtitle is-5">{{ character.level }}</p>
               </td>
-              <!-- Name -->
               <td class="is-narrow has-no-overflow">
                 <p class="subtitle is-5">
                   <router-link
@@ -145,7 +159,6 @@
                   </router-link>
                 </p>
               </td>
-              <!-- Hero -->
               <td class="has-text-centered">
                 <span
                   :class="
@@ -160,7 +173,6 @@
                   >{{ character.hero | HeroNameFilter }}</span
                 >
               </td>
-              <!-- Core -->
               <td class="has-text-centered">
                 <div class="is-hidden-touch">
                   <span v-if="!character.hc" class="subtitle is-5 has-text-grey"
@@ -187,7 +199,6 @@
                   >
                 </div>
               </td>
-              <!-- Location -->
               <td class="has-text-centered is-hidden-touch">
                 <p
                   class="subtitle is-5"
@@ -202,13 +213,11 @@
                   Dead
                 </p>
               </td>
-              <!-- Playtime -->
               <td class="has-text-centered is-hidden-touch">
                 <p class="subtitle is-5">
                   {{ character.seconds_played | DurationFilter }}
                 </p>
               </td>
-              <!-- Added -->
               <td
                 class="is-narrow is-hidden-mobile"
                 :class="{
@@ -218,7 +227,6 @@
               >
                 {{ character.start_time | FromNowFilter }}
               </td>
-              <!-- Edit -->
               <td class="has-text-right" v-if="isEditor">
                 <span :class="`is-hidden-touch subtitle is-5`"
                   ><a
@@ -238,7 +246,6 @@
             </tr>
           </tbody>
         </table>
-
         <button
           v-if="moreCharacters"
           class="button is-primary"
@@ -249,12 +256,12 @@
         </button>
       </div>
     </section>
-    <!-- Speedruns -->
+    <!-- Speedrun history -->
     <section class="section" v-if="speedruns.length > 0">
       <div class="container">
         <div class="columns is-mobile is-multiline">
           <div class="column is-full-mobile">
-            <h1 class="subtitle is-4">{{ user.name }}'s speedruns</h1>
+            <h1 class="title is-4">{{ user.name }}'s speedruns</h1>
           </div>
           <div class="column is-narrow">
             <p class="subtitle is-5 has-text-grey">
@@ -287,7 +294,6 @@
           </thead>
           <tbody>
             <tr v-for="run of speedruns" :key="run.id">
-              <!-- Rank -->
               <td class="is-narrow has-text-centered">
                 <p
                   :class="
@@ -297,7 +303,6 @@
                   {{ run.category_rank }}
                 </p>
               </td>
-              <!-- Hero -->
               <td class="is-narrow">
                 <p class="subtitle is-5">
                   <span :class="`has-hero ${run.hero} is-hidden-touch`">
@@ -308,7 +313,6 @@
                   </span>
                 </p>
               </td>
-              <!-- Category -->
               <td class="is-narrow">
                 <p class="subtitle is-5">
                   <router-link
@@ -335,7 +339,6 @@
                   </router-link>
                 </p>
               </td>
-              <!-- Time -->
               <td class="has-text-centered has-text-right-mobile">
                 <p class="subtitle is-5">
                   <a :href="run.speedrun_link" target="_blank">
@@ -343,7 +346,6 @@
                   </a>
                 </p>
               </td>
-              <!-- Character -->
               <td class="has-text-centered is-hidden-touch">
                 <span class="has-text-fade" v-if="!run.character_id"
                   >Unlinked</span
@@ -362,14 +364,12 @@
                   </router-link>
                 </p>
               </td>
-              <!-- Submit time -->
               <td class="is-narrow is-hidden-mobile has-text-right">
                 {{ run.submit_time | FromNowFilter }}
               </td>
             </tr>
           </tbody>
         </table>
-
         <button
           v-if="speedrunsPagination.more"
           class="button is-primary"
@@ -394,6 +394,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import CountryIcon from '@/components/CountryIcon.vue';
 import {
   FromNowFilter,
   DifficultyFilter,
@@ -415,7 +416,8 @@ export default {
     PlayersCategoryNameFilter
   },
   components: {
-    Icon
+    Icon,
+    CountryIcon
   },
   data: () => ({
     user: null,

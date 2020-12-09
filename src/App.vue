@@ -83,6 +83,14 @@
               <router-link
                 active-class="is-active"
                 class="navbar-item"
+                :to="{ name: 'RaceEditor', params: { editor_token: 'new' } }"
+                @click.native="showUserMenu = false"
+              >
+                Race editor
+              </router-link>
+              <router-link
+                active-class="is-active"
+                class="navbar-item"
                 :to="{ name: 'Patreon' }"
                 @click.native="showUserMenu = false"
               >

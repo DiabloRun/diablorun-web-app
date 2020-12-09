@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Hero -->
-    <section v-if="!streamOverlay" class="hero is-primary">
+    <section v-if="!streamOverlay" class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
@@ -81,7 +81,7 @@
       </div>
     </section>
     <!-- Infobar -->
-    <section v-if="!streamOverlay" class="hero is-dark has-margin-bottom">
+    <section v-if="!streamOverlay" class="hero is-dark">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-mobile is-multiline is-vcentered is-centered">
@@ -127,12 +127,12 @@
         </div>
       </div>
     </section>
-    <section v-if="!showTwitchEmbed" class="section is-paddingless">
+    <section v-if="!showTwitchEmbed" class="section pb-0">
       <div class="container">
         <TwitchEmbed :username="character.user_name" />
       </div>
     </section>
-    <section class="section" v-if="!streamOverlay">
+    <section class="section pb-0" v-if="!streamOverlay">
       <div class="container">
         <div class="columns has-text-centered-mobile is-mobile is-multiline">
           <!-- Globes for mobile -->

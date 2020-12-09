@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-primary">
+    <section class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
@@ -12,8 +12,8 @@
         </div>
       </div>
     </section>
-    <!-- Quick Statistics -->
-    <section class="hero is-dark has-margin-bottom">
+    <!-- Toolbar -->
+    <section class="hero is-dark">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-mobile is-vcentered">
@@ -29,7 +29,7 @@
       </div>
     </section>
     <!-- Content -->
-    <section class="section">
+    <section class="section mt-5">
       <div class="container">
         <div class="columns is-centered has-text-centered">
           <div class="column is-7">
@@ -54,7 +54,7 @@
                 <div class="media-left">
                   <figure class="image is-96x96">
                     <img
-                      class="is-rounded has-glow"
+                      class="is-rounded has-glow-dark"
                       src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/shenk.jpg"
                       alt="Image"
                     />
@@ -88,7 +88,7 @@
                 <div class="media-left">
                   <figure class="image is-96x96">
                     <img
-                      class="is-rounded has-glow"
+                      class="is-rounded has-glow-dark"
                       src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/indrek.jpg"
                       alt="Image"
                     />
