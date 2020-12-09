@@ -282,3 +282,21 @@ table,
 .tab img {
   border-radius: $radius;
 }
+
+.white-space-nowrap {
+  white-space: nowrap;
+}
+
+@media (max-width: $tablet) {
+  .width-auto-mobile {
+    width: auto !important;
+  }
+
+  .white-space-normal-mobile {
+    white-space: normal !important;
+  }
+
+  .font-size-1-rem-mobile {
+    font-size: 1rem !important;
+  }
+}
