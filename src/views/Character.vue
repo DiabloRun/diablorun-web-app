@@ -127,7 +127,7 @@
         </div>
       </div>
     </section>
-    <section v-if="!showTwitchEmbed" class="section pb-0">
+    <section v-if="showTwitchEmbed" class="section pb-0">
       <div class="container">
         <TwitchEmbed :username="character.user_name" />
       </div>

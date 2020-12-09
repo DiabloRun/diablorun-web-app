@@ -63,6 +63,13 @@ h1.title.is-item {
   color: $white;
 }
 
+.has-bg-1 {
+  background-image: url("~@/assets/img/landing.jpg");
+  background-color: #272270;
+  background-repeat: no-repeat;
+  background-position: bottom right; 
+}
+
 .has-no-overflow {
   white-space: nowrap;
   overflow: hidden;

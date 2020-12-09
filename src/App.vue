@@ -7,10 +7,7 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <router-link
-          @click.native="resetFilters()"
-          class="navbar-item"
-          :to="{ name: 'Leaderboard' }"
+        <router-link class="navbar-item" :to="{ name: 'Home' }"
           ><img src="@/assets/img/logo.png" width="154" height="23"
         /></router-link>
 
@@ -31,6 +28,7 @@
       <div class="navbar-menu" :class="{ 'is-active': showMenu }">
         <div class="navbar-start">
           <router-link
+            @click.native="resetFilters()"
             exact
             active-class="is-active"
             class="navbar-item"
@@ -115,7 +113,7 @@
           <router-link :to="{ name: 'Team' }">OverseerShenk</router-link> and
           <router-link :to="{ name: 'Team' }">Indrek</router-link>. Join our
           <a href="https://discord.gg/QMMDR2a">Discord</a>. Powered by
-          <a href="https://github.com/Zutatensuppe/DiabloInterface/releases"
+          <a href="https://github.com/DiabloRun/DiabloInterface"
             >Diablo Interface</a
           >.
         </p>
