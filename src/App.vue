@@ -8,9 +8,8 @@
     >
       <div class="navbar-brand">
         <router-link
-          @click.native="resetFilters()"
           class="navbar-item"
-          :to="{ name: 'Leaderboard' }"
+          :to="{ name: 'Home' }"
           ><img src="@/assets/img/logo.png" width="154" height="23"
         /></router-link>
 
@@ -31,6 +30,7 @@
       <div class="navbar-menu" :class="{ 'is-active': showMenu }">
         <div class="navbar-start">
           <router-link
+            @click.native="resetFilters()"
             exact
             active-class="is-active"
             class="navbar-item"

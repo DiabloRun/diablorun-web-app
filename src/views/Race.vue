@@ -9,32 +9,6 @@
               <div class="column">
                 <h1 class="title is-2">{{ race.name }}</h1>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Toolbar -->
-      <section class="hero is-dark">
-        <div class="hero-body">
-          <div class="container">
-            <div class="columns is-vcentered">
-              <div class="column">
-                <RaceCountdown
-                  :start="race.start_time"
-                  :finish="race.finish_time"
-                />
-              </div>
-              <div
-                class="column is-narrow has-text-right has-text-left-mobile"
-                v-if="!race.start_time && race.estimated_start_time"
-              >
-                <h1 class="subtitle is-5">
-                  Estimated start:
-                  {{ race.estimated_start_time | LocalTimeFilter }} ({{
-                    race.estimated_start_time | FromNowFilter
-                  }})
-                </h1>
-              </div>
               <div class="column is-narrow is-hidden-mobile">
                 <button
                   :onclick="
@@ -42,7 +16,7 @@
                   "
                   target="popup"
                   :href="`/race/${race.id}`"
-                  class="button is-primary"
+                  class="button is-primary is-outlined is-inverted"
                 >
                   Popout
                 </button>
@@ -54,7 +28,25 @@
       <!-- Leaderboard -->
       <section class="section mt-5 pb-0">
         <div class="container">
-          <h1 class="title is-4">Leaderboard</h1>
+          <div class="columns is-vcentered is-multiline">
+            <div class="column">
+              <h1 class="title is-4"><RaceCountdown
+                  :start="race.start_time"
+                  :finish="race.finish_time"
+                /></h1>
+            </div>
+              <div
+                class="column is-narrow-tablet"
+                v-if="!race.start_time && race.estimated_start_time"
+              >
+                <h1 class="subtitle is-5">
+                  Estimated start:
+                  {{ race.estimated_start_time | LocalTimeFilter }} ({{
+                    race.estimated_start_time | FromNowFilter
+                  }})
+                </h1>
+              </div>
+            </div>
           <!-- Race is empty -->
           <div
             class="notification is-dark has-text-centered"
