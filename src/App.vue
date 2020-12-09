@@ -113,7 +113,7 @@
           <router-link :to="{ name: 'Team' }">OverseerShenk</router-link> and
           <router-link :to="{ name: 'Team' }">Indrek</router-link>. Join our
           <a href="https://discord.gg/QMMDR2a">Discord</a>. Powered by
-          <a href="https://github.com/Zutatensuppe/DiabloInterface/releases"
+          <a href="https://github.com/DiabloRun/DiabloInterface"
             >Diablo Interface</a
           >.
         </p>

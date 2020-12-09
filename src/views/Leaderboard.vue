@@ -107,7 +107,7 @@
             <tr>
               <th class="has-text-centered has-text-fade px-2">#</th>
               <th class="px-0">Runner</th>
-              <th class="px-0 has-text-centered has-text-right-mobile">Time</th>
+              <th class="px-0 has-text-centered">Time</th>
               <th class="px-0 has-text-centered">Hero</th>
               <th class="px-0 has-text-centered">Core</th>
               <th class="px-0 has-text-centered is-hidden-mobile">Players</th>
@@ -166,7 +166,7 @@
                   </span>
                 </p>
               </td>
-              <td class="px-0 has-text-centered has-text-right-mobile">
+              <td class="px-0 has-text-centered">
                 <p
                   class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
                 >
