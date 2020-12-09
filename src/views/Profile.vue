@@ -2,7 +2,7 @@
   <div class="profile">
     <div v-if="!user">
       <!-- Hero  -->
-      <section class="hero is-primary">
+      <section class="hero is-primary is-bold">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-vcentered is-multiline is-mobile">
@@ -14,7 +14,7 @@
         </div>
       </section>
       <!-- Toolbar -->
-      <section class="hero is-dark has-margin-bottom">
+      <section class="hero is-dark">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-multiline is-mobile">
@@ -29,7 +29,7 @@
         </div>
       </section>
       <!-- Cards -->
-      <section class="section">
+      <section class="section mt-5">
         <div class="container">
           <div class="columns is-centered">
             <div class="column is-6">
@@ -59,7 +59,7 @@
     </div>
     <div v-if="user">
       <!-- Hero account -->
-      <section class="hero is-primary">
+      <section class="hero is-primary is-bold">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-vcentered is-multiline is-mobile">
@@ -71,7 +71,7 @@
         </div>
       </section>
       <!-- Toolbar -->
-      <section class="hero is-dark has-margin-bottom">
+      <section class="hero is-dark">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-multiline is-mobile">
@@ -94,7 +94,7 @@
         </div>
       </section>
       <!-- Cards -->
-      <section class="section">
+      <section class="section mt-5">
         <div class="container">
           <div class="columns">
             <div class="column is-6">
@@ -107,7 +107,7 @@
                 <div class="card-content">
                   <a
                     target="_blank"
-                    class="button is-primary has-margin-bottom"
+                    class="button is-primary mb-5"
                     href="https://github.com/Zutatensuppe/DiabloInterface/releases/"
                     >Download Diablo Interface</a
                   >
@@ -141,7 +141,7 @@
                     placeholder="URL"
                     v-model="updateUrl"
                   />
-                  <h1 class="heading has-text-white has-margin-top">Headers</h1>
+                  <h1 class="heading has-text-white mt-5">Headers</h1>
                   <input
                     readonly
                     class="input"

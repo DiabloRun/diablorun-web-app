@@ -2,19 +2,19 @@
   <div v-if="race.id">
     <div v-if="!streamOverlay && !isPopup">
       <!-- Hero  -->
-      <section class="hero is-primary">
+      <section class="hero is-primary is-bold">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-vcentered is-multiline is-mobile">
               <div class="column">
-                <h1 class="title is-1">{{ race.name }}</h1>
+                <h1 class="title is-2">{{ race.name }}</h1>
               </div>
             </div>
           </div>
         </div>
       </section>
       <!-- Toolbar -->
-      <section class="hero is-dark has-margin-bottom">
+      <section class="hero is-dark">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-vcentered">
@@ -52,8 +52,9 @@
         </div>
       </section>
       <!-- Leaderboard -->
-      <section class="section">
+      <section class="section mt-5 pb-0">
         <div class="container">
+          <h1 class="title is-4">Leaderboard</h1>
           <!-- Race is empty -->
           <div
             class="notification is-dark has-text-centered"
@@ -147,11 +148,11 @@
           <div class="tile is-ancestor">
             <div class="tile is-vertical is-parent">
               <div class="tile is-child box" v-if="positivePoints.length">
-                <p class="subtitle is-4">Points</p>
+                <p class="subtitle is-4 mb-3">Points</p>
                 <RacePoints :points="positivePoints" />
               </div>
               <div class="tile is-child box" v-if="negativePoints.length">
-                <p class="subtitle is-4">Penalties</p>
+                <p class="subtitle is-4 mb-3">Penalties</p>
                 <RacePoints :points="negativePoints" />
               </div>
               <div class="tile is-child box" v-if="notifications.length">
@@ -170,7 +171,7 @@
                 class="tile is-child box"
                 v-if="pointsChartData.datasets.length"
               >
-                <p class="subtitle is-4">Points over time</p>
+                <p class="subtitle is-4 mb-3">Points over time</p>
                 <ScatterChart
                   ref="pointsChart"
                   :style="{ height: '250px', position: 'relative' }"
@@ -178,13 +179,13 @@
                 />
               </div>
               <div class="tile is-child box" v-if="race.description.length">
-                <p class="subtitle is-4">Description</p>
+                <p class="subtitle is-4 mb-3">Description</p>
                 <div
                   :inner-html.prop="race.description | ParagraphsFilter"
                 ></div>
               </div>
               <div class="tile is-child box">
-                <p class="subtitle is-4">Rules</p>
+                <p class="subtitle is-4 mb-3">Rules</p>
                 <!-- Type -->
                 <p v-if="race.finish_conditions_global">
                   <span class="subtitle is-5 has-text-danger">Type:</span> race
@@ -229,7 +230,7 @@
                   </p>
                 </div>
                 <!-- In-game requirements -->
-                <div class="columns is-mobile has-small-margin-top">
+                <div class="columns is-mobile pt-3">
                   <div class="column is-narrow">
                     <Icon :name="race.entry_hc ? 'hc' : 'sc'" />
                   </div>

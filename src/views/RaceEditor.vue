@@ -2,7 +2,7 @@
   <div class="race-editor" v-if="!loading">
     <fieldset :disabled="start_time || !canEdit">
       <!-- Title -->
-      <section class="hero is-primary">
+      <section class="hero is-primary is-bold">
         <div class="hero-body">
           <div class="container">
             <h1 class="title is-2">Race Editor</h1>

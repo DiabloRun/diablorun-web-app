@@ -1,30 +1,16 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-primary">
+    <section class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
           <h1 class="title is-2">Races</h1>
         </div>
       </div>
     </section>
-    <!-- Toolbar -->
-    <section class="hero is-dark has-margin-bottom">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-multiline is-mobile">
-            <div class="column">
-              <h1 class="subtitle is-4">
-                Race history
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
+    <section class="section mt-5">
       <div class="container">
+        <h1 class="title is-4">Race history</h1>
         <div class="columns">
           <div class="column">
             <table class="table is-fullwidth is-striped">
