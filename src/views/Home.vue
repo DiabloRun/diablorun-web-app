@@ -34,34 +34,25 @@
     <!-- Content -->
     <section class="section mt-5">
       <div class="container">
-        <div class="columns">
-          <div class="column">
-            <h1 class="title is-4">Speedruns</h1>
-          </div>
-          <div class="column is-narrow">
-            <p class="subtitle is-5">
-              <router-link :to="{ name: 'Leaderboard' }">
-                Speedrunning leaderboard
-              </router-link>
-            </p>
-          </div>
-        </div>
-        <div class="columns">
-          <div class="column is-6">
+        <h1 class="title is-4">Speedruns</h1>
+        <div class="columns is-multiline">
+          <div class="column is-full is-6-desktop">
             <h1 class="subtitle is-4">Latest Runs</h1>
-            <table class="table is-striped is-hoverable is-fullwidth">
+            <table class="table is-striped is-hoverable">
               <thead>
                 <tr>
-                  <th class="px-2 has-text-fade has-text-centered">#</th>
+                  <th class="has-text-centered has-text-fade px-2">#</th>
                   <th class="px-0">Runner</th>
-                  <th class="px-0">Time</th>
-                  <th class="px-0">Category</th>
-                  <th class="px-2 has-text-right">Date</th>
+                  <th class="px-0 has-text-centered">Time</th>
+                  <th class="px-0 has-text-centered">Category</th>
+                  <th class="pl-0 pr-2 has-text-right is-hidden-mobile">
+                    Submitted
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="run of latestSpeedruns" :key="run.id" class="">
-                  <td class="px-2 is-narrow">
+                <tr v-for="run of latestSpeedruns" :key="run.id">
+                  <td class="is-narrow has-text-centered px-2">
                     <p
                       :class="
                         `subtitle is-6 has-text-fade rank-${run.category_rank}`
@@ -97,57 +88,80 @@
                       >
                         {{ run.user_name }}
                       </router-link>
+                      <span v-if="run.character_id">
+                        <span class="has-text-fade">as</span>
+                        <router-link
+                          :to="{
+                            name: 'Character',
+                            params: {
+                              user_name: run.user_name,
+                              character_slug:
+                                run.character_name + run.character_id
+                            }
+                          }"
+                        >
+                          {{ run.character_name }}
+                        </router-link>
+                      </span>
                     </p>
                   </td>
-                  <td class="px-0">
-                    <p class="subtitle is-5">
+                  <td class="px-0 has-text-centered">
+                    <p
+                      class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
+                    >
                       <a :href="run.speedrun_link" target="_blank">
                         {{ run.seconds_played | DurationFilter }}
                       </a>
                     </p>
                   </td>
-                  <td class="px-0 is-narrow">
-                    <router-link
-                      :to="{
-                        name: 'Leaderboard',
-                        hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
-                          run.hero
-                        }/${run.players_category}`
-                      }"
+                  <td class="px-0 has-text-centered">
+                    <p
+                      class="subtitle is-5 font-size-1-rem-mobile white-space-nowrap has-hero"
                     >
-                      {{ run.category_name }}
-                      <span class="has-hero">{{ run.hero }}</span>
-                      {{ run.hc ? 'HC' : 'SC' }}
-                      <span class="is-hidden-touch">
-                        {{ run.players_category | PlayersCategoryNameFilter }}
-                      </span>
-                      <span class="is-hidden-desktop">
+                      <router-link
+                        :to="{
+                          name: 'Leaderboard',
+                          hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
+                            run.hero
+                          }/${run.players_category}`
+                        }"
+                      >
+                        {{ run.category_name }}
+                        {{ run.hero }}
+                        <span v-if="!run.hc"> SC</span>
+                        <span v-if="run.hc">HC</span>
                         {{ run.players_category }}
-                      </span>
-                    </router-link>
+                      </router-link>
+                    </p>
                   </td>
-                  <td class="px-2 is-narrow has-text-right">
-                    {{ run.submit_time | FromNowFilter }}
+                  <td
+                    class="pl-0 pr-2 is-narrow is-hidden-mobile has-text-right"
+                  >
+                    <p class="subtitle is-6">
+                      {{ run.submit_time | FromNowFilter }}
+                    </p>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="column is-6">
+          <div class="column is-6-desktop">
             <h1 class="subtitle is-4">Fresh World Records</h1>
-            <table class="table is-striped is-hoverable is-fullwidth">
+            <table class="table is-striped is-hoverable">
               <thead>
                 <tr>
-                  <th class="px-2 has-text-fade has-text-centered">#</th>
+                  <th class="has-text-centered has-text-fade px-2">#</th>
                   <th class="px-0">Runner</th>
-                  <th class="px-0">Time</th>
-                  <th class="px-0">Category</th>
-                  <th class="px-2 has-text-right">Date</th>
+                  <th class="px-0 has-text-centered">Time</th>
+                  <th class="px-0 has-text-centered">Category</th>
+                  <th class="pl-0 pr-2 has-text-right is-hidden-mobile">
+                    Submitted
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="run of latestRecords" :key="run.id" class="">
-                  <td class="px-2 is-narrow">
+                <tr v-for="run of latestRecords" :key="run.id">
+                  <td class="is-narrow has-text-centered px-2">
                     <p
                       :class="
                         `subtitle is-6 has-text-fade rank-${run.category_rank}`
@@ -183,37 +197,58 @@
                       >
                         {{ run.user_name }}
                       </router-link>
+                      <span v-if="run.character_id">
+                        <span class="has-text-fade">as</span>
+                        <router-link
+                          :to="{
+                            name: 'Character',
+                            params: {
+                              user_name: run.user_name,
+                              character_slug:
+                                run.character_name + run.character_id
+                            }
+                          }"
+                        >
+                          {{ run.character_name }}
+                        </router-link>
+                      </span>
                     </p>
                   </td>
-                  <td class="px-0">
-                    <p class="subtitle is-5">
+                  <td class="px-0 has-text-centered">
+                    <p
+                      class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
+                    >
                       <a :href="run.speedrun_link" target="_blank">
                         {{ run.seconds_played | DurationFilter }}
                       </a>
                     </p>
                   </td>
-                  <td class="px-0 is-narrow">
-                    <router-link
-                      :to="{
-                        name: 'Leaderboard',
-                        hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
-                          run.hero
-                        }/${run.players_category}`
-                      }"
+                  <td class="px-0 has-text-centered">
+                    <p
+                      class="subtitle is-5 font-size-1-rem-mobile white-space-nowrap has-hero"
                     >
-                      {{ run.category_name }}
-                      <span class="has-hero">{{ run.hero }}</span>
-                      {{ run.hc ? 'HC' : 'SC' }}
-                      <span class="is-hidden-touch">
-                        {{ run.players_category | PlayersCategoryNameFilter }}
-                      </span>
-                      <span class="is-hidden-desktop">
+                      <router-link
+                        :to="{
+                          name: 'Leaderboard',
+                          hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
+                            run.hero
+                          }/${run.players_category}`
+                        }"
+                      >
+                        {{ run.category_name }}
+                        {{ run.hero }}
+                        <span v-if="!run.hc"> SC</span>
+                        <span v-if="run.hc">HC</span>
                         {{ run.players_category }}
-                      </span>
-                    </router-link>
+                      </router-link>
+                    </p>
                   </td>
-                  <td class="px-2 is-narrow has-text-right">
-                    {{ run.submit_time | FromNowFilter }}
+                  <td
+                    class="pl-0 pr-2 is-narrow is-hidden-mobile has-text-right"
+                  >
+                    <p class="subtitle is-6">
+                      {{ run.submit_time | FromNowFilter }}
+                    </p>
                   </td>
                 </tr>
               </tbody>
