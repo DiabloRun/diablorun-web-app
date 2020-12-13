@@ -8,8 +8,10 @@
             <div class="column is-full-mobile">
               <h1 class="title is-1 pb-2 has-hero-link">
                 Diablo.run is an
-                <a href="https://github.com/diablorun" target="_blank">open source</a> project
-                for Diablo enthusiasts
+                <a href="https://github.com/diablorun" target="_blank"
+                  >open source</a
+                >
+                project for Diablo enthusiasts
               </h1>
             </div>
             <div class="column is-narrow">
@@ -48,7 +50,9 @@
                 <tr v-for="run of latestSpeedruns" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                      :class="
+                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                      "
                     >
                       {{ run.category_rank }}
                     </p>
@@ -73,9 +77,10 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="`color: ${
-                          run.user_color || run.speedrun_user_dark_color_from
-                        };`"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -154,7 +159,9 @@
                 <tr v-for="run of latestRecords" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="`subtitle is-5 has-text-fade rank-${run.category_rank}`"
+                      :class="
+                        `subtitle is-5 has-text-fade rank-${run.category_rank}`
+                      "
                     >
                       {{ run.category_rank }}
                     </p>
@@ -179,9 +186,10 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="`color: ${
-                          run.user_color || run.speedrun_user_dark_color_from
-                        };`"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>

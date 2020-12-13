@@ -27,9 +27,7 @@
               <tr>
                 <td>Indrek</td>
                 <td>
-                  <a
-                    href="https://youtu.be/pGxqpzONKu8"
-                    target="_blank"
+                  <a href="https://youtu.be/pGxqpzONKu8" target="_blank"
                     >01:06:03</a
                   >
                 </td>
@@ -69,7 +67,10 @@
                 <td>July 12, 2019</td>
               </tr>
               <tr class="has-text-centered has-text-grey is-size-7">
-                <td colspan="3">Timing method changed from real time to in-game time in May 30, 2020</td>
+                <td colspan="3">
+                  Timing method changed from real time to in-game time in May
+                  30, 2020
+                </td>
               </tr>
               <tr>
                 <td>327</td>
@@ -85,9 +86,7 @@
               <tr>
                 <td>Indrek</td>
                 <td>
-                  <a
-                    href="https://youtu.be/4ALvmN6gyVs"
-                    target="_blank"
+                  <a href="https://youtu.be/4ALvmN6gyVs" target="_blank"
                     >00:52:52</a
                   >
                 </td>

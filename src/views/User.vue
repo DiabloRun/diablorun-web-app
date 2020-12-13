@@ -143,7 +143,9 @@
               <td class="is-narrow has-no-overflow">
                 <p class="subtitle is-5">
                   <router-link
-                    :to="`/${character.user_name}/${character.name}${character.id}`"
+                    :to="
+                      `/${character.user_name}/${character.name}${character.id}`
+                    "
                   >
                     {{ character.name }}
                   </router-link>
@@ -170,18 +172,14 @@
                 </div>
                 <div class="is-hidden-desktop">
                   <p class="subtitle is-6">
-                  <span v-if="!character.hc" class="has-text-grey"
-                    >SC</span
-                  >
-                  <span
-                    v-if="character.hc"
-                    class="has-text-warning"
-                    ><span
-                      v-if="character.hc && character.dead"
-                      class="has-text-warning"
-                      >Dead </span
-                    >HC</span
-                  >
+                    <span v-if="!character.hc" class="has-text-grey">SC</span>
+                    <span v-if="character.hc" class="has-text-warning"
+                      ><span
+                        v-if="character.hc && character.dead"
+                        class="has-text-warning"
+                        >Dead </span
+                      >HC</span
+                    >
                   </p>
                 </div>
               </td>
@@ -282,7 +280,9 @@
             <tr v-for="run of speedruns" :key="run.id">
               <td class="is-narrow has-text-centered">
                 <p
-                  :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                  :class="
+                    `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                  "
                 >
                   {{ run.category_rank }}
                 </p>
@@ -419,7 +419,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: (state) => state.ws.character
+      latestCharacter: state => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -521,7 +521,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter((c) => c !== character);
+        this.characters = this.characters.filter(c => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();

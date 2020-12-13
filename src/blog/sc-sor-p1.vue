@@ -243,7 +243,10 @@
                 <td>May 13, 2020</td>
               </tr>
               <tr class="has-text-centered has-text-grey is-size-7">
-                <td colspan="3">Timing method changed from real time to in-game time in May 30, 2020</td>
+                <td colspan="3">
+                  Timing method changed from real time to in-game time in May
+                  30, 2020
+                </td>
               </tr>
               <tr>
                 <td>Indrek</td>

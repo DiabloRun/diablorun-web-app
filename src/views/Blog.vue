@@ -18,7 +18,11 @@
         <h1 class="title is-2">Latest Posts</h1>
         <div class="columns">
           <div class="column is-7">
-            <BlogPostBox v-for="post of posts" :key="post.path" :post="post"></BlogPostBox>
+            <BlogPostBox
+              v-for="post of posts"
+              :key="post.path"
+              :post="post"
+            ></BlogPostBox>
           </div>
           <div class="column"></div>
         </div>

@@ -9,7 +9,9 @@
               <h1 class="title is-1">{{ $route.meta.title }}</h1>
             </div>
             <div class="column is-narrow">
-              <h1 class="subtitle">Published by {{ $route.meta.author }} on {{ $route.meta.date }}</h1>
+              <h1 class="subtitle">
+                Published by {{ $route.meta.author }} on {{ $route.meta.date }}
+              </h1>
             </div>
           </div>
         </div>

@@ -107,8 +107,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: (state) => state.auth.user,
-      patreonUserLink: (state) => {
+      user: state => state.auth.user,
+      patreonUserLink: state => {
         if (state.auth.user && state.auth.user.patreon_id) {
           return `https://www.patreon.com/api/user/${state.auth.user.patreon_id}`;
         }
