@@ -13,15 +13,17 @@
       </div>
     </section>
     <!-- Toolbar -->
-    <section class="hero is-dark has-margin-bottom">
+    <section class="hero is-dark has-margin-bottom has-hero-link">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-multiline is-mobile">
             <div class="column">
               <h1 class="subtitle is-4">
+                Visit
                 <a href="https://www.patreon.com/diablorun"
                   >diablo.run Patreon</a
                 >
+                page
               </h1>
             </div>
           </div>
@@ -105,8 +107,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.auth.user,
-      patreonUserLink: state => {
+      user: (state) => state.auth.user,
+      patreonUserLink: (state) => {
         if (state.auth.user && state.auth.user.patreon_id) {
           return `https://www.patreon.com/api/user/${state.auth.user.patreon_id}`;
         }

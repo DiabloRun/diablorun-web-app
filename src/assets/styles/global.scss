@@ -40,23 +40,28 @@ label.checkbox:hover {
   opacity: .7;
 }
 
-.has-text-small {
-  font-size: .95rem;
-  line-height: 1.15;
-}
-
 .is-item-image {
   padding: 0 30px 0 10px;
 }
 
-h1.title.is-4 {
-  border-left: 2px solid $link;
-  padding-left: 1rem;
+.has-text-item {
+  line-height: 1.25;
+  font-size: .9rem;
 }
 
-h1.title.is-item {
-  font-size: 1.1rem;
-  font-weight: 400;
+.has-hero-link a {
+  color: $white;
+  border-bottom: 2px dotted $lightlink;
+}
+
+.has-hero-link a:hover {
+  color: $white;
+  border-bottom: 2px solid $link;
+}
+
+h1.title.is-2 {
+  border-left: 2px solid $link;
+  padding-left: 1rem;
 }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
@@ -73,26 +78,6 @@ h1.title.is-item {
 .has-no-overflow {
   white-space: nowrap;
   overflow: hidden;
-}
-
-.has-no-margin, .content p:not(:last-child).has-no-margin {
-  margin: 0;
-}
-
-.has-small-margin, .title:not(:last-child).has-small-margin {
-  margin-bottom: .5rem;
-}
-
-.has-tiny-margin, .subtitle:not(:last-child).has-tiny-margin, .content p:not(:last-child).has-tiny-margin  {
-  margin-bottom: .25rem;
-}
-
-.has-no-padding-top {
-  padding-top: 0;
-}
-
-.has-no-padding-bottom {
-  padding-bottom: 0;
 }
 
 .is-active {
@@ -112,23 +97,8 @@ h1.title.is-item {
   background-color: $light;
 }
 
-a:hover, h2.title.is-5 a:hover {
+a:hover {
   color: #a093ff;
-}
-
-h2.title.is-5 a { 
-  border-bottom: none;
-  color: $link;
-}
-
-h1 a {
-  color: $white;
-  border-bottom: 2px solid #524a94;
-}
-
-h1 a:hover {
-  color: $white;
-  border-bottom: 2px solid $link;
 }
 
 .card-content.equipment {
@@ -136,18 +106,6 @@ h1 a:hover {
   padding: .75rem;
   background: rgb(29,29,29);
   background: linear-gradient(175deg, rgb(24, 24, 24) 0%, rgba(18,18,18,1) 75%); 
-}
-
-.card-content p {
-  margin-bottom: 1.5rem;
-}
-
-.card-content p:last-child {
-  margin-bottom: 0;
-}
-
-.card-content ol {
-  padding: 1.5rem 0 1.5rem 1rem;
 }
 
 .box {

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import BlogRouter from './blog';
 
 Vue.use(VueRouter);
 
@@ -9,6 +10,12 @@ const routes = [
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
   },
+  {
+    path: '/blog',
+    name: 'Blog',
+    component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue')
+  },
+  ...BlogRouter,
   {
     path: '/board',
     name: 'Leaderboard',

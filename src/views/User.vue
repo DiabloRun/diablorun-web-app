@@ -18,7 +18,7 @@
                 imgClass="flag mt-1 mr-1"
                 :code="user.country_code"
               />
-              <h1 class="title is-2">{{ user.name }}</h1>
+              <h1 class="title is-1">{{ user.name }}</h1>
             </div>
             <div
               class="column is-narrow has-tooltip-left"
@@ -39,12 +39,12 @@
       <div class="container">
         <div class="columns is-vcentered is-multiline">
           <div class="column is-full">
-            <h1 class="title is-4">
+            <h1 class="title is-2">
               Active {{ latestCharacter.update_time | FromNowFilter }}
             </h1>
           </div>
           <div class="column">
-            <p class="subtitle is-5">
+            <p class="subtitle">
               <router-link
                 :to="{
                   name: 'Character',
@@ -93,24 +93,20 @@
                       >{{ latestCharacter.name }}</router-link
                     >
                   </p>
-                  <p class="subtitle is-5">
+                  <p class="subtitle">
                     {{ latestCharacter.area | AreaNameFilter }} in
                     {{ latestCharacter.difficulty | DifficultyFilter }}
                   </p>
                 </div>
                 <div class="column is-narrow is-paddingless">
-                  <p class="subtitle is-5">
-                    <span class="tag is-primary is-rounded"
-                      >Level {{ latestCharacter.level }}</span
-                    >
-                  </p>
+                  <span class="tag is-primary is-rounded"
+                    >Level {{ latestCharacter.level }}</span
+                  >
                 </div>
                 <div class="column is-narrow is-paddingless mx-2">
-                  <p class="subtitle is-5">
-                    <span class="tag is-warning is-rounded"
-                      >{{ latestCharacter.deaths }} Deaths</span
-                    >
-                  </p>
+                  <span class="tag is-warning is-rounded"
+                    >{{ latestCharacter.deaths }} Deaths</span
+                  >
                 </div>
               </div>
             </div>
@@ -121,11 +117,10 @@
     <!-- Character history -->
     <section class="section" v-if="characters.length > 0">
       <div class="container">
-        <h1 class="title is-4">{{ user.name }}'s character history</h1>
+        <h1 class="title is-2">Character history</h1>
         <table class="table is-fullwidth is-striped is-hoverable">
           <thead>
             <tr>
-              <th class="is-narrow has-text-centered">LVL</th>
               <th>Name</th>
               <th class="has-text-centered">Hero</th>
               <th class="has-text-centered">Core</th>
@@ -145,76 +140,67 @@
           </thead>
           <tbody class="has-no-overflow">
             <tr v-for="character of characters" :key="character.id">
-              <td class="has-text-centered is-narrow">
-                <p class="subtitle is-5">{{ character.level }}</p>
-              </td>
               <td class="is-narrow has-no-overflow">
                 <p class="subtitle is-5">
                   <router-link
-                    :to="
-                      `/${character.user_name}/${character.name}${character.id}`
-                    "
+                    :to="`/${character.user_name}/${character.name}${character.id}`"
                   >
                     {{ character.name }}
                   </router-link>
                 </p>
               </td>
               <td class="has-text-centered">
-                <span
-                  :class="
-                    `is-hidden-desktop has-hero ${character.hero} subtitle is-5`
-                  "
-                  >{{ character.hero }}</span
-                >
-                <span
-                  :class="
-                    `is-hidden-touch has-hero ${character.hero} subtitle is-5`
-                  "
-                  >{{ character.hero | HeroNameFilter }}</span
-                >
+                <p class="subtitle is-6">
+                  <span
+                    :class="`is-hidden-desktop has-hero ${character.hero}`"
+                    >{{ character.hero }}</span
+                  >
+                  <span :class="`is-hidden-touch has-hero ${character.hero}`">{{
+                    character.hero | HeroNameFilter
+                  }}</span>
+                  <span class="has-text-fade"> ({{ character.level }})</span>
+                </p>
               </td>
               <td class="has-text-centered">
                 <div class="is-hidden-touch">
-                  <span v-if="!character.hc" class="subtitle is-5 has-text-grey"
-                    >SC</span
-                  >
-                  <span
-                    v-if="character.hc"
-                    class="subtitle is-5 has-text-warning"
-                    >HC</span
-                  >
+                  <p class="subtitle is-6">
+                    <span v-if="!character.hc" class="has-text-grey">SC</span>
+                    <span v-if="character.hc" class="has-text-warning">HC</span>
+                  </p>
                 </div>
                 <div class="is-hidden-desktop">
-                  <span v-if="!character.hc" class="subtitle is-5 has-text-grey"
+                  <p class="subtitle is-6">
+                  <span v-if="!character.hc" class="has-text-grey"
                     >SC</span
                   >
                   <span
                     v-if="character.hc"
-                    class="subtitle is-5 has-text-warning"
+                    class="has-text-warning"
                     ><span
                       v-if="character.hc && character.dead"
-                      class="subtitle is-5 has-text-warning"
+                      class="has-text-warning"
                       >Dead </span
                     >HC</span
                   >
+                  </p>
                 </div>
               </td>
               <td class="has-text-centered is-hidden-touch">
                 <p
-                  class="subtitle is-5"
+                  class="subtitle is-6"
                   v-if="!(character.hc && character.dead)"
                 >
                   {{ character.area | AreaNameFilter }}
                 </p>
                 <p
                   v-if="character.hc && character.dead"
-                  class="subtitle is-5 has-text-warning"
+                  class="subtitle is-6 has-text-warning"
                 >
                   Dead
                 </p>
               </td>
               <td class="has-text-centered is-hidden-touch">
-                <p class="subtitle is-5">
+                <p class="subtitle is-6">
                   {{ character.seconds_played | DurationFilter }}
                 </p>
               </td>
@@ -252,7 +238,7 @@
           :class="{ 'is-loading': loadingCharacters }"
           @click="loadMoreCharacters()"
         >
-          Load more
+          Load more characters
         </button>
       </div>
     </section>
@@ -261,21 +247,21 @@
       <div class="container">
         <div class="columns is-mobile is-multiline">
           <div class="column is-full-mobile">
-            <h1 class="title is-4">{{ user.name }}'s speedruns</h1>
+            <h1 class="title is-2">Speedruns</h1>
           </div>
           <div class="column is-narrow">
-            <p class="subtitle is-5 has-text-grey">
+            <p class="subtitle has-text-grey">
               <span class="rank-1">{{ speedrunsStatistics.gold }}</span> Gold
             </p>
           </div>
           <div class="column is-narrow">
-            <p class="subtitle is-5 has-text-grey">
+            <p class="subtitle has-text-grey">
               <span class="rank-2">{{ speedrunsStatistics.silver }}</span>
               Silver
             </p>
           </div>
           <div class="column is-narrow">
-            <p class="subtitle is-5 has-text-grey">
+            <p class="subtitle has-text-grey">
               <span class="rank-3">{{ speedrunsStatistics.bronze }}</span>
               Bronze
             </p>
@@ -296,9 +282,7 @@
             <tr v-for="run of speedruns" :key="run.id">
               <td class="is-narrow has-text-centered">
                 <p
-                  :class="
-                    `subtitle is-6 has-text-fade rank-${run.category_rank}`
-                  "
+                  :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
                 >
                   {{ run.category_rank }}
                 </p>
@@ -314,7 +298,7 @@
                 </p>
               </td>
               <td class="is-narrow">
-                <p class="subtitle is-5">
+                <p class="subtitle is-6">
                   <router-link
                     :to="{
                       name: 'Leaderboard',
@@ -340,7 +324,7 @@
                 </p>
               </td>
               <td class="has-text-centered has-text-right-mobile">
-                <p class="subtitle is-5">
+                <p class="subtitle is-6">
                   <a :href="run.speedrun_link" target="_blank">
                     {{ run.seconds_played | DurationFilter }}
                   </a>
@@ -350,7 +334,7 @@
                 <span class="has-text-fade" v-if="!run.character_id"
                   >Unlinked</span
                 >
-                <p v-if="run.character_id" class="subtitle is-5">
+                <p v-if="run.character_id" class="subtitle is-6">
                   <router-link
                     :to="{
                       name: 'Character',
@@ -365,7 +349,9 @@
                 </p>
               </td>
               <td class="is-narrow is-hidden-mobile has-text-right">
-                {{ run.submit_time | FromNowFilter }}
+                <p class="subtitle is-6">
+                  {{ run.submit_time | FromNowFilter }}
+                </p>
               </td>
             </tr>
           </tbody>
@@ -376,7 +362,7 @@
           :class="{ 'is-loading': loadingSpeedruns }"
           @click="loadMoreSpeedruns()"
         >
-          Load more
+          Load more speedruns
         </button>
       </div>
     </section>
@@ -433,7 +419,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: state => state.ws.character
+      latestCharacter: (state) => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -535,7 +521,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter(c => c !== character);
+        this.characters = this.characters.filter((c) => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();

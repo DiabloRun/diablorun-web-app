@@ -1,27 +1,21 @@
 <template>
   <div class="profile">
     <!-- Hero  -->
-    <section class="hero has-bg-1 is-medium">
+    <section class="hero has-bg-1">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column is-full-mobile">
-              <h1 class="title is-2 pb-3">Welcome!</h1>
-              <h1 class="subtitle is-5">
+              <h1 class="title is-1 pb-2 has-hero-link">
                 Diablo.run is an
-                <a href="https://github.com/diablorun">open source</a> project
-                for Diablo enthusiasts. Join our
-                <a href="https://discord.gg/QMMDR2a">Discord</a> and support us
-                by
-                <a href="https://www.patreon.com/diablorun"
-                  >becoming a Patreon</a
-                >!
+                <a href="https://github.com/diablorun" target="_blank">open source</a> project
+                for Diablo enthusiasts
               </h1>
             </div>
-            <div class="column is-narrow-tablet">
+            <div class="column is-narrow">
               <router-link :to="{ name: 'Setup' }">
                 <button
-                  class="button is-medium is-outlined is-primary is-inverted has-glow"
+                  class="button is-medium is-outlined is-primary is-inverted has-glow-dark"
                 >
                   Diablo.run Setup
                 </button>
@@ -34,10 +28,10 @@
     <!-- Content -->
     <section class="section mt-5">
       <div class="container">
-        <h1 class="title is-4">Speedruns</h1>
+        <h1 class="title is-2">Speedruns</h1>
         <div class="columns is-multiline">
-          <div class="column is-full is-6-desktop">
-            <h1 class="subtitle is-4">Latest Runs</h1>
+          <div class="column is-full is-6-fullhd">
+            <h1 class="subtitle">Recently submitted runs</h1>
             <table class="table is-striped is-hoverable">
               <thead>
                 <tr>
@@ -54,9 +48,7 @@
                 <tr v-for="run of latestSpeedruns" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="
-                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
-                      "
+                      :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
                     >
                       {{ run.category_rank }}
                     </p>
@@ -81,10 +73,9 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="
-                          `color: ${run.user_color ||
-                            run.speedrun_user_dark_color_from};`
-                        "
+                        :style="`color: ${
+                          run.user_color || run.speedrun_user_dark_color_from
+                        };`"
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -107,7 +98,7 @@
                   </td>
                   <td class="px-0 has-text-centered">
                     <p
-                      class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
+                      class="subtitle is-6 white-space-nowrap font-size-1-rem-mobile"
                     >
                       <a :href="run.speedrun_link" target="_blank">
                         {{ run.seconds_played | DurationFilter }}
@@ -116,7 +107,7 @@
                   </td>
                   <td class="px-0 has-text-centered">
                     <p
-                      class="subtitle is-5 font-size-1-rem-mobile white-space-nowrap has-hero"
+                      class="subtitle is-6 font-size-1-rem-mobile white-space-nowrap has-hero"
                     >
                       <router-link
                         :to="{
@@ -145,8 +136,8 @@
               </tbody>
             </table>
           </div>
-          <div class="column is-6-desktop">
-            <h1 class="subtitle is-4">Fresh World Records</h1>
+          <div class="column is-6-fullhd">
+            <h1 class="subtitle">Fresh world records</h1>
             <table class="table is-striped is-hoverable">
               <thead>
                 <tr>
@@ -163,9 +154,7 @@
                 <tr v-for="run of latestRecords" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="
-                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
-                      "
+                      :class="`subtitle is-5 has-text-fade rank-${run.category_rank}`"
                     >
                       {{ run.category_rank }}
                     </p>
@@ -190,10 +179,9 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="
-                          `color: ${run.user_color ||
-                            run.speedrun_user_dark_color_from};`
-                        "
+                        :style="`color: ${
+                          run.user_color || run.speedrun_user_dark_color_from
+                        };`"
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -216,7 +204,7 @@
                   </td>
                   <td class="px-0 has-text-centered">
                     <p
-                      class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
+                      class="subtitle is-6 white-space-nowrap font-size-1-rem-mobile"
                     >
                       <a :href="run.speedrun_link" target="_blank">
                         {{ run.seconds_played | DurationFilter }}
@@ -225,7 +213,7 @@
                   </td>
                   <td class="px-0 has-text-centered">
                     <p
-                      class="subtitle is-5 font-size-1-rem-mobile white-space-nowrap has-hero"
+                      class="subtitle is-6 font-size-1-rem-mobile white-space-nowrap has-hero"
                     >
                       <router-link
                         :to="{
@@ -255,6 +243,51 @@
             </table>
           </div>
         </div>
+        <router-link :to="{ name: 'Leaderboard' }">
+          <button class="button is-light">View the full leaderboard</button>
+        </router-link>
+      </div>
+    </section>
+    <!-- Latest Blog Post -->
+    <section class="section">
+      <div class="container">
+        <h1 class="title is-2">Latest blog post</h1>
+        <div class="columns">
+          <div class="column is-6">
+            <BlogPostBox :post="latestPost"></BlogPostBox>
+          </div>
+          <div class="column"></div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container is-fluid">
+        <div class="columns is-mobile is-vcentered is-centered">
+          <div
+            class="column is-3-mobile is-2-tablet is-1-fullhd"
+            data-tooltip="Diablo.run repositories on GitHub"
+          >
+            <a href="https://github.com/diablorun" target="_blank">
+              <img src="@/assets/img/GitHub_Logo_White.png" />
+            </a>
+          </div>
+          <div
+            class="column is-3-mobile is-2-tablet is-1-fullhd"
+            data-tooltip="Become a Diablo.run Patreon"
+          >
+            <a href="https://www.patreon.com/diablorun" target="_blank">
+              <img src="@/assets/img/patreon.png" />
+            </a>
+          </div>
+          <div
+            class="column is-3-mobile is-2-tablet is-1-fullhd"
+            data-tooltip="Join Diablo.run Discord channel"
+          >
+            <a href="https://discord.gg/QMMDR2a" target="_blank">
+              <img src="@/assets/img/Discord-Logo+Wordmark-White.svg" />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -265,6 +298,8 @@ import { HeroNameFilter } from '@/filters';
 import { FromNowFilter } from '@/filters';
 import { DurationFilter } from '@/filters';
 import CountryIcon from '@/components/CountryIcon.vue';
+import BlogPostBox from '@/components/BlogPostBox.vue';
+import blog from '@/router/blog.js';
 
 export default {
   filters: {
@@ -273,13 +308,15 @@ export default {
     DurationFilter
   },
   components: {
-    CountryIcon
+    CountryIcon,
+    BlogPostBox
   },
   name: 'Home',
   data() {
     return {
       latestSpeedruns: [],
-      latestRecords: []
+      latestRecords: [],
+      latestPost: blog[0]
     };
   },
   async mounted() {

@@ -7,7 +7,7 @@
             <img :src="imageSrc" />
           </div>
           <div class="column is-10">
-            <h1 :class="`title is-item has-small-margin`">
+            <h1 :class="`subtitle is-6 mb-1`">
               <span v-if="runeword" class="quality-gold"
                 >{{ runeword }}<br
               /></span>
@@ -16,7 +16,7 @@
               </span>
             </h1>
             <p
-              class="has-text-small has-no-margin"
+              class="mb-0 has-text-item"
               :class="{ 'has-text-warning': property.includes('ÿc1') }"
               v-for="property of properties"
               :key="property"
@@ -52,8 +52,8 @@
 }
 
 .quality-socketed {
+  font-weight: 400;
   opacity: 0.5;
-  font-size: 0.95rem;
 }
 
 .quality-white {

@@ -32,6 +32,14 @@
             exact
             active-class="is-active"
             class="navbar-item"
+            :to="{ name: 'Blog' }"
+            >Blog</router-link
+          >
+          <router-link
+            @click.native="resetFilters()"
+            exact
+            active-class="is-active"
+            class="navbar-item"
             :to="{ name: 'Leaderboard' }"
             >Leaderboard</router-link
           >
@@ -94,9 +102,7 @@
               >
                 Patreon
               </router-link>
-              <a class="navbar-item" @click="signOut()">
-                Log out
-              </a>
+              <a class="navbar-item" @click="signOut()"> Log out </a>
             </div>
           </div>
         </div>
@@ -107,8 +113,8 @@
 
     <!--footer-->
     <footer v-if="showHeaderAndFooter" class="footer">
-      <div class="content has-text-centered">
-        <p class="has-tiny-margin">
+      <div class="content has-text-centered is-small">
+        <p class="mb-0">
           Diablo.run built by
           <router-link :to="{ name: 'Team' }">OverseerShenk</router-link> and
           <router-link :to="{ name: 'Team' }">Indrek</router-link>. Join our
@@ -118,7 +124,7 @@
           >.
         </p>
         <p>
-          Support the development and server costs by
+          Support the project by
           <a href="https://www.patreon.com/diablorun">becoming a Patreon</a>.
           Contribute code on <a href="https://github.com/diablorun">GitHub.</a>
         </p>
@@ -162,9 +168,9 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.auth.user,
-      confirmModal: state => state.app.confirmModal,
-      showHeaderAndFooter: state => state.app.windowStyle === 'window'
+      user: (state) => state.auth.user,
+      confirmModal: (state) => state.app.confirmModal,
+      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
     })
   },
   methods: {

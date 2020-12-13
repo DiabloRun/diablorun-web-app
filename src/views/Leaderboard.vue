@@ -20,7 +20,7 @@
               </figure>
             </div>
             <div class="column">
-              <h1 class="title is-2">Leaderboard</h1>
+              <h1 class="title is-1">Leaderboard</h1>
             </div>
           </div>
         </div>
@@ -31,10 +31,10 @@
       <div class="container">
         <div class="columns is-mobile is-vcentered is-multiline">
           <div class="column is-full-mobile">
-            <h1 class="title is-4">{{ categoryName }}</h1>
+            <h1 class="title is-2">{{ categoryName }}</h1>
           </div>
           <div class="column is-narrow-tablet">
-            <h1 class="subtitle is-5">
+            <h1 class="subtitle">
               {{ statistics.speedruns }} runs by {{ statistics.users }} runners
             </h1>
           </div>
@@ -95,7 +95,10 @@
     <section class="section" v-if="!runs.length > 0">
       <div class="container">
         <div class="notification is-dark has-text-centered">
-          <p>There are no submitted runs in this category.</p>
+          <h1 class="subtitle">
+            <span class="has-text-danger">{{ categoryName }}</span> category is
+            empty
+          </h1>
         </div>
       </div>
     </section>
@@ -143,10 +146,9 @@
                       name: 'User',
                       params: { user_name: run.user_name }
                     }"
-                    :style="
-                      `color: ${run.user_color ||
-                        run.speedrun_user_dark_color_from};`
-                    "
+                    :style="`color: ${
+                      run.user_color || run.speedrun_user_dark_color_from
+                    };`"
                   >
                     {{ run.user_name }}
                   </router-link>
@@ -168,7 +170,7 @@
               </td>
               <td class="px-0 has-text-centered">
                 <p
-                  class="subtitle is-5 white-space-nowrap font-size-1-rem-mobile"
+                  class="subtitle is-6 white-space-nowrap font-size-1-rem-mobile"
                 >
                   <a :href="run.speedrun_link" target="_blank">
                     {{ run.seconds_played | DurationFilter }}
@@ -176,34 +178,26 @@
                 </p>
               </td>
               <td class="has-text-centered white-space-nowrap">
-                <span
-                  :class="`is-hidden-touch has-hero ${run.hero} subtitle is-5`"
-                  >{{ run.hero | HeroNameFilter }}</span
-                >
-                <span
-                  :class="
-                    `is-hidden-desktop font-size-1-rem-mobile has-hero ${run.hero} subtitle is-5`
-                  "
-                  >{{ run.hero }}</span
-                >
+                <p class="subtitle is-5 font-size-1-rem-mobile">
+                  <span :class="`is-hidden-touch has-hero ${run.hero}`">
+                    {{ run.hero | HeroNameFilter }}
+                  </span>
+                  <span :class="`is-hidden-desktop has-hero ${run.hero}`">
+                    {{ run.hero }}
+                  </span>
+                </p>
               </td>
               <td class="px-0 has-text-centered">
-                <span v-if="!run.hc" class="subtitle is-5"
-                  ><span
-                    class="has-text-grey font-size-1-rem-mobile white-space-nowrap"
-                    >SC</span
-                  ></span
+                <p
+                  class="subtitle is-6 font-size-1-rem-mobile white-space-nowrap"
                 >
-                <span v-if="run.hc" class="subtitle is-5"
-                  ><span
-                    class="has-text-warning font-size-1-rem-mobile white-space-nowrap"
-                    >HC</span
-                  ></span
-                >
+                  <span v-if="!run.hc" class="has-text-grey">SC</span>
+                  <span v-if="run.hc" class="has-text-warning">HC</span>
+                </p>
               </td>
               <td class="pl-0 pr-1 has-text-centered is-hidden-mobile">
                 <p
-                  class="subtitle is-5 font-size-1-rem-mobile white-space-nowrap"
+                  class="subtitle is-6 font-size-1-rem-mobile white-space-nowrap"
                 >
                   {{ run.players_category }}
                 </p>
@@ -258,11 +252,11 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: state => state.leaderboard.loading,
-      runs: state => state.leaderboard.runs,
-      statistics: state => state.leaderboard.statistics,
-      pagination: state => state.leaderboard.pagination,
-      heroFilter: state => state.leaderboard.filters.hero
+      loading: (state) => state.leaderboard.loading,
+      runs: (state) => state.leaderboard.runs,
+      statistics: (state) => state.leaderboard.statistics,
+      pagination: (state) => state.leaderboard.pagination,
+      heroFilter: (state) => state.leaderboard.filters.hero
     }),
 
     categoryName() {
