@@ -7,7 +7,7 @@
           <div class="container">
             <div class="columns is-vcentered is-multiline is-mobile">
               <div class="column">
-                <h1 class="title is-2">{{ race.name }}</h1>
+                <h1 class="title is-1">{{ race.name }}</h1>
               </div>
               <div class="column is-narrow is-hidden-mobile">
                 <button
@@ -30,7 +30,7 @@
         <div class="container">
           <div class="columns is-vcentered is-multiline">
             <div class="column">
-              <h1 class="title is-4">
+              <h1 class="title is-2">
                 <RaceCountdown
                   :start="race.start_time"
                   :finish="race.finish_time"

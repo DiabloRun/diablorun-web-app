@@ -6,14 +6,14 @@
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column">
-              <h1 class="title is-2">Team</h1>
+              <h1 class="title is-1">Team</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- Toolbar -->
-    <section class="hero is-dark">
+    <section class="hero is-dark has-hero-link">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-mobile is-vcentered">
@@ -34,7 +34,7 @@
         <div class="columns is-centered has-text-centered">
           <div class="column is-7">
             <div class="content is-large">
-              <h1 class="title is-2">We're brothers from Estonia</h1>
+              <h1 class="title">We're brothers from Estonia</h1>
               <p>
                 Our goal is to build a portal for Diablo players where people
                 can compete in races, share their speedruns, characters and

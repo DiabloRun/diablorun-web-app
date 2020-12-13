@@ -5,7 +5,7 @@
       <section class="hero is-primary is-bold">
         <div class="hero-body">
           <div class="container">
-            <h1 class="title is-2">Race Editor</h1>
+            <h1 class="title is-1">Race Editor</h1>
           </div>
         </div>
       </section>

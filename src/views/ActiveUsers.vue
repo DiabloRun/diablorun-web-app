@@ -6,7 +6,7 @@
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column">
-              <h1 class="title is-2">Users</h1>
+              <h1 class="title is-1">Users</h1>
             </div>
           </div>
         </div>
@@ -15,7 +15,7 @@
     <!-- Userlist -->
     <section class="section mt-5">
       <div class="container">
-        <h1 class="title is-4">Currently active players</h1>
+        <h1 class="title is-2">Currently active players</h1>
         <div class="columns is-multiline">
           <div
             v-for="user of activeUsers"

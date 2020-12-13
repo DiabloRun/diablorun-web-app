@@ -27,7 +27,7 @@
             </div>
             <!-- Character name -->
             <div class="column">
-              <h1 class="title is-5">
+              <h1 class="title is-5 has-hero-link">
                 <router-link
                   :to="{
                     name: 'Character',
@@ -43,7 +43,7 @@
             </div>
             <!-- Username -->
             <div class="column is-narrow">
-              <h1 class="title is-5">
+              <h1 class="title is-5 has-hero-link">
                 <span class="has-light-text-fade"
                   ><span class="is-hidden-mobile">Added</span> by
                 </span>

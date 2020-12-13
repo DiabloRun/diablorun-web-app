@@ -19,7 +19,7 @@
           <div class="container">
             <div class="columns is-multiline is-mobile">
               <div class="column">
-                <h1 class="subtitle is-4">
+                <h1 class="subtitle is-4 has-hero-link">
                   <a href="https://www.twitch.tv/login">Twitch account</a> is
                   required
                 </h1>
@@ -47,7 +47,7 @@
                   >
                     Sign in using Twitch
                   </a>
-                  <p v-if="invalid" class="has-margin-top">
+                  <p v-if="invalid" class="mt-3">
                     Invalid Twitch access token!
                   </p>
                 </div>
@@ -71,7 +71,7 @@
         </div>
       </section>
       <!-- Toolbar -->
-      <section class="hero is-dark">
+      <section class="hero is-dark has-hero-link">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-multiline is-mobile">
@@ -116,11 +116,11 @@
                     gets sent to our servers and displayed on your profile so
                     you can share your characters with other people.
                   </p>
-                  <p>
+                  <p class="pt-3">
                     It's important to keep Diablo Interface up to date. Older
                     versions cause bugs and incorrect data readings.
                   </p>
-                  <p>
+                  <p class="pt-3">
                     We also have a Twitch Extension by Borshter. Go to Twitch
                     Extensions page and search for Diablo.run Armory.
                   </p>
@@ -149,7 +149,7 @@
                     placeholder="Headers"
                     :value="'API_KEY=' + user.api_key"
                   />
-                  <ol type="1">
+                  <ol type="1" class="py-5 pl-4">
                     <li>Open Diablo Interface</li>
                     <li>Right click and click Config (Ctrl+U)</li>
                     <li>Select HttpClient tab from the top menu</li>
@@ -167,7 +167,7 @@
                     page. Try restarting the game and Diablo Interface if it
                     didn't work.
                   </p>
-                  <p>
+                  <p class="pt-3">
                     Feel free to ask help from our
                     <a href="https://discord.gg/QMMDR2a">Discord</a> if you're
                     having any problems.
