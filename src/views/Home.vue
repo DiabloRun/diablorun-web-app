@@ -292,7 +292,7 @@
             data-tooltip="Join Diablo.run Discord channel"
           >
             <a href="https://discord.gg/QMMDR2a" target="_blank">
-              <img src="@/assets/img/Discord-Logo+Wordmark-White.svg" />
+              <img src="@/assets/img/Discord-Logo.png" />
             </a>
           </div>
         </div>
