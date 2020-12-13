@@ -43,7 +43,15 @@
             <tbody>
               <tr>
                 <td class="is-narrow">Pacifist</td>
-                <td colspan="2">Chipped skulls are easier to find</td>
+                <td>Chipped skulls are easier to find</td>
+                <td>
+                  <a
+                    href="https://www.twitch.tv/videos/836378170"
+                    target="_blank"
+                    >Clip</a
+                  >
+                  by MacroBioBoi
+                </td>
               </tr>
               <tr>
                 <td class="is-narrow">Hell Barbarian</td>

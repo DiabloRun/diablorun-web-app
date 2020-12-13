@@ -145,7 +145,7 @@
                 <td>May 15, 2018</td>
               </tr>
               <tr class="has-text-centered has-text-grey is-size-7">
-                <td colspan="3">Beeleburst leveling era</td>
+                <td colspan="3">Beetleburst leveling era</td>
               </tr>
               <tr>
                 <td>Laggzor</td>
