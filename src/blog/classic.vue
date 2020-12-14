@@ -39,7 +39,9 @@
             other good items. Area levels are also lower which hurts leveling
             pace a lot.
           </p>
-          <p class="mt-3">Examples of how runners have used classic strategy in speedruns:</p>
+          <p class="mt-3">
+            Examples of how runners have used classic strategy in speedruns:
+          </p>
           <table class="table is-fullwidth is-striped is-hoverable mt-4">
             <thead>
               <tr>

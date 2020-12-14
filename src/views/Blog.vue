@@ -29,9 +29,11 @@
               <h1 class="blog subtitle">Open access publishing</h1>
               <p>
                 Anyone can contribute relevant blog posts through our
-                <a href="https://github.com/DiabloRun" target="_blank">GitHub</a>. If you lack
-                programming knowledge, but would like to contribute then contact
-                us on <a href="https://discord.gg/QMMDR2a">Discord</a> and we can work it out together.
+                <a href="https://github.com/DiabloRun" target="_blank">GitHub</a
+                >. If you lack programming knowledge, but would like to
+                contribute then contact us on
+                <a href="https://discord.gg/QMMDR2a">Discord</a> and we can work
+                it out together.
               </p>
             </div>
           </div>
