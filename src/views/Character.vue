@@ -4,11 +4,8 @@
     <section v-if="!streamOverlay" class="hero is-medium is-primary is-bold">
       <div class="hero-body">
         <div class="container">
-          <div
-            class="columns is-vcentered is-multiline is-mobile"
-            v-if="!character.name"
-          >
-            <div class="column is-narrow py-0">
+          <div class="columns is-vcentered is-mobile" v-if="!character.name">
+            <div class="column is-narrow">
               <button class="button is-rounded is-primary is-loading">
                 <span class="icon">Loading</span>
               </button>
@@ -17,13 +14,10 @@
               <h1 class="subtitle is-5 has-text-link">Loading...</h1>
             </div>
           </div>
-          <div
-            class="columns is-vcentered is-multiline is-mobile"
-            v-if="character.name"
-          >
+          <div class="columns is-vcentered is-mobile" v-if="character.name">
             <!-- Character class icon -->
             <div
-              class="column is-narrow has-tooltip-right py-0"
+              class="column is-narrow has-tooltip-right"
               :data-tooltip="character.hero | HeroNameFilter"
             >
               <router-link
