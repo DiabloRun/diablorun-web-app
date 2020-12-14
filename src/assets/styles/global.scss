@@ -113,6 +113,13 @@ a:hover {
   color: $white;
 }
 
+.blog.subtitle {
+  color: $white;
+  border-left: 1px solid $link;
+  padding-left: 10px;
+  margin-bottom: 1rem;
+}
+
 .is-rounded {
   border-radius: 50%;
 }

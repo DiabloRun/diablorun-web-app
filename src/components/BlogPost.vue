@@ -5,10 +5,10 @@
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
-            <div class="column">
+            <div class="column is-full-mobile">
               <h1 class="title is-1">{{ $route.meta.title }}</h1>
             </div>
-            <div class="column is-narrow">
+            <div class="column is-narrow-desktop has-text-right-tablet">
               <h1 class="subtitle">
                 Published by {{ $route.meta.author }} on {{ $route.meta.date }}
               </h1>

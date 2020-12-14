@@ -1,12 +1,14 @@
 <template>
   <BlogPost>
+    <h1 class="title is-2">What's a classic character?</h1>
     <div class="columns">
       <div class="column is-7">
         <div class="box">
-          <h1 class="subtitle">What's a classic character?</h1>
+          <h1 class="blog subtitle">Creating a classic character</h1>
           <p>
             Classic characters can be created when deselecting "expansion
-            character" during character creation.
+            character" during character creation. Classic characters run the
+            same game patch as expansion.
           </p>
           <p class="pt-3">
             Classic character can be converted to an expansion character by
@@ -17,9 +19,9 @@
           </p>
         </div>
         <div class="box">
-          <h1 class="subtitle">Classic compared to expansion character</h1>
+          <h1 class="blog subtitle">Classic compared to expansion character</h1>
           <p>
-            Classic mercenaries are limited. They can't wear equipment or
+            Classic mercenaries are limited. They can't wear equipment or use
             potions. They can only be used in the same act that you hired them.
             They disappear as you swap acts.
           </p>
@@ -29,9 +31,17 @@
           </p>
         </div>
         <div class="box">
-          <h1 class="subtitle">
-            Speedrunning categories that have used the classic strategy
-          </h1>
+          <div class="blog subtitle">Classic in speedruns</div>
+          <p>
+            Starting in classic enables the character to skip normal and
+            nightmare act 5. There are some more advantages depending on the
+            class. Main problem of starting in classic is lack of runewords and
+            other good items. Area levels are also lower which hurts leveling
+            pace a lot.
+          </p>
+          <p class="mt-3">
+            Examples of how runners have used classic strategy in speedruns:
+          </p>
           <table class="table is-fullwidth is-striped is-hoverable mt-4">
             <thead>
               <tr>
@@ -42,9 +52,9 @@
             </thead>
             <tbody>
               <tr>
-                <td class="is-narrow">Pacifist</td>
+                <td>Pacifist</td>
                 <td>Chipped skulls are easier to find</td>
-                <td>
+                <td class="is-narrow">
                   <a
                     href="https://www.twitch.tv/videos/836378170"
                     target="_blank"
@@ -54,7 +64,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="is-narrow">Hell Barbarian</td>
+                <td>Hell Barbarian</td>
                 <td>Whirlwind is more powerful in classic</td>
                 <td class="is-narrow">
                   <a href="https://youtu.be/iNTJMMKOVws" target="_blank"
@@ -64,7 +74,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="is-narrow">Sorceress</td>
+                <td>Sorceress</td>
                 <td>Cast speed rings are more common</td>
                 <td class="is-narrow">
                   <a href="https://youtu.be/KT-XsvL67KA" target="_blank"
@@ -74,10 +84,9 @@
                 </td>
               </tr>
               <tr>
-                <td class="is-narrow">Players 8 Sorceress</td>
+                <td>Sorceress (P8)</td>
                 <td>
-                  Static field drops enemy life down to 1 life in nightmare and
-                  hell
+                  Static field drops enemy down to 1 life in nightmare and hell
                 </td>
                 <td class="is-narrow">
                   <a href="https://youtu.be/Y5ZK4k_xqeM" target="_blank"
@@ -92,7 +101,7 @@
       </div>
       <div class="column">
         <div class="box">
-          <h1 class="subtitle">Classic vs Expansion</h1>
+          <h1 class="blog subtitle">Classic vs Expansion</h1>
           <table class="table is-fullwidth is-striped is-hoverable mt-4">
             <thead>
               <tr>
@@ -110,11 +119,10 @@
                 </td>
               </tr>
               <tr>
-                <td>Uniques and sets</td>
+                <td>Uniques &amp; sets</td>
                 <td><span class="tag is-light">Normal</span></td>
                 <td>
                   <div class="tags">
-                    <span class="tag is-light">Normal</span>
                     <span class="tag is-light">Exceptional</span>
                     <span class="tag is-light">Elite</span>
                   </div>
@@ -158,6 +166,11 @@
               <tr>
                 <td>Charms</td>
                 <td><span class="tag is-light">No</span></td>
+                <td><span class="tag is-info">Yes</span></td>
+              </tr>
+              <tr>
+                <td>Akara reset</td>
+                <td><span class="tag is-info">Yes</span></td>
                 <td><span class="tag is-info">Yes</span></td>
               </tr>
               <tr>
