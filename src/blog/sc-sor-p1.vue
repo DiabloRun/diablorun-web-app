@@ -279,7 +279,14 @@
           </div>
           <h1 class="subtitle is-6 mb-2">Allowed</h1>
           <div class="tags">
-            <span class="tag is-light">Starting in Classic</span>
+            <span class="tag is-light"
+              ><router-link
+                :to="{
+                  path: '/blog/classic'
+                }"
+                >Starting in Classic</router-link
+              ></span
+            >
             <span class="tag is-light">Glide video mode</span>
             <span class="tag is-light">TCP/IP Host</span>
             <span class="tag is-light">Macro for resets</span>

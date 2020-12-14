@@ -60,8 +60,8 @@ label.checkbox:hover {
 }
 
 h1.title.is-2 {
-  border-left: 2px solid $link;
-  padding-left: 1rem;
+  border-left: 3px solid $link;
+  padding-left: .9rem;
 }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
@@ -115,8 +115,8 @@ a:hover {
 
 .blog.subtitle {
   color: $white;
-  border-left: 1px solid $link;
-  padding-left: 10px;
+  border-left: 2px solid $link;
+  padding-left: 1rem;
   margin-bottom: 1rem;
 }
 
