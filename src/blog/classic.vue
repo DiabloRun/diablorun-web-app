@@ -52,7 +52,15 @@
             </thead>
             <tbody>
               <tr>
-                <td>Pacifist</td>
+                <td>
+                  <router-link
+                    :to="{
+                      path: '/board#pacifist'
+                    }"
+                  >
+                    Pacifist
+                  </router-link>
+                </td>
                 <td>Chipped skulls are easier to find</td>
                 <td>
                   <a
@@ -64,7 +72,15 @@
                 </td>
               </tr>
               <tr>
-                <td>Hell Barbarian</td>
+                <td>
+                  <router-link
+                    :to="{
+                      path: '/board#hell/bar'
+                    }"
+                  >
+                    Barbarian
+                  </router-link>
+                </td>
                 <td>Whirlwind is more powerful in classic</td>
                 <td>
                   <a href="https://youtu.be/iNTJMMKOVws" target="_blank"
@@ -74,7 +90,15 @@
                 </td>
               </tr>
               <tr>
-                <td>Sorceress</td>
+                <td>
+                  <router-link
+                    :to="{
+                      path: '/board#sor'
+                    }"
+                  >
+                    Sorceress</router-link
+                  >
+                </td>
                 <td>Cast speed rings are more common</td>
                 <td>
                   <a href="https://youtu.be/KT-XsvL67KA" target="_blank"
@@ -84,7 +108,15 @@
                 </td>
               </tr>
               <tr>
-                <td>Sorceress (P8)</td>
+                <td>
+                  <router-link
+                    :to="{
+                      path: '/board#hell/sor/p8'
+                    }"
+                  >
+                    Sorceress
+                  </router-link>
+                </td>
                 <td>
                   Static field drops enemy down to 1 life in nightmare and hell
                 </td>
