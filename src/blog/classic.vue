@@ -42,19 +42,19 @@
           <p class="mt-3">
             Examples of how runners have used classic strategy in speedruns:
           </p>
-          <table class="table is-fullwidth is-striped is-hoverable mt-4">
+          <table class="table is-fullwidth is-striped is-bordered mt-4">
             <thead>
               <tr>
-                <th class="is-narrow">Category</th>
+                <th>Category</th>
                 <th>Notes</th>
-                <th class="is-narrow">Example</th>
+                <th>Example</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Pacifist</td>
                 <td>Chipped skulls are easier to find</td>
-                <td class="is-narrow">
+                <td>
                   <a
                     href="https://www.twitch.tv/videos/836378170"
                     target="_blank"
@@ -66,7 +66,7 @@
               <tr>
                 <td>Hell Barbarian</td>
                 <td>Whirlwind is more powerful in classic</td>
-                <td class="is-narrow">
+                <td>
                   <a href="https://youtu.be/iNTJMMKOVws" target="_blank"
                     >07:48:41</a
                   >
@@ -76,7 +76,7 @@
               <tr>
                 <td>Sorceress</td>
                 <td>Cast speed rings are more common</td>
-                <td class="is-narrow">
+                <td>
                   <a href="https://youtu.be/KT-XsvL67KA" target="_blank"
                     >1:00:40</a
                   >
@@ -88,7 +88,7 @@
                 <td>
                   Static field drops enemy down to 1 life in nightmare and hell
                 </td>
-                <td class="is-narrow">
+                <td>
                   <a href="https://youtu.be/Y5ZK4k_xqeM" target="_blank"
                     >06:17:51</a
                   >
