@@ -1,13 +1,29 @@
 <template>
   <div>
     <!-- Hero -->
-    <section v-if="!streamOverlay" class="hero is-primary is-bold">
+    <section v-if="!streamOverlay" class="hero is-medium is-primary is-bold">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
+          <div
+            class="columns is-vcentered is-multiline is-mobile"
+            v-if="!character.name"
+          >
+            <div class="column is-narrow py-0">
+              <button class="button is-rounded is-primary is-loading">
+                <span class="icon">Loading</span>
+              </button>
+            </div>
+            <div class="column">
+              <h1 class="subtitle is-5 has-text-link">Loading...</h1>
+            </div>
+          </div>
+          <div
+            class="columns is-vcentered is-multiline is-mobile"
+            v-if="character.name"
+          >
             <!-- Character class icon -->
             <div
-              class="column is-narrow has-tooltip-right"
+              class="column is-narrow has-tooltip-right py-0"
               :data-tooltip="character.hero | HeroNameFilter"
             >
               <router-link
@@ -19,10 +35,12 @@
                   }
                 }"
               >
-                <Icon
-                  imgClass="has-glow is-rounded"
-                  :name="`big-${character.hero}`"
-                />
+                <figure class="image is-48x48">
+                  <Icon
+                    imgClass="has-glow is-rounded"
+                    :name="`big-${character.hero}`"
+                  />
+                </figure>
               </router-link>
             </div>
             <!-- Character name -->
@@ -60,7 +78,7 @@
             <!-- User Avatar -->
             <div
               v-if="character.user_profile_image_url"
-              class="column is-narrow is-hidden-mobile"
+              class="column is-narrow is-hidden-mobile py-0"
             >
               <router-link
                 :to="{
@@ -71,7 +89,7 @@
                 <figure class="image is-48x48">
                   <img
                     :src="character.user_profile_image_url"
-                    class="is-rounded"
+                    class="is-rounded has-glow"
                   />
                 </figure>
               </router-link>
@@ -505,8 +523,10 @@
       <div class="hero-body">
         <div class="container">
           <div class="columns has-text-centered is-mobile is-vcentered">
-            <div class="column is-narrow">
-              <Icon :name="`${character.hireling_class}`" />
+            <div class="column is-narrow py-0 pr-0">
+              <figure class="image is-32x32">
+                <Icon :name="`${character.hireling_class}`" />
+              </figure>
             </div>
             <div class="column has-text-left">
               <p class="subtitle is-5">

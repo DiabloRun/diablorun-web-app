@@ -1,12 +1,12 @@
 <template>
   <div class="profile">
     <!-- Hero  -->
-    <section class="hero has-bg-1">
+    <section class="hero has-bg-1 is-medium">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column is-full-mobile">
-              <h1 class="title is-1 pb-2 has-hero-link">
+              <h1 class="title is-1 has-hero-link">
                 Diablo.run is an
                 <a href="https://github.com/diablorun" target="_blank"
                   >open source</a
@@ -14,10 +14,10 @@
                 project for Diablo enthusiasts
               </h1>
             </div>
-            <div class="column is-narrow">
+            <div class="column is-narrow py-0">
               <router-link :to="{ name: 'Setup' }">
                 <button
-                  class="button is-medium is-outlined is-primary is-inverted has-glow-dark"
+                  class="button is-outlined is-primary is-inverted has-glow-dark"
                 >
                   Diablo.run Setup
                 </button>
