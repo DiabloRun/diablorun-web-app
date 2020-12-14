@@ -5,8 +5,8 @@
       <div class="hero-body">
         <div class="container">
           <div v-if="!user">
-            <div class="columns is-vcentered">
-              <div class="column is-narrow py-0">
+            <div class="columns is-vcentered is-mobile">
+              <div class="column is-narrow">
                 <button class="button is-rounded is-primary is-loading">
                   <span class="icon">Loading</span>
                 </button>
@@ -17,10 +17,7 @@
             </div>
           </div>
           <div class="columns is-vcentered is-multiline is-mobile" v-if="user">
-            <div
-              v-if="user.profile_image_url !== ''"
-              class="column is-narrow py-0"
-            >
+            <div v-if="user.profile_image_url !== ''" class="column is-narrow">
               <figure class="image is-48x48">
                 <img
                   :src="user.profile_image_url"
