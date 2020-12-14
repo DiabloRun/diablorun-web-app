@@ -31,9 +31,9 @@
     <section class="section mt-5">
       <div class="container">
         <h1 class="title is-2">Speedruns</h1>
-        <div class="columns is-multiline">
+        <div class="columns is-multiline is-vcentered">
           <div class="column is-full is-6-fullhd">
-            <h1 class="subtitle">Recently submitted runs</h1>
+            <h1 class="blog subtitle">Recently submitted runs</h1>
             <table class="table is-striped is-hoverable">
               <thead>
                 <tr>
@@ -50,9 +50,7 @@
                 <tr v-for="run of latestSpeedruns" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="
-                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
-                      "
+                      :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
                     >
                       {{ run.category_rank }}
                     </p>
@@ -77,10 +75,9 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="
-                          `color: ${run.user_color ||
-                            run.speedrun_user_dark_color_from};`
-                        "
+                        :style="`color: ${
+                          run.user_color || run.speedrun_user_dark_color_from
+                        };`"
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -141,8 +138,8 @@
               </tbody>
             </table>
           </div>
-          <div class="column is-6-fullhd">
-            <h1 class="subtitle">Fresh world records</h1>
+          <div class="column is-full is-6-fullhd">
+            <h1 class="blog subtitle">Fresh world records</h1>
             <table class="table is-striped is-hoverable">
               <thead>
                 <tr>
@@ -159,9 +156,7 @@
                 <tr v-for="run of latestRecords" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="
-                        `subtitle is-5 has-text-fade rank-${run.category_rank}`
-                      "
+                      :class="`subtitle is-5 has-text-fade rank-${run.category_rank}`"
                     >
                       {{ run.category_rank }}
                     </p>
@@ -186,10 +181,9 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="
-                          `color: ${run.user_color ||
-                            run.speedrun_user_dark_color_from};`
-                        "
+                        :style="`color: ${
+                          run.user_color || run.speedrun_user_dark_color_from
+                        };`"
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -250,10 +244,15 @@
               </tbody>
             </table>
           </div>
+          <div class="column">
+            <router-link :to="{ name: 'Leaderboard' }">
+              <button class="button is-light">View the full leaderboard</button>
+            </router-link>
+          </div>
+          <div class="column is-narrow">
+            <p class="has-text-grey is-size-7">Runs are pulled from <a href="https://www.speedrun.com/d2lod" target="_blank">speedrun.com</a></p>
+          </div>
         </div>
-        <router-link :to="{ name: 'Leaderboard' }">
-          <button class="button is-light">View the full leaderboard</button>
-        </router-link>
       </div>
     </section>
     <!-- Latest Blog Post -->
@@ -263,6 +262,9 @@
         <div class="columns">
           <div class="column is-6">
             <BlogPostBox :post="latestPost"></BlogPostBox>
+            <router-link :to="{ name: 'Blog' }">
+              <button class="button is-light">More blog posts</button>
+            </router-link>
           </div>
           <div class="column"></div>
         </div>
