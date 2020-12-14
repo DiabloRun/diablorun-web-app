@@ -9,8 +9,16 @@
               <h1 class="title is-1">{{ $route.meta.title }}</h1>
             </div>
             <div class="column is-narrow-desktop has-text-right-tablet">
-              <h1 class="subtitle">
-                Published by {{ $route.meta.author }} on {{ $route.meta.date }}
+              <h1 class="subtitle has-hero-link">
+                Published by
+                <router-link
+                  :to="{
+                    name: 'User',
+                    params: { user_name: $route.meta.author }
+                  }"
+                  >{{ $route.meta.author }}</router-link
+                >
+                on {{ $route.meta.date }}
               </h1>
             </div>
           </div>
