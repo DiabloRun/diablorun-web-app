@@ -50,7 +50,9 @@
                 <tr v-for="run of latestSpeedruns" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
+                      :class="
+                        `subtitle is-6 has-text-fade rank-${run.category_rank}`
+                      "
                     >
                       {{ run.category_rank }}
                     </p>
@@ -75,9 +77,10 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="`color: ${
-                          run.user_color || run.speedrun_user_dark_color_from
-                        };`"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -156,7 +159,9 @@
                 <tr v-for="run of latestRecords" :key="run.id">
                   <td class="is-narrow has-text-centered px-2">
                     <p
-                      :class="`subtitle is-5 has-text-fade rank-${run.category_rank}`"
+                      :class="
+                        `subtitle is-5 has-text-fade rank-${run.category_rank}`
+                      "
                     >
                       {{ run.category_rank }}
                     </p>
@@ -181,9 +186,10 @@
                           name: 'User',
                           params: { user_name: run.user_name }
                         }"
-                        :style="`color: ${
-                          run.user_color || run.speedrun_user_dark_color_from
-                        };`"
+                        :style="
+                          `color: ${run.user_color ||
+                            run.speedrun_user_dark_color_from};`
+                        "
                       >
                         {{ run.user_name }}
                       </router-link>
@@ -250,7 +256,12 @@
             </router-link>
           </div>
           <div class="column is-narrow">
-            <p class="has-text-grey is-size-7">Runs are pulled from <a href="https://www.speedrun.com/d2lod" target="_blank">speedrun.com</a></p>
+            <p class="has-text-grey is-size-7">
+              Runs are pulled from
+              <a href="https://www.speedrun.com/d2lod" target="_blank"
+                >speedrun.com</a
+              >
+            </p>
           </div>
         </div>
       </div>
