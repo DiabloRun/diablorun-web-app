@@ -1,12 +1,27 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-primary is-bold" v-if="user">
+    <section class="hero is-primary is-medium is-bold">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
-            <div v-if="user.profile_image_url !== ''" class="column is-narrow">
-              <figure class="image is-64x64">
+          <div v-if="!user">
+            <div class="columns is-vcentered">
+              <div class="column is-narrow py-0">
+                <button class="button is-rounded is-primary is-loading">
+                  <span class="icon">Loading</span>
+                </button>
+              </div>
+              <div class="column">
+                <h1 class="subtitle is-5 has-text-link">Loading...</h1>
+              </div>
+            </div>
+          </div>
+          <div class="columns is-vcentered is-multiline is-mobile" v-if="user">
+            <div
+              v-if="user.profile_image_url !== ''"
+              class="column is-narrow py-0"
+            >
+              <figure class="image is-48x48">
                 <img
                   :src="user.profile_image_url"
                   class="is-rounded has-glow"
@@ -14,11 +29,8 @@
               </figure>
             </div>
             <div class="column">
-              <CountryIcon
-                imgClass="flag mt-1 mr-1"
-                :code="user.country_code"
-              />
-              <h1 class="title is-1">{{ user.name }}</h1>
+              <CountryIcon imgClass="flag" :code="user.country_code" />
+              <h1 class="title is-5">{{ user.name }}</h1>
             </div>
             <div
               class="column is-narrow has-tooltip-left"
@@ -35,7 +47,7 @@
       </div>
     </section>
     <!-- Latest active hero -->
-    <section class="section mt-5" v-if="latestCharacter">
+    <section class="section mt-5" v-if="!latestCharacter.name == ''">
       <div class="container">
         <div class="columns is-vcentered is-multiline">
           <div class="column is-full">
@@ -143,9 +155,7 @@
               <td class="is-narrow has-no-overflow">
                 <p class="subtitle is-5">
                   <router-link
-                    :to="
-                      `/${character.user_name}/${character.name}${character.id}`
-                    "
+                    :to="`/${character.user_name}/${character.name}${character.id}`"
                   >
                     {{ character.name }}
                   </router-link>
@@ -280,9 +290,7 @@
             <tr v-for="run of speedruns" :key="run.id">
               <td class="is-narrow has-text-centered">
                 <p
-                  :class="
-                    `subtitle is-6 has-text-fade rank-${run.category_rank}`
-                  "
+                  :class="`subtitle is-6 has-text-fade rank-${run.category_rank}`"
                 >
                   {{ run.category_rank }}
                 </p>
@@ -419,7 +427,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: state => state.ws.character
+      latestCharacter: (state) => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -521,7 +529,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter(c => c !== character);
+        this.characters = this.characters.filter((c) => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();

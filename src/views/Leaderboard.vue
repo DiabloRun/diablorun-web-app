@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-primary is-bold">
+    <section class="hero is-medium is-primary is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
-            <div class="column is-narrow">
+            <div class="column is-narrow py-0">
               <figure class="image is-48x48">
                 <img
                   class="has-glow is-rounded"
@@ -19,7 +19,7 @@
                 />
               </figure>
             </div>
-            <div class="column">
+            <div class="column ml-2">
               <h1 class="title is-1">Leaderboard</h1>
             </div>
           </div>

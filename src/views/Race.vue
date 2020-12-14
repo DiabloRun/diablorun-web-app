@@ -2,7 +2,7 @@
   <div v-if="race.id">
     <div v-if="!streamOverlay && !isPopup">
       <!-- Hero  -->
-      <section class="hero is-primary is-bold">
+      <section class="hero is-medium is-primary is-bold">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-vcentered is-multiline is-mobile">
