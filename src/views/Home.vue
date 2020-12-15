@@ -14,7 +14,7 @@
                 project for Diablo enthusiasts
               </h1>
             </div>
-            <div class="column is-narrow py-0">
+            <div class="column is-narrow">
               <router-link :to="{ name: 'Setup' }">
                 <button
                   class="button is-outlined is-primary is-inverted has-glow-dark"
