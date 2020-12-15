@@ -183,7 +183,7 @@
                 >
                 by Slimo
               </td>
-              <td class="is-narrow">November 20, 2020</td>
+              <td class="is-narrow">November 20, 2019</td>
             </tr>
             <tr>
               <td>
@@ -192,7 +192,7 @@
                 >
                 by Indrek
               </td>
-              <td class="is-narrow">November 25, 2020</td>
+              <td class="is-narrow">November 25, 2019</td>
             </tr>
             <tr class="has-text-centered has-text-grey is-size-7">
               <td colspan="3">Jail leveling discovered</td>
