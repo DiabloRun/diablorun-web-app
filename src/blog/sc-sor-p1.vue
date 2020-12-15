@@ -6,252 +6,49 @@
         <table class="table is-fullwidth is-striped is-hoverable">
           <thead>
             <tr>
-              <th>Time</th>
-              <th class="is-narrow">Date</th>
+              <th>Date</th>
+              <th>Run</th>
+              <th>Note</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-for="collection of collections" :key="collection.label">
             <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/42390070" target="_blank"
-                  >01:51:23</a
-                >
-                by Nightfall
-              </td>
-              <td class="is-narrow">December 14, 2014</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/42247167" target="_blank"
-                  >01:41:58</a
-                >
-                by Nightfall
-              </td>
-              <td class="is-narrow">January 3, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/14192656" target="_blank"
-                  >01:30:53</a
-                >
-                by MrLlamaSC
-              </td>
-              <td class="is-narrow">September 3, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/14343261" target="_blank"
-                  >01:29:22</a
-                >
-                by MrLlamaSC
-              </td>
-              <td class="is-narrow">September 4, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/16478781" target="_blank"
-                  >01:25:33</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">September 17, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/16629398" target="_blank"
-                  >01:25:27</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">September 18, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/S-aFlizZ25s" target="_blank"
-                  >01:24:27</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">September 21, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/e0vqIRM_F-w" target="_blank"
-                  >01:20:39</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">September 23, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/lp4d7GvNVvY" target="_blank"
-                  >01:20:06</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">December 28, 2015</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/kF3GQZo9gtU" target="_blank"
-                  >01:19:09</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">January 11, 2016</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/235356830" target="_blank"
-                  >01:17:53</a
-                >
-                by MrLlamaSC
-              </td>
-              <td class="is-narrow">March 4, 2018</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/CW1EjhcGey0" target="_blank"
-                  >01:16:14</a
-                >
-                by MrLlamaSC
-              </td>
-              <td class="is-narrow">May 11, 2018</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/F7X3I5rgv_g" target="_blank"
-                  >01:12:39</a
-                >
-                by Slimo
-              </td>
-              <td class="is-narrow">May 15, 2018</td>
-            </tr>
-            <tr class="has-text-centered has-text-grey is-size-7">
-              <td colspan="3">Beetleburst leveling era</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/vwtf9yqn00k" target="_blank"
-                  >01:10:56</a
-                >
-                by Laggzor
-              </td>
-              <td class="is-narrow">December 18, 2018</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://www.twitch.tv/videos/390216252" target="_blank"
-                  >01:10:31</a
-                >
-                by Indrek
-              </td>
-              <td class="is-narrow">March 4, 2019</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/i5CapjxE3uw" target="_blank"
-                  >01:10:10</a
-                >
-                by MrLlamaSC
-              </td>
-              <td class="is-narrow">March 15, 2019</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/ANOj3C3DOo8" target="_blank"
-                  >01:09:09</a
-                >
-                by Teo1904
-              </td>
-              <td class="is-narrow">March 16, 2019</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/2OEw3mykHtM" target="_blank"
-                  >01:07:54</a
-                >
-                by Indrek
-              </td>
-              <td class="is-narrow">March 18, 2019</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/cFLpveoZaZI" target="_blank"
-                  >01:06:38</a
-                >
-                by Slimo
-              </td>
-              <td class="is-narrow">November 20, 2019</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/nWVZKbhGXfQ" target="_blank"
-                  >01:04:44</a
-                >
-                by Indrek
-              </td>
-              <td class="is-narrow">November 25, 2019</td>
-            </tr>
-            <tr class="has-text-centered has-text-grey is-size-7">
-              <td colspan="3">Jail leveling discovered</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/7rrnC2TBUx4" target="_blank"
-                  >01:02:57</a
-                >
-                by Indrek
-              </td>
-              <td class="is-narrow">April 30, 2020</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/zVhcVoOEv7o" target="_blank"
-                  >01:00:40</a
-                >
-                by Indrek
-              </td>
-              <td class="is-narrow">May 5, 2020</td>
-            </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/FRXocsVUfWU" target="_blank"
-                  >00:59:29</a
-                >
-                by Slimo <span class="tag is-light">-ns</span>
-              </td>
-              <td class="is-narrow">May 13, 2020</td>
-            </tr>
-            <tr class="has-text-centered has-text-grey is-size-7">
               <td colspan="3">
-                Timing method changed from real time to in-game time in May 30,
-                2020
+                <h1 class="blog subtitle is-size-6 mb-0">
+                  {{ collection.label }}
+                </h1>
               </td>
             </tr>
-            <tr>
-              <td>
-                <a href="https://youtu.be/mQsWRgObOZg" target="_blank"
-                  >00:58:14</a
-                >
-                by Indrek
+            <tr v-for="run of collection.runs" :key="run.time">
+              <td class="has-text-grey">
+                {{ run.date }}
               </td>
-              <td class="is-narrow">June 1, 2020</td>
-            </tr>
-            <tr>
               <td>
-                <a href="https://youtu.be/QhHQw2hlUdg" target="_blank"
-                  >00:57:45</a
+                <a :href="run.link" target="_blank">{{ run.time }}</a>
+                <span class="has-text-grey"> by </span>
+                <router-link
+                  v-if="run.username"
+                  :to="{
+                    name: 'User',
+                    params: { user_name: run.username }
+                  }"
+                  >{{ run.runner }}</router-link
                 >
-                by 327
+                <span v-if="!run.username">
+                  {{ run.runner }}
+                </span>
               </td>
-              <td class="is-narrow">November 19, 2020</td>
+              <td>
+                {{ run.note }}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="column">
+        <div class="box">
+          <Chart :options="historyChart"></Chart>
+        </div>
         <div class="box">
           <h1 class="blog subtitle">World record is 57:45 by 327</h1>
           <iframe
@@ -314,8 +111,290 @@
 
 <script>
 import BlogPost from '@/components/BlogPost.vue';
+import Chart from '@/components/Chart.vue';
+import { DurationFilter } from '@/filters';
 
 export default {
-  components: { BlogPost }
+  components: { BlogPost, Chart },
+  data() {
+    const collections = [
+      // old-school
+      {
+        label: 'Old-school era',
+        runs: [
+          {
+            time: '01:51:23',
+            link: 'https://www.twitch.tv/videos/42390070',
+            runner: 'Nightfall',
+            date: 'December 14, 2014',
+            note: 'Oldest available recorded run'
+          },
+          {
+            time: '01:41:58',
+            link: 'https://www.twitch.tv/videos/42247167',
+            runner: 'Nightfall',
+            date: 'January 3, 2015'
+          },
+          {
+            time: '01:30:53',
+            link: 'https://www.twitch.tv/videos/14192656',
+            runner: 'MrLlamaSC',
+            username: 'MrLlamaSC',
+            date: 'September 3, 2015'
+          },
+          {
+            time: '01:29:22',
+            link: 'https://www.twitch.tv/videos/14343261',
+            runner: 'MrLlamaSC',
+            username: 'MrLlamaSC',
+            date: 'September 4, 2015'
+          },
+          {
+            time: '01:25:33',
+            link: 'https://www.twitch.tv/videos/16478781',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'September 17, 2015'
+          },
+          {
+            time: '01:25:27',
+            link: 'https://www.twitch.tv/videos/16629398',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'September 18, 2015'
+          },
+          {
+            time: '01:24:27',
+            link: 'https://youtu.be/S-aFlizZ25s',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'September 21, 2015'
+          },
+          {
+            time: '01:20:39',
+            link: 'https://youtu.be/e0vqIRM_F-w',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'September 23, 2015'
+          },
+          {
+            time: '01:20:06',
+            link: 'https://youtu.be/lp4d7GvNVvY',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'September 28, 2015'
+          },
+          {
+            time: '01:19:09',
+            link: 'https://youtu.be/kF3GQZo9gtU',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'January 11, 2016'
+          },
+          {
+            time: '01:17:53',
+            link: 'https://www.twitch.tv/videos/235356830',
+            runner: 'MrLlamaSC',
+            username: 'MrLlamaSC',
+            date: 'March 4, 2018'
+          },
+          {
+            time: '01:16:14',
+            link: 'https://youtu.be/CW1EjhcGey0',
+            runner: 'MrLlamaSC',
+            username: 'MrLlamaSC',
+            date: 'May 11, 2018'
+          },
+          {
+            time: '01:12:39',
+            link: 'https://youtu.be/F7X3I5rgv_g',
+            runner: 'Slimo',
+            date: 'May 15, 2018'
+          }
+        ]
+      },
+      // Beetleburst leveling era
+      {
+        label: 'Beetleburst leveling era',
+        runs: [
+          {
+            time: '01:10:56',
+            link: 'https://youtu.be/vwtf9yqn00k',
+            runner: 'Laggzor',
+            username: 'Laggzor',
+            date: 'December 18, 2018'
+          },
+          {
+            time: '01:10:31',
+            link: 'https://www.twitch.tv/videos/390216252',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'March 4, 2019'
+          },
+          {
+            time: '01:10:10',
+            link: 'https://youtu.be/i5CapjxE3uw',
+            runner: 'MrLlamaSC',
+            username: 'MrLlamaSC',
+            date: 'March 15, 2019'
+          },
+          {
+            time: '01:09:09',
+            link: 'https://youtu.be/ANOj3C3DOo8',
+            runner: 'Teo1904',
+            username: 'Teo1904',
+            date: 'March 15, 2019'
+          },
+          {
+            time: '01:07:54',
+            link: 'https://youtu.be/2OEw3mykHtM',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'March 18, 2019'
+          },
+          {
+            time: '01:06:38',
+            link: 'https://youtu.be/cFLpveoZaZI',
+            runner: 'Slimo',
+            date: 'November 20, 2019'
+          },
+          {
+            time: '01:04:44',
+            link: 'https://youtu.be/nWVZKbhGXfQ',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'November 25, 2019'
+          }
+        ]
+      },
+      // Jail era
+      {
+        label: 'Jail leveling era',
+        runs: [
+          {
+            time: '01:02:57',
+            link: 'https://youtu.be/7rrnC2TBUx4',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'April 30, 2020'
+          },
+          {
+            time: '01:00:40',
+            link: 'https://youtu.be/zVhcVoOEv7o',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'May 5, 2020'
+          },
+          {
+            time: '00:59:29',
+            link: 'https://youtu.be/FRXocsVUfWU',
+            runner: 'Slimo',
+            date: 'May 13, 2020',
+            note: 'Used -ns which is now banned'
+          }
+        ]
+      },
+      // Timing Method
+      {
+        label:
+          'Timing method changed from real time to in-game time in May 30, 2020',
+        runs: [
+          {
+            time: '00:58:14',
+            link: 'https://youtu.be/mQsWRgObOZg',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'June 1, 2020'
+          },
+          {
+            time: '00:57:45',
+            link: 'https://youtu.be/QhHQw2hlUdg',
+            runner: '327',
+            username: '327__',
+            date: 'November 19, 2020'
+          }
+        ]
+      }
+    ];
+
+    const data = [];
+
+    for (const collection of collections) {
+      for (const run of collection.runs) {
+        const splitTime = run.time.split(':');
+        const runSeconds =
+          +splitTime[0] * 60 * 60 + +splitTime[1] * 60 + +splitTime[2];
+
+        const runDate = new Date(run.date).getTime();
+
+        data.push({ name: run.runner, x: runDate, y: runSeconds * 1000 });
+      }
+    }
+
+    const historyChart = {
+      chart: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        spacingBottom: 0,
+        spacingTop: 0,
+        spacingLeft: 0,
+        spacingRight: 0
+      },
+      credits: {
+        enabled: false
+      },
+      plotOptions: {
+        series: {
+          color: '#26A69A',
+          allowPointSelect: true,
+          marker: {
+            enabled: true
+          }
+        }
+      },
+      xAxis: {
+        type: 'datetime',
+        lineWidth: 0,
+        tickWidth: 0,
+        labels: {
+          style: {
+            color: '#ccc'
+          }
+        }
+      },
+      yAxis: {
+        type: 'datetime',
+        title: false,
+        gridLineColor: '#303030',
+        labels: {
+          style: {
+            color: '#ccc'
+          }
+        }
+      },
+      tooltip: {
+        pointFormatter: function() {
+          return DurationFilter(this.y / 1000);
+        }
+      },
+      title: {
+        text: 'World record progression',
+        style: {
+          color: '#eee',
+          size: '30px'
+        }
+      },
+      series: [
+        {
+          showInLegend: false,
+          data
+        }
+      ]
+    };
+
+    return {
+      collections,
+      historyChart
+    };
+  }
 };
 </script>

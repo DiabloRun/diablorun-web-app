@@ -3,6 +3,10 @@
 @import "~bulma/bulma";
 @import "~bulma-tooltip/dist/css/bulma-tooltip.min.css";
 
+.highcharts-root {
+	font-family: $body-family !important;
+}
+
 body, html {
   background-color: $black;
   color: #efeff0;
