@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Highcharts from 'highcharts'
-import exportingInit from 'highcharts/modules/exporting'
+import Highcharts from 'highcharts';
+import exportingInit from 'highcharts/modules/exporting';
 
-exportingInit(Highcharts)
+exportingInit(Highcharts);
 
 export default {
-  props: ['options'],
+  props: ['options']
 };
 </script>

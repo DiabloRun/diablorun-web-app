@@ -46,7 +46,7 @@
         </table>
       </div>
       <div class="column">
-                <div class="box">
+        <div class="box">
           <Chart :options="historyChart"></Chart>
         </div>
         <div class="box">
@@ -372,7 +372,7 @@ export default {
         }
       },
       tooltip: {
-        pointFormatter: function () {
+        pointFormatter: function() {
           return DurationFilter(this.y / 1000);
         }
       },
