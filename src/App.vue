@@ -106,19 +106,6 @@
                 <a class="navbar-item" @click="signOut()"> Log out </a>
               </div>
             </div>
-            <div v-if="user.profile_image_url" class="mt-2 px-3">
-              <router-link
-                :to="{ name: 'User', params: { user_name: user.name } }"
-                @click.native="showUserMenu = false"
-              >
-                <figure class="image is-32x32">
-                  <img
-                    :src="user.profile_image_url"
-                    class="is-rounded has-glow"
-                  />
-                </figure>
-              </router-link>
-            </div>
           </div>
         </div>
       </div>
