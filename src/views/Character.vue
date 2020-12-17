@@ -57,7 +57,7 @@
               <!-- Globes -->
               <div class="columns is-mobile is-centered">
                 <div
-                  class="column is-4-mobile is-3-tablet"
+                  class="column is-4-mobile is-3-tablet has-tooltip-bottom"
                   v-if="character.life !== null"
                   data-tooltip="Life"
                 >
@@ -74,7 +74,7 @@
                 </div>
                 <div class="column is-narrow px-0">
                   <div
-                    class="column is-narrow has-tooltip-top"
+                    class="column is-narrow has-tooltip-bottom"
                     :data-tooltip="
                       'Toggle ' + character.user_name + ' Twitch stream'
                     "
@@ -87,7 +87,7 @@
                   </div>
                 </div>
                 <div
-                  class="column is-4-mobile is-3-tablet"
+                  class="column is-4-mobile is-3-tablet has-tooltip-bottom"
                   v-if="character.life !== null"
                   data-tooltip="Mana"
                 >
@@ -174,7 +174,7 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">
                     <span class="is-hidden-touch">Players set to</span>
-                    <span class="is-hidden-desktop">Players</span>
+                    <span class="is-hidden-desktop">P</span>
                   </span>
                   <span class="tag is-light">{{ character.players }}</span>
                 </div>
@@ -209,6 +209,15 @@
                     <span class="is-hidden-desktop">MF</span>
                   </span>
                   <span class="tag is-light">{{ character.mf }}%</span>
+                </div>
+              </div>
+              <!-- Playtime -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">Playtime</span>
+                  <span class="tag is-light">
+                    {{ character.seconds_played | DurationFilter }}</span
+                  >
                 </div>
               </div>
             </div>

@@ -117,6 +117,7 @@
         <table class="table is-narrow is-fullwidth is-striped is-hoverable">
           <thead>
             <tr>
+              <th>Level</th>
               <th>Name</th>
               <th>Hero</th>
               <th>Core</th>
@@ -128,6 +129,9 @@
           </thead>
           <tbody>
             <tr v-for="character of characters" :key="character.id">
+              <td class="is-narrow has-text-centered">
+                {{ character.level }}
+              </td>
               <td>
                 <router-link
                   :to="
