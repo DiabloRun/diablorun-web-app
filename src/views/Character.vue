@@ -174,7 +174,7 @@
                 <div class="tags has-addons">
                   <span class="tag is-dark">
                     <span class="is-hidden-touch">Players set to</span>
-                    <span class="is-hidden-desktop">Players</span>
+                    <span class="is-hidden-desktop">P</span>
                   </span>
                   <span class="tag is-light">{{ character.players }}</span>
                 </div>
@@ -209,6 +209,15 @@
                     <span class="is-hidden-desktop">MF</span>
                   </span>
                   <span class="tag is-light">{{ character.mf }}%</span>
+                </div>
+              </div>
+              <!-- Playtime -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">Playtime</span>
+                  <span class="tag is-light">
+                    {{ character.seconds_played | DurationFilter }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -792,8 +801,8 @@ export default {
   },
   computed: {
     ...mapState({
-      character: state => state.ws.character,
-      streamOverlay: state => state.app.windowStyle === 'overlay'
+      character: (state) => state.ws.character,
+      streamOverlay: (state) => state.app.windowStyle === 'overlay'
     })
   },
   watch: {
