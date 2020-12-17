@@ -394,7 +394,7 @@
                 />
                 <div
                   v-if="!character.primary_left"
-                  class="card has-round-corners"
+                  class="card has-no-border-radius"
                 >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Primary left</p>
@@ -403,7 +403,7 @@
               </div>
               <div class="column is-4-widescreen is-6-tablet">
                 <CharacterItem v-if="character.head" :item="character.head" />
-                <div v-if="!character.head" class="card has-round-corners">
+                <div v-if="!character.head" class="card has-no-border-radius">
                   <div class="card-content equipment">
                     <p class="has-text-grey">Helm</p>
                   </div>
@@ -416,7 +416,7 @@
                 />
                 <div
                   v-if="!character.primary_right"
-                  class="card has-round-corners"
+                  class="card has-no-border-radius"
                 >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Primary right</p>
@@ -430,7 +430,7 @@
                 />
                 <div
                   v-if="!character.secondary_left"
-                  class="card has-round-corners"
+                  class="card has-no-border-radius"
                 >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Secondary left</p>
@@ -444,7 +444,7 @@
                 />
                 <div
                   v-if="!character.body_armor"
-                  class="card has-round-corners"
+                  class="card has-no-border-radius"
                 >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Armor</p>
@@ -458,7 +458,7 @@
                 />
                 <div
                   v-if="!character.secondary_right"
-                  class="card has-round-corners"
+                  class="card has-no-border-radius"
                 >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Secondary right</p>
@@ -470,7 +470,7 @@
                   v-if="character.gloves"
                   :item="character.gloves"
                 />
-                <div v-if="!character.gloves" class="card has-round-corners">
+                <div v-if="!character.gloves" class="card has-no-border-radius">
                   <div class="card-content equipment">
                     <p class="has-text-grey">Gloves</p>
                   </div>
@@ -478,7 +478,7 @@
               </div>
               <div class="column is-4-widescreen is-6-tablet">
                 <CharacterItem v-if="character.belt" :item="character.belt" />
-                <div v-if="!character.belt" class="card has-round-corners">
+                <div v-if="!character.belt" class="card has-no-border-radius">
                   <div class="card-content equipment">
                     <p class="has-text-grey">Belt</p>
                   </div>
@@ -486,7 +486,7 @@
               </div>
               <div class="column is-4-widescreen is-6-tablet">
                 <CharacterItem v-if="character.boots" :item="character.boots" />
-                <div v-if="!character.boots" class="card has-round-corners">
+                <div v-if="!character.boots" class="card has-no-border-radius">
                   <div class="card-content equipment">
                     <p class="has-text-grey">Boots</p>
                   </div>
@@ -497,7 +497,7 @@
                   v-if="character.ring_left"
                   :item="character.ring_left"
                 />
-                <div v-if="!character.ring_left" class="card has-round-corners">
+                <div v-if="!character.ring_left" class="card has-no-border-radius">
                   <div class="card-content equipment">
                     <p class="has-text-grey">Left ring</p>
                   </div>
@@ -508,7 +508,7 @@
                   v-if="character.amulet"
                   :item="character.amulet"
                 />
-                <div v-if="!character.amulet" class="card has-round-corners">
+                <div v-if="!character.amulet" class="card has-no-border-radius">
                   <div class="card-content equipment">
                     <p class="has-text-grey">Amulet</p>
                   </div>
@@ -521,7 +521,7 @@
                 />
                 <div
                   v-if="!character.ring_right"
-                  class="card has-round-corners"
+                  class="card has-no-border-radius"
                 >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Right ring</p>
@@ -572,7 +572,7 @@
             />
             <div
               v-if="!character.hireling_primary_left"
-              class="card has-round-corners"
+              class="card has-no-border-radius"
             >
               <div class="card-content equipment">
                 <p class="has-text-grey">Primary left</p>
@@ -584,7 +584,7 @@
               v-if="character.hireling_head"
               :item="character.hireling_head"
             />
-            <div v-if="!character.hireling_head" class="card has-round-corners">
+            <div v-if="!character.hireling_head" class="card has-no-border-radius">
               <div class="card-content equipment">
                 <p class="has-text-grey">Head</p>
               </div>
@@ -597,7 +597,7 @@
             />
             <div
               v-if="!character.hireling_body_armor"
-              class="card has-round-corners"
+              class="card has-no-border-radius"
             >
               <div class="card-content equipment">
                 <p class="has-text-grey">Armor</p>
