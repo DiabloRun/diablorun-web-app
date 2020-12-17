@@ -49,9 +49,7 @@
                   >
                     <figure class="image is-48x48">
                       <Icon
-                        :imgClass="
-                          `has-glow-${latestCharacter.hero} is-rounded`
-                        "
+                        :imgClass="`has-glow-${latestCharacter.hero} is-rounded`"
                         :name="`big-${latestCharacter.hero}`"
                       />
                     </figure>
@@ -117,6 +115,7 @@
         <table class="table is-narrow is-fullwidth is-striped is-hoverable">
           <thead>
             <tr>
+              <th>Level</th>
               <th>Name</th>
               <th>Hero</th>
               <th>Core</th>
@@ -128,20 +127,19 @@
           </thead>
           <tbody>
             <tr v-for="character of characters" :key="character.id">
+              <td class="is-narrow has-text-centered">
+                {{ character.level }}
+              </td>
               <td>
                 <router-link
-                  :to="
-                    `/${character.user_name}/${character.name}${character.id}`
-                  "
+                  :to="`/${character.user_name}/${character.name}${character.id}`"
                 >
                   {{ character.name }}
                 </router-link>
               </td>
               <td>
                 <span
-                  :class="
-                    `is-hidden-desktop has-text-capitalized ${character.hero}`
-                  "
+                  :class="`is-hidden-desktop has-text-capitalized ${character.hero}`"
                   >{{ character.hero }}
                 </span>
                 <span :class="`is-hidden-touch ${character.hero}`">
@@ -353,7 +351,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: state => state.ws.character
+      latestCharacter: (state) => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -455,7 +453,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter(c => c !== character);
+        this.characters = this.characters.filter((c) => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();
