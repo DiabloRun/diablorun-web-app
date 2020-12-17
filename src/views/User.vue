@@ -227,7 +227,7 @@
           </thead>
           <tbody>
             <tr v-for="run of speedruns" :key="run.id">
-              <td class="has-text-grey has-text-centered">
+              <td class="is-narrow has-text-grey has-text-centered">
                 <span :class="`rank-${run.category_rank}`">
                   {{ run.category_rank }}
                 </span>
@@ -239,7 +239,7 @@
                   </a>
                 </span>
               </td>
-              <td class="is-narrow">
+              <td class="is-narrow has-text-capitalized">
                 <router-link
                   :to="{
                     name: 'Leaderboard',

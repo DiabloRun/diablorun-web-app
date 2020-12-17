@@ -102,7 +102,7 @@
                       }"
                     >
                       {{ run.category_name }}
-                      <span :class="`is-hidden-touch has-hero ${run.hero}`">
+                      <span :class="`has-hero ${run.hero}`">
                         {{ run.hero }}
                       </span>
                       <span v-if="!run.hc"> SC</span>
@@ -202,7 +202,7 @@
                       }"
                     >
                       {{ run.category_name }}
-                      <span :class="`is-hidden-touch has-hero ${run.hero}`">
+                      <span :class="`has-hero ${run.hero}`">
                         {{ run.hero }}
                       </span>
                       <span v-if="!run.hc"> SC</span>
