@@ -497,7 +497,10 @@
                   v-if="character.ring_left"
                   :item="character.ring_left"
                 />
-                <div v-if="!character.ring_left" class="card has-no-border-radius">
+                <div
+                  v-if="!character.ring_left"
+                  class="card has-no-border-radius"
+                >
                   <div class="card-content equipment">
                     <p class="has-text-grey">Left ring</p>
                   </div>
@@ -584,7 +587,10 @@
               v-if="character.hireling_head"
               :item="character.hireling_head"
             />
-            <div v-if="!character.hireling_head" class="card has-no-border-radius">
+            <div
+              v-if="!character.hireling_head"
+              class="card has-no-border-radius"
+            >
               <div class="card-content equipment">
                 <p class="has-text-grey">Head</p>
               </div>
