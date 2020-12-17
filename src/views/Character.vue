@@ -651,22 +651,24 @@
     </section>
     <!-- #overlay for streaming -->
     <section class="section" v-if="streamOverlay">
-      <div class="columns is-mobile is-gapless is-multiline streamoverlay">
+      <div class="columns is-gapless is-mobile is-multiline">
         <!-- Level -->
         <div class="column is-full">
           <div class="columns is-mobile is-vcentered">
             <div class="column">
-              <p :class="`${character.hero} title`">{{ character.name }}</p>
+              <p :class="`${character.hero} title mb-2`">
+                {{ character.name }}
+              </p>
             </div>
             <div class="column is-narrow">
-              <p class="title">
-                <span class="has-light-text-fade">Level</span>
+              <p class="title mb-2">
+                <span class="has-text-grey">Level</span>
                 {{ character.level }}
               </p>
             </div>
             <div class="column is-narrow">
-              <p class="title">
-                <span class="has-light-text-fade">Players</span>
+              <p class="title mb-2">
+                <span class="has-text-grey">Players</span>
                 {{ character.players }}
               </p>
             </div>
@@ -674,75 +676,79 @@
         </div>
         <div class="column">
           <!-- Resistances -->
-          <div class="columns is-mobile has-tiny-margin-top">
-            <div class="column is-narrow has-light-text-fade">
-              <p class="title">FIRE</p>
-              <p class="title">COLD</p>
-              <p class="title">LIGH</p>
-              <p class="title">POIS</p>
+          <div class="columns is-mobile">
+            <div class="column is-narrow has-text-grey">
+              <p class="title mb-2">FIRE</p>
+              <p class="title mb-2">COLD</p>
+              <p class="title mb-2">LIGH</p>
+              <p class="title mb-2">POIS</p>
             </div>
             <div class="column">
-              <p class="title has-text-warning">{{ character.fire_res }}</p>
-              <p class="title has-text-link">{{ character.cold_res }}</p>
-              <p class="title has-text-danger">{{ character.light_res }}</p>
-              <p class="title has-text-success">{{ character.poison_res }}</p>
+              <p class="title mb-2 has-text-danger">{{ character.fire_res }}</p>
+              <p class="title mb-2 has-text-link">{{ character.cold_res }}</p>
+              <p class="title mb-2 has-text-warning">
+                {{ character.light_res }}
+              </p>
+              <p class="title mb-2 has-text-success">
+                {{ character.poison_res }}
+              </p>
             </div>
           </div>
         </div>
         <div class="column">
           <!-- Attributes -->
-          <div class="columns is-mobile has-tiny-margin-top">
-            <div class="column is-narrow has-light-text-fade">
-              <p class="title">STR</p>
-              <p class="title">DEX</p>
-              <p class="title">VIT</p>
-              <p class="title">ENE</p>
+          <div class="columns is-mobile">
+            <div class="column is-narrow has-text-grey">
+              <p class="title mb-2">STR</p>
+              <p class="title mb-2">DEX</p>
+              <p class="title mb-2">VIT</p>
+              <p class="title mb-2">ENE</p>
             </div>
             <div class="column">
-              <p class="title">{{ character.strength }}</p>
-              <p class="title">{{ character.dexterity }}</p>
-              <p class="title">{{ character.vitality }}</p>
-              <p class="title">{{ character.energy }}</p>
+              <p class="title mb-2">{{ character.strength }}</p>
+              <p class="title mb-2">{{ character.dexterity }}</p>
+              <p class="title mb-2">{{ character.vitality }}</p>
+              <p class="title mb-2">{{ character.energy }}</p>
             </div>
           </div>
         </div>
         <div class="column is-narrow">
           <!-- Speed -->
-          <div class="columns is-mobile has-tiny-margin-top">
-            <div class="column is-narrow has-light-text-fade">
-              <p class="title">FCR</p>
-              <p class="title">FHR</p>
-              <p class="title">FRW</p>
-              <p class="title">IAS</p>
+          <div class="columns is-mobile">
+            <div class="column is-narrow has-text-grey">
+              <p class="title mb-2">FCR</p>
+              <p class="title mb-2">FHR</p>
+              <p class="title mb-2">FRW</p>
+              <p class="title mb-2">IAS</p>
             </div>
             <div class="column">
-              <p class="title">{{ character.fcr }}</p>
-              <p class="title">{{ character.fhr }}</p>
-              <p class="title">{{ character.frw }}</p>
-              <p class="title">{{ character.ias }}</p>
+              <p class="title mb-2">{{ character.fcr }}</p>
+              <p class="title mb-2">{{ character.fhr }}</p>
+              <p class="title mb-2">{{ character.frw }}</p>
+              <p class="title mb-2">{{ character.ias }}</p>
             </div>
           </div>
         </div>
         <!-- Gold -->
         <div class="column is-full">
-          <div class="columns is-mobile has-tiny-margin-top">
+          <div class="columns is-mobile">
             <div class="column">
-              <p v-if="character.hc" class="title has-text-warning">Hardcore</p>
+              <p v-if="character.hc" class="title has-text-danger">Hardcore</p>
               <p v-if="!character.hc" class="title">
                 {{ character.deaths }}
-                <span class="has-light-text-fade">Deaths</span>
+                <span class="has-text-grey">Deaths</span>
               </p>
             </div>
             <div class="column is-narrow">
               <p class="title">
-                <span class="has-text-danger">{{ character.mf }}</span>
-                <span class="has-light-text-fade"> MF</span>
+                <span class="has-text-warning">{{ character.mf }}</span>
+                <span class="has-text-grey"> MF</span>
               </p>
             </div>
             <div class="column is-narrow">
               <p class="title">
-                <span class="has-text-danger">{{ character.gold_total }}</span>
-                <span class="has-light-text-fade"> Gold</span>
+                <span class="has-text-warning">{{ character.gold_total }}</span>
+                <span class="has-text-grey"> Gold</span>
               </p>
             </div>
           </div>

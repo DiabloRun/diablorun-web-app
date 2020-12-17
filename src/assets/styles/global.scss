@@ -3,6 +3,11 @@
 @import "~bulma/bulma";
 @import "~bulma-tooltip/dist/css/bulma-tooltip.min.css";
 
+// Body
+body, html {
+    overflow: auto;
+}
+
 // Hero
 .hero a {
     color: $white;
