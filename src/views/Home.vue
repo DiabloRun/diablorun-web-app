@@ -124,9 +124,9 @@
               <thead>
                 <tr>
                   <th class="has-text-centered is-narrow">#</th>
-                  <th class="">Runner</th>
-                  <th class="">Time</th>
-                  <th class="">Category</th>
+                  <th>Runner</th>
+                  <th>Time</th>
+                  <th>Category</th>
                   <th class="is-hidden-mobile">Submitted</th>
                 </tr>
               </thead>
@@ -137,7 +137,7 @@
                       {{ run.category_rank }}
                     </span>
                   </td>
-                  <td class="">
+                  <td>
                     <span class="has-no-wrap">
                       <a
                         v-if="!run.user_id"
@@ -235,11 +235,94 @@
         </div>
       </div>
     </section>
-    <!-- Latest Article -->
     <section class="section pt-0">
       <div class="container">
-        <div class="columns">
-          <div class="column is-6">
+        <div class="columns is-multiline">
+          <!-- Most medals -->
+          <div class="column is-full is-6-tablet">
+            <h1 class="subtitle">Runners with the most records</h1>
+            <table class="table is-striped is-hoverable is-narrow is-fullwidth">
+              <thead>
+                <tr>
+                  <th class="has-text-centered is-narrow">#</th>
+                  <th>Runner</th>
+                  <th class="has-text-centered">Gold</th>
+                  <th class="has-text-centered">Silver</th>
+                  <th class="has-text-centered">Bronze</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="runner of mostMedals" :key="runner.speedrun_user_id">
+                  <td class="has-text-centered has-text-grey">
+                    <span :class="`rank-${runner.rank}`">
+                      {{ runner.rank }}
+                    </span>
+                  </td>
+                  <td class="">
+                    <span class="has-no-wrap">
+                      <a
+                        v-if="!runner.user_id"
+                        :style="
+                          `color: ${runner.speedrun_user_dark_color_from};`
+                        "
+                        :href="runner.speedrun_user_weblink"
+                        target="_blank"
+                      >
+                        <CountryIcon
+                          imgClass="flag"
+                          :code="runner.speedrun_user_country_code"
+                        />
+                        {{ runner.speedrun_user_name }}
+                      </a>
+                      <router-link
+                        v-if="runner.user_id"
+                        :to="{
+                          name: 'User',
+                          params: { user_name: runner.user_name }
+                        }"
+                        :style="
+                          `color: ${runner.user_color ||
+                            runner.speedrun_user_dark_color_from};`
+                        "
+                      >
+                        <CountryIcon
+                          imgClass="flag"
+                          :code="runner.speedrun_user_country_code"
+                        />
+                        {{ runner.user_name }}
+                      </router-link>
+                    </span>
+                    <span v-if="runner.character_id">
+                      <span class="has-text-grey">as</span>
+                      <router-link
+                        :to="{
+                          name: 'Character',
+                          params: {
+                            user_name: runner.user_name,
+                            character_slug:
+                              runner.character_name + runner.character_id
+                          }
+                        }"
+                      >
+                        {{ runner.character_name }}
+                      </router-link>
+                    </span>
+                  </td>
+                  <td class="rank-1 has-text-centered">
+                    {{ runner.gold }}
+                  </td>
+                  <td class="rank-2 has-text-centered">
+                    {{ runner.silver }}
+                  </td>
+                  <td class="rank-3 has-text-centered">
+                    {{ runner.bronze }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Latest article -->
+          <div class="column is-full is-6-tablet">
             <h1 class="subtitle">Latest article</h1>
             <BlogPostBox :post="latestPost"></BlogPostBox>
             <router-link :to="{ name: 'Blog' }">
@@ -307,7 +390,8 @@ export default {
     return {
       latestSpeedruns: [],
       latestRecords: [],
-      latestPost: blog[0]
+      latestPost: blog[0],
+      mostMedals: []
     };
   },
   async mounted() {
@@ -316,6 +400,7 @@ export default {
     console.log(data);
     this.latestSpeedruns = data.latestSpeedruns;
     this.latestRecords = data.latestRecords;
+    this.mostMedals = data.mostMedals;
   }
 };
 </script>
