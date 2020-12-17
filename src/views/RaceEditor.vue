@@ -2,7 +2,7 @@
   <div class="race-editor" v-if="!loading">
     <fieldset :disabled="start_time || !canEdit">
       <!-- Title -->
-      <section class="hero is-medium is-primary is-bold">
+      <section class="hero is-dark is-bold">
         <div class="hero-body">
           <div class="container">
             <h1 class="title is-1">Race Editor</h1>
@@ -27,44 +27,42 @@
         </div>
       </section>
       <!-- Quick Statistics -->
-      <section class="hero is-dark has-margin-bottom" v-if="canEdit">
-        <div class="hero-body">
-          <div class="container">
-            <div class="columns is-vcentered is-mobile">
-              <div class="column">
-                <button
-                  v-if="dirty"
-                  class="button is-primary"
-                  :class="{ 'is-loading': saving }"
-                  @click="save()"
-                >
-                  Save changes
-                </button>
-                <button v-if="!dirty" class="button is-primary">
-                  No changes since saving
-                </button>
-              </div>
-              <div class="column is-narrow">
-                <p v-if="token && !start_time">
-                  <RaceCountdown
-                    ref="countdown"
-                    :start="start_time"
-                    :finish="finish_time"
-                  />
-                </p>
-              </div>
-              <div v-if="token && !start_time" class="column is-narrow">
-                <button
-                  v-if="canHost"
-                  class="button is-primary"
-                  @click="startCountdown()"
-                >
-                  Start race countdown from 10s
-                </button>
-                <button v-if="!canHost" class="button is-primary">
-                  Only Patreons supporting with at least 10€ can host races
-                </button>
-              </div>
+      <section class="section pb-0" v-if="canEdit">
+        <div class="container">
+          <div class="columns is-vcentered is-mobile">
+            <div class="column">
+              <button
+                v-if="dirty"
+                class="button is-primary"
+                :class="{ 'is-loading': saving }"
+                @click="save()"
+              >
+                Save changes
+              </button>
+              <button v-if="!dirty" class="button is-primary">
+                No changes since saving
+              </button>
+            </div>
+            <div class="column is-narrow">
+              <p v-if="token && !start_time">
+                <RaceCountdown
+                  ref="countdown"
+                  :start="start_time"
+                  :finish="finish_time"
+                />
+              </p>
+            </div>
+            <div v-if="token && !start_time" class="column is-narrow">
+              <button
+                v-if="canHost"
+                class="button is-primary"
+                @click="startCountdown()"
+              >
+                Start race countdown from 10s
+              </button>
+              <button v-if="!canHost" class="button is-primary">
+                Only Patreons supporting with at least 10€ can host races
+              </button>
             </div>
           </div>
         </div>
@@ -195,8 +193,9 @@
                         v-for="hero of heroes"
                         :key="hero.id"
                         :value="hero.id"
-                        >{{ hero.name }}</option
                       >
+                        {{ hero.name }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -205,7 +204,7 @@
           </div>
         </div>
       </section>
-      <section class="section">
+      <section class="section pt-0">
         <div class="container">
           <!-- Points -->
           <div class="box">
@@ -296,15 +295,15 @@
                 <span class="select is-small">
                   <select v-model="point.time_type">
                     <option value="state">by latest state</option>
-                    <option value="max" :disabled="point.type !== 'per'"
-                      >by max value</option
-                    >
-                    <option value="in_under" :disabled="point.type === 'per'"
-                      >in under</option
-                    >
-                    <option value="first" :disabled="point.type === 'per'"
-                      >for first claimed</option
-                    >
+                    <option value="max" :disabled="point.type !== 'per'">
+                      by max value
+                    </option>
+                    <option value="in_under" :disabled="point.type === 'per'">
+                      in under
+                    </option>
+                    <option value="first" :disabled="point.type === 'per'">
+                      for first claimed
+                    </option>
                   </select>
                 </span>
               </p>
@@ -446,7 +445,7 @@
           </div>
         </div>
       </section>
-      <section class="section" v-if="canEdit">
+      <section class="section pt-0" v-if="canEdit">
         <div class="container">
           <button
             v-if="dirty"
@@ -478,26 +477,26 @@ export default {
     DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map(id => ({
+    const statsList = Object.keys(stats).map((id) => ({
       id,
       name: stats[id]
     }));
 
-    const questsList = Object.keys(quests).map(id => ({
+    const questsList = Object.keys(quests).map((id) => ({
       id,
       ...quests[id]
     }));
 
     const acts = [
-      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
-      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
+      { name: 'Act I', quests: questsList.filter((quest) => quest.act === 1) },
+      { name: 'Act II', quests: questsList.filter((quest) => quest.act === 2) },
       {
         name: 'Act III',
-        quests: questsList.filter(quest => quest.act === 3)
+        quests: questsList.filter((quest) => quest.act === 3)
       },
-      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
-      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
-      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
+      { name: 'Act IV', quests: questsList.filter((quest) => quest.act === 4) },
+      { name: 'Act V', quests: questsList.filter((quest) => quest.act === 5) },
+      { name: 'Other', quests: questsList.filter((quest) => quest.act === 0) }
     ];
 
     for (const act of acts) {
@@ -520,7 +519,7 @@ export default {
         slug: '',
         description: '',
         entry_new_character: true,
-        entry_hero: heroes.map(hero => hero.id),
+        entry_hero: heroes.map((hero) => hero.id),
         entry_classic: false,
         entry_hc: false,
         entry_players: 'p1',
@@ -554,10 +553,10 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: state => {
+      canEdit: (state) => {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
-      canHost: state => {
+      canHost: (state) => {
         return (
           !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
         );
@@ -588,9 +587,9 @@ export default {
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter(rule => rule.context === 'points'),
+      points: rules.filter((rule) => rule.context === 'points'),
       finish_conditions: rules.filter(
-        rule => rule.context === 'finish_conditions'
+        (rule) => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };

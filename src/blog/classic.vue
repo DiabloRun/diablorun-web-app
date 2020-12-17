@@ -1,6 +1,5 @@
 <template>
   <BlogPost>
-    <h1 class="title is-2">What's a classic character?</h1>
     <div class="columns">
       <div class="column is-7">
         <div class="box">
@@ -42,7 +41,7 @@
           <p class="mt-3">
             Examples of how runners have used classic strategy in speedruns:
           </p>
-          <table class="table is-fullwidth is-striped is-bordered mt-4">
+          <table class="table is-fullwidth is-narrow is-bordered is-striped mt-4">
             <thead>
               <tr>
                 <th>Category</th>
@@ -133,8 +132,8 @@
       </div>
       <div class="column">
         <div class="box">
-          <h1 class="blog subtitle">Classic vs Expansion</h1>
-          <table class="table is-fullwidth is-striped is-hoverable mt-4">
+          <h1 class="subtitle">Classic vs Expansion</h1>
+          <table class="table is-fullwidth is-bordered is-striped is-narrow">
             <thead>
               <tr>
                 <th>Feature</th>
@@ -163,52 +162,52 @@
               <tr>
                 <td>Mercenaries</td>
                 <td><span class="tag is-light">Limited</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Weapon swap</td>
                 <td><span class="tag is-light">No</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Cube recipes</td>
                 <td><span class="tag is-light">Limited</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Crafted items</td>
                 <td><span class="tag is-light">No</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Runewords</td>
                 <td><span class="tag is-light">No</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Gems</td>
-                <td><span class="tag is-info">Yes</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Jewels</td>
                 <td><span class="tag is-light">No</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Charms</td>
                 <td><span class="tag is-light">No</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Akara reset</td>
-                <td><span class="tag is-info">Yes</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
               <tr>
                 <td>Act 5</td>
                 <td><span class="tag is-light">No</span></td>
-                <td><span class="tag is-info">Yes</span></td>
+                <td><span class="tag is-primary">Yes</span></td>
               </tr>
             </tbody>
           </table>

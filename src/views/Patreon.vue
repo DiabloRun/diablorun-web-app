@@ -1,28 +1,16 @@
 <template>
   <div class="profile">
     <!-- Hero  -->
-    <section class="hero is-primary is-medium is-bold">
+    <section class="hero is-dark is-medium is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column">
-              <h1 class="title is-1">Patreon</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Toolbar -->
-    <section class="hero is-dark has-margin-bottom has-hero-link">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-multiline is-mobile">
-            <div class="column">
-              <h1 class="subtitle is-4">
+              <h1 class="title">
                 Visit
-                <a href="https://www.patreon.com/diablorun"
-                  >diablo.run Patreon</a
-                >
+                <a href="https://www.patreon.com/diablorun">
+                  Diablo.run Patreon
+                </a>
                 page
               </h1>
             </div>
@@ -30,58 +18,48 @@
         </div>
       </div>
     </section>
-    <!-- Cards -->
+    <!-- Content -->
     <section class="section" v-if="user">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-6">
-            <div class="card">
-              <header class="card-header">
-                <h1 class="card-header-title">Status</h1>
-              </header>
-              <div class="card-content has-text-centered">
-                <p v-if="user.patreon_id">
-                  Your diablo.run user is linked to Patreon user
-                  <a target="_blank" :href="patreonUserLink">{{
-                    user.patreon_id
-                  }}</a
-                  >.
-                </p>
-                <p v-if="user.patreon_amount_cents">
-                  You have pledged {{ user.patreon_amount_cents / 100 }}€ to
-                  diablo.run.
-                </p>
-                <p v-if="!user.patreon_amount_cents">
-                  You have not made a pledge to diablo.run.
-                </p>
-                <a
-                  v-if="!user.patreon_id"
-                  class="button is-primary"
-                  :href="patreonAuthenticationUrl"
-                  :class="{ 'is-loading': loading }"
-                >
-                  Link your Patreon account
-                </a>
-              </div>
+            <div class="box">
+              <p v-if="user.patreon_id">
+                Your diablo.run user is linked to Patreon user
+                <a target="_blank" :href="patreonUserLink">{{
+                  user.patreon_id
+                }}</a
+                >.
+              </p>
+              <p v-if="user.patreon_amount_cents">
+                You have pledged {{ user.patreon_amount_cents / 100 }}€ to
+                diablo.run.
+              </p>
+              <p v-if="!user.patreon_amount_cents">
+                You have not made a pledge to diablo.run.
+              </p>
+              <a
+                v-if="!user.patreon_id"
+                class="button is-primary"
+                :href="patreonAuthenticationUrl"
+                :class="{ 'is-loading': loading }"
+              >
+                Link your Patreon account
+              </a>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- Cards -->
+    <!-- Sign in required -->
     <section class="section" v-if="!user">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-6">
-            <div class="card">
-              <header class="card-header">
-                <h1 class="card-header-title">
-                  Already have a Twitch account?
-                </h1>
-              </header>
-              <div class="card-content has-text-centered">
-                <p>Please sign in to link your Patreon account.</p>
-              </div>
+            <div class="box has-text-centered">
+              <h1 class="subtitle">
+                Please sign in to link your Patreon account.
+              </h1>
             </div>
           </div>
         </div>
@@ -107,8 +85,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.auth.user,
-      patreonUserLink: state => {
+      user: (state) => state.auth.user,
+      patreonUserLink: (state) => {
         if (state.auth.user && state.auth.user.patreon_id) {
           return `https://www.patreon.com/api/user/${state.auth.user.patreon_id}`;
         }

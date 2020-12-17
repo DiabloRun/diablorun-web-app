@@ -1,31 +1,37 @@
 <template>
   <BlogPost>
-    <h1 class="title is-2">World record history from oldest to newest</h1>
     <div class="columns">
       <div class="column is-7">
-        <table class="table is-fullwidth is-striped is-hoverable">
+        <div class="box">
+          <Chart :options="historyChart"></Chart>
+        </div>
+        <table class="table is-fullwidth is-narrow is-striped is-hoverable">
           <thead>
             <tr>
+              <th>Time</th>
               <th>Date</th>
-              <th>Run</th>
+              <th>Runner</th>
               <th>Note</th>
             </tr>
           </thead>
           <tbody v-for="collection of collections" :key="collection.label">
             <tr>
-              <td colspan="3">
-                <h1 class="blog subtitle is-size-6 mb-0">
+              <td colspan="4">
+                <h1 class="title is-size-6">
                   {{ collection.label }}
                 </h1>
               </td>
             </tr>
             <tr v-for="run of collection.runs" :key="run.time">
-              <td class="has-text-grey">
+              <td class="is-narrow">
+                <span class="is-family-monospace">
+                  <a :href="run.link" target="_blank">{{ run.time }}</a>
+                </span>
+              </td>
+              <td class="has-text-grey is-narrow">
                 {{ run.date }}
               </td>
-              <td>
-                <a :href="run.link" target="_blank">{{ run.time }}</a>
-                <span class="has-text-grey"> by </span>
+              <td class="is-narrow">
                 <router-link
                   v-if="run.username"
                   :to="{
@@ -46,9 +52,6 @@
         </table>
       </div>
       <div class="column">
-        <div class="box">
-          <Chart :options="historyChart"></Chart>
-        </div>
         <div class="box">
           <h1 class="blog subtitle">World record is 57:45 by 327</h1>
           <iframe
@@ -238,7 +241,7 @@ export default {
         }
       },
       tooltip: {
-        pointFormatter: function() {
+        pointFormatter: function () {
           return DurationFilter(this.y / 1000);
         }
       },

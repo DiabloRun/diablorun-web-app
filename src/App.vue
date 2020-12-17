@@ -2,107 +2,122 @@
   <div id="app">
     <nav
       v-if="showHeaderAndFooter"
-      class="navbar is-fixed-top"
+      class="navbar is-fixed-top is-dark has-shadow"
       role="navigation"
       aria-label="main navigation"
     >
-      <div class="navbar-brand">
-        <router-link class="navbar-item" :to="{ name: 'Home' }"
-          ><img src="@/assets/img/logo.png" width="154" height="23"
-        /></router-link>
+      <div class="container">
+        <div class="navbar-brand">
+          <router-link class="navbar-item" :to="{ name: 'Home' }"
+            ><img src="@/assets/img/logo.png" width="154" height="23"
+          /></router-link>
 
-        <a
-          @click="toggleMenu()"
-          :class="{ 'is-active': showMenu }"
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div class="navbar-menu" :class="{ 'is-active': showMenu }">
-        <div class="navbar-start">
-          <router-link
-            @click.native="resetFilters()"
-            exact
-            active-class="is-active"
-            class="navbar-item"
-            :to="{ name: 'Blog' }"
-            >Blog</router-link
+          <a
+            @click="toggleMenu()"
+            :class="{ 'is-active': showMenu }"
+            role="button"
+            class="navbar-burger burger"
+            aria-label="menu"
+            aria-expanded="false"
           >
-          <router-link
-            @click.native="resetFilters()"
-            exact
-            active-class="is-active"
-            class="navbar-item"
-            :to="{ name: 'Leaderboard' }"
-            >Leaderboard</router-link
-          >
-          <router-link
-            active-class="is-active"
-            class="navbar-item"
-            :to="{ name: 'Races' }"
-            >Races</router-link
-          >
-          <router-link
-            active-class="is-active"
-            class="navbar-item"
-            :to="{ name: 'ActiveUsers' }"
-            >Users</router-link
-          >
-        </div>
-        <div class="navbar-end">
-          <a class="navbar-item" v-if="!user" :href="twitchAuthenticationUrl">
-            Sign in with Twitch
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </a>
-          <div
-            v-if="user"
-            class="navbar-item has-dropdown"
-            :class="{ 'is-active': showUserMenu }"
-          >
-            <a class="navbar-link" @click="toggleUserMenu()">
-              {{ user.name }}
-            </a>
+        </div>
 
-            <div class="navbar-dropdown is-right">
+        <div class="navbar-menu" :class="{ 'is-active': showMenu }">
+          <div class="navbar-start">
+            <router-link
+              @click.native="resetFilters()"
+              exact
+              active-class="is-active"
+              class="navbar-item"
+              :to="{ name: 'Blog' }"
+              >Blog</router-link
+            >
+            <router-link
+              @click.native="resetFilters()"
+              exact
+              active-class="is-active"
+              class="navbar-item"
+              :to="{ name: 'Leaderboard' }"
+              >Leaderboard</router-link
+            >
+            <router-link
+              active-class="is-active"
+              class="navbar-item"
+              :to="{ name: 'Races' }"
+              >Races</router-link
+            >
+            <router-link
+              active-class="is-active"
+              class="navbar-item"
+              :to="{ name: 'ActiveUsers' }"
+              >Users</router-link
+            >
+          </div>
+          <div class="navbar-end">
+            <a class="navbar-item" v-if="!user" :href="twitchAuthenticationUrl">
+              Sign in with Twitch
+            </a>
+            <div
+              v-if="user"
+              class="navbar-item has-dropdown"
+              :class="{ 'is-active': showUserMenu }"
+            >
+              <a class="navbar-link" @click="toggleUserMenu()">
+                {{ user.name }}
+              </a>
+
+              <div class="navbar-dropdown is-right">
+                <router-link
+                  active-class="is-active"
+                  class="navbar-item"
+                  :to="{ name: 'User', params: { user_name: user.name } }"
+                  @click.native="showUserMenu = false"
+                >
+                  Profile
+                </router-link>
+                <router-link
+                  active-class="is-active"
+                  class="navbar-item"
+                  :to="{ name: 'Setup' }"
+                  @click.native="showUserMenu = false"
+                >
+                  Setup
+                </router-link>
+                <router-link
+                  active-class="is-active"
+                  class="navbar-item"
+                  :to="{ name: 'RaceEditor', params: { editor_token: 'new' } }"
+                  @click.native="showUserMenu = false"
+                >
+                  Race editor
+                </router-link>
+                <router-link
+                  active-class="is-active"
+                  class="navbar-item"
+                  :to="{ name: 'Patreon' }"
+                  @click.native="showUserMenu = false"
+                >
+                  Patreon
+                </router-link>
+                <a class="navbar-item" @click="signOut()"> Log out </a>
+              </div>
+            </div>
+            <div v-if="user.profile_image_url" class="mt-2 px-3">
               <router-link
-                active-class="is-active"
-                class="navbar-item"
                 :to="{ name: 'User', params: { user_name: user.name } }"
                 @click.native="showUserMenu = false"
               >
-                Profile
+                <figure class="image is-32x32">
+                  <img
+                    :src="user.profile_image_url"
+                    class="is-rounded has-glow"
+                  />
+                </figure>
               </router-link>
-              <router-link
-                active-class="is-active"
-                class="navbar-item"
-                :to="{ name: 'Setup' }"
-                @click.native="showUserMenu = false"
-              >
-                Setup
-              </router-link>
-              <router-link
-                active-class="is-active"
-                class="navbar-item"
-                :to="{ name: 'RaceEditor', params: { editor_token: 'new' } }"
-                @click.native="showUserMenu = false"
-              >
-                Race editor
-              </router-link>
-              <router-link
-                active-class="is-active"
-                class="navbar-item"
-                :to="{ name: 'Patreon' }"
-                @click.native="showUserMenu = false"
-              >
-                Patreon
-              </router-link>
-              <a class="navbar-item" @click="signOut()"> Log out </a>
             </div>
           </div>
         </div>
@@ -168,9 +183,9 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.auth.user,
-      confirmModal: state => state.app.confirmModal,
-      showHeaderAndFooter: state => state.app.windowStyle === 'window'
+      user: (state) => state.auth.user,
+      confirmModal: (state) => state.app.confirmModal,
+      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
     })
   },
   methods: {

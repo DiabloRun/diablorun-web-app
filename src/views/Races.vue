@@ -1,19 +1,18 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-medium is-primary is-bold">
+    <section class="hero is-dark is-bold">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title is-1">Races</h1>
+          <h1 class="title is-1">Race history</h1>
         </div>
       </div>
     </section>
-    <section class="section mt-5">
+    <section class="section">
       <div class="container">
-        <h1 class="title is-2">Race history</h1>
         <div class="columns">
           <div class="column">
-            <table class="table is-fullwidth is-striped">
+            <table class="table is-narrow is-fullwidth is-striped">
               <thead>
                 <tr>
                   <th>Race</th>
@@ -22,13 +21,11 @@
               <tbody>
                 <tr v-for="race of races" :key="race.id">
                   <td>
-                    <p class="subtitle is-5">
                       <router-link
                         :to="{ name: 'Race', params: { slug: race.id } }"
                       >
                         {{ race.name }}
                       </router-link>
-                    </p>
                   </td>
                 </tr>
               </tbody>

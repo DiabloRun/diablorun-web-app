@@ -5,7 +5,7 @@
         class="subtitle is-5"
         :class="{
           'has-text-success': point.amount > 0,
-          'has-text-warning': point.amount < 0
+          'has-text-danger': point.amount < 0
         }"
       >
         {{ point.amount > 0 ? '+' : '' }}{{ point.amount }}

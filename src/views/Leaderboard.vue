@@ -1,42 +1,30 @@
 <template>
   <div>
-    <!-- Hero -->
-    <section class="hero is-medium is-primary is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
-            <div class="column is-narrow py-0">
-              <figure class="image is-48x48">
-                <img
-                  class="has-glow is-rounded"
-                  src="@/assets/img/d2_cover.png"
-                  v-if="!heroFilter"
-                />
-                <Icon
-                  imgClass="has-glow is-rounded"
-                  :name="`big-${heroFilter}`"
-                  v-if="heroFilter"
-                />
-              </figure>
-            </div>
-            <div class="column ml-2">
-              <h1 class="title is-1">Leaderboard</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     <!-- Filters -->
-    <section class="section pb-0 mt-5">
+    <section class="section pb-0">
       <div class="container">
         <div class="columns is-mobile is-vcentered is-multiline">
-          <div class="column is-full-mobile">
-            <h1 class="title is-2">{{ categoryName }}</h1>
+          <div class="column is-narrow py-0">
+            <figure class="image is-48x48">
+              <img
+                class="has-glow is-rounded"
+                src="@/assets/img/d2_cover.png"
+                v-if="!heroFilter"
+              />
+              <Icon
+                :imgClass="`has-glow-${heroFilter} is-rounded`"
+                :name="`big-${heroFilter}`"
+                v-if="heroFilter"
+              />
+            </figure>
           </div>
-          <div class="column is-narrow-tablet">
-            <h1 class="subtitle">
+          <div class="column">
+            <h1 class="subtitle">{{ categoryName }}</h1>
+          </div>
+          <div class="column is-narrow is-hidden-mobile">
+            <p>
               {{ statistics.speedruns }} runs by {{ statistics.users }} runners
-            </h1>
+            </p>
           </div>
           <div class="column is-narrow">
             <button
@@ -95,49 +83,58 @@
     <section class="section" v-if="!runs.length > 0">
       <div class="container">
         <div class="notification is-dark has-text-centered">
-          <h1 class="subtitle">
-            <span class="has-text-danger">{{ categoryName }}</span> category is
-            empty
-          </h1>
+          <p>
+            Selected category is empty
+          </p>
         </div>
       </div>
     </section>
     <!-- Table -->
-    <section class="section" v-if="runs.length > 0">
+    <section class="section mt-0 pt-5" v-if="runs.length > 0">
+      <p class="is-hidden-tablet pb-5">
+        {{ statistics.speedruns }} runs by {{ statistics.users }} runners
+      </p>
       <div class="container">
-        <table class="table is-striped is-hoverable">
+        <table class="table is-striped is-hoverable is-narrow">
           <thead>
             <tr>
-              <th class="has-text-centered has-text-fade px-2">#</th>
-              <th class="px-0">Runner</th>
-              <th class="px-0 has-text-centered">Time</th>
-              <th class="px-0 has-text-centered">Hero</th>
-              <th class="px-0 has-text-centered">Core</th>
-              <th class="px-0 has-text-centered is-hidden-mobile">Players</th>
-              <th class="pl-0 pr-2 has-text-right is-hidden-touch">
-                Submitted
+              <th class="has-text-centered is-narrow">#</th>
+              <th>Runner</th>
+              <th>Time</th>
+              <th>
+                <span class="is-hidden-mobile">Hero</span>
+                <span class="is-hidden-tablet"></span>
               </th>
+              <th>
+                <span class="is-hidden-mobile">Core</span>
+                <span class="is-hidden-tablet"></span>
+              </th>
+              <th>
+                <span class="is-hidden-mobile">Players</span>
+                <span class="is-hidden-tablet"></span>
+              </th>
+              <th class="is-hidden-mobile">Submitted</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(run, index) of runs" :key="run.id">
-              <td class="is-narrow has-text-centered px-2">
-                <p :class="`subtitle is-6 has-text-fade rank-${index + 1}`">
+              <td class="is-narrow has-text-centered has-text-grey">
+                <p :class="`rank-${index + 1}`">
                   {{ index + 1 }}
                 </p>
               </td>
-              <td class="px-0 white-space-normal-mobile width-auto-mobile">
-                <CountryIcon
-                  imgClass="flag"
-                  :code="run.speedrun_user_country_code"
-                />
-                <p class="subtitle is-5 font-size-1-rem-mobile">
+              <td>
+                <span class="has-no-wrap">
                   <a
                     v-if="!run.user_id"
                     :style="`color: ${run.speedrun_user_dark_color_from};`"
                     :href="run.speedrun_user_weblink"
                     target="_blank"
                   >
+                    <CountryIcon
+                      imgClass="flag"
+                      :code="run.speedrun_user_country_code"
+                    />
                     {{ run.speedrun_user_name }}
                   </a>
                   <router-link
@@ -146,67 +143,56 @@
                       name: 'User',
                       params: { user_name: run.user_name }
                     }"
-                    :style="
-                      `color: ${run.user_color ||
-                        run.speedrun_user_dark_color_from};`
-                    "
+                    :style="`color: ${
+                      run.user_color || run.speedrun_user_dark_color_from
+                    };`"
                   >
+                    <CountryIcon
+                      imgClass="flag"
+                      :code="run.speedrun_user_country_code"
+                    />
                     {{ run.user_name }}
                   </router-link>
-                  <span v-if="run.character_id">
-                    <span class="has-text-fade">as</span>
-                    <router-link
-                      :to="{
-                        name: 'Character',
-                        params: {
-                          user_name: run.user_name,
-                          character_slug: run.character_name + run.character_id
-                        }
-                      }"
-                    >
-                      {{ run.character_name }}
-                    </router-link>
-                  </span>
-                </p>
+                </span>
+                <span v-if="run.character_id">
+                  <span class="has-text-grey">as</span>
+                  <router-link
+                    :to="{
+                      name: 'Character',
+                      params: {
+                        user_name: run.user_name,
+                        character_slug: run.character_name + run.character_id
+                      }
+                    }"
+                  >
+                    {{ run.character_name }}
+                  </router-link>
+                </span>
               </td>
-              <td class="px-0 has-text-centered">
-                <p
-                  class="subtitle is-6 white-space-nowrap font-size-1-rem-mobile"
-                >
+              <td>
+                <span class="is-family-monospace">
                   <a :href="run.speedrun_link" target="_blank">
                     {{ run.seconds_played | DurationFilter }}
                   </a>
-                </p>
+                </span>
               </td>
-              <td class="has-text-centered white-space-nowrap">
-                <p class="subtitle is-5 font-size-1-rem-mobile">
-                  <span :class="`is-hidden-touch has-hero ${run.hero}`">
-                    {{ run.hero | HeroNameFilter }}
-                  </span>
-                  <span :class="`is-hidden-desktop has-hero ${run.hero}`">
-                    {{ run.hero }}
-                  </span>
-                </p>
+              <td class="has-text-capitalized">
+                <span :class="`is-hidden-touch has-hero ${run.hero}`">
+                  {{ run.hero | HeroNameFilter }}
+                </span>
+                <span :class="`is-hidden-desktop has-hero ${run.hero}`">
+                  {{ run.hero }}
+                </span>
               </td>
-              <td class="px-0 has-text-centered">
-                <p
-                  class="subtitle is-6 font-size-1-rem-mobile white-space-nowrap"
-                >
-                  <span v-if="!run.hc" class="has-text-grey">SC</span>
-                  <span v-if="run.hc" class="has-text-warning">HC</span>
-                </p>
+              <td>
+                <span v-if="!run.hc">SC</span>
+                <span v-if="run.hc" class="has-text-danger">HC</span>
               </td>
-              <td class="pl-0 pr-1 has-text-centered is-hidden-mobile">
-                <p
-                  class="subtitle is-6 font-size-1-rem-mobile white-space-nowrap"
-                >
-                  {{ run.players_category }}
-                </p>
+              <td class="has-text-capitalized">
+                {{ run.players_category }}
               </td>
-              <td class="pl-0 pr-2 is-narrow is-hidden-touch has-text-right">
-                <p class="subtitle is-6">
-                  {{ run.submit_time | FromNowFilter }}
-                </p>
+              <td class="is-narrow is-hidden-mobile has-text-grey">
+                {{ run.submit_time | FromNowFilter }}
               </td>
             </tr>
           </tbody>
@@ -214,11 +200,11 @@
 
         <button
           v-if="pagination.more"
-          class="button is-primary"
+          class="button is-small is-primary"
           :class="{ 'is-loading': pagination.loading }"
           @click="loadMore()"
         >
-          Load more
+          Load more speedruns
         </button>
       </div>
     </section>
@@ -253,11 +239,11 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: state => state.leaderboard.loading,
-      runs: state => state.leaderboard.runs,
-      statistics: state => state.leaderboard.statistics,
-      pagination: state => state.leaderboard.pagination,
-      heroFilter: state => state.leaderboard.filters.hero
+      loading: (state) => state.leaderboard.loading,
+      runs: (state) => state.leaderboard.runs,
+      statistics: (state) => state.leaderboard.statistics,
+      pagination: (state) => state.leaderboard.pagination,
+      heroFilter: (state) => state.leaderboard.filters.hero
     }),
 
     categoryName() {
