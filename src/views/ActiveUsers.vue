@@ -1,21 +1,16 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-medium is-primary is-bold">
+    <section class="hero is-dark is-bold">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
-            <div class="column">
-              <h1 class="title is-1">Users</h1>
-            </div>
-          </div>
+          <h1 class="title">Currently active players</h1>
         </div>
       </div>
     </section>
     <!-- Userlist -->
     <section class="section mt-5">
       <div class="container">
-        <h1 class="title is-2">Currently active players</h1>
         <div class="columns is-multiline">
           <div
             v-for="user of activeUsers"
@@ -58,8 +53,11 @@
                       >{{ user.user_name }}
                     </router-link>
                   </h2>
-                  <h1 class="subtitle is-5">
-                    Level {{ user.level }} {{ user.hero | HeroNameFilter }}
+                  <h1 class="subtitle is-6">
+                    <span class="has-text-grey">Level {{ user.level }} </span>
+                    <span :class="`has-hero ${user.hero}`">{{
+                      user.hero | HeroNameFilter
+                    }}</span>
                   </h1>
                 </div>
                 <div

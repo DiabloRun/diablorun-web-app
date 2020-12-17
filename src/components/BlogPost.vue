@@ -1,16 +1,16 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-medium is-primary is-bold">
+    <section class="hero is-dark is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column is-full-mobile">
-              <h1 class="title is-1">{{ $route.meta.title }}</h1>
+              <h1 class="title">{{ $route.meta.title }}</h1>
             </div>
             <div class="column is-narrow-desktop has-text-right-tablet">
               <h1 class="subtitle has-hero-link">
-                Published by
+                by
                 <router-link
                   :to="{
                     name: 'User',
@@ -26,7 +26,7 @@
       </div>
     </section>
     <!-- Content -->
-    <section class="section mt-5">
+    <section class="section">
       <div class="container">
         <slot></slot>
       </div>

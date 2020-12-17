@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card has-no-border-radius">
     <div class="card-content equipment">
       <div class="content has-text-centered">
         <div class="columns is-mobile is-centered is-gapless">
@@ -16,7 +16,7 @@
               </span>
             </h1>
             <p
-              class="mb-0 has-text-item"
+              class="mb-0 is-size-7"
               :class="{ 'has-text-warning': property.includes('ÿc1') }"
               v-for="property of properties"
               :key="property"

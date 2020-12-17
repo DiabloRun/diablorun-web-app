@@ -1,113 +1,104 @@
 @import "~bulma/sass/utilities/initial-variables";
 
-$family-sans-serif: "Helvetica", "Arial", sans-serif;
+// Colors
+$white: hsl(0, 0%, 95%);
+$orange: hsl(14, 100%, 39%);
+$yellow: hsl(48, 100%, 45%);
+$gold: hsl(51, 93%, 58%);
+$bronze: hsl(30, 64%, 53%);
+$green: hsl(105, 54%, 45%);
+$turquoise: hsl(171, 100%, 39%);
+$cyan: hsl(204, 71%, 39%);
+$blue: hsl(248, 54%, 80%);
+$blue-lighter: hsl(248, 54%, 84%);
+$purple: hsl(248, 54%, 39%); // Brand primary color
+$purple-neon: #7c4dff;
+$purple-dark: hsl(248, 54%, 20%);
+$red: hsl(0, 53%, 55%);
 
-//Colors
-$light: #2a2a36;
-$lighter: #464659;
-$dark: #1d1d1d;
-$dark-secondary: #212121;
-$dark-blue: #151233;
-$black: #121212;
-$grey: #c9c9c9;
-$dark-grey: #2b2b2b;
-$lightlink: #5c51a0;
-$link: #b2a8f6;
-$primary: #31277c;
-$secondary: #232045;
-$unique: #dcc78c;
+// Heroes
+$sor: #26A69A;
+$nec: #00BCD4;
+$ama: #FFD54F;
+$dru: #FF8A65;
+$asn: #ae4ebe;
+$pal: #E0E0E0;
+$bar: #e57373;
 
-$info: #3f3494;
-$success: #94ef99;
-$warning: #da7171;
-$danger: #efec94;
+// Dark colors that go lighter with each level
+$black: hsl(0, 0%, 3%);
+$black-bis: hsl(0, 0%, 5%);
+$black-ter: hsl(0, 0%, 7%);
+$grey-darker: hsl(0, 0%, 9%);
+$grey-dark: hsl(0, 0%, 12%);
+$grey-lighter: hsl(0, 0%, 19%);
+$grey-er: hsl(0, 0%, 35%);
+$grey: hsl(0, 0%, 70%);
 
-$size-1: 1.5rem;
-$size-2: 1.4rem;
-$size-3: 1.3rem;
-$size-4: 1.2rem;
-$size-5: 1.1rem;
+// Derived colors
+$highlight: $purple-neon;
+$primary: $purple;
+$info: $cyan;
+$success: $green;
+$warning: $yellow;
+$danger: $red;
+$light: $grey-lighter;
+$dark: $grey-dark;
+
+$scheme-main: $grey-dark;
+$scheme-main-bis: $grey-darker;
+$scheme-main-ter: $black-ter;
+$text: $white;
+$text-strong: $white;
+$link: $blue;
+$border: $grey-lighter;
+
+// Body
+$body-background-color: $black;
+$link-hover: $blue-lighter;
+$section-padding: 2rem .75rem;
+$footer-background-color: $black;
+
+// Sizes
+$size-1: 2rem;
+$size-2: 1.75rem;
+$size-3: 1.5rem;
+$size-4: 1.35rem;
+$size-5: 1.25rem;
 $size-6: 1rem;
-$size-7: .85rem;
+$size-7: 0.8rem;
 
-//Table
-$table-color: $white;
-$table-head-cell-color: $white;
-$table-cell-heading-color: $white;
-$table-background-color: $dark;
-$table-striped-row-even-background-color: $dark-secondary;
-$table-head-background-color: $dark-secondary;
-$table-cell-border: 1px solid $dark-grey;
-$table-cell-border-width: 0;
-$table-head-cell-border-width: 0;
-$table-striped-row-even-hover-background-color: $secondary;
-$table-row-hover-background-color: $secondary;
+// Title
+$title-color: $white;
+
+//Navbar
+$navbar-height: 3rem;
+$navbar-box-shadow-size: 0 2px 3px 0px;
+$navbar-box-shadow-color: $black-bis;
+$navbar-dropdown-border-top: 2px solid $link;
+$navbar-item-hover-color: $link;
+$navbar-item-hover-background-color: $grey-lighter;
+$navbar-item-active-color: $link;
+$navbar-item-active-background-color: $dark;
+$navbar-dropdown-item-hover-color: $link;
+$navbar-dropdown-item-hover-background-color: $grey-lighter;
+$navbar-dropdown-item-active-background-color: $grey-lighter;
 
 //Tabs
 $tabs-toggle-link-active-background-color: $primary;
 $tabs-toggle-link-active-style: none;
 $tabs-toggle-link-border-style: none;
-$tabs-toggle-link-hover-background-color: $info;
+$tabs-toggle-link-hover-background-color: $grey-lighter;
 $tabs-link-color: $white;
 $tabs-link-hover-color: $white;
 
-//Nav
-$navbar-background-color: $dark-blue;
-$navbar-item-color: $grey;
-$navbar-item-hover-color: $white;
-$navbar-item-hover-background-color: none;
-$navbar-item-active-color: $white;
-$navbar-item-active-background-color: none;
-$navbar-breakpoint: $tablet;
-$navbar-dropdown-border-top: 2px solid $dark-blue;
-$navbar-dropdown-background-color: $dark-secondary;
-$navbar-dropdown-item-active-background-color: none;
-$navbar-dropdown-item-active-color: $white;
-$navbar-dropdown-item-hover-background-color: $link;
+// Hero
+$hero-body-padding: 2rem .75rem;
+$hero-body-padding-small: .75rem;
+$hero-body-padding-medium: 2rem .75rem;
+$hero-body-padding-large: 9rem .75rem;
 
-//Footer
-$footer-background-color: none;
-$footer-padding: 3rem 3rem 3rem;
-
-//Section
-$section-padding: 1.5rem .75rem;
-
-//Input
-$input-placeholder-color: $black;
-
-//Responsive breakpoints
-$desktop: 1152px + (2 * $gap);
-$widescreen: 1344px + (2 * $gap);
-
-//Titles
-$title-color: $white;
-$title-size: $size-4;
-
-$subtitle-color: $white-ter;
-$subtitle-size: $size-5;
-
-//Hero
-$hero-body-padding: 1rem 1.5rem;
-$hero-body-padding-medium: 1.75rem 1.5rem;
-$hero-body-padding-large: 3rem 1.5rem;
-
-//Card
-$card-background-color: $dark;
-$card-footer-border-top: 1px solid #262626;
-$card-color: $white;
-$card-header-color: $white;
-$card-header-background-color: $dark-secondary;
-$card-footer-background-color: $dark;
-
-//Modal card
-$modal-card-head-background-color: $dark-secondary;
-$modal-card-body-background-color: $dark;
-$modal-card-title-color: $white;
-$modal-card-head-border-bottom: 1px solid #262626;
-$modal-card-foot-border-top: 1px solid #262626;
-
-//Form
-$label-color: $white;
-
-//Radius
-$radius: 4px;
+// Table
+$table-cell-border: 1px solid $border;
+$table-row-hover-background-color: $grey-lighter;
+$table-striped-row-even-hover-background-color: $grey-lighter;

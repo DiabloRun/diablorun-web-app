@@ -2,12 +2,12 @@
   <div v-if="race.id">
     <div v-if="!streamOverlay && !isPopup">
       <!-- Hero  -->
-      <section class="hero is-medium is-primary is-bold">
+      <section class="hero is-dark is-bold">
         <div class="hero-body">
           <div class="container">
             <div class="columns is-vcentered is-multiline is-mobile">
               <div class="column">
-                <h1 class="title is-1">{{ race.name }}</h1>
+                <h1 class="title">{{ race.name }}</h1>
               </div>
               <div class="column is-narrow is-hidden-mobile">
                 <button
@@ -26,7 +26,7 @@
         </div>
       </section>
       <!-- Leaderboard -->
-      <section class="section mt-5 pb-0">
+      <section class="section">
         <div class="container">
           <div class="columns is-vcentered is-multiline">
             <div class="column">
@@ -58,78 +58,48 @@
           </div>
           <!-- Participants -->
           <table
-            class="table is-striped is-hoverable"
+            class="table is-narrow is-striped is-hoverable"
             v-if="characters.length > 0"
           >
             <thead>
               <tr>
-                <th class="has-text-centered has-text-fade">#</th>
+                <th class="has-text-centered">#</th>
+                <th class="has-text-centered">Points</th>
                 <th>Runner</th>
-                <th class="has-text-centered is-hidden-touch">Points</th>
-                <th class="has-text-centered is-hidden-touch">Level</th>
-                <th class="has-text-centered is-hidden-desktop">pts</th>
-                <th class="has-text-centered is-hidden-desktop">lvl</th>
-                <th class="has-text-centered" v-if="entry_heroes.length > 1">
-                  Hero
-                </th>
-                <th class="has-text-centered">Area</th>
-                <th class="has-text-right is-hidden-mobile">Status</th>
+                <th>Level</th>
+                <th v-if="entry_heroes.length > 1">Hero</th>
+                <th>Area</th>
+                <th>Status</th>
               </tr>
             </thead>
-            <tbody class="has-no-overflow">
+            <tbody>
               <tr v-for="character of characters" :key="character.id">
-                <td class="is-narrow has-text-centered">
-                  <p
-                    :class="
-                      `subtitle is-6 has-text-fade rank-${character.rank}`
-                    "
-                  >
+                <td class="is-narrow has-text-centered has-text-grey">
+                  <span :class="`rank-${character.rank}`">
                     {{ character.rank }}
-                  </p>
+                  </span>
                 </td>
-                <td class="is-narrow-desktop has-no-overflow">
-                  <p class="subtitle is-5">
-                    <CharacterUser :character="character" />
-                  </p>
+                <td class="is-narrow has-text-centered">
+                  {{ character.points }}
                 </td>
-
-                <td class="has-text-centered is-right-mobile">
-                  <p class="subtitle is-5">
-                    {{ character.points }}
-                  </p>
+                <td>
+                  <CharacterUser :character="character" />
                 </td>
-                <td class="has-text-centered">
-                  <p class="subtitle is-5">
-                    {{ character.level }}
-                  </p>
+                <td>
+                  {{ character.level }}
                 </td>
                 <td class="has-text-centered" v-if="entry_heroes.length > 1">
-                  <span
-                    :class="
-                      `is-hidden-touch has-hero ${character.hero} subtitle is-5`
-                    "
-                    >{{ character.hero | HeroNameFilter }}</span
-                  >
-                  <span
-                    :class="
-                      `is-hidden-desktop has-hero ${character.hero} subtitle is-5`
-                    "
-                    >{{ character.hero }}</span
-                  >
+                  {{ character.hero | HeroNameFilter }}
                 </td>
-                <td class="has-text-centered has-no-overflow">
-                  <p class="subtitle is-5">
-                    {{ character.area | AreaNameFilter }}
-                  </p>
+                <td>
+                  {{ character.area | AreaNameFilter }}
                 </td>
-                <td class="has-text-right is-narrow is-hidden-mobile">
-                  <p class="subtitle is-6">
-                    <CharacterRaceStatus
-                      :character="character"
-                      :start="race.start_time"
-                      :finish="race.finish_time"
-                    />
-                  </p>
+                <td class="is-narrow">
+                  <CharacterRaceStatus
+                    :character="character"
+                    :start="race.start_time"
+                    :finish="race.finish_time"
+                  />
                 </td>
               </tr>
             </tbody>

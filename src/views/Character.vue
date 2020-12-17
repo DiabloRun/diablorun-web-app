@@ -1,356 +1,380 @@
 <template>
   <div>
     <!-- Hero -->
-    <section v-if="!streamOverlay" class="hero is-medium is-primary is-bold">
+    <section v-if="!streamOverlay" class="hero is-dark is-bold">
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered is-mobile" v-if="!character.name">
-            <div class="column is-narrow">
-              <button class="button is-rounded is-primary is-loading">
-                <span class="icon">Loading</span>
-              </button>
-            </div>
-            <div class="column">
-              <h1 class="subtitle is-5 has-text-link">Loading...</h1>
-            </div>
-          </div>
-          <div class="columns is-vcentered is-mobile" v-if="character.name">
-            <!-- Character class icon -->
-            <div
-              class="column is-narrow has-tooltip-right"
-              :data-tooltip="character.hero | HeroNameFilter"
-            >
-              <router-link
-                :to="{
-                  name: 'Character',
-                  params: {
-                    user_name: character.user_name,
-                    character_slug: character.name + character.id
-                  }
-                }"
-              >
-                <figure class="image is-48x48">
-                  <Icon
-                    imgClass="has-glow is-rounded"
-                    :name="`big-${character.hero}`"
-                  />
-                </figure>
-              </router-link>
-            </div>
-            <!-- Character name -->
-            <div class="column">
-              <h1 class="title is-5 has-hero-link">
-                <router-link
-                  :to="{
-                    name: 'Character',
-                    params: {
-                      user_name: character.user_name,
-                      character_slug: character.name + character.id
-                    }
-                  }"
+          <div class="columns is-mobile is-vcentered">
+            <!-- Left -->
+            <div class="column is-narrow is-paddingless ml-3">
+              <div class="columns is-vcentered is-mobile">
+                <!-- Hero icon -->
+                <div
+                  class="column has-tooltip-right"
+                  :data-tooltip="character.hero | HeroNameFilter"
                 >
-                  {{ character.name }}
-                </router-link>
-              </h1>
+                  <router-link
+                    :to="{
+                      name: 'Character',
+                      params: {
+                        user_name: character.user_name,
+                        character_slug: character.name + character.id
+                      }
+                    }"
+                  >
+                    <figure class="image is-48x48">
+                      <Icon
+                        :imgClass="`has-glow-${character.hero} is-rounded`"
+                        :name="`big-${character.hero}`"
+                      />
+                    </figure>
+                  </router-link>
+                </div>
+                <!-- Hero name -->
+                <div class="column is-narrow is-hidden-touch">
+                  <h1 class="title">
+                    <router-link
+                      :to="{
+                        name: 'Character',
+                        params: {
+                          user_name: character.user_name,
+                          character_slug: character.name + character.id
+                        }
+                      }"
+                      >{{ character.name }}</router-link
+                    >
+                    <span
+                      v-if="character.hc"
+                      class="tag ml-2 is-small is-danger"
+                      >HC</span
+                    >
+                  </h1>
+                </div>
+              </div>
             </div>
-            <!-- Username -->
-            <div class="column is-narrow">
-              <h1 class="title is-5 has-hero-link">
-                <span class="has-light-text-fade"
-                  ><span class="is-hidden-mobile">Added</span> by
-                </span>
-                <router-link
-                  :to="{
-                    name: 'User',
-                    params: { user_name: character.user_name }
-                  }"
+            <!-- Middle -->
+            <div class="column is-paddingless">
+              <!-- Globes -->
+              <div class="columns is-mobile is-centered">
+                <div
+                  class="column is-4-mobile is-3-tablet"
+                  v-if="character.life !== null"
+                  data-tooltip="Life"
                 >
-                  {{ character.user_name }}
-                </router-link>
-              </h1>
+                  <h1 class="heading has-text-centered has-text-grey">
+                    {{ character.life }} / {{ character.life_max }}
+                  </h1>
+                  <progress
+                    class="progress is-danger is-small"
+                    :value="character.life"
+                    :max="character.life_max"
+                  >
+                    {{ (character.life / character.life_max) * 100 }}%
+                  </progress>
+                </div>
+                <div class="column is-narrow px-0">
+                  <div
+                    class="column is-narrow has-tooltip-top"
+                    :data-tooltip="
+                      'Toggle ' + character.user_name + ' Twitch stream'
+                    "
+                  >
+                    <figure class="image is-24x24 has-glow">
+                      <a @click="toggleTwitchEmbed()">
+                        <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
+                      </a>
+                    </figure>
+                  </div>
+                </div>
+                <div
+                  class="column is-4-mobile is-3-tablet"
+                  v-if="character.life !== null"
+                  data-tooltip="Mana"
+                >
+                  <h1 class="heading has-text-centered has-text-grey">
+                    {{ character.mana }} / {{ character.mana_max }}
+                  </h1>
+                  <progress
+                    class="progress is-primary is-small"
+                    :value="character.mana"
+                    :max="character.mana_max"
+                  >
+                    {{ (character.mana / character.mana_max) * 100 }}%
+                  </progress>
+                </div>
+              </div>
             </div>
-            <!-- User Avatar -->
-            <div
-              v-if="character.user_profile_image_url"
-              class="column is-narrow is-hidden-mobile py-0"
-            >
-              <router-link
-                :to="{
-                  name: 'User',
-                  params: { user_name: character.user_name }
-                }"
-              >
-                <figure class="image is-48x48">
-                  <img
-                    :src="character.user_profile_image_url"
-                    class="is-rounded has-glow"
-                  />
-                </figure>
-              </router-link>
+            <!-- Right -->
+            <div class="column is-narrow is-paddingless has-text-right mr-3">
+              <div class="columns is-vcentered">
+                <!-- Username -->
+                <div class="column is-narrow is-hidden-touch">
+                  <h1 class="title">
+                    <router-link
+                      :to="{
+                        name: 'User',
+                        params: { user_name: character.user_name }
+                      }"
+                    >
+                      {{ character.user_name }}
+                    </router-link>
+                  </h1>
+                </div>
+                <!-- User avatar -->
+                <div v-if="character.user_profile_image_url" class="column">
+                  <router-link
+                    :to="{
+                      name: 'User',
+                      params: { user_name: character.user_name }
+                    }"
+                  >
+                    <figure class="image is-48x48">
+                      <img
+                        :src="character.user_profile_image_url"
+                        class="is-rounded has-glow"
+                      />
+                    </figure>
+                  </router-link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- Infobar -->
-    <section v-if="!streamOverlay" class="hero is-dark">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-mobile is-multiline is-vcentered is-centered">
-            <div class="column">
-              <p v-if="!(character.hc && character.dead)" class="subtitle is-5">
-                <span class="is-unique">{{
-                  character.area | AreaNameFilter
-                }}</span>
-                <span class="has-light-text-fade">
-                  in {{ character.difficulty | DifficultyFilter }}</span
-                >
-              </p>
-              <p v-if="character.hc && character.dead" class="subtitle is-5">
-                <span class="has-text-warning">Died</span> in
-                {{ character.difficulty | DifficultyFilter }}
-                <span class="is-unique">{{
-                  character.area | AreaNameFilter
-                }}</span>
-              </p>
-            </div>
-            <div class="column is-narrow is-hidden-mobile has-text-right">
-              <p class="subtitle is-5">
-                {{ character.town_visits }} Town Visits
-              </p>
-            </div>
-            <div class="column is-narrow has-text-right">
-              <p class="subtitle is-5">
-                Players <span class="is-hidden-mobile">set to </span
-                >{{ character.players }}
-              </p>
-            </div>
-            <div
-              class="column is-narrow has-tooltip-left"
-              :data-tooltip="'Toggle ' + character.user_name + ' Twitch stream'"
-            >
-              <figure class="image is-24x24">
-                <a @click="toggleTwitchEmbed()">
-                  <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
-                </a>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section v-if="showTwitchEmbed" class="section pb-0">
-      <div class="container">
+    <!-- Twitch embed -->
+    <section v-if="showTwitchEmbed" class="section is-paddingless">
+      <div class="container is-fluid is-paddingless">
         <TwitchEmbed :username="character.user_name" />
       </div>
     </section>
+    <!-- General character stats -->
     <section class="section pb-0" v-if="!streamOverlay">
       <div class="container">
-        <div class="columns has-text-centered-mobile is-mobile is-multiline">
-          <!-- Globes for mobile -->
-          <div class="column is-full is-hidden-tablet">
-            <div class="columns is-mobile is-centered">
-              <div
-                class="column is-narrow"
-                v-if="character.life !== null"
-                data-tooltip="Life"
-              >
-                <h1 class="heading has-text-centered">
-                  {{ character.life }} / {{ character.life_max }}
-                </h1>
-                <progress
-                  class="progress is-warning is-small"
-                  :value="character.life"
-                  :max="character.life_max"
-                >
-                  {{ (character.life / character.life_max) * 100 }}%
-                </progress>
+        <div class="columns is-multiline">
+          <!-- Location -->
+          <div class="column pb-1">
+            <div class="field is-grouped is-grouped-multiline">
+              <!-- Area -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span v-if="character.lod == 'false'" class="tag is-dark">
+                    Classic
+                  </span>
+                  <span class="tag is-dark">
+                    {{ character.difficulty | DifficultyFilter }}
+                  </span>
+                  <span class="tag is-light">
+                    {{ character.area | AreaNameFilter }}
+                  </span>
+                </div>
               </div>
-              <div
-                class="column is-narrow"
-                v-if="character.life !== null"
-                data-tooltip="Mana"
-              >
-                <h1 class="heading has-text-centered">
-                  {{ character.mana }} / {{ character.mana_max }}
-                </h1>
-                <progress
-                  class="progress is-link is-small"
-                  :value="character.mana"
-                  :max="character.mana_max"
-                >
-                  {{ (character.mana / character.mana_max) * 100 }}%
-                </progress>
+              <!-- Players -->
+              <div v-if="!character.hc" class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Players set to</span>
+                    <span class="is-hidden-desktop">Players</span>
+                  </span>
+                  <span class="tag is-light">{{ character.players }}</span>
+                </div>
               </div>
-            </div>
-          </div>
-          <!-- Level -->
-          <div class="column">
-            <div class="columns is-mobile">
-              <div
-                class="column is-narrow-tablet has-tooltip-right"
-                :data-tooltip="character.experience + ' Experience'"
-              >
-                <p class="heading">Level</p>
-                <p class="subtitle is-5">
-                  {{ character.level }}
-                </p>
-              </div>
-              <div v-if="!character.hc" class="column is-narrow-tablet">
-                <p class="heading">Deaths</p>
-                <p class="subtitle is-5">
-                  {{ character.deaths }}
-                </p>
-              </div>
-              <div v-if="character.hc" class="column is-narrow-tablet">
-                <p class="heading">Deaths</p>
-                <p class="subtitle is-5">Hardcore</p>
-              </div>
-            </div>
-          </div>
-          <!-- Globes -->
-          <div class="column is-narrow is-hidden-mobile">
-            <div class="columns is-mobile">
-              <div
-                class="column is-narrow-desktop"
-                v-if="character.life !== null"
-                data-tooltip="Life"
-              >
-                <h1 class="heading has-text-centered">
-                  {{ character.life }} / {{ character.life_max }}
-                </h1>
-                <progress
-                  class="progress is-warning is-small"
-                  :value="character.life"
-                  :max="character.life_max"
-                >
-                  {{ (character.life / character.life_max) * 100 }}%
-                </progress>
-              </div>
-              <div
-                class="column is-narrow-desktop"
-                v-if="character.life !== null"
-                data-tooltip="Mana"
-              >
-                <h1 class="heading has-text-centered">
-                  {{ character.mana }} / {{ character.mana_max }}
-                </h1>
-                <progress
-                  class="progress is-link is-small"
-                  :value="character.mana"
-                  :max="character.mana_max"
-                >
-                  {{ (character.mana / character.mana_max) * 100 }}%
-                </progress>
+              <!-- Town visits -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Town visits</span>
+                    <span class="is-hidden-desktop">Towns</span>
+                  </span>
+                  <span class="tag is-light">{{ character.town_visits }}</span>
+                </div>
               </div>
             </div>
           </div>
           <!-- Gold -->
-          <div class="column">
-            <div class="columns is-mobile">
-              <div class="column has-text-right-tablet">
-                <p class="heading">Gold</p>
-                <p class="subtitle is-5 has-text-danger">
-                  {{ character.gold_total }}
-                </p>
+          <div class="column pb-1 is-narrow">
+            <div class="field is-grouped is-grouped-multiline">
+              <!-- Gold -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">Gold</span>
+                  <span class="tag is-light">{{ character.gold_total }}</span>
+                </div>
               </div>
-              <div
-                class="column is-narrow-tablet has-text-right-tablet has-tooltip-left"
-                data-tooltip="Magic Find"
-              >
-                <p class="heading">MF</p>
-                <p class="subtitle is-5 has-text-danger">
-                  {{ character.mf }}
-                </p>
+              <!-- Magic find -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Magic find</span>
+                    <span class="is-hidden-desktop">MF</span>
+                  </span>
+                  <span class="tag is-light">{{ character.mf }}%</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="columns has-text-centered-mobile">
-          <!-- Speed -->
-          <div class="column">
-            <div class="columns is-mobile">
-              <div class="column is-narrow-tablet">
-                <p class="heading">FCR</p>
-                <p class="subtitle is-5">
-                  {{ character.fcr }}
-                </p>
+        <div class="columns is-multiline">
+          <!-- Level -->
+          <div class="column pb-1">
+            <div class="field is-grouped is-grouped-multiline">
+              <!-- Level -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Level</span>
+                    <span class="is-hidden-desktop">LVL</span>
+                  </span>
+                  <span class="tag is-primary">{{ character.level }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">FHR</p>
-                <p class="subtitle is-5">
-                  {{ character.fhr }}
-                </p>
+              <!-- Experience -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Experience</span>
+                    <span class="is-hidden-desktop">XP</span>
+                  </span>
+                  <span class="tag is-light">{{ character.experience }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">FRW</p>
-                <p class="subtitle is-5">
-                  {{ character.frw }}
-                </p>
-              </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">IAS</p>
-                <p class="subtitle is-5">
-                  {{ character.frw }}
-                </p>
+              <!-- Deaths -->
+              <div v-if="!character.hc" class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">Deaths</span>
+                  <span class="tag is-light">{{ character.deaths }}</span>
+                </div>
               </div>
             </div>
           </div>
           <!-- Resistances -->
-          <div class="column is-narrow has-text-centered">
-            <div class="columns is-mobile" data-tooltip="Resistances">
-              <div class="column is-narrow-tablet">
-                <p class="heading">Fire</p>
-                <p class="subtitle is-5 has-text-warning">
-                  {{ character.fire_res }}
-                </p>
+          <div class="column pb-1 is-narrow">
+            <div class="field is-grouped is-grouped-multiline">
+              <!-- Fire -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">Fire</span>
+                  <span class="tag is-danger">{{ character.fire_res }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">Cold</p>
-                <p class="subtitle is-5 has-text-link">
-                  {{ character.cold_res }}
-                </p>
+              <!-- Cold -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">Cold</span>
+                  <span class="tag is-info">{{ character.cold_res }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">Light</p>
-                <p class="subtitle is-5 has-text-danger">
-                  {{ character.light_res }}
-                </p>
+              <!-- Light -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Lightning</span>
+                    <span class="is-hidden-desktop">Light</span>
+                  </span>
+                  <span class="tag is-warning">{{ character.light_res }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">Psn</p>
-                <p class="subtitle is-5 has-text-success">
-                  {{ character.poison_res }}
-                </p>
+              <!-- Poison -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Poison</span>
+                    <span class="is-hidden-desktop">Psn</span>
+                  </span>
+                  <span class="tag is-success">{{ character.poison_res }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <!-- Speed -->
+          <div class="column pb-1">
+            <div class="field is-grouped is-grouped-multiline">
+              <!-- FCR -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Cast speed</span>
+                    <span class="is-hidden-desktop">FCR</span>
+                  </span>
+                  <span class="tag is-light">{{ character.fcr }}</span>
+                </div>
+              </div>
+              <!-- FHR -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Hit recovery</span>
+                    <span class="is-hidden-desktop">FHR</span>
+                  </span>
+                  <span class="tag is-light">{{ character.fhr }}</span>
+                </div>
+              </div>
+              <!-- FRW -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Run speed</span>
+                    <span class="is-hidden-desktop">FRW</span>
+                  </span>
+                  <span class="tag is-light">{{ character.frw }}</span>
+                </div>
+              </div>
+              <!-- IAS -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Attack speed</span>
+                    <span class="is-hidden-desktop">IAS</span>
+                  </span>
+                  <span class="tag is-light">{{ character.ias }}</span>
+                </div>
               </div>
             </div>
           </div>
           <!-- Attributes -->
-          <div class="column has-text-right-tablet">
-            <div class="columns is-mobile">
-              <div class="column">
-                <p class="heading">STR</p>
-                <p class="subtitle is-5">
-                  {{ character.strength }}
-                </p>
+          <div class="column is-narrow">
+            <div class="field is-grouped is-grouped-multiline">
+              <!-- Strength -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Strength</span>
+                    <span class="is-hidden-desktop">STR</span>
+                  </span>
+                  <span class="tag is-light">{{ character.strength }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">DEX</p>
-                <p class="subtitle is-5">
-                  {{ character.dexterity }}
-                </p>
+              <!-- Dexterity -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Dexterity</span>
+                    <span class="is-hidden-desktop">DEX</span>
+                  </span>
+                  <span class="tag is-light">{{ character.dexterity }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">VIT</p>
-                <p class="subtitle is-5">
-                  {{ character.vitality }}
-                </p>
+              <!-- Vitality -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Vitality</span>
+                    <span class="is-hidden-desktop">VIT</span>
+                  </span>
+                  <span class="tag is-light">{{ character.vitality }}</span>
+                </div>
               </div>
-              <div class="column is-narrow-tablet">
-                <p class="heading">ENE</p>
-                <p class="subtitle is-5">
-                  {{ character.energy }}
-                </p>
+              <!-- Energy -->
+              <div class="control">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">
+                    <span class="is-hidden-touch">Energy</span>
+                    <span class="is-hidden-desktop">ENE</span>
+                  </span>
+                  <span class="tag is-light">{{ character.energy }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -373,7 +397,7 @@
                   class="card has-round-corners"
                 >
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Primary left</p>
+                    <p class="has-text-grey">Primary left</p>
                   </div>
                 </div>
               </div>
@@ -381,7 +405,7 @@
                 <CharacterItem v-if="character.head" :item="character.head" />
                 <div v-if="!character.head" class="card has-round-corners">
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Helm</p>
+                    <p class="has-text-grey">Helm</p>
                   </div>
                 </div>
               </div>
@@ -395,7 +419,7 @@
                   class="card has-round-corners"
                 >
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Primary right</p>
+                    <p class="has-text-grey">Primary right</p>
                   </div>
                 </div>
               </div>
@@ -409,7 +433,7 @@
                   class="card has-round-corners"
                 >
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Secondary left</p>
+                    <p class="has-text-grey">Secondary left</p>
                   </div>
                 </div>
               </div>
@@ -423,7 +447,7 @@
                   class="card has-round-corners"
                 >
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Armor</p>
+                    <p class="has-text-grey">Armor</p>
                   </div>
                 </div>
               </div>
@@ -437,7 +461,7 @@
                   class="card has-round-corners"
                 >
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Secondary right</p>
+                    <p class="has-text-grey">Secondary right</p>
                   </div>
                 </div>
               </div>
@@ -448,7 +472,7 @@
                 />
                 <div v-if="!character.gloves" class="card has-round-corners">
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Gloves</p>
+                    <p class="has-text-grey">Gloves</p>
                   </div>
                 </div>
               </div>
@@ -456,7 +480,7 @@
                 <CharacterItem v-if="character.belt" :item="character.belt" />
                 <div v-if="!character.belt" class="card has-round-corners">
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Belt</p>
+                    <p class="has-text-grey">Belt</p>
                   </div>
                 </div>
               </div>
@@ -464,7 +488,7 @@
                 <CharacterItem v-if="character.boots" :item="character.boots" />
                 <div v-if="!character.boots" class="card has-round-corners">
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Boots</p>
+                    <p class="has-text-grey">Boots</p>
                   </div>
                 </div>
               </div>
@@ -475,7 +499,7 @@
                 />
                 <div v-if="!character.ring_left" class="card has-round-corners">
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Left ring</p>
+                    <p class="has-text-grey">Left ring</p>
                   </div>
                 </div>
               </div>
@@ -486,7 +510,7 @@
                 />
                 <div v-if="!character.amulet" class="card has-round-corners">
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Amulet</p>
+                    <p class="has-text-grey">Amulet</p>
                   </div>
                 </div>
               </div>
@@ -500,7 +524,7 @@
                   class="card has-round-corners"
                 >
                   <div class="card-content equipment">
-                    <p class="has-text-fade">Right ring</p>
+                    <p class="has-text-grey">Right ring</p>
                   </div>
                 </div>
               </div>
@@ -510,41 +534,36 @@
       </div>
     </section>
     <!-- Mercenary -->
-    <section
-      class="hero is-dark"
-      v-if="character.hireling_name && !streamOverlay"
-    >
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns has-text-centered is-mobile is-vcentered">
-            <div class="column is-narrow py-0 pr-0">
-              <figure class="image is-32x32">
-                <Icon :name="`${character.hireling_class}`" />
-              </figure>
-            </div>
-            <div class="column has-text-left">
-              <p class="subtitle is-5">
-                Level {{ character.hireling_level }}
-                {{ character.hireling_name }}
-              </p>
-            </div>
-            <div class="column is-narrow">
-              <p class="subtitle is-5">
-                {{ character.hireling_strength }} Strength
-              </p>
-            </div>
-            <div class="column is-narrow">
-              <p class="subtitle is-5">
-                {{ character.hireling_dexterity }} Dexterity
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Mercenary Equipment -->
     <section class="section" v-if="character.hireling_name && !streamOverlay">
       <div class="container">
+        <div class="columns is-mobile is-vcentered is-multiline">
+          <div class="column is-narrow py-0 pr-0">
+            <figure class="image is-48x48">
+              <Icon
+                :name="`${character.hireling_class}`"
+                class="has-glow is-rounded"
+              />
+            </figure>
+          </div>
+          <div class="column is-10-mobile has-text-left">
+            <p class="subtitle">
+              Level {{ character.hireling_level }}
+              {{ character.hireling_name }}
+            </p>
+          </div>
+          <div class="column is-narrow">
+            <p class="subtitle is-6">
+              {{ character.hireling_strength }}
+              <span class="has-text-grey">Strength</span>
+            </p>
+          </div>
+          <div class="column is-narrow">
+            <p class="subtitle is-6">
+              {{ character.hireling_dexterity }}
+              <span class="has-text-grey">Dexterity</span>
+            </p>
+          </div>
+        </div>
         <div class="columns is-multiline is-gapless">
           <div class="column is-4-widescreen is-6-tablet">
             <CharacterItem
@@ -556,7 +575,7 @@
               class="card has-round-corners"
             >
               <div class="card-content equipment">
-                <p class="has-text-fade">Primary left</p>
+                <p class="has-text-grey">Primary left</p>
               </div>
             </div>
           </div>
@@ -567,7 +586,7 @@
             />
             <div v-if="!character.hireling_head" class="card has-round-corners">
               <div class="card-content equipment">
-                <p class="has-text-fade">Head</p>
+                <p class="has-text-grey">Head</p>
               </div>
             </div>
           </div>
@@ -581,7 +600,7 @@
               class="card has-round-corners"
             >
               <div class="card-content equipment">
-                <p class="has-text-fade">Armor</p>
+                <p class="has-text-grey">Armor</p>
               </div>
             </div>
           </div>

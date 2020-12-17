@@ -1,24 +1,12 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-medium is-primary is-bold">
+    <section class="hero is-medium is-dark is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column">
-              <h1 class="title is-1">Team</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Toolbar -->
-    <section class="hero is-dark has-hero-link">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-mobile is-vcentered">
-            <div class="column">
-              <h1 class="subtitle is-4">
+              <h1 class="title">
                 Join our
                 <a href="https://discord.gg/QMMDR2a">diablo.run Discord</a> to
                 quickly get in touch with us
@@ -54,7 +42,7 @@
                 <div class="media-left">
                   <figure class="image is-96x96">
                     <img
-                      class="is-rounded has-glow-dark"
+                      class="is-rounded has-glow"
                       src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/shenk.jpg"
                       alt="Image"
                     />
@@ -88,7 +76,7 @@
                 <div class="media-left">
                   <figure class="image is-96x96">
                     <img
-                      class="is-rounded has-glow-dark"
+                      class="is-rounded has-glow"
                       src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/indrek.jpg"
                       alt="Image"
                     />
@@ -103,9 +91,7 @@
                   </div>
                   <nav class="level is-mobile">
                     <div class="level-left">
-                      <a class="level-item" href="/Indrek">
-                        Diablo.run
-                      </a>
+                      <a class="level-item" href="/Indrek"> Diablo.run </a>
                       <a class="level-item" href="https://www.twitch.tv/Indrek">
                         Twitch
                       </a>

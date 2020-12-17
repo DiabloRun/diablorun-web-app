@@ -1,23 +1,22 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="hero is-medium is-primary is-bold">
+    <section class="hero is-medium is-dark is-bold">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered is-multiline is-mobile">
             <div class="column">
-              <h1 class="title is-1">Blog</h1>
+              <h1 class="title">Latest articles</h1>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- Content -->
-    <section class="section mt-5">
+    <!-- Articles -->
+    <section class="section">
       <div class="container">
-        <h1 class="title is-2">Latest Posts</h1>
         <div class="columns">
-          <div class="column is-7">
+          <div class="column is-8">
             <BlogPostBox
               v-for="post of posts"
               :key="post.path"
@@ -25,17 +24,15 @@
             ></BlogPostBox>
           </div>
           <div class="column">
-            <div class="box">
-              <h1 class="blog subtitle">Open access publishing</h1>
-              <p>
-                Anyone can contribute relevant blog posts through our
-                <a href="https://github.com/DiabloRun" target="_blank">GitHub</a
-                >. If you lack programming knowledge, but would like to
-                contribute then contact us on
-                <a href="https://discord.gg/QMMDR2a">Discord</a> and we can work
-                it out together.
-              </p>
-            </div>
+            <h1 class="title is-5 mb-3">Open access publishing</h1>
+            <p>
+              Anyone can contribute relevant blog posts through our
+              <a href="https://github.com/DiabloRun" target="_blank">GitHub</a>.
+              If you lack programming knowledge, but would like to contribute
+              then contact us on
+              <a href="https://discord.gg/QMMDR2a">Discord</a> and we can work
+              it out together.
+            </p>
           </div>
         </div>
       </div>
