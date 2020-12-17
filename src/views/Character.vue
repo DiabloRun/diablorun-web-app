@@ -57,7 +57,7 @@
               <!-- Globes -->
               <div class="columns is-mobile is-centered">
                 <div
-                  class="column is-4-mobile is-3-tablet"
+                  class="column is-4-mobile is-3-tablet has-tooltip-bottom"
                   v-if="character.life !== null"
                   data-tooltip="Life"
                 >
@@ -74,7 +74,7 @@
                 </div>
                 <div class="column is-narrow px-0">
                   <div
-                    class="column is-narrow has-tooltip-top"
+                    class="column is-narrow has-tooltip-bottom"
                     :data-tooltip="
                       'Toggle ' + character.user_name + ' Twitch stream'
                     "
@@ -87,7 +87,7 @@
                   </div>
                 </div>
                 <div
-                  class="column is-4-mobile is-3-tablet"
+                  class="column is-4-mobile is-3-tablet has-tooltip-bottom"
                   v-if="character.life !== null"
                   data-tooltip="Mana"
                 >
