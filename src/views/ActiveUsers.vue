@@ -9,7 +9,7 @@
       </div>
     </section>
     <!-- Userlist -->
-    <section class="section mt-5">
+    <section class="section">
       <div class="container">
         <div class="columns is-multiline">
           <div
