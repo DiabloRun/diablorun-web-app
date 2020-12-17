@@ -9,10 +9,7 @@
     <div class="columns is-multiline is-vcentered">
       <div class="column is-narrow">
         <div class="tags">
-          <span
-            v-for="tag of post.meta.tags"
-            :key="tag"
-            class="tag is-light"
+          <span v-for="tag of post.meta.tags" :key="tag" class="tag is-light"
             ><a>{{ tag }}</a></span
           >
         </div>

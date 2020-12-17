@@ -375,7 +375,7 @@ export default {
         }
       },
       tooltip: {
-        pointFormatter: function () {
+        pointFormatter: function() {
           return DurationFilter(this.y / 1000);
         }
       },

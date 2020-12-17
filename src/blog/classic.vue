@@ -41,7 +41,9 @@
           <p class="mt-3">
             Examples of how runners have used classic strategy in speedruns:
           </p>
-          <table class="table is-fullwidth is-narrow is-bordered is-striped mt-4">
+          <table
+            class="table is-fullwidth is-narrow is-bordered is-striped mt-4"
+          >
             <thead>
               <tr>
                 <th>Category</th>

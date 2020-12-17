@@ -143,9 +143,10 @@
                       name: 'User',
                       params: { user_name: run.user_name }
                     }"
-                    :style="`color: ${
-                      run.user_color || run.speedrun_user_dark_color_from
-                    };`"
+                    :style="
+                      `color: ${run.user_color ||
+                        run.speedrun_user_dark_color_from};`
+                    "
                   >
                     <CountryIcon
                       imgClass="flag"
@@ -239,11 +240,11 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: (state) => state.leaderboard.loading,
-      runs: (state) => state.leaderboard.runs,
-      statistics: (state) => state.leaderboard.statistics,
-      pagination: (state) => state.leaderboard.pagination,
-      heroFilter: (state) => state.leaderboard.filters.hero
+      loading: state => state.leaderboard.loading,
+      runs: state => state.leaderboard.runs,
+      statistics: state => state.leaderboard.statistics,
+      pagination: state => state.leaderboard.pagination,
+      heroFilter: state => state.leaderboard.filters.hero
     }),
 
     categoryName() {

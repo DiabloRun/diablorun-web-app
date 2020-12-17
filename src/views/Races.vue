@@ -21,11 +21,11 @@
               <tbody>
                 <tr v-for="race of races" :key="race.id">
                   <td>
-                      <router-link
-                        :to="{ name: 'Race', params: { slug: race.id } }"
-                      >
-                        {{ race.name }}
-                      </router-link>
+                    <router-link
+                      :to="{ name: 'Race', params: { slug: race.id } }"
+                    >
+                      {{ race.name }}
+                    </router-link>
                   </td>
                 </tr>
               </tbody>

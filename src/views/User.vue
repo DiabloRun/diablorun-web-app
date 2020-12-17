@@ -20,7 +20,10 @@
               <h1 class="title">{{ user.name }}</h1>
             </div>
             <div class="column is-narrow has-text-grey is-hidden-mobile">
-              <p>{{ user.name }} last active {{ latestCharacter.update_time | FromNowFilter }}</p>
+              <p>
+                {{ user.name }} last active
+                {{ latestCharacter.update_time | FromNowFilter }}
+              </p>
             </div>
           </div>
         </div>
@@ -46,7 +49,9 @@
                   >
                     <figure class="image is-48x48">
                       <Icon
-                        :imgClass="`has-glow-${latestCharacter.hero} is-rounded`"
+                        :imgClass="
+                          `has-glow-${latestCharacter.hero} is-rounded`
+                        "
                         :name="`big-${latestCharacter.hero}`"
                       />
                     </figure>
@@ -125,14 +130,18 @@
             <tr v-for="character of characters" :key="character.id">
               <td>
                 <router-link
-                  :to="`/${character.user_name}/${character.name}${character.id}`"
+                  :to="
+                    `/${character.user_name}/${character.name}${character.id}`
+                  "
                 >
                   {{ character.name }}
                 </router-link>
               </td>
               <td>
                 <span
-                  :class="`is-hidden-desktop has-text-capitalized ${character.hero}`"
+                  :class="
+                    `is-hidden-desktop has-text-capitalized ${character.hero}`
+                  "
                   >{{ character.hero }}
                 </span>
                 <span :class="`is-hidden-touch ${character.hero}`">
@@ -344,7 +353,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: (state) => state.ws.character
+      latestCharacter: state => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -446,7 +455,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter((c) => c !== character);
+        this.characters = this.characters.filter(c => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();

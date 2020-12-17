@@ -11,7 +11,9 @@
               </div>
               <div class="column is-narrow is-hidden-mobile">
                 <button
-                  :onclick="`window.open('/race/${race.id}','popup','width=550,height=900'); return false;`"
+                  :onclick="
+                    `window.open('/race/${race.id}','popup','width=550,height=900'); return false;`
+                  "
                   target="popup"
                   :href="`/race/${race.id}`"
                   class="button is-primary is-outlined is-inverted"
@@ -163,7 +165,7 @@
                   <p
                     v-if="
                       condition.type === 'time' &&
-                      condition.time_type === 'race'
+                        condition.time_type === 'race'
                     "
                   >
                     <span class="subtitle is-5 has-text-danger">Finish:</span>
@@ -172,7 +174,7 @@
                   <p
                     v-if="
                       condition.type === 'time' &&
-                      condition.time_type === 'character'
+                        condition.time_type === 'character'
                     "
                   >
                     <span class="subtitle is-5 has-text-danger">Finish:</span>
@@ -329,11 +331,15 @@
             </td>
             <td class="has-text-centered" v-if="entry_heroes.length > 1">
               <span
-                :class="`is-hidden-touch has-hero ${character.hero} subtitle is-5`"
+                :class="
+                  `is-hidden-touch has-hero ${character.hero} subtitle is-5`
+                "
                 >{{ character.hero | HeroNameFilter }}</span
               >
               <span
-                :class="`is-hidden-desktop has-hero ${character.hero} subtitle is-5`"
+                :class="
+                  `is-hidden-desktop has-hero ${character.hero} subtitle is-5`
+                "
                 >{{ character.hero }}</span
               >
             </td>
@@ -461,25 +467,25 @@ export default {
   },
   computed: {
     ...mapState({
-      race: (state) => state.ws.race,
-      rules: (state) => state.ws.rules,
-      positivePoints: (state) =>
+      race: state => state.ws.race,
+      rules: state => state.ws.rules,
+      positivePoints: state =>
         state.ws.rules.filter(
-          (rule) => rule.context === 'points' && rule.amount > 0
+          rule => rule.context === 'points' && rule.amount > 0
         ),
-      negativePoints: (state) =>
+      negativePoints: state =>
         state.ws.rules.filter(
-          (rule) => rule.context === 'points' && rule.amount < 0
+          rule => rule.context === 'points' && rule.amount < 0
         ),
-      finish_conditions: (state) =>
-        state.ws.rules.filter((rule) => rule.context === 'finish_conditions'),
-      characters: (state) => state.ws.characters,
-      notifications: (state) => state.ws.notifications,
-      entry_heroes: (state) =>
+      finish_conditions: state =>
+        state.ws.rules.filter(rule => rule.context === 'finish_conditions'),
+      characters: state => state.ws.characters,
+      notifications: state => state.ws.notifications,
+      entry_heroes: state =>
         state.ws.race ? state.ws.race.entry_hero.split(',') : [],
-      streamOverlay: (state) => state.app.windowStyle === 'overlay',
-      isPopup: (state) => state.app.windowStyle === 'popup',
-      lastUpdateTime: (state) => state.ws.lastUpdateTime
+      streamOverlay: state => state.app.windowStyle === 'overlay',
+      isPopup: state => state.app.windowStyle === 'popup',
+      lastUpdateTime: state => state.ws.lastUpdateTime
     })
   },
   watch: {
@@ -497,7 +503,7 @@ export default {
           this.pointsLogIndex
         ];
         const character = this.characters.find(
-          (character) => character.user_id === user_id
+          character => character.user_id === user_id
         );
 
         if (!character) {
@@ -505,7 +511,7 @@ export default {
         }
 
         let dataset = this.pointsChartData.datasets.find(
-          (d) => d.label === character.user_name
+          d => d.label === character.user_name
         );
 
         if (!dataset) {

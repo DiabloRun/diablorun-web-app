@@ -477,26 +477,26 @@ export default {
     DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map((id) => ({
+    const statsList = Object.keys(stats).map(id => ({
       id,
       name: stats[id]
     }));
 
-    const questsList = Object.keys(quests).map((id) => ({
+    const questsList = Object.keys(quests).map(id => ({
       id,
       ...quests[id]
     }));
 
     const acts = [
-      { name: 'Act I', quests: questsList.filter((quest) => quest.act === 1) },
-      { name: 'Act II', quests: questsList.filter((quest) => quest.act === 2) },
+      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
+      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
       {
         name: 'Act III',
-        quests: questsList.filter((quest) => quest.act === 3)
+        quests: questsList.filter(quest => quest.act === 3)
       },
-      { name: 'Act IV', quests: questsList.filter((quest) => quest.act === 4) },
-      { name: 'Act V', quests: questsList.filter((quest) => quest.act === 5) },
-      { name: 'Other', quests: questsList.filter((quest) => quest.act === 0) }
+      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
+      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
+      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
     ];
 
     for (const act of acts) {
@@ -519,7 +519,7 @@ export default {
         slug: '',
         description: '',
         entry_new_character: true,
-        entry_hero: heroes.map((hero) => hero.id),
+        entry_hero: heroes.map(hero => hero.id),
         entry_classic: false,
         entry_hc: false,
         entry_players: 'p1',
@@ -553,10 +553,10 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: (state) => {
+      canEdit: state => {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
-      canHost: (state) => {
+      canHost: state => {
         return (
           !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
         );
@@ -587,9 +587,9 @@ export default {
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter((rule) => rule.context === 'points'),
+      points: rules.filter(rule => rule.context === 'points'),
       finish_conditions: rules.filter(
-        (rule) => rule.context === 'finish_conditions'
+        rule => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };
