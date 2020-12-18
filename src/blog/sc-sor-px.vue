@@ -53,11 +53,11 @@
       </div>
       <div class="column">
         <div class="box">
-          <h1 class="blog subtitle">World record is 57:45 by 327</h1>
+          <h1 class="blog subtitle">World record is 52:52 by Indrek</h1>
           <iframe
             width="100%"
             height="240"
-            src="https://www.youtube.com/embed/QhHQw2hlUdg"
+            src="https://www.youtube.com/embed/4ALvmN6gyVs"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
@@ -125,6 +125,20 @@ export default {
       {
         label: 'Old-school era',
         runs: [
+          {
+            time: '01:21:13',
+            link: 'https://www.twitch.tv/videos/294571346',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'August 8, 2018'
+          },
+          {
+            time: '01:16:59',
+            link: 'https://www.twitch.tv/videos/295946649',
+            runner: 'Indrek',
+            username: 'Indrek',
+            date: 'August 11, 2018'
+          },
           {
             time: '01:11:19',
             link: 'https://www.twitch.tv/videos/300169923',
