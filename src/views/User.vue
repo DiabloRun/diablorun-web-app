@@ -91,7 +91,6 @@
               }"
             >
               <button
-                v-if="moreCharacters"
                 class="button is-small is-primary has-tooltip-left"
                 :data-tooltip="
                   user.name + '/@ always links to active character'
