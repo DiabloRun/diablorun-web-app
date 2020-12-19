@@ -122,7 +122,7 @@
               <th>Hero</th>
               <th>Core</th>
               <th>Location</th>
-              <th class="is-hidden-mobile">In-game time</th>
+              <th class="is-hidden-mobile">Playtime</th>
               <th class="is-hidden-mobile">Added</th>
               <th v-if="isEditor">Edit</th>
             </tr>
