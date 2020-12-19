@@ -61,12 +61,31 @@
                   v-if="character.life !== null"
                   data-tooltip="Life"
                 >
-                  <h1 class="heading has-text-centered has-text-grey">
+                  <h1
+                    v-if="!character.dead"
+                    class="heading has-text-centered has-text-grey"
+                  >
                     {{ character.life }} / {{ character.life_max }}
                   </h1>
+                  <h1
+                    v-if="character.dead"
+                    class="heading has-text-centered has-text-grey"
+                  >
+                    <span class="has-text-danger">Dead</span> /
+                    {{ character.life_max }}
+                  </h1>
                   <progress
+                    v-if="!character.dead"
                     class="progress is-danger is-small"
                     :value="character.life"
+                    :max="character.life_max"
+                  >
+                    {{ (character.life / character.life_max) * 100 }}%
+                  </progress>
+                  <progress
+                    v-if="character.dead"
+                    class="progress is-danger is-small"
+                    :value="0"
                     :max="character.life_max"
                   >
                     {{ (character.life / character.life_max) * 100 }}%

@@ -17,7 +17,7 @@
             </h1>
             <p
               class="mb-0 is-size-7"
-              :class="{ 'has-text-warning': property.includes('ÿc1') }"
+              :class="{ 'has-text-danger': property.includes('ÿc1') }"
               v-for="property of properties"
               :key="property"
             >
