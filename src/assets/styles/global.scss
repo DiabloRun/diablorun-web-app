@@ -64,6 +64,11 @@ body, html {
   }
 
 // Helpers
+.is-overlay .tags.are-large .tag {
+    padding: .5rem;
+    height: 2rem;
+}
+
 .is-rounded-slightly {
     border-radius: $radius;
 }

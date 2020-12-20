@@ -678,106 +678,94 @@
       </div>
     </section>
     <!-- #overlay for streaming -->
-    <section class="section" v-if="streamOverlay">
-      <div class="columns is-gapless is-mobile is-multiline">
-        <!-- Level -->
-        <div class="column is-full">
-          <div class="columns is-mobile is-vcentered">
-            <div class="column">
-              <p :class="`${character.hero} title mb-2`">
-                {{ character.name }}
-              </p>
-            </div>
-            <div class="column is-narrow">
-              <p class="title mb-2">
-                <span class="has-text-grey">Level</span>
-                {{ character.level }}
-              </p>
-            </div>
-            <div class="column is-narrow">
-              <p class="title mb-2">
-                <span class="has-text-grey">Players</span>
-                {{ character.players }}
-              </p>
-            </div>
-          </div>
-        </div>
+    <section class="section is-paddingless is-overlay" v-if="streamOverlay">
+      <!-- First row -->
+      <div class="columns mb-3 is-gapless is-mobile is-multiline">
         <div class="column">
-          <!-- Resistances -->
-          <div class="columns is-mobile">
-            <div class="column is-narrow has-text-grey">
-              <p class="title mb-2">FIRE</p>
-              <p class="title mb-2">COLD</p>
-              <p class="title mb-2">LIGH</p>
-              <p class="title mb-2">POIS</p>
-            </div>
-            <div class="column">
-              <p class="title mb-2 has-text-danger">{{ character.fire_res }}</p>
-              <p class="title mb-2 has-text-link">{{ character.cold_res }}</p>
-              <p class="title mb-2 has-text-warning">
-                {{ character.light_res }}
-              </p>
-              <p class="title mb-2 has-text-success">
-                {{ character.poison_res }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="column">
-          <!-- Attributes -->
-          <div class="columns is-mobile">
-            <div class="column is-narrow has-text-grey">
-              <p class="title mb-2">STR</p>
-              <p class="title mb-2">DEX</p>
-              <p class="title mb-2">VIT</p>
-              <p class="title mb-2">ENE</p>
-            </div>
-            <div class="column">
-              <p class="title mb-2">{{ character.strength }}</p>
-              <p class="title mb-2">{{ character.dexterity }}</p>
-              <p class="title mb-2">{{ character.vitality }}</p>
-              <p class="title mb-2">{{ character.energy }}</p>
+          <div class="field is-grouped is-grouped-multiline">
+            <!-- Level -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-dark">{{ character.name }}</span>
+                <span class="tag is-light">Level {{ character.level }}</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="column is-narrow">
-          <!-- Speed -->
-          <div class="columns is-mobile">
-            <div class="column is-narrow has-text-grey">
-              <p class="title mb-2">FCR</p>
-              <p class="title mb-2">FHR</p>
-              <p class="title mb-2">FRW</p>
-              <p class="title mb-2">IAS</p>
-            </div>
-            <div class="column">
-              <p class="title mb-2">{{ character.fcr }}</p>
-              <p class="title mb-2">{{ character.fhr }}</p>
-              <p class="title mb-2">{{ character.frw }}</p>
-              <p class="title mb-2">{{ character.ias }}</p>
+          <div class="field is-grouped is-grouped-multiline">
+            <!-- Core -->
+            <div class="control">
+              <div v-if="character.hc" class="tags are-large">
+                <span class="tag is-danger">HC</span>
+              </div>
+              <div v-if="!character.hc" class="tags are-large">
+                <span class="tag is-light">SC</span>
+              </div>
             </div>
           </div>
         </div>
-        <!-- Gold -->
-        <div class="column is-full">
-          <div class="columns is-mobile">
-            <div class="column">
-              <p v-if="character.hc" class="title has-text-danger">Hardcore</p>
-              <p v-if="!character.hc" class="title">
-                {{ character.deaths }}
-                <span class="has-text-grey">Deaths</span>
-              </p>
+      </div>
+      <!-- Second row -->
+      <div class="columns mb-3 is-gapless is-mobile is-multiline">
+        <div class="column">
+          <div class="field is-grouped is-grouped-multiline">
+            <!-- MF -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-dark">MF</span>
+                <span class="tag is-light">{{ character.mf }}</span>
+              </div>
             </div>
-            <div class="column is-narrow">
-              <p class="title">
-                <span class="has-text-warning">{{ character.mf }}</span>
-                <span class="has-text-grey"> MF</span>
-              </p>
+            <!-- Gold -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-dark">Gold</span>
+                <span class="tag is-light">{{ character.gold }}</span>
+              </div>
             </div>
-            <div class="column is-narrow">
-              <p class="title">
-                <span class="has-text-warning">{{ character.gold_total }}</span>
-                <span class="has-text-grey"> Gold</span>
-              </p>
+          </div>
+        </div>
+        <div class="column is-narrow">
+          <div class="field is-grouped is-grouped-multiline">
+            <!-- Players -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-dark">Players</span>
+                <span class="tag is-light">{{ character.players }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Third row -->
+      <div class="columns is-gapless is-mobile is-multiline">
+        <div class="column">
+          <div class="field is-grouped is-grouped-multiline">
+            <!-- Resistances -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-danger">{{ character.fire_res }}</span>
+                <span class="tag is-primary">{{ character.cold_res }}</span>
+                <span class="tag is-warning">{{ character.light_res }}</span>
+                <span class="tag is-success">{{ character.poison_res }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-narrow">
+          <div class="field is-grouped is-grouped-multiline">
+            <!-- FCR -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-light">{{ character.fcr }} FCR</span>
+              </div>
+            </div>
+            <!-- FRW -->
+            <div class="control">
+              <div class="tags are-large has-addons">
+                <span class="tag is-light">{{ character.frw }} FRW</span>
+              </div>
             </div>
           </div>
         </div>
