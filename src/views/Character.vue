@@ -721,7 +721,7 @@
             <div class="control">
               <div class="tags are-large has-addons">
                 <span class="tag is-dark">Gold</span>
-                <span class="tag is-light">{{ character.gold }}</span>
+                <span class="tag is-light">{{ character.gold_total }}</span>
               </div>
             </div>
           </div>
