@@ -36,6 +36,8 @@ $grey-er: hsl(0, 0%, 35%);
 $grey: hsl(0, 0%, 70%);
 
 // Derived colors
+$background: $grey-dark;
+$text-strong: $white;
 $primary: $purple;
 $info: $cyan;
 $success: $green;
