@@ -5,7 +5,7 @@
       <header class="modal-card-head">
         <p class="modal-card-title">{{ title }}</p>
         <button
-          class="delete"
+          class="delete has-background-link"
           aria-label="close"
           @click="reject()"
           v-if="cancelable"

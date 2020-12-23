@@ -429,8 +429,8 @@ export default {
       if (
         await this.$store.dispatch('app/confirm', {
           title: 'Delete character',
-          message: `Are you sure you wish to delete the character ${character.name}?`,
-          verify: 'Delete'
+          message: `Are you sure you wish to delete level ${character.level} ${character.name}?`,
+          verify: `Delete ${character.name}`
         })
       ) {
         try {

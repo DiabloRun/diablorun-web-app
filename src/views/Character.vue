@@ -189,7 +189,7 @@
                 </div>
               </div>
               <!-- Players -->
-              <div v-if="!character.hc" class="control">
+              <div class="control">
                 <div class="tags has-addons">
                   <span class="tag is-dark">
                     <span class="is-hidden-touch">Players set to</span>
