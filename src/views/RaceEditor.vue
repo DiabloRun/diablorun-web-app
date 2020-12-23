@@ -26,20 +26,20 @@
           </div>
         </div>
       </section>
-      <!-- Quick Statistics -->
+      <!-- Save -->
       <section class="section pb-0" v-if="canEdit">
         <div class="container">
           <div class="columns is-vcentered is-mobile">
             <div class="column">
               <button
                 v-if="dirty"
-                class="button is-primary"
+                class="button is-small is-primary"
                 :class="{ 'is-loading': saving }"
                 @click="save()"
               >
                 Save changes
               </button>
-              <button v-if="!dirty" class="button is-primary">
+              <button v-if="!dirty" class="button is-small is-primary">
                 No changes since saving
               </button>
             </div>
@@ -55,13 +55,13 @@
             <div v-if="token && !start_time" class="column is-narrow">
               <button
                 v-if="canHost"
-                class="button is-primary"
+                class="button is-small is-primary"
                 @click="startCountdown()"
               >
                 Start race countdown from 10s
               </button>
-              <button v-if="!canHost" class="button is-primary">
-                Only Patreons supporting with at least 10€ can host races
+              <button v-if="!canHost" class="button is-small is-primary">
+                Only Patreons can host races
               </button>
             </div>
           </div>
@@ -73,7 +73,7 @@
             <div class="columns">
               <div class="column">
                 <div class="field">
-                  <h1 class="subtitle is-4">Name</h1>
+                  <h1 class="subtitle mb-3">Name</h1>
                   <div class="control">
                     <input
                       class="input"
@@ -84,7 +84,7 @@
                   </div>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle is-4 has-margin-top">Description</h1>
+                  <h1 class="subtitle mb-3 pt-3">Description</h1>
                   <div class="control">
                     <textarea
                       class="textarea"
@@ -94,7 +94,7 @@
                   </div>
                 </div>
                 <div class="field" v-if="canHost">
-                  <h1 class="subtitle is-4 has-margin-top">
+                  <h1 class="subtitle mb-3 pt-3">
                     Estimated start time
                   </h1>
                   <div class="control">
@@ -102,7 +102,7 @@
                   </div>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle is-4 has-margin-top">
+                  <h1 class="subtitle mb-3 pt-3">
                     Allowed Players Setting
                   </h1>
                   <div class="control">
@@ -118,7 +118,7 @@
                 <div class="columns">
                   <div class="column">
                     <div class="field">
-                      <h1 class="subtitle is-4 has-margin-top">Token</h1>
+                      <h1 class="subtitle mb-3 pt-3">Token</h1>
                       <input
                         v-if="token"
                         readonly
@@ -138,7 +138,7 @@
                   </div>
                   <div class="column">
                     <div class="field">
-                      <h1 class="subtitle is-4 has-margin-top">Race Page</h1>
+                      <h1 class="subtitle mb-3 pt-3">Race Page</h1>
                       <input
                         v-if="leaderboard_url"
                         readonly
@@ -159,7 +159,7 @@
                 </div>
               </div>
               <div class="column is-narrow">
-                <h1 class="subtitle is-4">Entry Conditions</h1>
+                <h1 class="subtitle mb-3">Entry Conditions</h1>
                 <div class="field">
                   <label class="checkbox">
                     <input type="checkbox" v-model="form.entry_new_character" />
@@ -179,10 +179,10 @@
                   </label>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle is-4 has-margin-top has-tiny-margin">
+                  <h1 class="subtitle mb-3 pt-3">
                     Allowed Classes
                   </h1>
-                  <p class="has-text-fade">Hold control to select multiple</p>
+                  <p class="mb-3">Hold control to select multiple</p>
                   <div class="select is-multiple">
                     <select
                       multiple
@@ -208,7 +208,7 @@
         <div class="container">
           <!-- Points -->
           <div class="box">
-            <h1 class="subtitle is-4">Points</h1>
+            <h1 class="subtitle mb-3">Points</h1>
             <div
               class="field has-addons"
               v-for="(point, index) of form.points"
@@ -246,7 +246,6 @@
               >
                 <span class="select is-small">
                   <select v-model="point.stat">
-                    <option value="">select</option>
                     <option
                       v-for="stat of stats"
                       :key="stat.id"
@@ -260,7 +259,6 @@
               <p class="control" v-if="point.type === 'quest'">
                 <span class="select is-small">
                   <select v-model="point.difficulty">
-                    <option value="">select</option>
                     <option
                       v-for="difficulty of difficulties"
                       :key="difficulty.id"
@@ -274,7 +272,6 @@
               <p class="control" v-if="point.type === 'quest'">
                 <span class="select is-small">
                   <select v-model="point.quest_id">
-                    <option value="">select</option>
                     <optgroup
                       v-for="act of acts"
                       :key="act.id"
@@ -330,7 +327,7 @@
           </div>
           <!--Finish-->
           <div class="box">
-            <h1 class="subtitle is-4">Finish conditions</h1>
+            <h1 class="subtitle mb-3">Finish conditions</h1>
             <div
               v-for="(condition, index) of form.finish_conditions"
               :key="index"
@@ -371,7 +368,6 @@
               <p class="control" v-if="condition.type === 'stat'">
                 <span class="select is-small">
                   <select v-model="condition.stat">
-                    <option value="">select</option>
                     <option
                       v-for="stat of stats"
                       :key="stat.id"
@@ -385,7 +381,6 @@
               <p class="control" v-if="condition.type === 'quest'">
                 <span class="select is-small">
                   <select v-model="condition.difficulty">
-                    <option value="">select</option>
                     <option
                       v-for="difficulty of difficulties"
                       :key="difficulty.id"
@@ -399,7 +394,6 @@
               <p class="control" v-if="condition.type === 'quest'">
                 <span class="select is-small">
                   <select v-model="condition.quest_id">
-                    <option value="">select</option>
                     <optgroup
                       v-for="act of acts"
                       :key="act.id"
@@ -421,7 +415,7 @@
                   class="button is-small is-static"
                   @click="removeFinishCondition(index)"
                 >
-                  <span class="delete"></span>
+                  <span class="delete has-background-danger"></span>
                 </a>
               </p>
             </div>
@@ -449,13 +443,13 @@
         <div class="container">
           <button
             v-if="dirty"
-            class="button is-primary"
+            class="button is-small is-primary"
             :class="{ 'is-loading': saving }"
             @click="save()"
           >
             Save changes
           </button>
-          <button v-if="!dirty" class="button is-primary">
+          <button v-if="!dirty" class="button is-small is-primary">
             No changes since saving
           </button>
         </div>
