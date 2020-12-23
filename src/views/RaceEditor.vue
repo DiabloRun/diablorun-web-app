@@ -317,7 +317,7 @@
                   class="button is-small is-static"
                   @click="removePoint(index)"
                 >
-                  <span class="delete has-background-link"></span>
+                  <span class="delete has-background-danger"></span>
                 </a>
               </p>
             </div>
