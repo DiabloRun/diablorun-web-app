@@ -41,11 +41,11 @@
 </template>
 
 <script>
-import posts from '@/router/blog';
+import posts from '@/router/wiki';
 import BlogPostBox from '@/components/BlogPostBox.vue';
 
 export default {
-  name: 'Blog',
+  name: 'Wiki',
   components: {
     BlogPostBox
   },

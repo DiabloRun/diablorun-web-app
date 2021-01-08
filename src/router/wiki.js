@@ -8,9 +8,9 @@ export default [
       tags: ['Classic', 'Speedruns'],
       title: 'Classic'
     },
-    path: '/blog/classic',
+    path: '/wiki/classic',
     component: () =>
-      import(/* webpackChunkName: "blog" */ '../blog/classic.vue')
+      import(/* webpackChunkName: "wiki" */ '../wiki/classic.vue')
   },
   {
     meta: {
@@ -21,9 +21,9 @@ export default [
       tags: ['History', 'Speedruns', 'Players X'],
       title: 'Any% Softcore Sorceress Players X History'
     },
-    path: '/blog/sc-sor-px',
+    path: '/wiki/sc-sor-px',
     component: () =>
-      import(/* webpackChunkName: "blog" */ '../blog/sc-sor-px.vue')
+      import(/* webpackChunkName: "wiki" */ '../wiki/sc-sor-px.vue')
   },
   {
     meta: {
@@ -34,8 +34,8 @@ export default [
       tags: ['History', 'Speedruns', 'Players 1'],
       title: 'Any% Softcore Sorceress Players 1 History'
     },
-    path: '/blog/sc-sor-p1',
+    path: '/wiki/sc-sor-p1',
     component: () =>
-      import(/* webpackChunkName: "blog" */ '../blog/sc-sor-p1.vue')
+      import(/* webpackChunkName: "wiki" */ '../wiki/sc-sor-p1.vue')
   }
 ];

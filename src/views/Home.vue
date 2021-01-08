@@ -1,379 +1,221 @@
 <template>
-  <div>
-    <!-- Hero  -->
-    <section class="hero is-medium is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            <a href="https://github.com/diablorun" target="_blank"
-              >Open source</a
-            >
-            project for Diablo enthusiasts
-          </h1>
-        </div>
-      </div>
-    </section>
-    <!-- Speedruns -->
-    <section class="section">
-      <div class="container">
-        <div class="columns is-multiline">
-          <!-- Recently submitted runs -->
-          <div class="column is-full is-6-fullhd">
-            <h1 class="subtitle">Recently submitted speedruns</h1>
-            <table class="table is-striped is-hoverable is-narrow is-fullwidth">
-              <thead>
-                <tr>
-                  <th class="has-text-centered is-narrow">#</th>
-                  <th>Runner</th>
-                  <th>Time</th>
-                  <th>Category</th>
-                  <th class="is-hidden-mobile">Submitted</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="run of latestSpeedruns" :key="run.id">
-                  <td class="has-text-centered has-text-grey">
-                    <span :class="`rank-${run.category_rank}`">
-                      {{ run.category_rank }}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="has-no-wrap">
-                      <a
-                        v-if="!run.user_id"
-                        :style="`color: ${run.speedrun_user_dark_color_from};`"
-                        :href="run.speedrun_user_weblink"
-                        target="_blank"
-                      >
-                        <CountryIcon
-                          imgClass="flag"
-                          :code="run.speedrun_user_country_code"
-                        />
-                        {{ run.speedrun_user_name }}
-                      </a>
-                      <router-link
-                        v-if="run.user_id"
-                        :to="{
-                          name: 'User',
-                          params: { user_name: run.user_name }
-                        }"
-                        :style="
-                          `color: ${run.user_color ||
-                            run.speedrun_user_dark_color_from};`
-                        "
-                      >
-                        <CountryIcon
-                          imgClass="flag"
-                          :code="run.speedrun_user_country_code"
-                        />
-                        {{ run.user_name }}
-                      </router-link>
-                    </span>
-                    <span v-if="run.character_id">
-                      <span class="has-text-grey">as</span>
-                      <router-link
-                        :to="{
-                          name: 'Character',
-                          params: {
-                            user_name: run.user_name,
-                            character_slug:
-                              run.character_name + run.character_id
-                          }
-                        }"
-                      >
-                        {{ run.character_name }}
-                      </router-link>
-                    </span>
-                  </td>
-                  <td>
-                    <span class="is-family-monospace">
-                      <a :href="run.speedrun_link" target="_blank">
-                        {{ run.seconds_played | DurationFilter }}
-                      </a>
-                    </span>
-                  </td>
-                  <td class="has-text-capitalized">
-                    <router-link
-                      :to="{
-                        name: 'Leaderboard',
-                        hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
-                          run.hero
-                        }/${run.players_category}`
-                      }"
-                    >
-                      {{ run.category_name }}
-                      <span :class="`has-hero ${run.hero}`">
-                        {{ run.hero }}
-                      </span>
-                      <span v-if="!run.hc"> SC</span>
-                      <span v-if="run.hc">HC</span>
-                      {{ run.players_category }}
-                    </router-link>
-                  </td>
-                  <td class="is-hidden-mobile has-text-grey is-narrow">
-                    {{ run.submit_time | FromNowFilter }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- Fresh world records -->
-          <div class="column is-full is-6-fullhd">
-            <h1 class="subtitle">Fresh world records</h1>
-            <table class="table is-striped is-hoverable is-narrow is-fullwidth">
-              <thead>
-                <tr>
-                  <th class="has-text-centered is-narrow">#</th>
-                  <th>Runner</th>
-                  <th>Time</th>
-                  <th>Category</th>
-                  <th class="is-hidden-mobile">Submitted</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="run of latestRecords" :key="run.id">
-                  <td class="has-text-centered">
-                    <span :class="`rank-${run.category_rank}`">
-                      {{ run.category_rank }}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="has-no-wrap">
-                      <a
-                        v-if="!run.user_id"
-                        :style="`color: ${run.speedrun_user_dark_color_from};`"
-                        :href="run.speedrun_user_weblink"
-                        target="_blank"
-                      >
-                        <CountryIcon
-                          imgClass="flag"
-                          :code="run.speedrun_user_country_code"
-                        />
-                        {{ run.speedrun_user_name }}
-                      </a>
-                      <router-link
-                        v-if="run.user_id"
-                        :to="{
-                          name: 'User',
-                          params: { user_name: run.user_name }
-                        }"
-                        :style="
-                          `color: ${run.user_color ||
-                            run.speedrun_user_dark_color_from};`
-                        "
-                      >
-                        <CountryIcon
-                          imgClass="flag"
-                          :code="run.speedrun_user_country_code"
-                        />
-                        {{ run.user_name }}
-                      </router-link>
-                    </span>
-                    <span v-if="run.character_id">
-                      <span class="has-text-grey">as</span>
-                      <router-link
-                        :to="{
-                          name: 'Character',
-                          params: {
-                            user_name: run.user_name,
-                            character_slug:
-                              run.character_name + run.character_id
-                          }
-                        }"
-                      >
-                        {{ run.character_name }}
-                      </router-link>
-                    </span>
-                  </td>
-                  <td>
-                    <span class="is-family-monospace">
-                      <a :href="run.speedrun_link" target="_blank">
-                        {{ run.seconds_played | DurationFilter }}
-                      </a>
-                    </span>
-                  </td>
-                  <td class="has-text-capitalized">
-                    <router-link
-                      :to="{
-                        name: 'Leaderboard',
-                        hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
-                          run.hero
-                        }/${run.players_category}`
-                      }"
-                    >
-                      {{ run.category_name }}
-                      <span :class="`has-hero ${run.hero}`">
-                        {{ run.hero }}
-                      </span>
-                      <span v-if="!run.hc"> SC</span>
-                      <span v-if="run.hc"> HC</span>
-                      {{ run.players_category }}
-                    </router-link>
-                  </td>
-                  <td class="is-hidden-mobile has-text-grey is-narrow">
-                    {{ run.submit_time | FromNowFilter }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="column">
-            <router-link :to="{ name: 'Leaderboard' }">
-              <button class="button is-small is-primary">
-                View the full leaderboard
-              </button>
-            </router-link>
-          </div>
-          <div class="column is-narrow">
-            <p class="has-text-grey is-size-7">
-              Runs are pulled from
-              <a href="https://www.speedrun.com/d2lod" target="_blank"
-                >speedrun.com</a
-              >
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section pt-0">
-      <div class="container">
-        <div class="columns is-multiline">
-          <!-- Most medals -->
-          <div class="column is-full is-6-tablet">
-            <h1 class="subtitle">Runners with the most records</h1>
-            <table class="table is-striped is-hoverable is-narrow is-fullwidth">
-              <thead>
-                <tr>
-                  <th class="has-text-centered is-narrow">#</th>
-                  <th>Runner</th>
-                  <th class="has-text-centered">Gold</th>
-                  <th class="has-text-centered">Silver</th>
-                  <th class="has-text-centered">Bronze</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="runner of mostMedals" :key="runner.speedrun_user_id">
-                  <td class="has-text-centered has-text-grey">
-                    <span :class="`rank-${runner.rank}`">
-                      {{ runner.rank }}
-                    </span>
-                  </td>
-                  <td class="">
-                    <span class="has-no-wrap">
-                      <a
-                        v-if="!runner.user_id"
-                        :style="
-                          `color: ${runner.speedrun_user_dark_color_from};`
-                        "
-                        :href="runner.speedrun_user_weblink"
-                        target="_blank"
-                      >
-                        <CountryIcon
-                          imgClass="flag"
-                          :code="runner.speedrun_user_country_code"
-                        />
-                        {{ runner.speedrun_user_name }}
-                      </a>
-                      <router-link
-                        v-if="runner.user_id"
-                        :to="{
-                          name: 'User',
-                          params: { user_name: runner.user_name }
-                        }"
-                        :style="
-                          `color: ${runner.user_color ||
-                            runner.speedrun_user_dark_color_from};`
-                        "
-                      >
-                        <CountryIcon
-                          imgClass="flag"
-                          :code="runner.speedrun_user_country_code"
-                        />
-                        {{ runner.user_name }}
-                      </router-link>
-                    </span>
-                    <span v-if="runner.character_id">
-                      <span class="has-text-grey">as</span>
-                      <router-link
-                        :to="{
-                          name: 'Character',
-                          params: {
-                            user_name: runner.user_name,
-                            character_slug:
-                              runner.character_name + runner.character_id
-                          }
-                        }"
-                      >
-                        {{ runner.character_name }}
-                      </router-link>
-                    </span>
-                  </td>
-                  <td class="rank-1 has-text-centered">
-                    {{ runner.gold }}
-                  </td>
-                  <td class="rank-2 has-text-centered">
-                    {{ runner.silver }}
-                  </td>
-                  <td class="rank-3 has-text-centered">
-                    {{ runner.bronze }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- Latest article -->
-          <div class="column is-full is-6-tablet">
-            <h1 class="subtitle">Latest article</h1>
-            <BlogPostBox :post="latestPost"></BlogPostBox>
-            <router-link :to="{ name: 'Blog' }">
-              <button class="button is-small is-primary">
-                Read more articles
-              </button>
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container is-fluid">
-        <div class="columns is-mobile is-vcentered is-centered">
-          <div
-            class="column is-3-mobile is-2-tablet is-1-fullhd"
-            data-tooltip="Diablo.run repositories on GitHub"
+  <v-container fluid class="pa-6">
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title
+            ><v-icon left color="grey accent-4">mdi-trophy-outline</v-icon
+            >Recently submitted speedruns</v-card-title
           >
-            <a href="https://github.com/diablorun" target="_blank">
-              <img src="@/assets/img/GitHub_Logo_White.png" />
-            </a>
-          </div>
-          <div
-            class="column is-3-mobile is-2-tablet is-1-fullhd"
-            data-tooltip="Become a Diablo.run Patreon"
+          <v-divider></v-divider>
+          <v-simple-table dense>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Runner</th>
+                <th>Time</th>
+                <th>Category</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="run of latestSpeedruns" :key="run.id">
+                <td>{{ run.category_rank }}</td>
+                <td>
+                  <a
+                    v-if="!run.user_id"
+                    :style="`color: ${run.speedrun_user_dark_color_from};`"
+                    :href="run.speedrun_user_weblink"
+                    target="_blank"
+                  >
+                    {{ run.speedrun_user_name }}
+                  </a>
+                  <router-link
+                    v-if="run.user_id"
+                    :to="{
+                      name: 'User',
+                      params: { user_name: run.user_name }
+                    }"
+                    :style="
+                      `color: ${run.user_color ||
+                        run.speedrun_user_dark_color_from};`
+                    "
+                  >
+                    {{ run.user_name }}
+                  </router-link>
+                </td>
+                <td>{{ run.seconds_played | DurationFilter }}</td>
+                <td>
+                  <router-link
+                    :to="{
+                      name: 'Leaderboard',
+                      hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
+                        run.hero
+                      }/${run.players_category}`
+                    }"
+                  >
+                    {{ run.category_name }}
+                    <span :class="`has-hero ${run.hero}`">
+                      {{ run.hero }}
+                    </span>
+                    <span v-if="!run.hc"> SC</span>
+                    <span v-if="run.hc">HC</span>
+                    {{ run.players_category }}
+                  </router-link>
+                </td>
+                <td>{{ run.submit_time | FromNowFilter }}</td>
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card>
+          <v-card-title
+            ><v-icon left color="yellow accent-4">mdi-trophy</v-icon>Fresh world
+            records</v-card-title
           >
-            <a href="https://www.patreon.com/diablorun" target="_blank">
-              <img src="@/assets/img/patreon.png" />
-            </a>
-          </div>
-          <div
-            class="column is-3-mobile is-2-tablet is-1-fullhd"
-            data-tooltip="Join Diablo.run Discord channel"
-          >
-            <a href="https://discord.gg/QMMDR2a" target="_blank">
-              <img src="@/assets/img/Discord-Logo.png" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+          <v-divider></v-divider>
+          <v-simple-table dense>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Runner</th>
+                <th>Time</th>
+                <th>Category</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="run of latestSpeedruns" :key="run.id">
+                <td>{{ run.category_rank }}</td>
+                <td>
+                  <a
+                    v-if="!run.user_id"
+                    :style="`color: ${run.speedrun_user_dark_color_from};`"
+                    :href="run.speedrun_user_weblink"
+                    target="_blank"
+                  >
+                    {{ run.speedrun_user_name }}
+                  </a>
+                  <router-link
+                    v-if="run.user_id"
+                    :to="{
+                      name: 'User',
+                      params: { user_name: run.user_name }
+                    }"
+                    :style="
+                      `color: ${run.user_color ||
+                        run.speedrun_user_dark_color_from};`
+                    "
+                  >
+                    {{ run.user_name }}
+                  </router-link>
+                </td>
+                <td>{{ run.seconds_played | DurationFilter }}</td>
+                <td>
+                  <router-link
+                    :to="{
+                      name: 'Leaderboard',
+                      hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
+                        run.hero
+                      }/${run.players_category}`
+                    }"
+                  >
+                    {{ run.category_name }}
+                    <span :class="`has-hero ${run.hero}`">
+                      {{ run.hero }}
+                    </span>
+                    <span v-if="!run.hc"> SC</span>
+                    <span v-if="run.hc">HC</span>
+                    {{ run.players_category }}
+                  </router-link>
+                </td>
+                <td>{{ run.submit_time | FromNowFilter }}</td>
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row class="pt-3">
+      <v-col>
+        <v-card>
+          <v-card-title>
+            <v-icon left color="grey">mdi-medal</v-icon>
+            Runners with most records
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-simple-table dense>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Runner</th>
+                <th>
+                  <v-icon small left color="yellow accent-4">mdi-trophy</v-icon
+                  >Gold
+                </th>
+                <th>
+                  <v-icon small left color="grey lighten-1">mdi-trophy</v-icon
+                  >Silver
+                </th>
+                <th>
+                  <v-icon small left color="brown">mdi-trophy</v-icon>Bronze
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="runner of mostMedals" :key="runner.speedrun_user_id">
+                <td>{{ runner.rank }}</td>
+                <td>
+                  <a
+                    v-if="!runner.user_id"
+                    :style="`color: ${runner.speedrun_user_dark_color_from};`"
+                    :href="runner.speedrun_user_weblink"
+                    target="_blank"
+                  >
+                    {{ runner.speedrun_user_name }}
+                  </a>
+                  <router-link
+                    v-if="runner.user_id"
+                    :to="{
+                      name: 'User',
+                      params: { user_name: runner.user_name }
+                    }"
+                    :style="
+                      `color: ${runner.user_color ||
+                        runner.speedrun_user_dark_color_from};`
+                    "
+                  >
+                    {{ runner.user_name }}
+                  </router-link>
+                </td>
+                <td>
+                  {{ runner.gold }}
+                </td>
+                <td>
+                  {{ runner.silver }}
+                </td>
+                <td>
+                  {{ runner.bronze }}
+                </td>
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </v-card>
+      </v-col>
+      <v-col> </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import { HeroNameFilter } from '@/filters';
 import { FromNowFilter } from '@/filters';
 import { DurationFilter } from '@/filters';
-import CountryIcon from '@/components/CountryIcon.vue';
-import BlogPostBox from '@/components/BlogPostBox.vue';
-import blog from '@/router/blog.js';
+// import CountryIcon from '@/components/CountryIcon.vue';
+// import BlogPostBox from '@/components/BlogPostBox.vue';
+import blog from '@/router/wiki.js';
 
 export default {
   filters: {
@@ -382,8 +224,8 @@ export default {
     DurationFilter
   },
   components: {
-    CountryIcon,
-    BlogPostBox
+    // CountryIcon,
+    // BlogPostBox
   },
   name: 'Home',
   data() {

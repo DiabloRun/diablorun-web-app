@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BlogRouter from './blog';
+import BlogRouter from './wiki';
 
 Vue.use(VueRouter);
 
@@ -11,9 +11,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
   },
   {
-    path: '/blog',
-    name: 'Blog',
-    component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue')
+    path: '/wiki',
+    name: 'Wiki',
+    component: () => import(/* webpackChunkName: "blog" */ '../views/Wiki.vue')
   },
   ...BlogRouter,
   {
@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: '/setup',
-    name: 'Setup',
+    name: 'Interface Setup',
     component: () =>
       import(/* webpackChunkName: "setup" */ '../views/Profile.vue')
   },
@@ -47,7 +47,7 @@ const routes = [
   },
   {
     path: '/race-editor/:editor_token',
-    name: 'RaceEditor',
+    name: 'Race Editor',
     component: () =>
       import(/* webpackChunkName: "editor" */ '../views/RaceEditor.vue')
   },
@@ -63,10 +63,10 @@ const routes = [
       import(/* webpackChunkName: "races" */ '../views/Races.vue')
   },
   {
-    path: '/active',
-    name: 'ActiveUsers',
+    path: '/users',
+    name: 'Users',
     component: () =>
-      import(/* webpackChunkName: "leaderboard" */ '../views/ActiveUsers.vue')
+      import(/* webpackChunkName: "leaderboard" */ '../views/Users.vue')
   },
   {
     path: '/:user_name',
