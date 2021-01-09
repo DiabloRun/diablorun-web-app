@@ -465,7 +465,7 @@ import DateTimeInput from '@/components/DateTimeInput.vue';
 import { heroes, quests, stats } from '@diablorun/diablorun-data';
 
 export default {
-  name: 'RaceEditor',
+  name: 'Race Editor',
   components: {
     RaceCountdown,
     DateTimeInput
@@ -666,7 +666,7 @@ export default {
           this.leaderboard_url = `${process.env.VUE_APP_WEB_URL}/race/${body.slug}${body.id}`;
 
           this.$router.push({
-            name: 'RaceEditor',
+            name: 'Race Editor',
             params: {
               editor_token: body.editor_token
             }

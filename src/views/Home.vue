@@ -3,10 +3,10 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title
-            ><v-icon left color="grey accent-4">mdi-trophy-outline</v-icon
-            >Recently submitted speedruns</v-card-title
-          >
+          <v-card-title>
+            <v-icon left>mdi-trophy-outline</v-icon>
+            Recently submitted speedruns
+          </v-card-title>
           <v-divider></v-divider>
           <v-simple-table dense>
             <thead>
@@ -71,10 +71,10 @@
       </v-col>
       <v-col>
         <v-card>
-          <v-card-title
-            ><v-icon left color="yellow accent-4">mdi-trophy</v-icon>Fresh world
-            records</v-card-title
-          >
+          <v-card-title>
+            <v-icon left color="yellow accent-4">mdi-trophy</v-icon>
+            Fresh world records
+          </v-card-title>
           <v-divider></v-divider>
           <v-simple-table dense>
             <thead>
@@ -142,7 +142,7 @@
       <v-col>
         <v-card>
           <v-card-title>
-            <v-icon left color="grey">mdi-medal</v-icon>
+            <v-icon left>mdi-medal</v-icon>
             Runners with most records
           </v-card-title>
           <v-divider></v-divider>

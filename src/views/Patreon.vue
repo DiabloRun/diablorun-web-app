@@ -1,5 +1,44 @@
 <template>
   <div class="profile">
+    <v-container fill-height fluid class="pa-6">
+      <v-row align="center" justify="center">
+        <v-col cols="12" sm="8" md="8" lg="6">
+          <v-card>
+            <v-card-title>
+              <v-icon left>mdi-patreon</v-icon>
+              Diablo.run Patreon
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-row justify="center" class="text-center pa-9">
+              <v-col>
+                <v-card-title class="justify-center">
+                  Thank you, {{ user.name }}!
+                </v-card-title>
+                <v-card-subtitle class="pb-0">
+                  You've pledged
+                  <v-chip color="primary" class="ma-1">
+                    {{ user.patreon_amount_cents / 100 }}€
+                  </v-chip>
+                  to Diablo.run
+                </v-card-subtitle>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="primary"
+                text
+                href="https://www.patreon.com/diablorun"
+                target="_blank"
+              >
+                Diablo.run Patreon page
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <!-- Hero  -->
     <section class="hero is-dark is-medium is-bold">
       <div class="hero-body">

@@ -1,114 +1,62 @@
 <template>
-  <div>
-    <!-- Hero -->
-    <section class="hero is-medium is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
-            <div class="column">
-              <h1 class="title">
-                Join our
-                <a href="https://discord.gg/QMMDR2a">diablo.run Discord</a> to
-                quickly get in touch with us
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Content -->
-    <section class="section mt-5">
-      <div class="container">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-7">
-            <div class="content is-large">
-              <h1 class="title">We're brothers from Estonia</h1>
-              <p>
-                Our goal is to build a portal for Diablo players where people
-                can compete in races, share their speedruns, characters and
-                playthroughs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-4-fullhd is-half-tablet">
-            <div class="box">
-              <article class="media">
-                <div class="media-left">
-                  <figure class="image is-96x96">
-                    <img
-                      class="is-rounded has-glow"
-                      src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/shenk.jpg"
-                      alt="Image"
-                    />
-                  </figure>
-                </div>
-                <div class="media-content is-vcentered">
-                  <div class="content">
-                    <p class="title is-4">OverseerShenk</p>
-                    <p class="subtitle is-5 has-text-fade">Developer</p>
-                  </div>
-                  <nav class="level is-mobile">
-                    <div class="level-left">
-                      <a class="level-item" href="/OverseerShenk">
-                        Diablo.run
-                      </a>
-                      <a
-                        class="level-item"
-                        href="https://www.twitch.tv/OverseerShenk"
-                      >
-                        Twitch
-                      </a>
-                    </div>
-                  </nav>
-                </div>
-              </article>
-            </div>
-          </div>
-          <div class="column is-4-fullhd is-half-tablet">
-            <div class="box">
-              <article class="media">
-                <div class="media-left">
-                  <figure class="image is-96x96">
-                    <img
-                      class="is-rounded has-glow"
-                      src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/indrek.jpg"
-                      alt="Image"
-                    />
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <p class="title is-4">Indrek</p>
-                    <p class="subtitle is-5 has-text-fade">
-                      Front-end developer
-                    </p>
-                  </div>
-                  <nav class="level is-mobile">
-                    <div class="level-left">
-                      <a class="level-item" href="/Indrek"> Diablo.run </a>
-                      <a class="level-item" href="https://www.twitch.tv/Indrek">
-                        Twitch
-                      </a>
-                      <a
-                        class="level-item"
-                        href="https://www.youtube.com/c/indrekleede"
-                      >
-                        YouTube
-                      </a>
-                    </div>
-                  </nav>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+  <v-container fill-height fluid class="pa-6">
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="8" lg="6">
+        <v-card>
+          <v-card-title>We're brothers from Estonia</v-card-title>
+          <v-card-subtitle>
+            Our goal is to build a portal for Diablo players where people can
+            compete in races, share their speedruns, characters and
+            playthroughs.
+          </v-card-subtitle>
+          <v-divider></v-divider>
+          <v-row justify="center" class="text-center pa-9">
+            <v-col>
+              <v-avatar size="96">
+                <img
+                  alt="user"
+                  src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/indrek.jpg"
+                />
+              </v-avatar>
+              <v-card-title class="justify-center"> Indrek </v-card-title>
+              <v-card-subtitle class="pb-0"> Developer </v-card-subtitle>
+            </v-col>
+            <v-divider vertical></v-divider>
+            <v-col>
+              <v-avatar size="96">
+                <img
+                  alt="user"
+                  src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/shenk.jpg"
+                />
+              </v-avatar>
+              <v-card-title class="justify-center">
+                OverseerShenk
+              </v-card-title>
+              <v-card-subtitle class="pb-0"> Developer </v-card-subtitle>
+            </v-col>
+          </v-row>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn
+              color="primary"
+              text
+              href="https://discord.gg/QMMDR2a"
+              target="_blank"
+            >
+              <v-icon left color="discord">mdi-discord</v-icon>Contact us on
+              Discord
+            </v-btn>
+            <v-btn
+              color="primary"
+              text
+              href="https://github.com/DiabloRun/"
+              target="_blank"
+            >
+              <v-icon left color="grey lighten-4">mdi-github</v-icon>GitHub
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

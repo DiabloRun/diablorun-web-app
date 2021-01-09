@@ -2,63 +2,32 @@
   <v-app id="inspire">
     <v-app-bar flat dense clipped-left app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon class="mdi-flip-h" color="orange accent-4">mdi-sword</v-icon>
+      <v-icon color="primary">mdi-sword</v-icon>
       <h3 class="pl-1">diablo<span class="grey--text">.</span>run</h3>
       <v-spacer></v-spacer>
-      hey
-
-      <div class="navbar-end">
-        <a class="navbar-item" v-if="!user" :href="twitchAuthenticationUrl">
-          Sign in with Twitch
-        </a>
-        <div
-          v-if="user"
-          class="navbar-item has-dropdown"
-          :class="{ 'is-active': showUserMenu }"
-        >
-          <a class="navbar-link" @click="toggleUserMenu()">
-            {{ user.name }}
-          </a>
-
-          <div class="navbar-dropdown is-right">
-            <router-link
-              active-class="is-active"
-              class="navbar-item"
-              :to="{ name: 'User', params: { user_name: user.name } }"
-              @click.native="showUserMenu = false"
-            >
-              Profile
-            </router-link>
-            <router-link
-              active-class="is-active"
-              class="navbar-item"
-              :to="{ name: 'Setup' }"
-              @click.native="showUserMenu = false"
-            >
-              Setup
-            </router-link>
-            <router-link
-              active-class="is-active"
-              class="navbar-item"
-              :to="{ name: 'RaceEditor', params: { editor_token: 'new' } }"
-              @click.native="showUserMenu = false"
-            >
-              Race editor
-            </router-link>
-            <router-link
-              active-class="is-active"
-              class="navbar-item"
-              :to="{ name: 'Patreon' }"
-              @click.native="showUserMenu = false"
-            >
-              Patreon
-            </router-link>
-            <a class="navbar-item" @click="signOut()"> Log out </a>
-          </div>
-        </div>
-      </div>
+      <v-tabs v-if="!user" right>
+        <v-tab :href="twitchAuthenticationUrl">
+          Login with Twitch
+          <v-icon color="twitch" right>mdi-twitch</v-icon>
+        </v-tab>
+      </v-tabs>
+      <v-tabs v-if="user" right>
+        <v-tab :to="{ name: 'User', params: { user_name: user.name } }">
+          {{ user.name }}
+        </v-tab>
+        <v-tab @click="signOut()">Logout</v-tab>
+      </v-tabs>
+      <v-avatar size="32" v-if="user">
+        <img :src="user.profile_image_url" :alt="user.name" />
+      </v-avatar>
     </v-app-bar>
-    <v-navigation-drawer width="200" clipped v-model="drawer" app>
+    <v-navigation-drawer
+      color="secondary"
+      width="200"
+      clipped
+      v-model="drawer"
+      app
+    >
       <v-list dense nav>
         <v-list-item
           link
@@ -75,16 +44,40 @@
       </v-list>
       <v-divider></v-divider>
       <v-list v-if="user" dense nav>
-        <v-list-item link exact :to="user.name + '/@'">
+        <v-list-item link exact :to="{ name: 'Interface Setup' }">
+          <v-icon left>mdi-cogs</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Interface Setup</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'User', params: { user_name: user.name + '/@' } }"
+        >
           <v-icon left>mdi-sword</v-icon>
           <v-list-item-content>
             <v-list-item-title>Latest Hero</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link exact :to="user.name">
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'User', params: { user_name: user.name } }"
+        >
           <v-icon left>mdi-format-list-text</v-icon>
           <v-list-item-content>
             <v-list-item-title>Character History</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
+        >
+          <v-icon left>mdi-flag-plus</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Race Editor</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -148,11 +141,10 @@ export default {
         { title: 'Home', icon: 'mdi-home' },
         { title: 'Leaderboard', icon: 'mdi-trophy' },
         { title: 'Wiki', icon: 'mdi-book-open-variant' },
-        { title: 'Races', icon: 'mdi-run-fast' },
+        { title: 'Races', icon: 'mdi-flag-checkered' },
         { title: 'Users', icon: 'mdi-account-group' }
       ],
       secondaryItems: [
-        { title: 'Interface Setup', icon: 'mdi-cogs' },
         { title: 'Patreon', icon: 'mdi-patreon' },
         { title: 'Team', icon: 'mdi-human-greeting' }
       ],

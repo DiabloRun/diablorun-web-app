@@ -1,141 +1,93 @@
 <template>
-  <div class="profile">
-    <div v-if="!user">
-      <!-- Hero  -->
-      <section class="hero is-medium is-dark is-bold">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">
-              <a href="https://www.twitch.tv/login">Twitch account</a> is
-              required
-            </h1>
+  <v-container fill-height fluid>
+    <v-row v-if="!user" align="center" justify="center">
+      <v-col cols="12" sm="8" md="6" lg="4">
+        <v-card :loading="loading">
+          <v-card-title> Login </v-card-title>
+          <v-divider></v-divider>
+          <div class="pa-10 text-center">
+            <v-btn
+              @click="login"
+              :href="twitchAuthenticationUrl"
+              color="primary"
+            >
+              <v-icon left>mdi-twitch</v-icon>Login with Twitch
+            </v-btn>
           </div>
-        </div>
-      </section>
-      <!-- Sign in required -->
-      <section class="section">
-        <div class="container">
-          <div class="columns is-centered">
-            <div class="column is-6">
-              <div class="box has-text-centered">
-                <h1 class="subtitle">Already have a Twitch account?</h1>
-                <a
-                  class="button is-primary"
-                  :href="twitchAuthenticationUrl"
-                  :class="{ 'is-loading': loading }"
-                >
-                  Sign in using Twitch
-                </a>
-                <p v-if="invalid" class="mt-3">Invalid Twitch access token!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-    <div v-if="user">
-      <!-- Hero account -->
-      <section class="hero is-medium is-dark is-bold">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">
-              Connect
-              <a
-                href="https://github.com/DiabloRun/DiabloInterface"
-                target="_blank"
-                >Diablo Interface</a
-              >
-              with
-              <router-link
-                :to="{ name: 'User', params: { user_name: user.name } }"
-                >diablo.run/{{ user.name }}</router-link
-              >
-            </h1>
-          </div>
-        </div>
-      </section>
-      <!-- Content -->
-      <section class="section">
-        <div class="container">
-          <div class="columns">
-            <div class="column is-6">
-              <div class="box">
-                <h1 class="subtitle">
-                  <span class="has-text-grey">1.</span> Download Diablo
-                  Interface
-                </h1>
-                <a
-                  target="_blank"
-                  class="button is-primary mb-5"
-                  href="https://github.com/DiabloRun/DiabloInterface"
-                  >Download Diablo Interface</a
-                >
-                <p>
-                  Diablo Interface reads Diablo II data from memory. That data
-                  gets sent to our servers and displayed on your profile so you
-                  can share your characters with other people.
-                </p>
-                <p class="pt-3">
-                  It's important to keep Diablo Interface up to date. Older
-                  versions cause bugs and incorrect data readings.
-                </p>
-                <p class="pt-3">
-                  We also have a Twitch Extension by Borshter. Go to Twitch
-                  Extensions page and search for Diablo.run Armory.
-                </p>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="box">
-                <h1 class="subtitle">
-                  <span class="has-text-grey">2.</span> Config Diablo Interface
-                </h1>
-                <h1 class="heading has-text-white">URL</h1>
-                <input
-                  readonly
-                  class="input"
-                  type="text"
-                  placeholder="URL"
-                  v-model="updateUrl"
-                />
-                <h1 class="heading has-text-white mt-5">Headers</h1>
-                <input
-                  readonly
-                  class="input"
-                  type="text"
-                  placeholder="Headers"
-                  :value="'API_KEY=' + user.api_key"
-                />
-                <ol type="1" class="py-5 pl-4">
-                  <li>Open Diablo Interface</li>
-                  <li>Right click and click Config (Ctrl+U)</li>
-                  <li>Select HttpClient tab from the top menu</li>
-                  <li>Copy &amp; paste your URL and Headers</li>
-                  <li>Click on Enable</li>
-                  <li>Save</li>
-                </ol>
-                <p>
-                  After saving you can enter a character in Diablo II and see if
-                  it is synced in your
-                  <router-link
-                    :to="{ name: 'User', params: { user_name: user.name } }"
-                    >diablo.run/{{ user.name }}</router-link
-                  >
-                  page. Try restarting the game and Diablo Interface if it
-                  didn't work.
-                </p>
-                <p class="pt-3">
-                  Feel free to ask help from our
-                  <a href="https://discord.gg/QMMDR2a">Discord</a> if you're
-                  having any problems.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
+          <v-divider></v-divider>
+          <v-card-subtitle>
+            Twitch account is required. Don't have a Twitch account?
+            <a href="https://www.twitch.tv/signup" target="_blank">
+              Create one here<v-icon small color="grey"
+                >mdi-open-in-new</v-icon
+              > </a
+            >.
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row v-if="user" align="center" justify="center">
+      <v-col cols="12" md="8" lg="6">
+        <v-card>
+          <v-card-title>
+            <v-icon left>mdi-cogs</v-icon>
+            Connect Interface with Diablo.run
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="white--text">
+            <v-text-field
+              v-model="updateUrl"
+              label="URL"
+              readonly
+            ></v-text-field>
+            <v-text-field
+              :value="'API_KEY=' + user.api_key"
+              label="Headers"
+              readonly
+            ></v-text-field>
+            <ol>
+              <li>Download and open Diablo Interface</li>
+              <li>
+                Right click and go to
+                <v-icon class="px-1" small>mdi-wrench</v-icon
+                ><strong>Config</strong>
+              </li>
+              <li>Select <strong>HttpClient</strong> tab from the top menu</li>
+              <li>
+                Copy and paste your <strong>URL</strong> and
+                <strong>Headers</strong>
+              </li>
+              <li>Click Enable</li>
+              <li>Save</li>
+            </ol>
+            <p class="mt-5">
+              After saving you can enter a character in Diablo II and see if it
+              is synced in your profile page. Restart the game and Interface if
+              it didn't work.
+            </p>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn
+              color="primary"
+              text
+              href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.8"
+              target="_blank"
+            >
+              <v-icon left>mdi-download</v-icon>Diablo Interface 0.6.8
+            </v-btn>
+            <v-btn
+              color="primary"
+              text
+              :to="{ name: 'User', params: { user_name: user.name } }"
+            >
+              <v-icon left>mdi-sword</v-icon>diablo.run/{{ user.name }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -153,6 +105,13 @@ export default {
         'https://g48bwtx3c2.execute-api.eu-central-1.amazonaws.com/default/d2id-update',
       twitchAuthenticationUrl: `https://id.twitch.tv/oauth2/authorize?client_id=${process.env.VUE_APP_TWITCH_CLIENT_ID}&redirect_uri=${redirect_uri}&response_type=token&scope=`
     };
+  },
+  methods: {
+    reserve() {
+      this.loading = true;
+
+      setTimeout(() => (this.loading = false), 2000);
+    }
   },
   computed: {
     ...mapState({
