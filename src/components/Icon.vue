@@ -1,5 +1,5 @@
 <template>
-  <img :class="imgClass" :src="icons[`./${name}.png`]" />
+  <img :src="icons[`./${name}.png`]" />
 </template>
 
 <script>

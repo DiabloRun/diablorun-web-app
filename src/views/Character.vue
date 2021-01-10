@@ -1,5 +1,104 @@
 <template>
   <div>
+    <v-container fluid class="pa-6">
+      <v-card>
+        <v-row no-gutters align="center">
+          <v-col
+            v-if="character.user_profile_image_url"
+            cols="auto"
+            class="ml-3"
+          >
+            <router-link
+              :to="{
+                name: 'User',
+                params: { user_name: character.user_name }
+              }"
+            >
+              <v-avatar size="64">
+                <img
+                  :src="character.user_profile_image_url"
+                  class="is-rounded has-glow"
+                />
+              </v-avatar>
+            </router-link>
+          </v-col>
+          <v-col>
+            <v-card-title>
+              {{ character.hero | HeroNameFilter }} {{ character.name }}
+            </v-card-title>
+            <v-card-subtitle>
+              <router-link
+                :to="{
+                  name: 'Character',
+                  params: {
+                    user_name: character.user_name,
+                    character_slug: character.name + character.id
+                  }
+                }"
+              >
+                #{{ character.id }}</router-link
+              >
+              added by
+              <router-link
+                :to="{
+                  name: 'User',
+                  params: { user_name: character.user_name }
+                }"
+              >
+                {{ character.user_name }}
+              </router-link>
+            </v-card-subtitle>
+          </v-col>
+          <v-col cols="auto" align="right" class="mr-3">
+            <v-btn color="primary" icon @click="toggleTwitchEmbed()">
+              <v-icon color="twitch"> mdi-twitch </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row class="ma-1">
+          <v-col cols="auto">
+            <v-progress-circular
+              :rotate="90"
+              :size="64"
+              :width="3"
+              :value="(character.life / character.life_max) * 100"
+              color="red"
+            >
+              {{ character.life }}
+            </v-progress-circular>
+            <router-link
+              :to="{
+                name: 'Character',
+                params: {
+                  user_name: character.user_name,
+                  character_slug: character.name + character.id
+                }
+              }"
+            >
+              <v-avatar size="64" class="mx-2">
+                <Icon :name="`big-${character.hero}`" />
+              </v-avatar>
+            </router-link>
+            <v-progress-circular
+              :rotate="90"
+              :size="64"
+              :width="3"
+              :value="(character.mana / character.mana_max) * 100"
+              color="blue"
+            >
+              {{ character.mana }}
+            </v-progress-circular>
+          </v-col>
+        </v-row>
+        <v-divider v-if="showTwitchEmbed"></v-divider>
+        <v-row v-if="showTwitchEmbed" class="ma-1">
+          <v-col>
+            <TwitchEmbed :username="character.user_name" />
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
     <!-- Hero -->
     <section v-if="!streamOverlay" class="hero is-dark is-bold">
       <div class="hero-body">
@@ -23,10 +122,7 @@
                     }"
                   >
                     <figure class="image is-48x48">
-                      <Icon
-                        :imgClass="`has-glow-${character.hero} is-rounded`"
-                        :name="`big-${character.hero}`"
-                      />
+                      <Icon :name="`big-${character.hero}`" />
                     </figure>
                   </router-link>
                 </div>
@@ -91,20 +187,7 @@
                     {{ (character.life / character.life_max) * 100 }}%
                   </progress>
                 </div>
-                <div class="column is-narrow px-0">
-                  <div
-                    class="column is-narrow has-tooltip-bottom"
-                    :data-tooltip="
-                      'Toggle ' + character.user_name + ' Twitch stream'
-                    "
-                  >
-                    <figure class="image is-24x24 has-glow">
-                      <a @click="toggleTwitchEmbed()">
-                        <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
-                      </a>
-                    </figure>
-                  </div>
-                </div>
+
                 <div
                   class="column is-4-mobile is-3-tablet has-tooltip-bottom"
                   v-if="character.life !== null"
@@ -161,12 +244,7 @@
         </div>
       </div>
     </section>
-    <!-- Twitch embed -->
-    <section v-if="showTwitchEmbed" class="section is-paddingless">
-      <div class="container is-fluid is-paddingless">
-        <TwitchEmbed :username="character.user_name" />
-      </div>
-    </section>
+
     <!-- General character stats -->
     <section class="section pb-0" v-if="!streamOverlay">
       <div class="container">

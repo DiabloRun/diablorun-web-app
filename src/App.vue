@@ -17,7 +17,6 @@
             <img
               v-if="user.profile_image_url !== ''"
               :src="user.profile_image_url"
-              alt="Avatar"
             />
             <v-icon
               v-if="user.profile_image_url == ''"
