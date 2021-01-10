@@ -2,24 +2,34 @@
   <v-app id="inspire">
     <v-app-bar flat dense clipped-left app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon color="primary">mdi-sword</v-icon>
+      <v-icon right color="primary">mdi-sword</v-icon>
       <h3 class="pl-1">diablo<span class="grey--text">.</span>run</h3>
       <v-spacer></v-spacer>
       <v-tabs v-if="!user" right>
         <v-tab :href="twitchAuthenticationUrl">
           Login with Twitch
-          <v-icon color="twitch" right>mdi-twitch</v-icon>
+          <v-icon color="white" right>mdi-twitch</v-icon>
         </v-tab>
       </v-tabs>
       <v-tabs v-if="user" right>
         <v-tab :to="{ name: 'User', params: { user_name: user.name } }">
-          {{ user.name }}
+          <v-avatar size="32">
+            <img
+              v-if="user.profile_image_url !== ''"
+              :src="user.profile_image_url"
+              alt="Avatar"
+            />
+            <v-icon
+              v-if="user.profile_image_url == ''"
+              size="32"
+              color="primary"
+            >
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
         </v-tab>
-        <v-tab @click="signOut()">Logout</v-tab>
+        <v-tab @click="signOut()">Exit</v-tab>
       </v-tabs>
-      <v-avatar size="32" v-if="user">
-        <img :src="user.profile_image_url" :alt="user.name" />
-      </v-avatar>
     </v-app-bar>
     <v-navigation-drawer
       color="secondary"
@@ -44,10 +54,17 @@
       </v-list>
       <v-divider></v-divider>
       <v-list v-if="user" dense nav>
-        <v-list-item link exact :to="{ name: 'Interface Setup' }">
-          <v-icon left>mdi-cogs</v-icon>
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'User', params: { user_name: user.name } }"
+        >
+          <v-avatar v-if="user.profile_image_url !== ''" class="mr-2" size="24">
+            <img :src="user.profile_image_url" :alt="user.name" />
+          </v-avatar>
+          <v-icon v-if="user.profile_image_url == ''" left>mdi-account</v-icon>
           <v-list-item-content>
-            <v-list-item-title>Interface Setup</v-list-item-title>
+            <v-list-item-title>Profile</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -63,21 +80,17 @@
         <v-list-item
           link
           exact
-          :to="{ name: 'User', params: { user_name: user.name } }"
-        >
-          <v-icon left>mdi-format-list-text</v-icon>
-          <v-list-item-content>
-            <v-list-item-title>Character History</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          exact
           :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
         >
           <v-icon left>mdi-flag-plus</v-icon>
           <v-list-item-content>
             <v-list-item-title>Race Editor</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link exact :to="{ name: 'Interface Setup' }">
+          <v-icon left>mdi-cogs</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Interface Setup</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

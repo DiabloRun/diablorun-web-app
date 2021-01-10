@@ -20,7 +20,26 @@
             </thead>
             <tbody>
               <tr v-for="run of latestSpeedruns" :key="run.id">
-                <td>{{ run.category_rank }}</td>
+                <td>
+                  {{ run.category_rank }}
+                  <v-icon
+                    v-if="run.category_rank == 1"
+                    small
+                    color="yellow accent-4"
+                  >
+                    mdi-trophy-outline
+                  </v-icon>
+                  <v-icon
+                    v-if="run.category_rank == 2"
+                    small
+                    color="grey lighten-1"
+                  >
+                    mdi-trophy-outline
+                  </v-icon>
+                  <v-icon v-if="run.category_rank == 3" small color="brown">
+                    mdi-trophy-outline
+                  </v-icon>
+                </td>
                 <td>
                   <a
                     v-if="!run.user_id"
@@ -79,7 +98,6 @@
           <v-simple-table dense>
             <thead>
               <tr>
-                <th>#</th>
                 <th>Runner</th>
                 <th>Time</th>
                 <th>Category</th>
@@ -87,8 +105,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="run of latestSpeedruns" :key="run.id">
-                <td>{{ run.category_rank }}</td>
+              <tr v-for="run of latestRecords" :key="run.id">
                 <td>
                   <a
                     v-if="!run.user_id"
@@ -166,7 +183,18 @@
             </thead>
             <tbody>
               <tr v-for="runner of mostMedals" :key="runner.speedrun_user_id">
-                <td>{{ runner.rank }}</td>
+                <td>
+                  {{ runner.rank }}
+                  <v-icon v-if="runner.rank == 1" small color="yellow accent-4">
+                    mdi-trophy-outline
+                  </v-icon>
+                  <v-icon v-if="runner.rank == 2" small color="grey lighten-1">
+                    mdi-trophy-outline
+                  </v-icon>
+                  <v-icon v-if="runner.rank == 3" small color="brown">
+                    mdi-trophy-outline
+                  </v-icon>
+                </td>
                 <td>
                   <a
                     v-if="!runner.user_id"
