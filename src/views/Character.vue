@@ -1,250 +1,277 @@
 <template>
   <div>
-    <v-container fluid class="pa-6">
-      <v-card>
-        <v-row no-gutters align="center">
-          <v-col
-            v-if="character.user_profile_image_url"
-            cols="auto"
-            class="ml-3"
-          >
-            <router-link
-              :to="{
-                name: 'User',
-                params: { user_name: character.user_name }
-              }"
-            >
-              <v-avatar size="64">
-                <img
-                  :src="character.user_profile_image_url"
-                  class="is-rounded has-glow"
-                />
-              </v-avatar>
-            </router-link>
+    <section v-if="showTwitchEmbed" class="section is-paddingless">
+      <div class="container is-fluid is-paddingless">
+        <TwitchEmbed :username="character.user_name" />
+      </div>
+    </section>
+    <v-card
+      class="d-flex align-content-space-between flex-wrap"
+      color="grey lighten-2"
+      flat
+      tile
+      min-height="300"
+    >
+      <v-card-text>hey</v-card-text>
+      <v-card-text>hey</v-card-text>
+      <v-card-text>hey</v-card-text>
+    </v-card>
+    <v-container class="py-6">
+      <v-row>
+        <v-col cols="12" lg="4">
+          <v-card height="300" class="d-flex align-content-space-between">
+            <v-row class="d-flex align-content-space-between">
+              <v-col cols="12">
+                <v-card-text>hey</v-card-text>
+              </v-col>
+              <v-col cols="12">
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="auto">
+                      <v-progress-circular
+                        v-if="!character.dead"
+                        :rotate="90"
+                        :size="64"
+                        :width="3"
+                        :value="(character.life / character.life_max) * 100"
+                        color="red darken-3"
+                      >
+                        <span class="white--text">{{ character.life }}</span>
+                      </v-progress-circular>
+                      <v-progress-circular
+                        v-if="character.dead"
+                        :rotate="90"
+                        :size="64"
+                        :width="3"
+                        :value="0"
+                        color="red darken-3"
+                      >
+                        <v-icon color="red"> mdi-skull-crossbones </v-icon>
+                      </v-progress-circular>
+                    </v-col>
+                    <v-col cols="auto">
+                      <router-link
+                        :to="{
+                          name: 'Character',
+                          params: {
+                            user_name: character.user_name,
+                            character_slug: character.name + character.id
+                          }
+                        }"
+                      >
+                        <v-badge
+                          bottom
+                          color="primary darken-2"
+                          :content="character.level"
+                          overlap
+                        >
+                          <v-avatar size="64">
+                            <Icon :name="`big-${character.hero}`" />
+                          </v-avatar>
+                        </v-badge>
+                      </router-link>
+                    </v-col>
+                    <v-col cols="auto">
+                      <v-progress-circular
+                        :rotate="90"
+                        :size="64"
+                        :width="3"
+                        :value="(character.mana / character.mana_max) * 100"
+                        color="blue darken-3"
+                      >
+                        <span class="white--text">{{ character.mana }}</span>
+                      </v-progress-circular>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-col>
+              <v-col cols="12">
+                <v-card-text>hey</v-card-text>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container>
+      <v-card class="pa-3">
+        <v-row>
+          <v-col cols="6">
+            <v-row>
+              <v-col cols="auto">
+                <router-link
+                  :to="{
+                    name: 'Character',
+                    params: {
+                      user_name: character.user_name,
+                      character_slug: character.name + character.id
+                    }
+                  }"
+                >
+                  <v-badge
+                    bottom
+                    color="primary darken-2"
+                    :content="character.level"
+                    overlap
+                  >
+                    <v-avatar size="64">
+                      <Icon :name="`big-${character.hero}`" />
+                    </v-avatar>
+                  </v-badge>
+                </router-link>
+              </v-col>
+              <v-col cols="auto">
+                <v-progress-circular
+                  v-if="!character.dead"
+                  :rotate="90"
+                  :size="64"
+                  :width="3"
+                  :value="(character.life / character.life_max) * 100"
+                  color="red darken-3"
+                >
+                  <span class="white--text">{{ character.life }}</span>
+                </v-progress-circular>
+                <v-progress-circular
+                  v-if="character.dead"
+                  :rotate="90"
+                  :size="64"
+                  :width="3"
+                  :value="0"
+                  color="red darken-3"
+                >
+                  <v-icon color="red"> mdi-skull-crossbones </v-icon>
+                </v-progress-circular>
+              </v-col>
+              <v-col cols="auto">
+                <v-progress-circular
+                  :rotate="90"
+                  :size="64"
+                  :width="3"
+                  :value="(character.mana / character.mana_max) * 100"
+                  color="blue darken-3"
+                >
+                  <span class="white--text">{{ character.mana }}</span>
+                </v-progress-circular>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col>
-            <v-card-title>
-              {{ character.hero | HeroNameFilter }} {{ character.name }}
-            </v-card-title>
-            <v-card-subtitle>
-              <router-link
-                :to="{
-                  name: 'Character',
-                  params: {
-                    user_name: character.user_name,
-                    character_slug: character.name + character.id
-                  }
-                }"
-              >
-                #{{ character.id }}</router-link
-              >
-              added by
-              <router-link
-                :to="{
-                  name: 'User',
-                  params: { user_name: character.user_name }
-                }"
-              >
-                {{ character.user_name }}
-              </router-link>
-            </v-card-subtitle>
+          <v-col cols="12">
+            <v-row>
+              <v-col>
+                <v-chip class="mr-1" label>
+                  <v-icon small left> mdi-arm-flex </v-icon>
+                  {{ character.strength }}
+                </v-chip>
+                <v-chip class="mr-1" label>
+                  <v-icon small left> mdi-bullseye-arrow </v-icon>
+                  {{ character.dexterity }}
+                </v-chip>
+                <v-chip class="mr-1" label>
+                  <v-icon small left> mdi-heart </v-icon>
+                  {{ character.vitality }}
+                </v-chip>
+                <v-chip label>
+                  <v-icon small left> mdi-bottle-tonic </v-icon>
+                  {{ character.energy }}
+                </v-chip>
+              </v-col>
+              <v-col cols="auto">
+                <v-chip v-if="character.hc" color="red darken-3" label>
+                  <v-icon v-if="!character.dead" small left> mdi-skull </v-icon>
+                  <v-icon v-if="character.dead" small left>
+                    mdi-skull-crossbones
+                  </v-icon>
+                  Hardcore
+                </v-chip>
+                <v-chip v-if="!character.hc" label>
+                  <v-icon small left> mdi-skull-outline </v-icon>
+                  {{ character.deaths }}
+                </v-chip>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col cols="auto" align="right" class="mr-3">
-            <v-btn color="primary" icon @click="toggleTwitchEmbed()">
-              <v-icon color="twitch"> mdi-twitch </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <v-row class="ma-1">
-          <v-col cols="auto">
-            <v-progress-circular
-              :rotate="90"
-              :size="64"
-              :width="3"
-              :value="(character.life / character.life_max) * 100"
-              color="red"
-            >
-              {{ character.life }}
-            </v-progress-circular>
-            <router-link
-              :to="{
-                name: 'Character',
-                params: {
-                  user_name: character.user_name,
-                  character_slug: character.name + character.id
-                }
-              }"
-            >
-              <v-avatar size="64" class="mx-2">
-                <Icon :name="`big-${character.hero}`" />
-              </v-avatar>
-            </router-link>
-            <v-progress-circular
-              :rotate="90"
-              :size="64"
-              :width="3"
-              :value="(character.mana / character.mana_max) * 100"
-              color="blue"
-            >
-              {{ character.mana }}
-            </v-progress-circular>
-          </v-col>
-        </v-row>
-        <v-divider v-if="showTwitchEmbed"></v-divider>
-        <v-row v-if="showTwitchEmbed" class="ma-1">
-          <v-col>
-            <TwitchEmbed :username="character.user_name" />
+          <v-col cols="12" class="pt-0">
+            <v-row>
+              <v-col>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-chip
+                      color="red darken-3"
+                      class="mr-1"
+                      label
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon small left> mdi-fire </v-icon>
+                      {{ character.fire_res }}
+                    </v-chip>
+                  </template>
+                  <span>Fire resistance</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-chip
+                      color="blue  darken-3"
+                      class="mr-1"
+                      label
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon small left> mdi-snowflake </v-icon>
+                      {{ character.cold_res }}
+                    </v-chip>
+                  </template>
+                  <span>Cold resistance</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-chip
+                      color="yellow darken-3"
+                      class="mr-1"
+                      label
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon small left> mdi-lightning-bolt </v-icon>
+                      {{ character.light_res }}
+                    </v-chip>
+                  </template>
+                  <span>Lightning resistance</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-chip
+                      color="green darken-3"
+                      label
+                      v-on="on"
+                      v-bind="attrs"
+                    >
+                      <v-icon small left> mdi-bottle-tonic-skull </v-icon>
+                      {{ character.poison_res }}
+                    </v-chip>
+                  </template>
+                  <span>Poison resistance</span>
+                </v-tooltip>
+              </v-col>
+              <v-col cols="auto">
+                <v-tooltip left>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-chip label v-on="on" v-bind="attrs">
+                      <v-icon color="yellow darken-1" small left>
+                        mdi-gold
+                      </v-icon>
+                      {{ character.gold_total }}
+                    </v-chip>
+                  </template>
+                  <span>Total gold</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-card>
     </v-container>
-    <!-- Hero -->
-    <section v-if="!streamOverlay" class="hero is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-mobile is-vcentered">
-            <!-- Left -->
-            <div class="column is-narrow is-paddingless ml-3">
-              <div class="columns is-vcentered is-mobile">
-                <!-- Hero icon -->
-                <div
-                  class="column has-tooltip-right"
-                  :data-tooltip="character.hero | HeroNameFilter"
-                >
-                  <router-link
-                    :to="{
-                      name: 'Character',
-                      params: {
-                        user_name: character.user_name,
-                        character_slug: character.name + character.id
-                      }
-                    }"
-                  >
-                    <figure class="image is-48x48">
-                      <Icon :name="`big-${character.hero}`" />
-                    </figure>
-                  </router-link>
-                </div>
-                <!-- Hero name -->
-                <div class="column is-narrow is-hidden-touch">
-                  <h1 class="title">
-                    <router-link
-                      :to="{
-                        name: 'Character',
-                        params: {
-                          user_name: character.user_name,
-                          character_slug: character.name + character.id
-                        }
-                      }"
-                      >{{ character.name }}</router-link
-                    >
-                    <span
-                      v-if="character.hc"
-                      class="tag ml-2 is-small is-danger"
-                      >HC</span
-                    >
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <!-- Middle -->
-            <div class="column is-paddingless">
-              <!-- Globes -->
-              <div class="columns is-mobile is-centered">
-                <div
-                  class="column is-4-mobile is-3-tablet has-tooltip-bottom"
-                  v-if="character.life !== null"
-                  data-tooltip="Life"
-                >
-                  <h1
-                    v-if="!character.dead"
-                    class="heading has-text-centered has-text-grey"
-                  >
-                    {{ character.life }} / {{ character.life_max }}
-                  </h1>
-                  <h1
-                    v-if="character.dead"
-                    class="heading has-text-centered has-text-grey"
-                  >
-                    <span class="has-text-danger">Dead</span> /
-                    {{ character.life_max }}
-                  </h1>
-                  <progress
-                    v-if="!character.dead"
-                    class="progress is-danger is-small"
-                    :value="character.life"
-                    :max="character.life_max"
-                  >
-                    {{ (character.life / character.life_max) * 100 }}%
-                  </progress>
-                  <progress
-                    v-if="character.dead"
-                    class="progress is-danger is-small"
-                    :value="0"
-                    :max="character.life_max"
-                  >
-                    {{ (character.life / character.life_max) * 100 }}%
-                  </progress>
-                </div>
-
-                <div
-                  class="column is-4-mobile is-3-tablet has-tooltip-bottom"
-                  v-if="character.life !== null"
-                  data-tooltip="Mana"
-                >
-                  <h1 class="heading has-text-centered has-text-grey">
-                    {{ character.mana }} / {{ character.mana_max }}
-                  </h1>
-                  <progress
-                    class="progress is-primary is-small"
-                    :value="character.mana"
-                    :max="character.mana_max"
-                  >
-                    {{ (character.mana / character.mana_max) * 100 }}%
-                  </progress>
-                </div>
-              </div>
-            </div>
-            <!-- Right -->
-            <div class="column is-narrow is-paddingless has-text-right mr-3">
-              <div class="columns is-vcentered">
-                <!-- Username -->
-                <div class="column is-narrow is-hidden-touch">
-                  <h1 class="title">
-                    <router-link
-                      :to="{
-                        name: 'User',
-                        params: { user_name: character.user_name }
-                      }"
-                    >
-                      {{ character.user_name }}
-                    </router-link>
-                  </h1>
-                </div>
-                <!-- User avatar -->
-                <div v-if="character.user_profile_image_url" class="column">
-                  <router-link
-                    :to="{
-                      name: 'User',
-                      params: { user_name: character.user_name }
-                    }"
-                  >
-                    <figure class="image is-48x48">
-                      <img
-                        :src="character.user_profile_image_url"
-                        class="is-rounded has-glow"
-                      />
-                    </figure>
-                  </router-link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- General character stats -->
     <section class="section pb-0" v-if="!streamOverlay">
       <div class="container">
