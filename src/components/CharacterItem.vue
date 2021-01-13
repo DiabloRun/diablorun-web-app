@@ -1,33 +1,29 @@
 <template>
-  <div class="card has-no-border-radius">
-    <div class="card-content equipment">
-      <div class="content has-text-centered">
-        <div class="columns is-mobile is-centered is-gapless">
-          <div class="column is-narrow">
-            <img :src="imageSrc" />
-          </div>
-          <div class="column is-10">
-            <h1 :class="`subtitle is-6 mb-1`">
-              <span v-if="runeword" class="quality-gold"
-                >{{ runeword }}<br
-              /></span>
-              <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
-                {{ runeword ? item.base_name : item.name }}
-              </span>
-            </h1>
-            <p
-              class="mb-0 is-size-7"
-              :class="{ 'has-text-danger': property.includes('ÿc1') }"
-              v-for="property of properties"
-              :key="property"
-            >
-              {{ property.replace(/^ÿc1/, '') }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-col cols="12" md="6" lg="4" class="pb-4 px-2">
+    <v-card color="darkAccent" class="fill-height">
+      <v-row no-gutters>
+        <v-col align="center" class="pa-2">
+          <v-img :src="imageSrc" height="50px" contain></v-img>
+          <h5 class="mt-1">
+            <span v-if="runeword" class="quality-gold"
+              >{{ runeword }}<br
+            /></span>
+            <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
+              {{ runeword ? item.base_name : item.name }}
+            </span>
+          </h5>
+          <p
+            class="mb-0 body-2"
+            :class="{ 'error--text': property.includes('ÿc1') }"
+            v-for="property of properties"
+            :key="property"
+          >
+            {{ property.replace(/^ÿc1/, '') }}
+          </p>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-col>
 </template>
 
 <style scoped lang="scss">
@@ -52,8 +48,8 @@
 }
 
 .quality-socketed {
-  font-weight: 400;
   opacity: 0.5;
+  font-weight: 400;
 }
 
 .quality-white {

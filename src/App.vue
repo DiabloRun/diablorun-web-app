@@ -31,7 +31,7 @@
       </v-tabs>
     </v-app-bar>
     <v-navigation-drawer
-      color="secondary"
+      color="darker"
       width="200"
       clipped
       v-model="drawer"
@@ -134,6 +134,10 @@
     </v-main>
   </v-app>
 </template>
+
+<style lang="scss">
+@import '@/assets/styles/global.scss';
+</style>
 
 <script>
 import { mapState } from 'vuex';
