@@ -1,5 +1,83 @@
 <template>
   <div>
+    <v-container>
+      <v-card>
+        <v-simple-table dense>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Runner</th>
+              <th>Time</th>
+              <th>Hero</th>
+              <th>Core</th>
+              <th>Submitted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(run, index) of runs" :key="run.id">
+              <td>
+                {{ index + 1 }}
+                <v-icon
+                  v-if="run.category_rank == 1"
+                  small
+                  color="yellow accent-4"
+                >
+                  mdi-trophy-outline
+                </v-icon>
+                <v-icon
+                  v-if="run.category_rank == 2"
+                  small
+                  color="grey lighten-1"
+                >
+                  mdi-trophy-outline
+                </v-icon>
+                <v-icon v-if="run.category_rank == 3" small color="brown">
+                  mdi-trophy-outline
+                </v-icon>
+              </td>
+              <td>
+                <a
+                  v-if="!run.user_id"
+                  :style="`color: ${run.speedrun_user_dark_color_from};`"
+                  :href="run.speedrun_user_weblink"
+                  target="_blank"
+                >
+                  {{ run.speedrun_user_name }}
+                </a>
+                <router-link
+                  v-if="run.user_id"
+                  :to="{
+                    name: 'User',
+                    params: { user_name: run.user_name }
+                  }"
+                  :style="
+                    `color: ${run.user_color ||
+                      run.speedrun_user_dark_color_from};`
+                  "
+                >
+                  {{ run.user_name }}
+                </router-link>
+              </td>
+              <td>{{ run.seconds_played | DurationFilter }}</td>
+              <td>
+                <v-icon small :class="`${run.hero}`">mdi-sword</v-icon>
+                {{ run.hero | HeroNameFilter }}
+              </td>
+              <td>
+                <span v-if="!run.hc">SC</span>
+                <span v-if="run.hc" class="error--text">HC</span>
+                <span class="grey--text ml-2">{{ run.players_category }}</span>
+              </td>
+              <td>{{ run.submit_time | FromNowFilter }}</td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+        <v-divider v-if="pagination.more"></v-divider>
+        <v-btn v-if="pagination.more" class="ma-4" @click="loadMore()">
+          Load more speedruns
+        </v-btn>
+      </v-card>
+    </v-container>
     <!-- Filters -->
     <section class="section pb-0">
       <div class="container">
@@ -83,9 +161,7 @@
     <section class="section" v-if="!runs.length > 0">
       <div class="container">
         <div class="notification is-dark has-text-centered">
-          <p>
-            Selected category is empty
-          </p>
+          <p>Selected category is empty</p>
         </div>
       </div>
     </section>

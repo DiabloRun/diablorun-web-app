@@ -1,30 +1,79 @@
 <template>
   <div>
-    <section v-if="showTwitchEmbed" class="section is-paddingless">
-      <div class="container is-fluid is-paddingless">
-        <TwitchEmbed :username="character.user_name" />
-      </div>
-    </section>
-
-    <v-container v-if="!streamOverlay" fluid class="pa-6">
+    <v-btn class="mt-3" fixed right fab small @click="toggleTwitchEmbed()">
+      <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
+      <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
+    </v-btn>
+    <v-container v-if="!streamOverlay && character.name" fluid class="pa-6">
+      <v-row v-if="showTwitchEmbed">
+        <v-col>
+          <TwitchEmbed :username="character.user_name" />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12" md="4">
           <v-card>
-            <v-card-title>
-              <v-row>
-                <v-col class="my-auto">
-                  <h5>
-                    {{ character.difficulty | DifficultyFilter }}
-                    {{ character.area | AreaNameFilter }}
-                  </h5>
-                </v-col>
-                <v-col cols="auto">
-                  <v-chip> Players {{ character.players }} </v-chip>
-                </v-col>
-              </v-row>
+            <v-card-title class="py-2">
+              <router-link
+                :to="{
+                  name: 'User',
+                  params: { user_name: character.user_name }
+                }"
+              >
+                <v-avatar size="48">
+                  <v-img :src="character.user_profile_image_url">
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          size="18"
+                          width="2"
+                          color="primary"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+                </v-avatar>
+              </router-link>
+              <h6 class="pl-3">
+                <router-link
+                  :to="{
+                    name: 'Character',
+                    params: {
+                      user_name: character.user_name,
+                      character_slug: character.name + character.id
+                    }
+                  }"
+                >
+                  {{ character.hero | HeroNameFilter }}
+                  {{ character.name }}</router-link
+                >
+                added by
+                <router-link
+                  :to="{
+                    name: 'User',
+                    params: { user_name: character.user_name }
+                  }"
+                  >{{ character.user_name }}</router-link
+                >
+              </h6>
             </v-card-title>
             <v-divider></v-divider>
-            <v-row no-gutters class="py-8">
+            <v-row no-gutters class="my-3">
+              <v-col>
+                <h5 class="text-center">
+                  {{ character.difficulty | DifficultyFilter }} Difficulty
+                  <span class="grey--text">
+                    Players set to {{ character.players }}
+                  </span>
+                </h5>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
               <v-col align="right">
                 <v-progress-circular
                   v-if="!character.dead"
@@ -45,7 +94,7 @@
                   <v-icon color="error"> mdi-skull-crossbones </v-icon>
                 </v-progress-circular>
               </v-col>
-              <v-col align="center">
+              <v-col cols="auto" align="center" class="mx-4">
                 <router-link
                   :to="{
                     name: 'Character',
@@ -57,11 +106,11 @@
                 >
                   <v-badge
                     bottom
-                    color="primary darken-2"
+                    color="grey darken-3"
                     :content="character.level"
                     overlap
                   >
-                    <v-avatar size="64">
+                    <v-avatar size="64" rounded>
                       <Icon :name="`big-${character.hero}`" />
                     </v-avatar>
                   </v-badge>
@@ -76,6 +125,13 @@
                 >
                   <span class="white--text">{{ character.mana }}</span>
                 </v-progress-circular>
+              </v-col>
+            </v-row>
+            <v-row no-gutters class="my-3">
+              <v-col>
+                <h5 class="text-center">
+                  {{ character.area | AreaNameFilter }}
+                </h5>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -238,6 +294,78 @@
               </v-card>
             </v-col>
           </v-row>
+          <v-row class="pt-3" v-if="character.hireling_name">
+            <v-col>
+              <v-card>
+                <v-card-title>
+                  <v-avatar size="32">
+                    <Icon :name="`${character.hireling_class}`" />
+                  </v-avatar>
+                  <h6 class="ml-3">
+                    {{ character.hireling_name }}
+                    <span class="grey--text"
+                      >Level {{ character.hireling_level }}</span
+                    >
+                  </h6>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="white--text">
+                  <v-row no-gutters>
+                    <v-col>
+                      <v-icon left color="error"> mdi-fire </v-icon
+                      >{{ character.hireling_fire_res }}
+                    </v-col>
+                    <v-col>
+                      <v-icon left color="info"> mdi-snowflake </v-icon>
+                      {{ character.hireling_cold_res }}
+                    </v-col>
+                    <v-col>
+                      <v-icon left color="warning"> mdi-lightning-bolt </v-icon
+                      >{{ character.hireling_light_res }}
+                    </v-col>
+                    <v-col>
+                      <v-icon left color="success">
+                        mdi-bottle-tonic-skull
+                      </v-icon>
+                      {{ character.hireling_poison_res }}
+                    </v-col>
+                  </v-row>
+                  <v-row no-gutters class="mt-4">
+                    <v-col cols="12" sm="3">
+                      <v-icon left> mdi-arm-flex </v-icon
+                      >{{ character.hireling_strength }} Str
+                    </v-col>
+                    <v-col>
+                      <v-icon left> mdi-bullseye-arrow </v-icon>
+                      {{ character.hireling_dexterity }} Dex
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-text-field
+            outlined
+            prepend-inner-icon="mdi-share"
+            :value="
+              'https://diablo.run/' +
+                character.user_name +
+                '/' +
+                character.name +
+                character.id
+            "
+            :label="'Share ' + character.name"
+            readonly
+            class="mt-6"
+          ></v-text-field>
+          <v-text-field
+            v-if="isEditor"
+            outlined
+            prepend-inner-icon="mdi-account-lock"
+            :value="character.seed"
+            :label="character.name + ' map seed'"
+            readonly
+          ></v-text-field>
         </v-col>
         <v-col cols="12" md="8">
           <v-card>
@@ -245,10 +373,10 @@
               v-model="tab"
               background-color="transparent"
               color="grey lighten-2"
-              grow
+              centered
             >
-              <v-tab> Items </v-tab>
-              <v-tab v-if="character.hireling_name"> Mercenary </v-tab>
+              <v-tab>Items</v-tab>
+              <v-tab>Mercenary</v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
               <v-tab-item class="pt-4 px-2">
@@ -585,90 +713,18 @@
                     v-if="character.hireling_primary_right"
                     :item="character.hireling_primary_right"
                   />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.hireling_primary_right"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-4 px-2"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5 class="text--secondary text-center py-3">
-                            empty hireling primary right
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
                   <CharacterItem
                     v-if="character.hireling_gloves"
                     :item="character.hireling_gloves"
                   />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.hireling_gloves"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-4 px-2"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5 class="text--secondary text-center py-3">
-                            empty hireling gloves
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
                   <CharacterItem
                     v-if="character.hireling_belt"
                     :item="character.hireling_belt"
                   />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.hireling_belt"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-4 px-2"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5 class="text--secondary text-center py-3">
-                            empty hireling belt
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
                   <CharacterItem
                     v-if="character.hireling_boots"
                     :item="character.hireling_boots"
                   />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.hireling_boots"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-4 px-2"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5 class="text--secondary text-center py-3">
-                            empty hireling boots
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
                 </v-row>
               </v-tab-item>
             </v-tabs-items>
@@ -802,19 +858,31 @@ export default {
   },
   data() {
     return {
-      showTwitchEmbed: false
+      showTwitchEmbed: false,
+      tab: 0,
+      user: null,
+      username: ''
     };
   },
   computed: {
     ...mapState({
       character: state => state.ws.character,
       streamOverlay: state => state.app.windowStyle === 'overlay'
-    })
+    }),
+    isEditor() {
+      if (!this.$store.state.auth.user) {
+        return false;
+      }
+
+      return this.$store.state.auth.user.login === this.username.toLowerCase();
+    }
   },
   watch: {
     $route: {
       immediate: true,
       async handler({ params: { user_name, character_slug } }) {
+        this.username = user_name.toLowerCase();
+
         const id = character_slug
           ? character_slug.replace(/^[^0-9]+/i, '')
           : '';

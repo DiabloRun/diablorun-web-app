@@ -8,7 +8,6 @@
       <v-tabs v-if="!user" right>
         <v-tab :href="twitchAuthenticationUrl">
           Login with Twitch
-          <v-icon color="white" right>mdi-twitch</v-icon>
         </v-tab>
       </v-tabs>
       <v-tabs v-if="user" right>

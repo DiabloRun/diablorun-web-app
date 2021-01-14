@@ -3,8 +3,19 @@
     <v-card color="darkAccent" class="fill-height">
       <v-row no-gutters>
         <v-col align="center" class="pa-2">
-          <v-img :src="imageSrc" height="50px" contain></v-img>
-          <h5 class="mt-1">
+          <v-img :src="imageSrc" height="50px" contain>
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  size="18"
+                  width="2"
+                  color="primary"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
+          <h5 class="my-1">
             <span v-if="runeword" class="quality-gold"
               >{{ runeword }}<br
             /></span>

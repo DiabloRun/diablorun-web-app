@@ -1,7 +1,43 @@
 @charset "utf-8";
-@import "./variables.scss";
 
-// Body
-body, html {
-    overflow-y: auto !important;
+.v-card a {
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.v-card  a:hover {
+    text-shadow: 0 0 20px #ff6d00;
+}
+
+.v-application p.body-2 {
+    font-size: .8rem !important;
+    line-height: 1rem;
+}
+
+.sor {
+    color: #26A69A !important;
+}
+
+.nec {
+    color: #00BCD4 !important;
+}
+
+.ama {
+    color: #FFD54F !important;
+}
+
+.dru {
+    color: #FF8A65 !important;
+}
+
+.asn {
+    color: #ae4ebe !important;
+}
+
+.pal {
+    color: #E0E0E0 !important;
+}
+
+.bar {
+    color: #e57373 !important;
 }

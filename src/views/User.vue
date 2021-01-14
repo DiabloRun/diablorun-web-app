@@ -237,7 +237,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables.scss';
+@import '@/styles/variables.scss';
 
 .table th {
   word-wrap: none;
