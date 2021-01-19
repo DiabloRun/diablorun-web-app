@@ -1,17 +1,10 @@
 <template>
-  <li
-    class="tab"
-    :class="{
-      'is-active': any ? $parent.value === '' : value === $parent.value
-    }"
-  >
-    <a @click="select()">
-      <span v-if="label">{{ label }}</span>
-      <span v-if="icon" class="icon">
-        <Icon imgClass="is-rounded-slightly" :name="icon" />
-      </span>
-    </a>
-  </li>
+  <v-btn @click="select()">
+    <span v-if="label">{{ label }}</span>
+    <v-avatar v-if="icon" size="30px">
+      <Icon :name="icon" />
+    </v-avatar>
+  </v-btn>
 </template>
 
 <script>

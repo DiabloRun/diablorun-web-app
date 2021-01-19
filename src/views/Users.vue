@@ -7,43 +7,55 @@
             <v-icon left>mdi-sword-cross</v-icon>
             Currently playing
           </v-card-title>
-        </v-card>
-      </v-col>
-      <v-col cols="12" md="6" lg="4" v-for="user of activeUsers" :key="user.id">
-        <v-card elevation="1" color="grey darken-4">
-          <v-row no-gutters align="center">
-            <v-col cols="auto" class="ml-3">
-              <v-avatar size="64">
-                <img
-                  v-if="user.profile_image_url !== ''"
-                  :src="user.user_profile_image_url"
-                />
-                <v-icon
-                  v-if="user.user_profile_image_url == ''"
-                  size="64"
-                  color="primary"
-                >
-                  mdi-account-circle
-                </v-icon>
-              </v-avatar>
-            </v-col>
-            <v-col>
-              <v-card-title>
-                <router-link
-                  :to="{
-                    name: 'Character',
-                    params: {
-                      user_name: user.user_name,
-                      character_slug: '@'
-                    }
-                  }"
-                >
-                  {{ user.user_name }}
-                </router-link>
-              </v-card-title>
-              <v-card-subtitle>
-                Level {{ user.level }} {{ user.hero | HeroNameFilter }}
-              </v-card-subtitle>
+          <v-divider></v-divider>
+          <v-row no-gutters>
+            <v-col
+              v-for="user of activeUsers"
+              :key="user.id"
+              cols="12"
+              md="6"
+              lg="4"
+              class="pa-4"
+            >
+              <v-card color="darkAccent">
+                <v-row no-gutters align="center">
+                  <v-col cols="auto" class="ml-3">
+                    <v-avatar size="64">
+                      <img
+                        v-if="user.profile_image_url !== ''"
+                        :src="user.user_profile_image_url"
+                      />
+                      <v-icon
+                        v-if="user.user_profile_image_url == ''"
+                        size="64"
+                        color="primary"
+                      >
+                        mdi-account-circle
+                      </v-icon>
+                    </v-avatar>
+                  </v-col>
+                  <v-col>
+                    <v-card-title>
+                      <router-link
+                        :to="{
+                          name: 'Character',
+                          params: {
+                            user_name: user.user_name,
+                            character_slug: '@'
+                          }
+                        }"
+                      >
+                        {{ user.user_name }}
+                      </router-link>
+                    </v-card-title>
+                    <v-card-subtitle>
+                      <v-icon small :class="`${user.hero}`">mdi-sword</v-icon>
+                      Level {{ user.level }}
+                      {{ user.hero | HeroNameFilter }}
+                    </v-card-subtitle>
+                  </v-col>
+                </v-row>
+              </v-card>
             </v-col>
           </v-row>
         </v-card>

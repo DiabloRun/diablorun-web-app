@@ -129,7 +129,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-main>
-      <router-view />
+      <transition name="block">
+        <router-view />
+      </transition>
     </v-main>
   </v-app>
 </template>
@@ -175,6 +177,7 @@ export default {
           url: 'https://github.com/diablorun'
         }
       ],
+      loading: false,
       right: null,
       showMenu: false,
       showUserMenu: false,

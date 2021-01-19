@@ -13,14 +13,18 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-card>
-            <v-card-title class="py-2">
+            <v-card-title class="py-2 pl-0">
               <router-link
                 :to="{
                   name: 'User',
                   params: { user_name: character.user_name }
                 }"
               >
-                <v-avatar size="48">
+                <v-avatar
+                  v-if="character.user_profile_image_url"
+                  size="48"
+                  class="ml-2"
+                >
                   <v-img :src="character.user_profile_image_url">
                     <template v-slot:placeholder>
                       <v-row
@@ -49,6 +53,20 @@
                     }
                   }"
                 >
+                  <v-icon
+                    v-if="!character.hc"
+                    small
+                    :class="`${character.hero}`"
+                  >
+                    mdi-sword
+                  </v-icon>
+                  <v-icon
+                    v-if="character.hc"
+                    small
+                    :class="`${character.hero}`"
+                  >
+                    mdi-skull-outline
+                  </v-icon>
                   {{ character.hero | HeroNameFilter }}
                   {{ character.name }}</router-link
                 >
@@ -331,7 +349,7 @@
                     </v-col>
                   </v-row>
                   <v-row no-gutters class="mt-4">
-                    <v-col cols="12" sm="3">
+                    <v-col cols="6">
                       <v-icon left> mdi-arm-flex </v-icon
                       >{{ character.hireling_strength }} Str
                     </v-col>
@@ -376,7 +394,7 @@
               centered
             >
               <v-tab>Items</v-tab>
-              <v-tab>Mercenary</v-tab>
+              <v-tab v-if="character.hireling_name">Mercenary</v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
               <v-tab-item class="pt-4 px-2">
@@ -396,7 +414,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty primary left
                           </h5>
                         </v-col>
@@ -415,7 +435,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty helm
                           </h5>
                         </v-col>
@@ -437,7 +459,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty primary right
                           </h5>
                         </v-col>
@@ -459,7 +483,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty secondary left
                           </h5>
                         </v-col>
@@ -481,7 +507,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty armor
                           </h5>
                         </v-col>
@@ -503,7 +531,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty secondary right
                           </h5>
                         </v-col>
@@ -525,7 +555,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty gloves
                           </h5>
                         </v-col>
@@ -544,7 +576,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty belt
                           </h5>
                         </v-col>
@@ -566,7 +600,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty boots
                           </h5>
                         </v-col>
@@ -588,7 +624,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty left ring
                           </h5>
                         </v-col>
@@ -610,7 +648,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty amulet
                           </h5>
                         </v-col>
@@ -632,7 +672,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty right ring
                           </h5>
                         </v-col>
@@ -658,7 +700,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty hireling primary left
                           </h5>
                         </v-col>
@@ -680,7 +724,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty hireling helm
                           </h5>
                         </v-col>
@@ -702,7 +748,9 @@
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
                         <v-col>
-                          <h5 class="text--secondary text-center py-3">
+                          <h5
+                            class="grey--text text-center py-3 body-2 font-italic"
+                          >
                             empty hireling armor
                           </h5>
                         </v-col>

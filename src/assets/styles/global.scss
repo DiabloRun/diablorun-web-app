@@ -6,7 +6,7 @@
 }
 
 .v-card  a:hover {
-    text-shadow: 0 0 20px #ff6d00;
+    text-shadow: 0 0 10px #ff6f008f;
 }
 
 .v-application p.body-2 {
@@ -14,6 +14,21 @@
     line-height: 1rem;
 }
 
+// Table
+tr:hover {
+    background-color: transparent !important;
+ }
+
+// Load Animation
+.block-enter {
+    opacity: 0;
+}
+
+.block-enter-active {
+    transition: opacity .4s;
+}
+
+// Heroes
 .sor {
     color: #26A69A !important;
 }

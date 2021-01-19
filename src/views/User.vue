@@ -39,6 +39,9 @@
                     }
                   }"
                 >
+                  <v-icon small :class="`${latestCharacter.hero}`">
+                    mdi-sword
+                  </v-icon>
                   {{ latestCharacter.hero | HeroNameFilter }}
                   {{ latestCharacter.name }}</router-link
                 >
@@ -61,10 +64,27 @@
       </v-col>
       <v-col cols="12" md="12" v-if="characters.length > 0">
         <v-card>
-          <v-card-title>
-            <v-icon left>mdi-format-list-text</v-icon>
-            Hero history
-          </v-card-title>
+          <v-row no-gutters>
+            <v-col>
+              <v-card-title>
+                <v-icon left>mdi-format-list-text</v-icon>
+                Hero history
+              </v-card-title>
+            </v-col>
+            <v-col cols="auto" class="my-auto mr-4">
+              <v-btn
+                :to="{
+                  name: 'Character',
+                  params: {
+                    user_name: latestCharacter.user_name,
+                    character_slug: '@'
+                  }
+                }"
+              >
+                Track active character
+              </v-btn>
+            </v-col>
+          </v-row>
           <v-divider></v-divider>
           <v-simple-table dense>
             <thead>
@@ -87,13 +107,32 @@
                     "
                     >{{ character.name }}
                   </router-link>
+                  <v-icon v-if="character.dead" small color="error">
+                    mdi-skull-crossbones
+                  </v-icon>
                 </td>
                 <td>{{ character.level }}</td>
                 <td>
                   <span v-if="!character.hc">SC</span>
                   <span v-if="character.hc" class="error--text">HC</span>
                 </td>
-                <td>{{ character.hero | HeroNameFilter }}</td>
+                <td>
+                  <v-icon
+                    v-if="!character.hc"
+                    small
+                    :class="`${character.hero}`"
+                  >
+                    mdi-sword
+                  </v-icon>
+                  <v-icon
+                    v-if="character.hc"
+                    small
+                    :class="`${character.hero}`"
+                  >
+                    mdi-skull-outline
+                  </v-icon>
+                  {{ character.hero | HeroNameFilter }}
+                </td>
                 <td>{{ character.area | AreaNameFilter }}</td>
                 <td>{{ character.start_time | FromNowFilter }}</td>
                 <td v-if="isEditor">
@@ -212,11 +251,23 @@
                       }
                     }"
                   >
+                    <v-icon v-if="!run.hc" small :class="`${run.hero}`">
+                      mdi-sword
+                    </v-icon>
+                    <v-icon v-if="run.hc" small :class="`${run.hero}`">
+                      mdi-skull-outline
+                    </v-icon>
                     {{ run.hero | HeroNameFilter }}
                   </router-link>
-                  <span v-if="!run.character_id">{{
-                    run.hero | HeroNameFilter
-                  }}</span>
+                  <span v-if="!run.character_id">
+                    <v-icon v-if="!run.hc" small :class="`${run.hero}`">
+                      mdi-sword
+                    </v-icon>
+                    <v-icon v-if="run.hc" small :class="`${run.hero}`">
+                      mdi-skull-outline
+                    </v-icon>
+                    {{ run.hero | HeroNameFilter }}
+                  </span>
                 </td>
                 <td>{{ run.submit_time | FromNowFilter }}</td>
               </tr>

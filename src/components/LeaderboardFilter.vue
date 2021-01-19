@@ -1,8 +1,8 @@
 <template>
-  <div class="tabs is-fullwidth is-toggle">
-    <ul>
+  <div>
+    <v-btn-toggle dense borderless>
       <slot />
-    </ul>
+    </v-btn-toggle>
   </div>
 </template>
 
