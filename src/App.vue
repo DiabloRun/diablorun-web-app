@@ -2,8 +2,8 @@
   <v-app id="inspire">
     <v-app-bar flat dense clipped-left app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon right color="primary">mdi-sword</v-icon>
-      <h3 class="pl-1">diablo<span class="grey--text">.</span>run</h3>
+      <v-icon color="primary">mdi-sword</v-icon>
+      <h2 class="logo mb-1">diablo<span class="grey--text">.</span>run</h2>
       <v-spacer></v-spacer>
       <v-tabs v-if="!user" right>
         <v-tab :href="twitchAuthenticationUrl">
