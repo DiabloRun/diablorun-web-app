@@ -1,21 +1,15 @@
 <template>
   <div>
-    <p v-if="status === 'ready'" class="has-text-success subtitle is-5">
-      Ready
-    </p>
-    <p v-if="status === 'disqualified'" class="has-text-danger subtitle is-5">
-      Disqualified
-    </p>
-    <p v-if="status === 'finished'" class="has-text-grey subtitle is-5">
-      <span class="has-text-success">Finished</span>
-    </p>
-    <p v-if="status === 'dead'" class="has-text-warning subtitle is-5">
-      Dead
-    </p>
-    <p v-if="status === 'playing'" class="has-text-grey subtitle is-5">
-      <span v-if="time_left === null">Playing</span
-      ><span v-if="time_left !== null">({{ time_left }})</span>
-    </p>
+    <span v-if="status === 'ready'" class="primary--text">Ready</span>
+    <span v-if="status === 'disqualified'" class="warning--text"
+      >Disqualified</span
+    >
+    <span v-if="status === 'finished'" class="success--text">Finished</span>
+    <span v-if="status === 'dead'" class="error--text">Dead</span>
+    <span v-if="status === 'playing'" class="grey--text">
+      <span v-if="time_left === null">Playing</span>
+      <span v-if="time_left !== null">({{ time_left }})</span>
+    </span>
   </div>
 </template>
 

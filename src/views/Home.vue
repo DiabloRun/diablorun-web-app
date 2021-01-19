@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-6">
+  <v-container fluid>
     <v-row>
       <v-col cols="12" lg="6">
         <v-card>
@@ -8,7 +8,7 @@
             Recently submitted speedruns
           </v-card-title>
           <v-divider></v-divider>
-          <v-simple-table dense>
+          <v-simple-table dense class="text-no-wrap">
             <thead>
               <tr>
                 <th>#</th>
@@ -22,7 +22,9 @@
             <tbody>
               <tr v-for="run of latestSpeedruns" :key="run.id">
                 <td>
-                  {{ run.category_rank }}
+                  <span v-if="run.category_rank > 3" class="grey--text">{{
+                    run.category_rank
+                  }}</span>
                   <v-icon
                     v-if="run.category_rank == 1"
                     small
@@ -118,7 +120,7 @@
             Fresh world records
           </v-card-title>
           <v-divider></v-divider>
-          <v-simple-table dense>
+          <v-simple-table dense class="text-no-wrap">
             <thead>
               <tr>
                 <th>Runner</th>
@@ -131,6 +133,9 @@
             <tbody>
               <tr v-for="run of latestRecords" :key="run.id">
                 <td>
+                  <v-icon small color="yellow accent-4"
+                    >mdi-trophy-outline</v-icon
+                  >
                   <a
                     v-if="!run.user_id"
                     :style="`color: ${run.speedrun_user_dark_color_from};`"
@@ -207,7 +212,7 @@
             Runners with most records
           </v-card-title>
           <v-divider></v-divider>
-          <v-simple-table dense>
+          <v-simple-table dense class="text-no-wrap">
             <thead>
               <tr>
                 <th>#</th>
@@ -228,7 +233,9 @@
             <tbody>
               <tr v-for="runner of mostMedals" :key="runner.speedrun_user_id">
                 <td>
-                  {{ runner.rank }}
+                  <span v-if="runner.rank > 3" class="grey--text">
+                    {{ runner.rank }}
+                  </span>
                   <v-icon v-if="runner.rank == 1" small color="yellow accent-4">
                     mdi-trophy-outline
                   </v-icon>

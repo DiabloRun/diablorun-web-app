@@ -1,40 +1,37 @@
 <template>
-  <div>
-    <!-- Hero -->
-    <section class="hero is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title is-1">Race history</h1>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="columns">
-          <div class="column">
-            <table class="table is-narrow is-fullwidth is-striped">
-              <thead>
-                <tr>
-                  <th>Race</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="race of races" :key="race.id">
-                  <td>
-                    <router-link
-                      :to="{ name: 'Race', params: { slug: race.id } }"
-                    >
-                      {{ race.name }}
-                    </router-link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+  <v-container>
+    <v-card>
+      <v-card-title>
+        <v-icon left>mdi-flag-checkered</v-icon>
+        Races
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-row no-gutters class="px-2 pb-4">
+        <v-col
+          v-for="race of races"
+          :key="race.id"
+          cols="12"
+          md="6"
+          class="px-2 pt-4"
+        >
+          <v-card color="darkAccent" class="fill-height">
+            <v-row no-gutters>
+              <v-col>
+                <v-card-title>
+                  <router-link
+                    :to="{ name: 'Race', params: { slug: race.id } }"
+                  >
+                    {{ race.name }}
+                  </router-link>
+                </v-card-title>
+                <v-card-subtitle>{{ race.description }}</v-card-subtitle>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <style scoped lang="scss">

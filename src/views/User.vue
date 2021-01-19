@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-6">
+  <v-container>
     <v-row>
       <v-col cols="12">
         <v-card>
@@ -201,8 +201,10 @@
             </thead>
             <tbody>
               <tr v-for="run of speedruns" :key="run.id">
-                <td>
-                  {{ run.category_rank }}
+                <td class="grey--text">
+                  <span v-if="run.category_rank > 3">{{
+                    run.category_rank
+                  }}</span>
                   <v-icon
                     v-if="run.category_rank == 1"
                     small

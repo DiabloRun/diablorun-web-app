@@ -4,7 +4,7 @@
       <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
     </v-btn>
-    <v-container v-if="!streamOverlay && character.name" fluid class="pa-6">
+    <v-container v-if="!streamOverlay && character.name" fluid>
       <v-row v-if="showTwitchEmbed">
         <v-col>
           <TwitchEmbed :username="character.user_name" />

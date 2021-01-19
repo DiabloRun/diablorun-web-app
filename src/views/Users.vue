@@ -1,14 +1,24 @@
 <template>
-  <v-container class="pa-6">
+  <v-container>
     <v-row>
       <v-col cols="12">
         <v-card>
           <v-card-title>
-            <v-icon left>mdi-sword-cross</v-icon>
+            <v-icon left>mdi-account-group-outline</v-icon>
             Currently playing
           </v-card-title>
           <v-divider></v-divider>
-          <v-row no-gutters>
+          <v-card-text v-if="!activeUsers.length > 0">
+            <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+            No one is currently playing with our technology. Try finding some
+            Diablo players from
+            <a
+              href="https://www.twitch.tv/directory/game/Diablo%20II"
+              target="_blank"
+              >Twitch</a
+            >.
+          </v-card-text>
+          <v-row no-gutters v-if="activeUsers.length > 0">
             <v-col
               v-for="user of activeUsers"
               :key="user.id"

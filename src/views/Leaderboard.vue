@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container class="pa-6">
+    <v-container>
       <v-card>
         <v-row no-gutters align="center">
           <v-col cols="auto" class="ml-3">
@@ -93,7 +93,7 @@
         {{ categoryName }} category is empty.
       </v-alert>
       <v-card v-if="runs.length > 0">
-        <v-simple-table dense>
+        <v-simple-table dense class="text-no-wrap">
           <thead>
             <tr>
               <th>#</th>
@@ -106,7 +106,7 @@
           </thead>
           <tbody>
             <tr v-for="(run, index) of runs" :key="run.id">
-              <td>
+              <td class="grey--text">
                 {{ index + 1 }}
                 <v-icon
                   v-if="run.category_rank == 1"

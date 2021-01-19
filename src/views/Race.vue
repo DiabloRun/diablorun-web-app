@@ -1,30 +1,115 @@
 <template>
-  <div v-if="race.id">
-    <div v-if="!streamOverlay && !isPopup">
-      <!-- Hero  -->
-      <section class="hero is-dark is-bold">
-        <div class="hero-body">
-          <div class="container">
-            <div class="columns is-vcentered is-multiline is-mobile">
-              <div class="column">
-                <h1 class="title">{{ race.name }}</h1>
-              </div>
-              <div class="column is-narrow is-hidden-mobile">
-                <button
+  <div>
+    <v-container v-if="!streamOverlay && !isPopup">
+      <v-row>
+        <v-col cols="12">
+          <v-card>
+            <v-row no-gutters>
+              <v-col>
+                <v-card-title>
+                  <v-icon left>mdi-flag-checkered</v-icon>
+                  {{ race.name }}
+                </v-card-title>
+              </v-col>
+              <v-col cols="auto" class="my-auto mr-4">
+                <v-btn
+                  fab
+                  small
                   :onclick="
                     `window.open('/race/${race.id}','popup','width=550,height=900'); return false;`
                   "
                   target="popup"
                   :href="`/race/${race.id}`"
-                  class="button is-primary is-outlined is-inverted"
                 >
-                  Popout
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                  <v-icon>mdi-open-in-new</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+            <v-simple-table
+              dense
+              v-if="characters.length > 0"
+              class="text-no-wrap"
+            >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Points</th>
+                  <th>Runner</th>
+                  <th>Level</th>
+                  <th>Hero</th>
+                  <th>Area</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="character of characters" :key="character.id">
+                  <td>
+                    <span v-if="character.rank > 3" class="grey--text">
+                      {{ character.rank }}
+                    </span>
+                    <v-icon
+                      v-if="character.rank == 1"
+                      small
+                      color="yellow accent-4"
+                    >
+                      mdi-trophy-outline
+                    </v-icon>
+                    <v-icon
+                      v-if="character.rank == 2"
+                      small
+                      color="grey lighten-1"
+                    >
+                      mdi-trophy-outline
+                    </v-icon>
+                    <v-icon v-if="character.rank == 3" small color="brown">
+                      mdi-trophy-outline
+                    </v-icon>
+                  </td>
+                  <td>
+                    {{ character.points }}
+                  </td>
+                  <td>
+                    <CharacterUser :character="character" />
+                    <v-icon v-if="character.dead" small color="error">
+                      mdi-skull-crossbones
+                    </v-icon>
+                  </td>
+                  <td>{{ character.level }}</td>
+                  <td>
+                    <v-icon
+                      v-if="!character.hc"
+                      small
+                      :class="`${character.hero}`"
+                    >
+                      mdi-sword
+                    </v-icon>
+                    <v-icon
+                      v-if="character.hc"
+                      small
+                      :class="`${character.hero}`"
+                    >
+                      mdi-skull-outline
+                    </v-icon>
+                    {{ character.hero | HeroNameFilter }}
+                  </td>
+                  <td>{{ character.area | AreaNameFilter }}</td>
+                  <td>
+                    <CharacterRaceStatus
+                      :character="character"
+                      :start="race.start_time"
+                      :finish="race.finish_time"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <div v-if="!streamOverlay && !isPopup">
       <!-- Leaderboard -->
       <section class="section">
         <div class="container">
