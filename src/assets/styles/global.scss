@@ -15,6 +15,10 @@
     text-shadow: 0 0 10px #ff6f008f;
 }
 
+.v-btn:hover {
+    text-shadow: none !important;
+}
+
 .v-application p.body-2 {
     font-size: .8rem !important;
     line-height: 1rem;
