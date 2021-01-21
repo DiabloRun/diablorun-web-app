@@ -3,7 +3,7 @@
     <v-container fluid v-if="!streamOverlay && !isPopup">
       <v-row>
         <v-col cols="12" md="4">
-          <v-row>
+          <v-row no-gutters>
             <v-col cols="12">
               <v-card>
                 <RaceCountdown
@@ -11,13 +11,76 @@
                   :finish="race.finish_time"
                 />
                 <v-divider></v-divider>
+                <v-card-text
+                  :inner-html.prop="race.description | ParagraphsFilter"
+                >
+                </v-card-text>
               </v-card>
+            </v-col>
+            <v-col cols="12">
+              <v-row class="mt-3">
+                <v-col v-if="positivePoints.length">
+                  <v-card>
+                    <v-card-title class="pl-4 py-1">
+                      <h6>Points</h6>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <RacePoints :points="positivePoints" />
+                  </v-card>
+                </v-col>
+                <v-col v-if="negativePoints.length">
+                  <v-card>
+                    <v-card-title class="pl-4 py-1">
+                      <h6>Penalties</h6>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-tex></v-card-tex>
+                    <RacePoints :points="negativePoints" />
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" v-if="notifications.length">
+              <v-card>
+                <RaceNotification
+                  v-for="(notification, index) of notifications"
+                  :key="notification.id"
+                  :index="index"
+                  :rules="rules"
+                  :characters="characters"
+                  :notification="notification"
+                />
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              class="mt-2"
+              v-if="pointsChartData.datasets.length"
+            >
+              <v-card>
+                <ScatterChart
+                  ref="pointsChart"
+                  :style="{ height: '250px', position: 'relative' }"
+                  :chartData="pointsChartData"
+                />
+              </v-card>
+            </v-col>
+            <v-col cols="12" class="mt-6">
+              <v-text-field
+                outlined
+                dense
+                :value="race.name"
+                label="Token"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 outlined
-                :value="race.name"
-                label="Token"
+                dense
+                prepend-inner-icon="mdi-share"
+                :value="'https://diablo.run/race/' + race.id"
+                :label="'Share ' + race.name"
                 readonly
               ></v-text-field>
             </v-col>
@@ -69,6 +132,7 @@
                   <th>
                     <v-icon small color="warning"> mdi-gold </v-icon>
                   </th>
+                  <th>Difficulty</th>
                   <th>Area</th>
                   <th>Status</th>
                 </tr>
@@ -126,6 +190,10 @@
                   <td>{{ character.level }}</td>
                   <td>{{ character.deaths }}</td>
                   <td>{{ character.gold_total }}</td>
+                  <td>
+                    {{ character.difficulty | DifficultyFilter }}
+                    <span class="grey--text">p{{ character.players }}</span>
+                  </td>
                   <td>{{ character.area | AreaNameFilter }}</td>
                   <td>
                     <CharacterRaceStatus
@@ -143,88 +211,6 @@
     </v-container>
 
     <div v-if="!streamOverlay && !isPopup">
-      <!-- Leaderboard -->
-      <section class="section">
-        <div class="container">
-          <div class="columns is-vcentered is-multiline">
-            <div class="column">
-              <h1 class="title is-2">
-                <RaceCountdown
-                  :start="race.start_time"
-                  :finish="race.finish_time"
-                />
-              </h1>
-            </div>
-            <div
-              class="column is-narrow-tablet"
-              v-if="!race.start_time && race.estimated_start_time"
-            >
-              <h1 class="subtitle is-5">
-                Estimated start:
-                {{ race.estimated_start_time | LocalTimeFilter }} ({{
-                  race.estimated_start_time | FromNowFilter
-                }})
-              </h1>
-            </div>
-          </div>
-          <!-- Race is empty -->
-          <div
-            class="notification is-dark has-text-centered"
-            v-if="!characters.length > 0"
-          >
-            <p>Noone has entered the race.</p>
-          </div>
-          <!-- Participants -->
-          <table
-            class="table is-narrow is-striped is-hoverable"
-            v-if="characters.length > 0"
-          >
-            <thead>
-              <tr>
-                <th class="has-text-centered">#</th>
-                <th class="has-text-centered">Points</th>
-                <th>Runner</th>
-                <th>Level</th>
-                <th v-if="entry_heroes.length > 1">Hero</th>
-                <th>Area</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="character of characters" :key="character.id">
-                <td class="is-narrow has-text-centered has-text-grey">
-                  <span :class="`rank-${character.rank}`">
-                    {{ character.rank }}
-                  </span>
-                </td>
-                <td class="is-narrow has-text-centered">
-                  {{ character.points }}
-                </td>
-                <td>
-                  <CharacterUser :character="character" />
-                </td>
-                <td>
-                  {{ character.level }}
-                </td>
-                <td class="has-text-centered" v-if="entry_heroes.length > 1">
-                  {{ character.hero | HeroNameFilter }}
-                </td>
-                <td>
-                  {{ character.area | AreaNameFilter }}
-                </td>
-                <td class="is-narrow">
-                  <CharacterRaceStatus
-                    :character="character"
-                    :start="race.start_time"
-                    :finish="race.finish_time"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
       <section class="section">
         <div class="container">
           <div class="tile is-ancestor">

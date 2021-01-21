@@ -364,6 +364,7 @@
           </v-row>
           <v-text-field
             outlined
+            dense
             prepend-inner-icon="mdi-share"
             :value="
               'https://diablo.run/' +
@@ -378,6 +379,7 @@
           ></v-text-field>
           <v-text-field
             v-if="isEditor"
+            dense
             outlined
             prepend-inner-icon="mdi-account-lock"
             :value="character.seed"

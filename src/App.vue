@@ -5,13 +5,12 @@
       <v-icon color="primary">mdi-sword</v-icon>
       <h2 class="logo mb-1">diablo<span class="grey--text">.</span>run</h2>
       <v-spacer></v-spacer>
-      <v-tabs v-if="!user" right>
-        <v-tab :href="twitchAuthenticationUrl">
-          Login with Twitch
-        </v-tab>
-      </v-tabs>
-      <v-tabs v-if="user" right>
-        <v-tab :to="{ name: 'User', params: { user_name: user.name } }">
+      <v-tabs right>
+        <v-tab v-if="!user" :href="twitchAuthenticationUrl"> Login </v-tab>
+        <v-tab
+          v-if="user"
+          :to="{ name: 'User', params: { user_name: user.name } }"
+        >
           <v-avatar size="32">
             <img
               v-if="user.profile_image_url !== ''"
@@ -26,7 +25,7 @@
             </v-icon>
           </v-avatar>
         </v-tab>
-        <v-tab @click="signOut()">Exit</v-tab>
+        <v-tab v-if="user" @click="signOut()">Logout</v-tab>
       </v-tabs>
     </v-app-bar>
     <v-navigation-drawer
@@ -62,7 +61,7 @@
           </v-avatar>
           <v-icon v-if="user.profile_image_url == ''" left>mdi-account</v-icon>
           <v-list-item-content>
-            <v-list-item-title>Profile</v-list-item-title>
+            <v-list-item-title>{{ user.name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item

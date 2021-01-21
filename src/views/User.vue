@@ -129,6 +129,15 @@
               </v-row>
             </v-card>
           </v-col>
+          <v-col cols="12">
+            <v-text-field
+              dense
+              outlined
+              :value="'https://diablo.run/' + user.name + '/@'"
+              label="Active character link"
+              readonly
+            ></v-text-field>
+          </v-col>
         </v-row>
       </v-col>
       <v-col cols="12" md="8" v-if="characters.length > 0">
