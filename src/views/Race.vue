@@ -1,8 +1,29 @@
 <template>
   <div>
-    <v-container v-if="!streamOverlay && !isPopup">
+    <v-container fluid v-if="!streamOverlay && !isPopup">
       <v-row>
-        <v-col cols="12">
+        <v-col cols="12" md="4">
+          <v-row>
+            <v-col cols="12">
+              <v-card>
+                <RaceCountdown
+                  :start="race.start_time"
+                  :finish="race.finish_time"
+                />
+                <v-divider></v-divider>
+              </v-card>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                outlined
+                :value="race.name"
+                label="Token"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="12" md="8">
           <v-card>
             <v-row no-gutters>
               <v-col>
@@ -26,6 +47,10 @@
               </v-col>
             </v-row>
             <v-divider></v-divider>
+            <v-card-text v-if="!characters.length > 0">
+              <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+              No one has joined the race yet.
+            </v-card-text>
             <v-simple-table
               dense
               v-if="characters.length > 0"
@@ -36,8 +61,14 @@
                   <th>#</th>
                   <th>Points</th>
                   <th>Runner</th>
-                  <th>Level</th>
                   <th>Hero</th>
+                  <th>Level</th>
+                  <th>
+                    <v-icon small color="error"> mdi-skull-crossbones </v-icon>
+                  </th>
+                  <th>
+                    <v-icon small color="warning"> mdi-gold </v-icon>
+                  </th>
                   <th>Area</th>
                   <th>Status</th>
                 </tr>
@@ -75,7 +106,6 @@
                       mdi-skull-crossbones
                     </v-icon>
                   </td>
-                  <td>{{ character.level }}</td>
                   <td>
                     <v-icon
                       v-if="!character.hc"
@@ -93,6 +123,9 @@
                     </v-icon>
                     {{ character.hero | HeroNameFilter }}
                   </td>
+                  <td>{{ character.level }}</td>
+                  <td>{{ character.deaths }}</td>
+                  <td>{{ character.gold_total }}</td>
                   <td>{{ character.area | AreaNameFilter }}</td>
                   <td>
                     <CharacterRaceStatus

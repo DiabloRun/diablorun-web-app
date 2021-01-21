@@ -1,4 +1,23 @@
 <template>
+  <v-card-title>
+    <span v-if="status === ''">
+      <v-icon left color="grey">mdi-timer-off-outline</v-icon>Race hasn't
+      started
+    </span>
+    <span v-if="status === 'starting'">
+      <v-icon left color="error">mdi-timer</v-icon>
+      <span class="error--text">{{ duration }}</span> until race starts!
+    </span>
+    <span v-if="status === 'started'">
+      <v-icon left color="success">mdi-timer-outline</v-icon>
+      {{ duration }}
+    </span>
+    <span v-if="status === 'finished'">
+      <v-icon left color="primary">mdi-flag-variant-outline</v-icon>Race
+      finished
+    </span>
+  </v-card-title>
+  <!--
   <span
     :class="{
       'title is-4': !tag,
@@ -8,6 +27,21 @@
       'has-text-danger': status === 'finished'
     }"
   >
+    <span v-if="status === ''"> Race hasn't started yet </span>
+    <span v-if="status === 'starting'">
+      Race is starting in {{ duration }}
+    </span>
+    <span v-if="status === 'started'">
+      <v-icon left>mdi-timer-outline</v-icon>
+      <span v-if="!duration">Race started</span>
+      <span v-if="duration">{{ duration }}</span>
+    </span>
+    <span v-if="status === 'finished'"> Race finished </span>
+  </span>
+  -->
+</template>
+
+<!--
     <audio ref="hostile">
       <source
         src="https://diablo.run/static/audio/hostile.wav"
@@ -50,22 +84,7 @@
         type="audio/wav"
       />
     </audio>
-    <span v-if="status === ''">
-      Race hasn't started yet
-    </span>
-    <span v-if="status === 'starting'">
-      The race is starting in {{ duration }}
-    </span>
-    <span v-if="status === 'started'">
-      <span v-if="!duration">Race started</span>
-      <span v-if="duration">{{ duration }}</span>
-    </span>
-    <span v-if="status === 'finished'">
-      Race finished
-    </span>
-  </span>
-</template>
-
+    -->
 <script>
 import moment from 'moment';
 import 'moment-duration-format';

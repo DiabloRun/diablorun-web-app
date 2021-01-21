@@ -1,14 +1,16 @@
 <template>
   <div>
-    <span v-if="status === 'ready'" class="primary--text">Ready</span>
-    <span v-if="status === 'disqualified'" class="warning--text"
-      >Disqualified</span
+    <v-icon v-if="status === 'ready'" color="success">mdi-account-check</v-icon>
+    <v-icon v-if="status === 'disqualified'" color="warning"
+      >mdi-account-cancel</v-icon
     >
-    <span v-if="status === 'finished'" class="success--text">Finished</span>
-    <span v-if="status === 'dead'" class="error--text">Dead</span>
-    <span v-if="status === 'playing'" class="grey--text">
-      <span v-if="time_left === null">Playing</span>
-      <span v-if="time_left !== null">({{ time_left }})</span>
+    <v-icon v-if="status === 'finished'" color="primary"
+      >mdi-flag-variant-outline</v-icon
+    >
+    <v-icon v-if="status === 'dead'" color="error">mdi-skull-crossbones</v-icon>
+    <span v-if="status === 'playing'">
+      <v-icon small color="white">mdi-run-fast</v-icon>
+      <span v-if="time_left !== null">{{ time_left }}</span>
     </span>
   </div>
 </template>
