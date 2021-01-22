@@ -67,7 +67,11 @@
                     {{ run.user_name }}
                   </router-link>
                 </td>
-                <td>{{ run.seconds_played | DurationFilter }}</td>
+                <td>
+                  <a :href="run.speedrun_link" target="_blank">
+                    {{ run.seconds_played | DurationFilter }}
+                  </a>
+                </td>
                 <td>
                   <router-link
                     :to="{
@@ -159,7 +163,11 @@
                     {{ run.user_name }}
                   </router-link>
                 </td>
-                <td>{{ run.seconds_played | DurationFilter }}</td>
+                <td>
+                  <a :href="run.speedrun_link" target="_blank">
+                    {{ run.seconds_played | DurationFilter }}
+                  </a>
+                </td>
                 <td>
                   <router-link
                     :to="{

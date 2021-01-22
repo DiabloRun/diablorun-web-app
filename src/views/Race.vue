@@ -11,18 +11,16 @@
                   :finish="race.finish_time"
                 />
                 <v-divider></v-divider>
-                <v-card-text>
+                <v-card-text class="white--text">
                   <!-- Type -->
-                  <p v-if="race.finish_conditions_global">
-                    <span class="subtitle is-5 has-text-danger">Type:</span>
-                    race ends for everybody when any runner fulfils a finish
-                    condition.
-                  </p>
-                  <p v-if="!race.finish_conditions_global">
-                    <span class="subtitle is-5 has-text-danger">Type:</span>
-                    race ends for each runner separately when they fulfil a
+                  <span v-if="race.finish_conditions_global">
+                    Type: race ends for everybody when any runner fulfils a
                     finish condition.
-                  </p>
+                  </span>
+                  <span v-if="!race.finish_conditions_global">
+                    Type: race ends for each runner separately when they fulfil
+                    a finish condition.
+                  </span>
                   <!-- Conditions -->
                   <div
                     v-for="condition of finish_conditions"
@@ -61,21 +59,40 @@
                     </p>
                   </div>
                   <!-- In-game requirements -->
-                  <div class="columns is-mobile pt-3">
-                    <div class="column is-narrow">
-                      <Icon :name="race.entry_hc ? 'hc' : 'sc'" />
-                    </div>
-                    <div class="column is-narrow">
-                      <Icon :name="race.entry_players" />
-                    </div>
-                    <div class="column">
-                      <Icon
+                  <v-row class="pt-3">
+                    <v-col v-if="!race.entry_hc" cols="auto">
+                      <v-icon small color="primary"> mdi-sword </v-icon>
+                      Softcore
+                    </v-col>
+                    <v-col v-if="race.entry_hc" cols="auto" class="error--text">
+                      <v-icon small color="error"> mdi-skull-outline </v-icon>
+                      Hardcore
+                    </v-col>
+                    <v-col cols="auto">
+                      <v-icon small color="primary">
+                        mdi-slash-forward-box
+                      </v-icon>
+                      Players set to {{ race.entry_players }}
+                    </v-col>
+                    <v-col v-if="race.entry_classic" cols="auto">
+                      <v-icon small color="primary">
+                        mdi-alpha-c-circle
+                      </v-icon>
+                      Classic
+                    </v-col>
+                  </v-row>
+                  <v-row no-gutters class="pt-1">
+                    <v-col>
+                      <v-avatar
+                        size="42"
+                        class="mr-2 mt-2"
                         v-for="hero of entry_heroes"
                         :key="hero"
-                        :name="'big-' + hero"
-                      />
-                    </div>
-                  </div>
+                      >
+                        <Icon :name="'big-' + hero" />
+                      </v-avatar>
+                    </v-col>
+                  </v-row>
                 </v-card-text>
                 <v-divider v-if="race.description.length"></v-divider>
                 <v-card-text
@@ -282,116 +299,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <div v-if="!streamOverlay && !isPopup">
-      <section class="section">
-        <div class="container">
-          <div class="tile is-ancestor">
-            <div class="tile is-vertical is-parent">
-              <div class="tile is-child box" v-if="positivePoints.length">
-                <p class="subtitle is-4 mb-3">Points</p>
-                <RacePoints :points="positivePoints" />
-              </div>
-              <div class="tile is-child box" v-if="negativePoints.length">
-                <p class="subtitle is-4 mb-3">Penalties</p>
-                <RacePoints :points="negativePoints" />
-              </div>
-              <div class="tile is-child box" v-if="notifications.length">
-                <RaceNotification
-                  v-for="(notification, index) of notifications"
-                  :key="notification.id"
-                  :index="index"
-                  :rules="rules"
-                  :characters="characters"
-                  :notification="notification"
-                />
-              </div>
-            </div>
-            <div class="tile is-6 is-vertical is-parent">
-              <div
-                class="tile is-child box"
-                v-if="pointsChartData.datasets.length"
-              >
-                <p class="subtitle is-4 mb-3">Points over time</p>
-                <ScatterChart
-                  ref="pointsChart"
-                  :style="{ height: '250px', position: 'relative' }"
-                  :chartData="pointsChartData"
-                />
-              </div>
-              <div class="tile is-child box" v-if="race.description.length">
-                <p class="subtitle is-4 mb-3">Description</p>
-                <div
-                  :inner-html.prop="race.description | ParagraphsFilter"
-                ></div>
-              </div>
-              <div class="tile is-child box">
-                <p class="subtitle is-4 mb-3">Rules</p>
-                <!-- Type -->
-                <p v-if="race.finish_conditions_global">
-                  <span class="subtitle is-5 has-text-danger">Type:</span> race
-                  ends for everybody when any runner fulfils a finish condition.
-                </p>
-                <p v-if="!race.finish_conditions_global">
-                  <span class="subtitle is-5 has-text-danger">Type:</span> race
-                  ends for each runner separately when they fulfil a finish
-                  condition.
-                </p>
-                <!-- Conditions -->
-                <div v-for="condition of finish_conditions" :key="condition.id">
-                  <p
-                    v-if="
-                      condition.type === 'time' &&
-                        condition.time_type === 'race'
-                    "
-                  >
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    race ends {{ condition.time }} after the start of the race.
-                  </p>
-                  <p
-                    v-if="
-                      condition.type === 'time' &&
-                        condition.time_type === 'character'
-                    "
-                  >
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    race ends {{ condition.time }} after character creation.
-                  </p>
-                  <p v-if="condition.type === 'quest'">
-                    <!--<QuestIcon :id="condition.quest_id" />-->
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    complete
-                    {{ condition.quest_id | QuestShortNameFilter }}
-                    in {{ condition.difficulty | DifficultyFilter }}.
-                  </p>
-                  <p v-if="condition.type === 'stat'">
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    reach {{ condition.counter }}
-                    {{ condition.stat | StatNameFilter }}.
-                  </p>
-                </div>
-                <!-- In-game requirements -->
-                <div class="columns is-mobile pt-3">
-                  <div class="column is-narrow">
-                    <Icon :name="race.entry_hc ? 'hc' : 'sc'" />
-                  </div>
-                  <div class="column is-narrow">
-                    <Icon :name="race.entry_players" />
-                  </div>
-                  <div class="column">
-                    <Icon
-                      v-for="hero of entry_heroes"
-                      :key="hero"
-                      :name="hero"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
     <div v-if="streamOverlay">
       <div
         class="notification is-dark has-text-centered"
