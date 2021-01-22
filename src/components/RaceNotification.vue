@@ -2,15 +2,9 @@
   <div v-if="character">
     <p>
       <span class="subtitle"><CharacterUser :character="character"/></span>
-      <span v-if="notification.type === 'start'">
-        joined the race
-      </span>
-      <span v-if="notification.type === 'finish'">
-        finished the race
-      </span>
-      <span v-if="notification.type === 'disqualify'">
-        was disqualified
-      </span>
+      <span v-if="notification.type === 'start'"> joined the race </span>
+      <span v-if="notification.type === 'finish'"> finished the race </span>
+      <span v-if="notification.type === 'disqualify'"> was disqualified </span>
       <span v-if="notification.type === 'claim'">
         got {{ notification.points }} points for
         <span v-if="rule.type === 'quest'">

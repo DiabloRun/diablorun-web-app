@@ -7,7 +7,7 @@
             <v-card>
               <v-row no-gutters align="center">
                 <v-col cols="auto" class="ml-3">
-                  <v-avatar size="64">
+                  <v-avatar size="64" class="my-1">
                     <img
                       v-if="user.profile_image_url !== ''"
                       :src="user.profile_image_url"
@@ -27,10 +27,6 @@
                   </v-card-title>
                   <v-card-subtitle v-if="!characters.length > 0">
                     {{ user.name }} hasn't synced any heroes
-                  </v-card-subtitle>
-                  <v-card-subtitle v-if="characters.length > 0">
-                    Last seen
-                    {{ latestCharacter.update_time | FromNowFilter }}
                   </v-card-subtitle>
                 </v-col>
                 <v-col cols="auto" class="mr-3">
@@ -81,7 +77,7 @@
             <v-card>
               <v-card-title class="white--text py-1">
                 <h6>
-                  Latest character played
+                  Played
                   {{ latestCharacter.update_time | FromNowFilter }}
                 </h6>
               </v-card-title>

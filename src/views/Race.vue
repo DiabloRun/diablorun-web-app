@@ -11,7 +11,76 @@
                   :finish="race.finish_time"
                 />
                 <v-divider></v-divider>
+                <v-card-text>
+                  <!-- Type -->
+                  <p v-if="race.finish_conditions_global">
+                    <span class="subtitle is-5 has-text-danger">Type:</span>
+                    race ends for everybody when any runner fulfils a finish
+                    condition.
+                  </p>
+                  <p v-if="!race.finish_conditions_global">
+                    <span class="subtitle is-5 has-text-danger">Type:</span>
+                    race ends for each runner separately when they fulfil a
+                    finish condition.
+                  </p>
+                  <!-- Conditions -->
+                  <div
+                    v-for="condition of finish_conditions"
+                    :key="condition.id"
+                  >
+                    <p
+                      v-if="
+                        condition.type === 'time' &&
+                          condition.time_type === 'race'
+                      "
+                    >
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      race ends {{ condition.time }} after the start of the
+                      race.
+                    </p>
+                    <p
+                      v-if="
+                        condition.type === 'time' &&
+                          condition.time_type === 'character'
+                      "
+                    >
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      race ends {{ condition.time }} after character creation.
+                    </p>
+                    <p v-if="condition.type === 'quest'">
+                      <!--<QuestIcon :id="condition.quest_id" />-->
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      complete
+                      {{ condition.quest_id | QuestShortNameFilter }}
+                      in {{ condition.difficulty | DifficultyFilter }}.
+                    </p>
+                    <p v-if="condition.type === 'stat'">
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      reach {{ condition.counter }}
+                      {{ condition.stat | StatNameFilter }}.
+                    </p>
+                  </div>
+                  <!-- In-game requirements -->
+                  <div class="columns is-mobile pt-3">
+                    <div class="column is-narrow">
+                      <Icon :name="race.entry_hc ? 'hc' : 'sc'" />
+                    </div>
+                    <div class="column is-narrow">
+                      <Icon :name="race.entry_players" />
+                    </div>
+                    <div class="column">
+                      <Icon
+                        v-for="hero of entry_heroes"
+                        :key="hero"
+                        :name="'big-' + hero"
+                      />
+                    </div>
+                  </div>
+                </v-card-text>
+                <v-divider v-if="race.description.length"></v-divider>
                 <v-card-text
+                  v-if="race.description.length"
+                  class="white--text"
                   :inner-html.prop="race.description | ParagraphsFilter"
                 >
                 </v-card-text>
@@ -20,7 +89,7 @@
             <v-col cols="12">
               <v-row class="mt-3">
                 <v-col v-if="positivePoints.length">
-                  <v-card>
+                  <v-card class="fill-height">
                     <v-card-title class="pl-4 py-1">
                       <h6>Points</h6>
                     </v-card-title>
@@ -29,7 +98,7 @@
                   </v-card>
                 </v-col>
                 <v-col v-if="negativePoints.length">
-                  <v-card>
+                  <v-card class="fill-height">
                     <v-card-title class="pl-4 py-1">
                       <h6>Penalties</h6>
                     </v-card-title>
@@ -39,31 +108,6 @@
                   </v-card>
                 </v-col>
               </v-row>
-            </v-col>
-            <v-col cols="12" v-if="notifications.length">
-              <v-card>
-                <RaceNotification
-                  v-for="(notification, index) of notifications"
-                  :key="notification.id"
-                  :index="index"
-                  :rules="rules"
-                  :characters="characters"
-                  :notification="notification"
-                />
-              </v-card>
-            </v-col>
-            <v-col
-              cols="12"
-              class="mt-2"
-              v-if="pointsChartData.datasets.length"
-            >
-              <v-card>
-                <ScatterChart
-                  ref="pointsChart"
-                  :style="{ height: '250px', position: 'relative' }"
-                  :chartData="pointsChartData"
-                />
-              </v-card>
             </v-col>
             <v-col cols="12" class="mt-6">
               <v-text-field
@@ -87,125 +131,154 @@
           </v-row>
         </v-col>
         <v-col cols="12" md="8">
-          <v-card>
-            <v-row no-gutters>
-              <v-col>
-                <v-card-title>
-                  <v-icon left>mdi-flag-checkered</v-icon>
-                  {{ race.name }}
-                </v-card-title>
-              </v-col>
-              <v-col cols="auto" class="my-auto mr-4">
-                <v-btn
-                  fab
-                  small
-                  :onclick="
-                    `window.open('/race/${race.id}','popup','width=550,height=900'); return false;`
-                  "
-                  target="popup"
-                  :href="`/race/${race.id}`"
+          <v-row>
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-title>
+                      <v-icon left>mdi-flag-checkered</v-icon>
+                      {{ race.name }}
+                    </v-card-title>
+                  </v-col>
+                  <v-col cols="auto" class="my-auto mr-4">
+                    <v-btn
+                      fab
+                      small
+                      :onclick="
+                        `window.open('/race/${race.id}','popup','width=550,height=900'); return false;`
+                      "
+                      target="popup"
+                      :href="`/race/${race.id}`"
+                    >
+                      <v-icon>mdi-open-in-new</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-card-text v-if="!characters.length > 0">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No one has joined the race yet.
+                </v-card-text>
+                <v-simple-table
+                  dense
+                  v-if="characters.length > 0"
+                  class="text-no-wrap"
                 >
-                  <v-icon>mdi-open-in-new</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-divider></v-divider>
-            <v-card-text v-if="!characters.length > 0">
-              <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-              No one has joined the race yet.
-            </v-card-text>
-            <v-simple-table
-              dense
-              v-if="characters.length > 0"
-              class="text-no-wrap"
-            >
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Points</th>
-                  <th>Runner</th>
-                  <th>Hero</th>
-                  <th>Level</th>
-                  <th>
-                    <v-icon small color="error"> mdi-skull-crossbones </v-icon>
-                  </th>
-                  <th>
-                    <v-icon small color="warning"> mdi-gold </v-icon>
-                  </th>
-                  <th>Difficulty</th>
-                  <th>Area</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="character of characters" :key="character.id">
-                  <td>
-                    <span v-if="character.rank > 3" class="grey--text">
-                      {{ character.rank }}
-                    </span>
-                    <v-icon
-                      v-if="character.rank == 1"
-                      small
-                      color="yellow accent-4"
-                    >
-                      mdi-trophy-outline
-                    </v-icon>
-                    <v-icon
-                      v-if="character.rank == 2"
-                      small
-                      color="grey lighten-1"
-                    >
-                      mdi-trophy-outline
-                    </v-icon>
-                    <v-icon v-if="character.rank == 3" small color="brown">
-                      mdi-trophy-outline
-                    </v-icon>
-                  </td>
-                  <td>
-                    {{ character.points }}
-                  </td>
-                  <td>
-                    <CharacterUser :character="character" />
-                    <v-icon v-if="character.dead" small color="error">
-                      mdi-skull-crossbones
-                    </v-icon>
-                  </td>
-                  <td>
-                    <v-icon
-                      v-if="!character.hc"
-                      small
-                      :class="`${character.hero}`"
-                    >
-                      mdi-sword
-                    </v-icon>
-                    <v-icon
-                      v-if="character.hc"
-                      small
-                      :class="`${character.hero}`"
-                    >
-                      mdi-skull-outline
-                    </v-icon>
-                    {{ character.hero | HeroNameFilter }}
-                  </td>
-                  <td>{{ character.level }}</td>
-                  <td>{{ character.deaths }}</td>
-                  <td>{{ character.gold_total }}</td>
-                  <td>
-                    {{ character.difficulty | DifficultyFilter }}
-                    <span class="grey--text">p{{ character.players }}</span>
-                  </td>
-                  <td>{{ character.area | AreaNameFilter }}</td>
-                  <td>
-                    <CharacterRaceStatus
-                      :character="character"
-                      :start="race.start_time"
-                      :finish="race.finish_time"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </v-simple-table>
-          </v-card>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Points</th>
+                      <th>Runner</th>
+                      <th>Hero</th>
+                      <th>Level</th>
+                      <th>
+                        <v-icon small color="error">
+                          mdi-skull-crossbones
+                        </v-icon>
+                      </th>
+                      <th>
+                        <v-icon small color="warning"> mdi-gold </v-icon>
+                      </th>
+                      <th>Difficulty</th>
+                      <th>Area</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="character of characters" :key="character.id">
+                      <td>
+                        <span v-if="character.rank > 3" class="grey--text">
+                          {{ character.rank }}
+                        </span>
+                        <v-icon
+                          v-if="character.rank == 1"
+                          small
+                          color="yellow accent-4"
+                        >
+                          mdi-trophy-outline
+                        </v-icon>
+                        <v-icon
+                          v-if="character.rank == 2"
+                          small
+                          color="grey lighten-1"
+                        >
+                          mdi-trophy-outline
+                        </v-icon>
+                        <v-icon v-if="character.rank == 3" small color="brown">
+                          mdi-trophy-outline
+                        </v-icon>
+                      </td>
+                      <td>
+                        {{ character.points }}
+                      </td>
+                      <td>
+                        <CharacterUser :character="character" />
+                        <v-icon v-if="character.dead" small color="error">
+                          mdi-skull-crossbones
+                        </v-icon>
+                      </td>
+                      <td>
+                        <v-icon
+                          v-if="!character.hc"
+                          small
+                          :class="`${character.hero}`"
+                        >
+                          mdi-sword
+                        </v-icon>
+                        <v-icon
+                          v-if="character.hc"
+                          small
+                          :class="`${character.hero}`"
+                        >
+                          mdi-skull-outline
+                        </v-icon>
+                        {{ character.hero | HeroNameFilter }}
+                      </td>
+                      <td>{{ character.level }}</td>
+                      <td>{{ character.deaths }}</td>
+                      <td>{{ character.gold_total }}</td>
+                      <td>
+                        {{ character.difficulty | DifficultyFilter }}
+                        <span class="grey--text">p{{ character.players }}</span>
+                      </td>
+                      <td>{{ character.area | AreaNameFilter }}</td>
+                      <td>
+                        <CharacterRaceStatus
+                          :character="character"
+                          :start="race.start_time"
+                          :finish="race.finish_time"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </v-card>
+            </v-col>
+            <v-col cols="12" lg="6" v-if="notifications.length">
+              <v-card>
+                <v-card-text class="white--text">
+                  <RaceNotification
+                    v-for="(notification, index) of notifications"
+                    :key="notification.id"
+                    :index="index"
+                    :rules="rules"
+                    :characters="characters"
+                    :notification="notification"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col v-if="pointsChartData.datasets.length" cols="12" lg="6">
+              <v-card>
+                <ScatterChart
+                  ref="pointsChart"
+                  :style="{ height: '250px', position: 'relative' }"
+                  :chartData="pointsChartData"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>

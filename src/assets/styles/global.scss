@@ -1,6 +1,10 @@
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css2?family=Texturina:wght@700&display=swap');
 
+body, html {
+    overflow-y: auto !important;
+}
+
 .logo {
     font-family: 'Texturina', serif;
     font-size: 1.25rem;
@@ -22,6 +26,14 @@
 .v-application p.body-2 {
     font-size: .8rem !important;
     line-height: 1rem;
+}
+
+.v-application p:last-child {
+    margin-bottom: 0;
+}
+
+.v-list--dense .v-list-item, .v-list-item--dense {
+    min-height: 32px !important;
 }
 
 // Table

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn class="mt-3" fixed right fab small @click="toggleTwitchEmbed()">
+    <v-btn class="mt-4 mr-1" fixed right fab small @click="toggleTwitchEmbed()">
       <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
     </v-btn>

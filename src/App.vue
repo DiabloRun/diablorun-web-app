@@ -5,7 +5,7 @@
       <v-icon color="primary">mdi-sword</v-icon>
       <h2 class="logo mb-1">diablo<span class="grey--text">.</span>run</h2>
       <v-spacer></v-spacer>
-      <v-tabs right>
+      <v-tabs hide-slider right>
         <v-tab v-if="!user" :href="twitchAuthenticationUrl"> Login </v-tab>
         <v-tab
           v-if="user"
