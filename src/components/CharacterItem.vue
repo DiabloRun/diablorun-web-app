@@ -1,8 +1,8 @@
 <template>
-  <v-col cols="12" md="6" lg="4" class="pb-4 px-2">
+  <v-col cols="12" md="6" lg="4" class="pb-2 px-1">
     <v-card color="darkAccent" class="fill-height">
       <v-row no-gutters>
-        <v-col cols="auto" class="py-1 pl-1">
+        <v-col cols="auto" class="py-2 pl-2">
           <v-img :src="imageSrc" contain>
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">

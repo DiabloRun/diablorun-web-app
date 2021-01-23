@@ -185,8 +185,21 @@
           <v-row class="pt-6">
             <v-col>
               <v-card>
+                <v-progress-linear
+                  value="50"
+                  absolute
+                  top
+                  color="white"
+                ></v-progress-linear>
                 <v-card-title class="pl-4 py-1">
-                  <h6>Level {{ character.level }}</h6>
+                  <v-row no-gutters>
+                    <v-col>
+                      <h6>Level {{ character.level }}</h6>
+                    </v-col>
+                    <v-col cols="auto">
+                      <h6>12.53%</h6>
+                    </v-col>
+                  </v-row>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-list dense>
@@ -236,7 +249,7 @@
                     <v-icon left color="error"> mdi-fire </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.fire_res }} Fire
+                        {{ character.fire_res }}% Fire
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -244,7 +257,7 @@
                     <v-icon left color="info"> mdi-snowflake </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.cold_res }} Cold
+                        {{ character.cold_res }}% Cold
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -252,7 +265,7 @@
                     <v-icon left color="warning"> mdi-lightning-bolt </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.light_res }} Lightning
+                        {{ character.light_res }}% Lightning
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -262,7 +275,7 @@
                     </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.poison_res }} Poison
+                        {{ character.poison_res }}% Poison
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -280,7 +293,7 @@
                     <v-icon left> mdi-auto-fix </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.fcr }} Cast speed
+                        {{ character.fcr }}% Cast speed
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -288,7 +301,7 @@
                     <v-icon left> mdi-human-handsdown </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.fhr }} Hit recovery
+                        {{ character.fhr }}% Hit recovery
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -296,7 +309,7 @@
                     <v-icon left> mdi-shoe-print </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.frw }} Run speed
+                        {{ character.frw }}% Run speed
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -304,7 +317,7 @@
                     <v-icon left> mdi-sword-cross </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.ias }} Attack speed
+                        {{ character.ias }}% Attack speed
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -330,22 +343,22 @@
                 <v-card-text class="white--text">
                   <v-row no-gutters>
                     <v-col>
-                      <v-icon left color="error"> mdi-fire </v-icon
-                      >{{ character.hireling_fire_res }}
+                      <v-icon left color="error"> mdi-fire </v-icon>
+                      {{ character.hireling_fire_res }}%
                     </v-col>
                     <v-col>
                       <v-icon left color="info"> mdi-snowflake </v-icon>
-                      {{ character.hireling_cold_res }}
+                      {{ character.hireling_cold_res }}%
                     </v-col>
                     <v-col>
                       <v-icon left color="warning"> mdi-lightning-bolt </v-icon
-                      >{{ character.hireling_light_res }}
+                      >{{ character.hireling_light_res }}%
                     </v-col>
                     <v-col>
                       <v-icon left color="success">
                         mdi-bottle-tonic-skull
                       </v-icon>
-                      {{ character.hireling_poison_res }}
+                      {{ character.hireling_poison_res }}%
                     </v-col>
                   </v-row>
                   <v-row no-gutters class="mt-4">
@@ -399,7 +412,7 @@
               <v-tab v-if="character.hireling_name">Mercenary</v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
-              <v-tab-item class="pt-4 px-2">
+              <v-tab-item class="pt-2 px-1">
                 <v-row no-gutters>
                   <CharacterItem
                     v-if="character.primary_left"
@@ -411,7 +424,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -432,7 +445,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -456,7 +469,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -480,7 +493,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -504,7 +517,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -528,7 +541,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -552,7 +565,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -573,7 +586,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -597,7 +610,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -621,7 +634,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -645,7 +658,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -669,7 +682,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -685,7 +698,7 @@
                   </v-col>
                 </v-row>
               </v-tab-item>
-              <v-tab-item class="pt-4 px-2">
+              <v-tab-item class="pt-2 px-1">
                 <v-row no-gutters>
                   <CharacterItem
                     v-if="character.hireling_primary_left"
@@ -697,7 +710,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -721,7 +734,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
@@ -745,7 +758,7 @@
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-4 px-2"
+                    class="pb-2 px-1"
                   >
                     <v-card class="fill-height d-flex align-center">
                       <v-row no-gutters>
