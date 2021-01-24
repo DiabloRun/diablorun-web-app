@@ -40,7 +40,6 @@
                   </v-btn>
                 </v-col>
               </v-row>
-              <v-divider v-if="speedruns.length > 0"></v-divider>
               <v-card-text v-if="speedruns.length > 0" class="pa-4">
                 <v-chip outlined label color="grey darken-3" text-color="white">
                   <v-icon left small color="yellow accent-4">

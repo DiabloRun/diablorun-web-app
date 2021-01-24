@@ -19,8 +19,8 @@
         <v-col align="center" class="py-1 pr-1">
           <h5 class="mb-1">
             <span v-if="runeword" class="quality-gold"
-              >{{ runeword }}<br
-            /></span>
+              >{{ runeword }}<br />
+            </span>
             <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
               {{ runeword ? item.base_name : item.name }}
             </span>

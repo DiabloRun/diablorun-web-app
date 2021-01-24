@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn class="mt-4 mr-1" fixed right fab small @click="toggleTwitchEmbed()">
+    <v-btn fixed right bottom fab small @click="toggleTwitchEmbed()">
       <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
     </v-btn>
@@ -13,37 +13,26 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-card>
-            <v-card-title class="py-2 pl-0">
+            <v-card-title class="py-2 pl-0 grey--text">
               <router-link
                 :to="{
-                  name: 'User',
-                  params: { user_name: character.user_name }
+                  name: 'Character',
+                  params: {
+                    user_name: character.user_name,
+                    character_slug: character.name + character.id
+                  }
                 }"
               >
-                <v-avatar
-                  v-if="character.user_profile_image_url"
-                  size="48"
-                  class="ml-2"
-                >
-                  <v-img :src="character.user_profile_image_url">
-                    <template v-slot:placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          size="18"
-                          width="2"
-                          color="primary"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
+                <v-avatar size="28" class="mx-3">
+                  <v-icon v-if="!character.hc" :class="`${character.hero}`">
+                    mdi-sword
+                  </v-icon>
+                  <v-icon v-if="character.hc" :class="`${character.hero}`">
+                    mdi-skull-outline
+                  </v-icon>
                 </v-avatar>
               </router-link>
-              <h6 class="pl-3">
+              <h6>
                 <router-link
                   :to="{
                     name: 'Character',
@@ -53,45 +42,23 @@
                     }
                   }"
                 >
-                  <v-icon
-                    v-if="!character.hc"
-                    small
-                    :class="`${character.hero}`"
-                  >
-                    mdi-sword
-                  </v-icon>
-                  <v-icon
-                    v-if="character.hc"
-                    small
-                    :class="`${character.hero}`"
-                  >
-                    mdi-skull-outline
-                  </v-icon>
                   {{ character.hero | HeroNameFilter }}
                   {{ character.name }}</router-link
                 >
-                added by
+                by
                 <router-link
                   :to="{
                     name: 'User',
                     params: { user_name: character.user_name }
                   }"
-                  >{{ character.user_name }}</router-link
                 >
+                  {{ character.user_name }}
+                </router-link>
+                {{ character.start_time | FromNowFilter }}
               </h6>
             </v-card-title>
             <v-divider></v-divider>
-            <v-row no-gutters class="my-3">
-              <v-col>
-                <h5 class="text-center">
-                  {{ character.difficulty | DifficultyFilter }} Difficulty
-                  <span class="grey--text">
-                    Players set to {{ character.players }}
-                  </span>
-                </h5>
-              </v-col>
-            </v-row>
-            <v-row no-gutters>
+            <v-row no-gutters class="mt-3">
               <v-col align="right">
                 <v-progress-circular
                   v-if="!character.dead"
@@ -145,40 +112,30 @@
                 </v-progress-circular>
               </v-col>
             </v-row>
-            <v-row no-gutters class="my-3">
+            <v-row no-gutters class="py-3">
               <v-col>
-                <h5 class="text-center">
+                <h5 class="text-right mr-2">
+                  Players {{ character.players }}
+                  {{ character.difficulty | DifficultyFilter }}
+                </h5>
+              </v-col>
+              <v-col>
+                <h5 class="ml-2">
                   {{ character.area | AreaNameFilter }}
                 </h5>
               </v-col>
-            </v-row>
-            <v-divider></v-divider>
-            <v-row no-gutters class="pa-3">
-              <v-col>
-                <v-chip v-if="character.hc" color="error" label>
-                  <v-icon v-if="!character.dead" small left> mdi-skull </v-icon>
-                  <v-icon v-if="character.dead" small left>
-                    mdi-skull-crossbones
-                  </v-icon>
-                  Hardcore
-                </v-chip>
-                <v-chip v-if="!character.hc" label>
-                  <v-icon small left> mdi-skull-outline </v-icon>
-                  {{ character.deaths }} Deaths
-                </v-chip>
-              </v-col>
-              <v-col cols="auto">
-                <v-tooltip left>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip label v-on="on" v-bind="attrs">
-                      <v-icon color="yellow darken-1" small left>
-                        mdi-gold
-                      </v-icon>
-                      {{ character.gold_total }}
-                    </v-chip>
-                  </template>
-                  <span>Total gold</span>
-                </v-tooltip>
+              <v-col
+                cols="12"
+                class="px-3 mt-3"
+                v-if="character.dead && character.hc"
+              >
+                <v-card color="darkAccent">
+                  <v-card-text class="text-center">
+                    <v-icon color="primary">mdi-grave-stone</v-icon>
+                    Your deeds of valor will be remembered,
+                    {{ character.name }}!
+                  </v-card-text>
+                </v-card>
               </v-col>
             </v-row>
           </v-card>
@@ -241,7 +198,14 @@
             <v-col>
               <v-card>
                 <v-card-title class="pl-4 py-1">
-                  <h6>Resistances</h6>
+                  <h6 v-if="character.hc">
+                    <v-icon color="error" left> mdi-skull </v-icon>
+                    Hardcore
+                  </h6>
+                  <h6 v-if="!character.hc">
+                    <v-icon left> mdi-skull-outline </v-icon>
+                    {{ character.deaths }} Deaths
+                  </h6>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-list dense>
@@ -388,29 +352,49 @@
             "
             :label="'Share ' + character.name"
             readonly
+            hide-details
             class="mt-6"
           ></v-text-field>
           <v-text-field
             v-if="isEditor"
             dense
             outlined
-            prepend-inner-icon="mdi-account-lock"
             :value="character.seed"
             :label="character.name + ' map seed'"
             readonly
+            class="mt-3"
+            hide-details
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="8">
           <v-card>
-            <v-tabs
-              v-model="tab"
-              background-color="transparent"
-              color="grey lighten-2"
-              centered
-            >
-              <v-tab>Items</v-tab>
-              <v-tab v-if="character.hireling_name">Mercenary</v-tab>
-            </v-tabs>
+            <v-row no-gutters>
+              <v-col>
+                <v-tabs
+                  v-model="tab"
+                  background-color="transparent"
+                  color="grey lighten-2"
+                >
+                  <v-tab>Items</v-tab>
+                  <v-tab v-if="character.hireling_name">Mercenary</v-tab>
+                </v-tabs>
+              </v-col>
+              <v-col cols="auto" class="my-auto mr-6">
+                {{ character.gold_total }}
+                <v-icon color="yellow darken-1" small> mdi-gold </v-icon>
+              </v-col>
+              <v-col cols="auto" class="my-auto mr-6">
+                {{ character.gold_stash }}
+                <v-icon color="yellow darken-1" small>
+                  mdi-treasure-chest
+                </v-icon>
+              </v-col>
+              <v-col cols="auto" class="my-auto mr-3">
+                {{ character.town_visits }} Town visits
+                <v-icon> mdi-shield-home </v-icon>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
             <v-tabs-items v-model="tab">
               <v-tab-item class="pt-2 px-1">
                 <v-row no-gutters>
