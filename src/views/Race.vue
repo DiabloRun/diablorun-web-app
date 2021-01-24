@@ -133,6 +133,7 @@
                 :value="race.name"
                 label="Token"
                 readonly
+                hide-details
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -143,6 +144,8 @@
                 :value="'https://diablo.run/race/' + race.id"
                 :label="'Share ' + race.name"
                 readonly
+                hide-details
+                class="my-3"
               ></v-text-field>
             </v-col>
           </v-row>

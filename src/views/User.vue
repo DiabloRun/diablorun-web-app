@@ -72,7 +72,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col>
+          <v-col v-if="characters.length > 0">
             <v-card>
               <v-card-title class="white--text py-1">
                 <h6>

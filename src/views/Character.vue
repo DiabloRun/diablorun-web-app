@@ -344,11 +344,7 @@
             dense
             prepend-inner-icon="mdi-share"
             :value="
-              'https://diablo.run/' +
-                character.user_name +
-                '/' +
-                character.name +
-                character.id
+              'https://diablo.run/' + character.user_name + '/' + character.id
             "
             :label="'Share ' + character.name"
             readonly
@@ -376,22 +372,12 @@
                   color="grey lighten-2"
                 >
                   <v-tab>Items</v-tab>
-                  <v-tab v-if="character.hireling_name">Mercenary</v-tab>
+                  <v-tab v-if="character.hireling_name">Merc</v-tab>
                 </v-tabs>
               </v-col>
-              <v-col cols="auto" class="my-auto mr-6">
-                {{ character.gold_total }}
+              <v-col cols="auto" class="my-auto mr-3 body-2">
+                {{ character.gold_total }} Gold
                 <v-icon color="yellow darken-1" small> mdi-gold </v-icon>
-              </v-col>
-              <v-col cols="auto" class="my-auto mr-6">
-                {{ character.gold_stash }}
-                <v-icon color="yellow darken-1" small>
-                  mdi-treasure-chest
-                </v-icon>
-              </v-col>
-              <v-col cols="auto" class="my-auto mr-3">
-                {{ character.town_visits }} Town visits
-                <v-icon> mdi-shield-home </v-icon>
               </v-col>
             </v-row>
             <v-divider></v-divider>
