@@ -4,20 +4,42 @@
       <v-row>
         <v-col cols="12">
           <v-card>
-            <v-card-title>
-              <v-icon left>mdi-flag-plus</v-icon>
-              Build a new race
-              <v-spacer></v-spacer>
-              <v-btn>
-                <v-icon left color="primary">mdi-content-save-outline</v-icon>
-                Save
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn>
-                <v-icon left color="primary">mdi-timer-10</v-icon>
-                Start the countdown
-              </v-btn>
-            </v-card-title>
+            <v-row no-gutters>
+              <v-col>
+                <v-card-title v-if="!token">
+                  <v-icon left>mdi-flag-plus</v-icon>
+                  Build a new race
+                </v-card-title>
+                <RaceCountdown
+                  v-if="token && !start_time"
+                  ref="countdown"
+                  :start="start_time"
+                  :finish="finish_time"
+                />
+              </v-col>
+              <v-col cols="auto" class="mr-3 my-auto">
+                <v-btn
+                  v-if="token && !start_time && canHost"
+                  @click="startCountdown()"
+                >
+                  <v-icon left color="primary">mdi-timer-10</v-icon>
+                  Start the race
+                </v-btn>
+                <v-btn v-if="canEdit && dirty" @click="save()" class="ml-3">
+                  <v-icon left color="primary">mdi-content-save-alert</v-icon>
+                  Save changes
+                </v-btn>
+                <v-btn
+                  v-if="canEdit && !dirty"
+                  @click="save()"
+                  class="ml-3"
+                  disabled
+                >
+                  <v-icon left>mdi-content-save-outline</v-icon>
+                  All good!
+                </v-btn>
+              </v-col>
+            </v-row>
             <v-divider></v-divider>
             <v-row no-gutters>
               <v-col>
@@ -26,6 +48,7 @@
                     <v-row no-gutters>
                       <v-col cols="12" class="mb-4">
                         <v-text-field
+                          v-model="form.name"
                           outlined
                           label="Name of the race"
                           required
@@ -34,6 +57,7 @@
                       </v-col>
                       <v-col cols="12" class="mb-4">
                         <v-textarea
+                          v-model="form.description"
                           outlined
                           label="Description"
                           required
@@ -89,87 +113,53 @@
               <v-col cols="auto" class="pa-4">
                 <h5>Rules</h5>
                 <v-checkbox
-                  v-model="ex4"
+                  v-model="form.entry_new_character"
                   label="Must start with a new hero"
-                  value="red"
                   hide-details
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="ex4"
+                  v-model="form.entry_classic"
                   label="Classic"
-                  value="red"
                   hide-details
                 ></v-checkbox>
                 <v-checkbox
-                  v-model="ex4"
+                  v-model="form.entry_hc"
                   label="Hardcore"
                   color="error"
-                  value="red"
                   hide-details
                 ></v-checkbox>
                 <v-select
                   class="mt-4"
+                  :menu-props="{ bottom: true, offsetY: true }"
                   dense
                   hide-details
-                  :items="items"
+                  v-model="form.entry_players"
+                  :items="pSetting"
                   label="Players set to"
                   outlined
-                ></v-select>
+                >
+                </v-select>
               </v-col>
               <v-divider vertical></v-divider>
               <v-col cols="auto" class="pa-4">
                 <h5>Allowed heroes</h5>
                 <v-checkbox
-                  v-model="ex4"
-                  label="Amazon"
-                  color="ama"
-                  value="red"
+                  v-model="form.entry_hero"
                   hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="ex4"
-                  label="Assassin"
-                  color="asn"
-                  value="red"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="ex4"
-                  label="Necromancer"
-                  color="nec"
-                  value="red"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="ex4"
-                  label="Barbarian"
-                  color="bar"
-                  value="red"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="ex4"
-                  label="Paladin"
-                  color="pal"
-                  value="red"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="ex4"
-                  label="Sorceress"
-                  color="sor"
-                  value="red"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="ex4"
-                  label="Druid"
-                  color="dru"
-                  value="red"
-                  hide-details
-                ></v-checkbox>
+                  v-for="hero of heroes"
+                  :key="hero.id"
+                  :value="hero.id"
+                  :label="hero.name"
+                >
+                </v-checkbox>
               </v-col>
             </v-row>
+            <v-divider></v-divider>
+            <v-card-text>1</v-card-text>
+            <v-divider></v-divider>
+            <v-card-text>
+              2
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -640,26 +630,26 @@ export default {
     DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map(id => ({
+    const statsList = Object.keys(stats).map((id) => ({
       id,
       name: stats[id]
     }));
 
-    const questsList = Object.keys(quests).map(id => ({
+    const questsList = Object.keys(quests).map((id) => ({
       id,
       ...quests[id]
     }));
 
     const acts = [
-      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
-      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
+      { name: 'Act I', quests: questsList.filter((quest) => quest.act === 1) },
+      { name: 'Act II', quests: questsList.filter((quest) => quest.act === 2) },
       {
         name: 'Act III',
-        quests: questsList.filter(quest => quest.act === 3)
+        quests: questsList.filter((quest) => quest.act === 3)
       },
-      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
-      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
-      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
+      { name: 'Act IV', quests: questsList.filter((quest) => quest.act === 4) },
+      { name: 'Act V', quests: questsList.filter((quest) => quest.act === 5) },
+      { name: 'Other', quests: questsList.filter((quest) => quest.act === 0) }
     ];
 
     for (const act of acts) {
@@ -668,6 +658,7 @@ export default {
 
     return {
       // Static data
+      pSetting: ['px', 'p1', 'p8'],
       heroes,
       acts,
       stats: statsList,
@@ -682,10 +673,10 @@ export default {
         slug: '',
         description: '',
         entry_new_character: true,
-        entry_hero: heroes.map(hero => hero.id),
+        entry_hero: heroes.map((hero) => hero.id),
         entry_classic: false,
         entry_hc: false,
-        entry_players: 'p1',
+        entry_players: 'px',
         finish_conditions_global: false,
         points: [],
         finish_conditions: [
@@ -716,10 +707,10 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: state => {
+      canEdit: (state) => {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
-      canHost: state => {
+      canHost: (state) => {
         return (
           !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
         );
@@ -750,9 +741,9 @@ export default {
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter(rule => rule.context === 'points'),
+      points: rules.filter((rule) => rule.context === 'points'),
       finish_conditions: rules.filter(
-        rule => rule.context === 'finish_conditions'
+        (rule) => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };

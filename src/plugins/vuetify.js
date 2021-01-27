@@ -23,6 +23,7 @@ export default new Vuetify({
         warning: '#FDD835',
         twitch: '#b9a3e3',
         discord: '#7289d9',
+        /*
         sor: '#26A69A',
         nec: '#00BCD4',
         ama: '#FFD54F',
@@ -30,6 +31,7 @@ export default new Vuetify({
         asn: '#ae4ebe',
         pal: '#E0E0E0',
         bar: '#e57373'
+        */
       }
     }
   }
