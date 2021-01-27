@@ -29,7 +29,7 @@ export default new Vuetify({
         dru: '#FF8A65',
         asn: '#ae4ebe',
         pal: '#E0E0E0',
-        bar: '#e57373',
+        bar: '#e57373'
       }
     }
   }
