@@ -22,7 +22,7 @@ export default new Vuetify({
         success: '#43A047',
         warning: '#FDD835',
         twitch: '#b9a3e3',
-        discord: '#7289d9',
+        discord: '#7289d9'
         /*
         sor: '#26A69A',
         nec: '#00BCD4',
