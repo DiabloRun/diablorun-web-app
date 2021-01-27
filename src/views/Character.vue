@@ -376,7 +376,7 @@
                 </v-tabs>
               </v-col>
               <v-col cols="auto" class="my-auto mr-3 body-2">
-                {{ character.gold_total }} Gold
+                {{ character.gold_total }}
                 <v-icon color="yellow darken-1" small> mdi-gold </v-icon>
               </v-col>
             </v-row>

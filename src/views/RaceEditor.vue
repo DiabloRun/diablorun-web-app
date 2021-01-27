@@ -1,5 +1,180 @@
 <template>
   <div class="race-editor" v-if="!loading">
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <v-card>
+            <v-card-title>
+              <v-icon left>mdi-flag-plus</v-icon>
+              Build a new race
+              <v-spacer></v-spacer>
+              <v-btn>
+                <v-icon left color="primary">mdi-content-save-outline</v-icon>
+                Save
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn>
+                <v-icon left color="primary">mdi-timer-10</v-icon>
+                Start the countdown
+              </v-btn>
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-row no-gutters>
+              <v-col>
+                <v-form v-model="valid">
+                  <v-container>
+                    <v-row no-gutters>
+                      <v-col cols="12" class="mb-4">
+                        <v-text-field
+                          outlined
+                          label="Name of the race"
+                          required
+                          hide-details
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" class="mb-4">
+                        <v-textarea
+                          outlined
+                          label="Description"
+                          required
+                          hide-details
+                          rows="3"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="6" class="pr-2">
+                        <v-text-field
+                          v-if="token"
+                          :value="'RACE_TOKEN=' + token"
+                          outlined
+                          label="Token"
+                          required
+                          hide-details
+                          readonly
+                        ></v-text-field>
+                        <v-text-field
+                          v-if="!token"
+                          value="Generated after saving"
+                          outlined
+                          label="Token"
+                          required
+                          hide-details
+                          readonly
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="6" class="pl-2">
+                        <v-text-field
+                          v-if="leaderboard_url"
+                          :value="leaderboard_url"
+                          outlined
+                          label="Link"
+                          required
+                          hide-details
+                          readonly
+                        ></v-text-field>
+                        <v-text-field
+                          v-if="!leaderboard_url"
+                          value="Generated after saving"
+                          outlined
+                          label="Link"
+                          required
+                          hide-details
+                          readonly
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </v-col>
+              <v-divider vertical></v-divider>
+              <v-col cols="auto" class="pa-4">
+                <h5>Rules</h5>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Must start with a new hero"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Classic"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Hardcore"
+                  color="error"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-select
+                  class="mt-4"
+                  dense
+                  hide-details
+                  :items="items"
+                  label="Players set to"
+                  outlined
+                ></v-select>
+              </v-col>
+              <v-divider vertical></v-divider>
+              <v-col cols="auto" class="pa-4">
+                <h5>Allowed heroes</h5>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Amazon"
+                  color="ama"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Assassin"
+                  color="asn"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Necromancer"
+                  color="nec"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Barbarian"
+                  color="bar"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Paladin"
+                  color="pal"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Sorceress"
+                  color="sor"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+                <v-checkbox
+                  v-model="ex4"
+                  label="Druid"
+                  color="dru"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <fieldset :disabled="start_time || !canEdit">
       <!-- Title -->
       <section class="hero is-dark is-bold">
@@ -94,17 +269,13 @@
                   </div>
                 </div>
                 <div class="field" v-if="canHost">
-                  <h1 class="subtitle mb-3 pt-3">
-                    Estimated start time
-                  </h1>
+                  <h1 class="subtitle mb-3 pt-3">Estimated start time</h1>
                   <div class="control">
                     <DateTimeInput v-model="form.estimated_start_time" />
                   </div>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">
-                    Allowed Players Setting
-                  </h1>
+                  <h1 class="subtitle mb-3 pt-3">Allowed Players Setting</h1>
                   <div class="control">
                     <div class="select">
                       <select v-model="form.entry_players">
@@ -179,9 +350,7 @@
                   </label>
                 </div>
                 <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">
-                    Allowed Classes
-                  </h1>
+                  <h1 class="subtitle mb-3 pt-3">Allowed Classes</h1>
                   <p class="mb-3">Hold control to select multiple</p>
                   <div class="select is-multiple">
                     <select
@@ -471,26 +640,26 @@ export default {
     DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map(id => ({
+    const statsList = Object.keys(stats).map((id) => ({
       id,
       name: stats[id]
     }));
 
-    const questsList = Object.keys(quests).map(id => ({
+    const questsList = Object.keys(quests).map((id) => ({
       id,
       ...quests[id]
     }));
 
     const acts = [
-      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
-      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
+      { name: 'Act I', quests: questsList.filter((quest) => quest.act === 1) },
+      { name: 'Act II', quests: questsList.filter((quest) => quest.act === 2) },
       {
         name: 'Act III',
-        quests: questsList.filter(quest => quest.act === 3)
+        quests: questsList.filter((quest) => quest.act === 3)
       },
-      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
-      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
-      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
+      { name: 'Act IV', quests: questsList.filter((quest) => quest.act === 4) },
+      { name: 'Act V', quests: questsList.filter((quest) => quest.act === 5) },
+      { name: 'Other', quests: questsList.filter((quest) => quest.act === 0) }
     ];
 
     for (const act of acts) {
@@ -513,7 +682,7 @@ export default {
         slug: '',
         description: '',
         entry_new_character: true,
-        entry_hero: heroes.map(hero => hero.id),
+        entry_hero: heroes.map((hero) => hero.id),
         entry_classic: false,
         entry_hc: false,
         entry_players: 'p1',
@@ -547,10 +716,10 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: state => {
+      canEdit: (state) => {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
-      canHost: state => {
+      canHost: (state) => {
         return (
           !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
         );
@@ -581,9 +750,9 @@ export default {
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter(rule => rule.context === 'points'),
+      points: rules.filter((rule) => rule.context === 'points'),
       finish_conditions: rules.filter(
-        rule => rule.context === 'finish_conditions'
+        (rule) => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };
