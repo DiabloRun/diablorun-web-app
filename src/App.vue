@@ -1,47 +1,61 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar flat dense clipped-left app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon color="primary">mdi-sword</v-icon>
-      <h2 class="logo mb-1">diablo<span class="grey--text">.</span>run</h2>
-      <v-spacer></v-spacer>
-      <v-tabs hide-slider right>
-        <v-tab v-if="!user" :href="twitchAuthenticationUrl"> Login </v-tab>
-        <v-tab
-          v-if="user"
-          :to="{ name: 'User', params: { user_name: user.name } }"
-        >
-          <v-avatar size="32">
-            <img
-              v-if="user.profile_image_url !== ''"
-              :src="user.profile_image_url"
-            />
-            <v-icon
-              v-if="user.profile_image_url == ''"
-              size="32"
-              color="primary"
+  <v-app>
+    <v-app-bar app dense color="app">
+      <v-row no-gutters>
+        <v-col>
+          <v-tabs active-class="grey--text" hide-slider background-color="app">
+            <v-tab @click="drawer = !drawer">
+              <v-icon>mdi-menu</v-icon>
+            </v-tab>
+          </v-tabs>
+        </v-col>
+        <v-col cols="auto">
+          <v-tabs active-class="grey--text" hide-slider background-color="app">
+            <v-tab v-if="!user" :href="twitchAuthenticationUrl">
+              Login
+              <v-icon>mdi-login</v-icon>
+            </v-tab>
+            <v-tab
+              v-if="user"
+              :to="{ name: 'User', params: { user_name: user.name } }"
+              class="hidden-xs-only"
             >
-              mdi-account-circle
-            </v-icon>
-          </v-avatar>
-        </v-tab>
-        <v-tab v-if="user" @click="signOut()">Logout</v-tab>
-      </v-tabs>
+              {{ user.name }}
+            </v-tab>
+            <v-tab v-if="user" @click="signOut()">
+              Exit
+              <v-icon>mdi-logout</v-icon>
+            </v-tab>
+          </v-tabs>
+        </v-col>
+        <v-col cols="auto" v-if="user && user.profile_image_url !== ''">
+          <router-link :to="{ name: 'User', params: { user_name: user.name } }">
+            <v-avatar tile>
+              <img
+                :src="user.profile_image_url"
+                :to="{ name: 'User', params: { user_name: user.name } }"
+              />
+            </v-avatar>
+          </router-link>
+        </v-col>
+      </v-row>
     </v-app-bar>
-    <v-navigation-drawer
-      color="darker"
-      width="200"
-      clipped
-      v-model="drawer"
-      app
-    >
-      <v-list dense nav>
+    <v-navigation-drawer color="app" width="200" v-model="drawer" app>
+      <v-row no-gutters class="text-center mt-1">
+        <v-col>
+          <h1 class="logo">
+            diablo<v-icon dense color="primary">mdi-sword</v-icon>run
+          </h1>
+        </v-col>
+      </v-row>
+      <v-list dense class="pb-0">
         <v-list-item
           link
           exact
           v-for="mainItem in mainItems"
           :key="mainItem.title"
           :to="{ name: mainItem.title }"
+          color="primary"
         >
           <v-icon left>{{ mainItem.icon }}</v-icon>
           <v-list-item-content>
@@ -49,8 +63,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider></v-divider>
-      <v-list v-if="user" dense nav>
+      <v-list v-if="user" dense class="py-0">
         <v-list-item
           link
           exact
@@ -91,41 +104,24 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider v-if="user"></v-divider>
-      <v-list dense nav>
-        <v-list-item
-          link
-          exact
-          v-for="secondaryItem in secondaryItems"
-          :key="secondaryItem.title"
-          :to="{ name: secondaryItem.title }"
-        >
-          <v-icon left>{{ secondaryItem.icon }}</v-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ secondaryItem.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider></v-divider>
-      <v-list dense nav>
-        <v-list-item
-          link
-          v-for="socialItem in socialItems"
-          :key="socialItem.title"
-          :href="socialItem.url"
-          target="_blank"
-        >
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-icon left>{{ socialItem.icon }}</v-icon
-              >{{ socialItem.title
-              }}<v-icon small right color="grey"
-                >mdi-open-in-new</v-icon
-              ></v-list-item-title
-            >
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <template v-slot:append>
+        <v-list dense class="py-0">
+          <v-list-item
+            link
+            v-for="socialItem in socialItems"
+            :key="socialItem.title"
+            :href="socialItem.url"
+            target="_blank"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                <v-icon left>{{ socialItem.icon }}</v-icon>
+                {{ socialItem.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </template>
       <!--
       <template v-slot:append>
         <div class="pa-2">
@@ -167,20 +163,18 @@ export default {
         { title: 'Leaderboard', icon: 'mdi-trophy' },
         { title: 'Wiki', icon: 'mdi-book-open-variant' },
         { title: 'Races', icon: 'mdi-flag-checkered' },
-        { title: 'Users', icon: 'mdi-account-group' }
-      ],
-      secondaryItems: [
+        { title: 'Users', icon: 'mdi-account-group' },
         { title: 'Patreon', icon: 'mdi-patreon' },
         { title: 'Team', icon: 'mdi-human-greeting' }
       ],
       socialItems: [
         {
-          title: 'Discord',
+          title: 'Join our community',
           icon: 'mdi-discord',
           url: 'https://discord.gg/QMMDR2a'
         },
         {
-          title: 'GitHub',
+          title: 'Open source',
           icon: 'mdi-github',
           url: 'https://github.com/diablorun'
         }
@@ -195,9 +189,9 @@ export default {
 
   computed: {
     ...mapState({
-      user: state => state.auth.user,
+      user: (state) => state.auth.user,
       // confirmModal: (state) => state.app.confirmModal,
-      showHeaderAndFooter: state => state.app.windowStyle === 'window'
+      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
     })
   },
   methods: {

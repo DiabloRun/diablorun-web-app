@@ -5,9 +5,14 @@ body, html {
     overflow-y: auto !important;
 }
 
+// Toolbar
+.v-toolbar__content, .v-toolbar__extension {
+    padding: 0 !important;
+}
+
 .logo {
     font-family: 'Texturina', serif;
-    font-size: 1.25rem;
+    font-size: 1.4rem !important;
 }
 
 .v-card a {
@@ -30,10 +35,6 @@ body, html {
 
 .v-application p:last-child {
     margin-bottom: 0;
-}
-
-.v-list--dense .v-list-item, .v-list-item--dense {
-    min-height: 32px !important;
 }
 
 // Table

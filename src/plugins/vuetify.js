@@ -6,14 +6,14 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
   theme: {
-    dark: true,
     options: {
       customProperties: true
     },
     themes: {
       dark: {
         primary: '#ff6d00',
-        secondary: '#fafafa',
+        app: '#1e1e1e',
+        appIcon: '#1e1e1e',
         darker: '#1e1e1e',
         darkAccent: '#222222',
         accent: '#82B1FF',
@@ -32,7 +32,8 @@ export default new Vuetify({
         pal: '#E0E0E0',
         bar: '#e57373'
         */
-      }
-    }
+      },
+    },
+    dark: true,
   }
 });
