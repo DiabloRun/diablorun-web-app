@@ -32,8 +32,8 @@ export default new Vuetify({
         pal: '#E0E0E0',
         bar: '#e57373'
         */
-      },
+      }
     },
-    dark: true,
+    dark: true
   }
 });
