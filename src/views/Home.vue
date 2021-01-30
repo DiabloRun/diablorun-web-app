@@ -3,9 +3,7 @@
     <v-row dense>
       <v-col cols="12" lg="6">
         <v-card>
-          <v-card-title>
-            Recently submitted speedruns
-          </v-card-title>
+          <v-card-title> Recently submitted speedruns </v-card-title>
           <v-divider></v-divider>
           <v-simple-table dense class="text-no-wrap">
             <thead>
@@ -63,10 +61,8 @@
                         run.speedrun_user_dark_color_from};`
                     "
                   >
-                    <v-avatar size="20">
-                      <CountryIcon :code="run.speedrun_user_country_code" />
-                    </v-avatar>
-                    {{ run.user_name }}
+                    <CountryIcon :code="run.speedrun_user_country_code" />
+                    <strong>{{ run.user_name }}</strong>
                   </router-link>
                 </td>
                 <td>
@@ -121,9 +117,7 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-card>
-          <v-card-title>
-            Fresh world records
-          </v-card-title>
+          <v-card-title> Fresh world records </v-card-title>
           <v-divider></v-divider>
           <v-simple-table dense class="text-no-wrap">
             <thead>
@@ -164,10 +158,8 @@
                         run.speedrun_user_dark_color_from};`
                     "
                   >
-                    <v-avatar size="20">
-                      <CountryIcon :code="run.speedrun_user_country_code" />
-                    </v-avatar>
-                    {{ run.user_name }}
+                    <CountryIcon :code="run.speedrun_user_country_code" />
+                    <strong>{{ run.user_name }}</strong>
                   </router-link>
                 </td>
                 <td>
@@ -222,9 +214,7 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-card>
-          <v-card-title>
-            Runners with most records
-          </v-card-title>
+          <v-card-title> Runners with most records </v-card-title>
           <v-divider></v-divider>
           <v-simple-table dense class="text-no-wrap">
             <thead>
@@ -281,10 +271,8 @@
                         runner.speedrun_user_dark_color_from};`
                     "
                   >
-                    <v-avatar size="20">
-                      <CountryIcon :code="runner.speedrun_user_country_code" />
-                    </v-avatar>
-                    {{ runner.user_name }}
+                    <CountryIcon :code="runner.speedrun_user_country_code" />
+                    <strong>{{ runner.user_name }}</strong>
                   </router-link>
                 </td>
                 <td>
@@ -303,9 +291,7 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-card class="fill-height">
-          <v-card-title>
-            Latest article
-          </v-card-title>
+          <v-card-title> Latest article </v-card-title>
           <v-divider></v-divider>
           <BlogPostBox :post="latestPost"></BlogPostBox>
           <v-card-actions class="pl-3 pb-4">

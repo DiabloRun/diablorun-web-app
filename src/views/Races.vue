@@ -1,32 +1,18 @@
 <template>
-  <v-container>
+  <v-container class="pa-2">
     <v-card>
-      <v-card-title>
-        <v-icon left>mdi-flag-checkered</v-icon>
-        Races
-      </v-card-title>
+      <v-card-title> Races </v-card-title>
+      <v-card-subtitle> hey</v-card-subtitle>
       <v-divider></v-divider>
-      <v-row no-gutters class="px-2 pb-4">
-        <v-col
-          v-for="race of races"
-          :key="race.id"
-          cols="12"
-          md="6"
-          class="px-2 pt-4"
-        >
+      <v-row dense class="px-2 pt-2 pb-1">
+        <v-col v-for="race of races" :key="race.id" cols="12" md="6">
           <v-card color="darkAccent" class="fill-height">
-            <v-row no-gutters>
-              <v-col>
-                <v-card-title>
-                  <router-link
-                    :to="{ name: 'Race', params: { slug: race.id } }"
-                  >
-                    {{ race.name }}
-                  </router-link>
-                </v-card-title>
-                <v-card-subtitle>{{ race.description }}</v-card-subtitle>
-              </v-col>
-            </v-row>
+            <v-card-title>
+              <router-link :to="{ name: 'Race', params: { slug: race.id } }">
+                {{ race.name }}
+              </router-link>
+            </v-card-title>
+            <v-card-subtitle>{{ race.description }}</v-card-subtitle>
           </v-card>
         </v-col>
       </v-row>

@@ -9,11 +9,16 @@ body, html {
 }
 
 .v-application {
-    .v-card__title, .v-card__subtitle {
+    .v-card__title {
         font-family: $title-font, sans-serif !important;
+        padding-top: .5rem;
     }
 }
 
+// Strong
+b, strong {
+    font-weight: 500 !important;
+}
 
 // Toolbar
 .v-toolbar__content, .v-toolbar__extension {

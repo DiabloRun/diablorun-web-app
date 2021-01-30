@@ -4,40 +4,40 @@
       <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
     </v-btn>
-    <v-container v-if="!streamOverlay && character.name" fluid>
+    <v-container v-if="!streamOverlay && character.name" fluid class="pa-2">
       <v-row v-if="showTwitchEmbed">
         <v-col>
           <TwitchEmbed :username="character.user_name" />
         </v-col>
       </v-row>
-      <v-row>
+      <v-row dense>
         <v-col cols="12" md="4">
+          <v-row dense>
+            <v-col cols="12" class="mb-2">
+              <!-- Character and user name -->
+              <v-card>
+                <v-card>
+                  <v-card-title>
+                    {{ character.hero | HeroNameFilter }}
+                    {{ character.name }}
+                  </v-card-title>
+                  <v-card-subtitle>
+                    Added {{ character.start_time | FromNowFilter }} by
+                    <router-link
+                      :to="{
+                        name: 'User',
+                        params: { user_name: character.user_name }
+                      }"
+                    >
+                      {{ character.user_name }}
+                    </router-link>
+                  </v-card-subtitle>
+                </v-card>
+              </v-card>
+            </v-col>
+          </v-row>
           <v-card>
-            <h5 class="text-center grey--text pt-3">
-              {{ character.hero | HeroNameFilter }}
-              <router-link
-                :to="{
-                  name: 'Character',
-                  params: {
-                    user_name: character.user_name,
-                    character_slug: character.name + character.id
-                  }
-                }"
-              >
-                {{ character.name }}
-              </router-link>
-              by
-              <router-link
-                :to="{
-                  name: 'User',
-                  params: { user_name: character.user_name }
-                }"
-              >
-                {{ character.user_name }}
-              </router-link>
-              {{ character.start_time | FromNowFilter }}
-            </h5>
-            <v-row no-gutters class="mt-3">
+            <v-row no-gutters class="py-3">
               <v-col align="right">
                 <v-progress-circular
                   v-if="!character.dead"
