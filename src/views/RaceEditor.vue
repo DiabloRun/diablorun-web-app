@@ -43,8 +43,8 @@
             <v-divider></v-divider>
             <v-row no-gutters>
               <v-col>
-                <v-form v-model="valid">
-                  <v-container>
+                <v-container>
+                  <v-form v-model="valid">
                     <v-row no-gutters>
                       <v-col cols="12" class="mb-4">
                         <v-text-field
@@ -106,60 +106,107 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
-                  </v-container>
-                </v-form>
+                  </v-form>
+                </v-container>
               </v-col>
               <v-divider vertical></v-divider>
-              <v-col cols="auto" class="pa-4">
-                <h5>Rules</h5>
-                <v-checkbox
-                  v-model="form.entry_new_character"
-                  label="Must start with a new hero"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="form.entry_classic"
-                  label="Classic"
-                  hide-details
-                ></v-checkbox>
-                <v-checkbox
-                  v-model="form.entry_hc"
-                  label="Hardcore"
-                  color="error"
-                  hide-details
-                ></v-checkbox>
-                <v-select
-                  class="mt-4"
-                  :menu-props="{ bottom: true, offsetY: true }"
-                  dense
-                  hide-details
-                  v-model="form.entry_players"
-                  :items="pSetting"
-                  label="Players set to"
-                  outlined
-                >
-                </v-select>
+              <v-col cols="3">
+                <v-container>
+                  <h5>Rules</h5>
+                  <v-checkbox
+                    v-model="form.entry_new_character"
+                    label="Must start with a new hero"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="form.entry_classic"
+                    label="Classic"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="form.entry_hc"
+                    label="Hardcore"
+                    color="error"
+                    hide-details
+                  ></v-checkbox>
+                  <v-select
+                    class="mt-4"
+                    :menu-props="{ bottom: true, offsetY: true }"
+                    dense
+                    hide-details
+                    v-model="form.entry_players"
+                    :items="playersSettings"
+                    label="Players set to"
+                    outlined
+                  >
+                  </v-select>
+                </v-container>
               </v-col>
               <v-divider vertical></v-divider>
-              <v-col cols="auto" class="pa-4">
-                <h5>Allowed heroes</h5>
-                <v-checkbox
-                  v-model="form.entry_hero"
-                  hide-details
-                  v-for="hero of heroes"
-                  :key="hero.id"
-                  :value="hero.id"
-                  :label="hero.name"
-                >
-                </v-checkbox>
+              <v-col cols="auto">
+                <v-container>
+                  <h5>Allowed heroes</h5>
+                  <v-checkbox
+                    v-model="form.entry_hero"
+                    hide-details
+                    v-for="hero of heroes"
+                    :key="hero.id"
+                    :value="hero.id"
+                    :label="hero.name"
+                  >
+                  </v-checkbox>
+                </v-container>
               </v-col>
             </v-row>
             <v-divider></v-divider>
-            <v-card-text>1</v-card-text>
+            <v-container>
+              <v-form v-for="(point, index) of form.points" :key="index">
+                <v-row no-gutters>
+                  <!-- Amount -->
+                  <v-col>
+                    <v-text-field
+                      v-model="point.amount"
+                      outlined
+                      label="Points"
+                      required
+                      hide-details
+                    ></v-text-field>
+                  </v-col>
+                  <!-- Type -->
+                  <v-col>
+                    <v-select
+                      outlined
+                      v-model="point.type"
+                      :items="pointTypes"
+                    ></v-select>
+                  </v-col>
+                  <!-- Counter -->
+                  <v-col>
+                    <v-text-field
+                      v-model="point.counter"
+                      outlined
+                      label="Amount"
+                      required
+                      hide-details
+                    ></v-text-field>
+                  </v-col>
+                  <!-- Type -->
+                  <v-col>
+                    <v-select
+                      outlined
+                      v-model="point.stat"
+                      :items="stats"
+                    ></v-select>
+                  </v-col>
+                </v-row>
+              </v-form>
+              <v-btn @click="addPoint()">
+                <v-icon left>mdi-plus</v-icon>
+                Add point system
+              </v-btn>
+            </v-container>
             <v-divider></v-divider>
-            <v-card-text>
-              2
-            </v-card-text>
+            <v-card-text> 2 </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -630,26 +677,26 @@ export default {
     DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map(id => ({
+    const statsList = Object.keys(stats).map((id) => ({
       id,
       name: stats[id]
     }));
 
-    const questsList = Object.keys(quests).map(id => ({
+    const questsList = Object.keys(quests).map((id) => ({
       id,
       ...quests[id]
     }));
 
     const acts = [
-      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
-      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
+      { name: 'Act I', quests: questsList.filter((quest) => quest.act === 1) },
+      { name: 'Act II', quests: questsList.filter((quest) => quest.act === 2) },
       {
         name: 'Act III',
-        quests: questsList.filter(quest => quest.act === 3)
+        quests: questsList.filter((quest) => quest.act === 3)
       },
-      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
-      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
-      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
+      { name: 'Act IV', quests: questsList.filter((quest) => quest.act === 4) },
+      { name: 'Act V', quests: questsList.filter((quest) => quest.act === 5) },
+      { name: 'Other', quests: questsList.filter((quest) => quest.act === 0) }
     ];
 
     for (const act of acts) {
@@ -658,7 +705,9 @@ export default {
 
     return {
       // Static data
-      pSetting: ['px', 'p1', 'p8'],
+      playersSettings: ['px', 'p1', 'p8'],
+      pointTypes: ['quest', 'per', 'for'],
+
       heroes,
       acts,
       stats: statsList,
@@ -673,7 +722,7 @@ export default {
         slug: '',
         description: '',
         entry_new_character: true,
-        entry_hero: heroes.map(hero => hero.id),
+        entry_hero: heroes.map((hero) => hero.id),
         entry_classic: false,
         entry_hc: false,
         entry_players: 'px',
@@ -707,10 +756,10 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: state => {
+      canEdit: (state) => {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
-      canHost: state => {
+      canHost: (state) => {
         return (
           !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
         );
@@ -741,9 +790,9 @@ export default {
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter(rule => rule.context === 'points'),
+      points: rules.filter((rule) => rule.context === 'points'),
       finish_conditions: rules.filter(
-        rule => rule.context === 'finish_conditions'
+        (rule) => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };

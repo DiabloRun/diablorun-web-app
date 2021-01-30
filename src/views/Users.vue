@@ -5,8 +5,11 @@
         <v-card>
           <v-card-title>
             <v-icon left>mdi-account-group-outline</v-icon>
-            Currently playing
+            Active users
           </v-card-title>
+          <v-card-subtitle v-if="activeUsers.length > 0">
+            {{ activeUsers.length }} people currently playing
+          </v-card-subtitle>
           <v-divider></v-divider>
           <v-card-text v-if="!activeUsers.length > 0">
             <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
@@ -18,27 +21,27 @@
               >Twitch</a
             >.
           </v-card-text>
-          <v-row no-gutters v-if="activeUsers.length > 0">
+          <v-row no-gutters v-if="activeUsers.length > 0" class="px-2 pb-4">
             <v-col
               v-for="user of activeUsers"
               :key="user.id"
               cols="12"
               md="6"
               lg="4"
-              class="pa-4"
+              class="px-2 pt-4"
             >
               <v-card color="darkAccent">
                 <v-row no-gutters align="center">
                   <v-col cols="auto" class="ml-3">
                     <v-avatar size="64">
-                      <img
+                      <v-img
                         v-if="user.profile_image_url !== ''"
                         :src="user.user_profile_image_url"
-                      />
+                      ></v-img>
                       <v-icon
                         v-if="user.user_profile_image_url == ''"
                         size="64"
-                        color="primary"
+                        color="grey"
                       >
                         mdi-account-circle
                       </v-icon>

@@ -63,6 +63,15 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-divider></v-divider>
+      <v-list v-if="!user" dense class="py-0">
+        <v-list-item link exact :href="twitchAuthenticationUrl">
+          <v-icon left>mdi-login</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-list v-if="user" dense class="py-0">
         <v-list-item
           link
@@ -104,7 +113,24 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-divider></v-divider>
+      <v-list dense class="py-0">
+        <v-list-item
+          link
+          v-for="otherItem in otherItems"
+          :key="otherItem.title"
+          :to="{ name: otherItem.title }"
+        >
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-icon left>{{ otherItem.icon }}</v-icon>
+              {{ otherItem.title }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <template v-slot:append>
+        <v-divider></v-divider>
         <v-list dense class="py-0">
           <v-list-item
             link
@@ -133,9 +159,9 @@
       -->
     </v-navigation-drawer>
     <v-main>
-      <transition name="block">
+      <v-fade-transition mode="out-in">
         <router-view />
-      </transition>
+      </v-fade-transition>
     </v-main>
   </v-app>
 </template>
@@ -163,7 +189,9 @@ export default {
         { title: 'Leaderboard', icon: 'mdi-trophy' },
         { title: 'Wiki', icon: 'mdi-book-open-variant' },
         { title: 'Races', icon: 'mdi-flag-checkered' },
-        { title: 'Users', icon: 'mdi-account-group' },
+        { title: 'Users', icon: 'mdi-account-group' }
+      ],
+      otherItems: [
         { title: 'Patreon', icon: 'mdi-patreon' },
         { title: 'Team', icon: 'mdi-human-greeting' }
       ],
@@ -189,9 +217,9 @@ export default {
 
   computed: {
     ...mapState({
-      user: state => state.auth.user,
+      user: (state) => state.auth.user,
       // confirmModal: (state) => state.app.confirmModal,
-      showHeaderAndFooter: state => state.app.windowStyle === 'window'
+      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
     })
   },
   methods: {

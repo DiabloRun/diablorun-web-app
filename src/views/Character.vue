@@ -13,7 +13,8 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-card>
-            <v-card-title class="py-2 pl-0 grey--text">
+            <h5 class="text-center grey--text pt-3">
+              {{ character.hero | HeroNameFilter }}
               <router-link
                 :to="{
                   name: 'Character',
@@ -23,41 +24,19 @@
                   }
                 }"
               >
-                <v-avatar size="28" class="mx-3">
-                  <v-icon v-if="!character.hc" :class="`${character.hero}`">
-                    mdi-sword
-                  </v-icon>
-                  <v-icon v-if="character.hc" :class="`${character.hero}`">
-                    mdi-skull-outline
-                  </v-icon>
-                </v-avatar>
+                {{ character.name }}
               </router-link>
-              <h6>
-                <router-link
-                  :to="{
-                    name: 'Character',
-                    params: {
-                      user_name: character.user_name,
-                      character_slug: character.name + character.id
-                    }
-                  }"
-                >
-                  {{ character.hero | HeroNameFilter }}
-                  {{ character.name }}</router-link
-                >
-                by
-                <router-link
-                  :to="{
-                    name: 'User',
-                    params: { user_name: character.user_name }
-                  }"
-                >
-                  {{ character.user_name }}
-                </router-link>
-                {{ character.start_time | FromNowFilter }}
-              </h6>
-            </v-card-title>
-            <v-divider></v-divider>
+              by
+              <router-link
+                :to="{
+                  name: 'User',
+                  params: { user_name: character.user_name }
+                }"
+              >
+                {{ character.user_name }}
+              </router-link>
+              {{ character.start_time | FromNowFilter }}
+            </h5>
             <v-row no-gutters class="mt-3">
               <v-col align="right">
                 <v-progress-circular
@@ -89,16 +68,9 @@
                     }
                   }"
                 >
-                  <v-badge
-                    bottom
-                    color="grey darken-3"
-                    :content="character.level"
-                    overlap
-                  >
-                    <v-avatar size="64" rounded>
-                      <Icon :name="`big-${character.hero}`" />
-                    </v-avatar>
-                  </v-badge>
+                  <v-avatar size="64" rounded>
+                    <Icon :name="`big-${character.hero}`" />
+                  </v-avatar>
                 </router-link>
               </v-col>
               <v-col>
@@ -130,34 +102,38 @@
                 v-if="character.dead && character.hc"
               >
                 <v-card color="darkAccent">
-                  <v-card-text class="text-center">
+                  <v-card-text class="text-center white--text">
                     <v-icon color="primary">mdi-grave-stone</v-icon>
                     Your deeds of valor will be remembered,
-                    {{ character.name }}!
+                    <strong> {{ character.name }}</strong
+                    >!
                   </v-card-text>
                 </v-card>
               </v-col>
             </v-row>
+            <v-progress-linear
+              :value="(character.life / character.life_max) * 100"
+              absolute
+              bottom
+              height="3"
+              color="grey"
+            ></v-progress-linear>
           </v-card>
           <v-row class="pt-6">
             <v-col>
               <v-card>
-                <v-progress-linear
-                  value="50"
-                  absolute
-                  top
-                  color="white"
-                ></v-progress-linear>
-                <v-card-title class="pl-4 py-1">
-                  <v-row no-gutters>
-                    <v-col>
-                      <h6>Level {{ character.level }}</h6>
-                    </v-col>
-                    <v-col cols="auto">
-                      <h6>12.53%</h6>
-                    </v-col>
-                  </v-row>
-                </v-card-title>
+                <h5 v-if="character.hc" class="pa-3">
+                  <v-icon left small :class="`${character.hero}`">
+                    mdi-skull-outline
+                  </v-icon>
+                  Hardcore
+                </h5>
+                <h5 v-if="!character.hc" class="pa-3">
+                  <v-icon left small :class="`${character.hero}`">
+                    mdi-sword
+                  </v-icon>
+                  {{ character.deaths }} Deaths
+                </h5>
                 <v-divider></v-divider>
                 <v-list dense>
                   <v-list-item>
@@ -197,16 +173,15 @@
             </v-col>
             <v-col>
               <v-card>
-                <v-card-title class="pl-4 py-1">
-                  <h6 v-if="character.hc">
-                    <v-icon color="error" left> mdi-skull </v-icon>
-                    Hardcore
-                  </h6>
-                  <h6 v-if="!character.hc">
-                    <v-icon left> mdi-skull-outline </v-icon>
-                    {{ character.deaths }} Deaths
-                  </h6>
-                </v-card-title>
+                <v-row no-gutters>
+                  <v-col>
+                    <h5 class="pa-3">Level {{ character.level }}</h5>
+                  </v-col>
+                  <v-col cols="auto">
+                    <h5 class="pa-3">12.53%</h5>
+                  </v-col>
+                </v-row>
+
                 <v-divider></v-divider>
                 <v-list dense>
                   <v-list-item>
@@ -248,9 +223,7 @@
             </v-col>
             <v-col>
               <v-card>
-                <v-card-title class="pl-4 py-1">
-                  <h6>{{ character.mf }}% Magic find</h6>
-                </v-card-title>
+                <h5 class="pa-3">{{ character.mf }}% Magic find</h5>
                 <v-divider></v-divider>
                 <v-list dense>
                   <v-list-item>
@@ -292,17 +265,21 @@
           <v-row class="pt-3" v-if="character.hireling_name">
             <v-col>
               <v-card>
-                <v-card-title>
-                  <v-avatar size="32">
-                    <Icon :name="`${character.hireling_class}`" />
-                  </v-avatar>
-                  <h6 class="ml-3">
-                    {{ character.hireling_name }}
-                    <span class="grey--text"
-                      >Level {{ character.hireling_level }}</span
-                    >
-                  </h6>
-                </v-card-title>
+                <v-row no-gutters class="pa-3">
+                  <v-col class="my-auto">
+                    <h5>
+                      {{ character.hireling_name }}
+                      <span class="grey--text">
+                        Level {{ character.hireling_level }}
+                      </span>
+                    </h5>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-avatar size="32">
+                      <Icon :name="`${character.hireling_class}`" />
+                    </v-avatar>
+                  </v-col>
+                </v-row>
                 <v-divider></v-divider>
                 <v-card-text class="white--text">
                   <v-row no-gutters>
@@ -899,8 +876,8 @@ export default {
   },
   computed: {
     ...mapState({
-      character: state => state.ws.character,
-      streamOverlay: state => state.app.windowStyle === 'overlay'
+      character: (state) => state.ws.character,
+      streamOverlay: (state) => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
