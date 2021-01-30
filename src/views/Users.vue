@@ -35,33 +35,18 @@
               lg="4"
               class="px-2 pt-4"
             >
-              <v-card color="darkAccent">
+              <v-card
+                hover
+                color="darkAccent"
+                :to="{
+                  name: 'Character',
+                  params: {
+                    user_name: user.user_name,
+                    character_slug: '@'
+                  }
+                }"
+              >
                 <v-row no-gutters align="center">
-                  <v-col cols="auto" class="ml-3">
-                    <router-link
-                      :to="{
-                        name: 'Character',
-                        params: {
-                          user_name: user.user_name,
-                          character_slug: '@'
-                        }
-                      }"
-                    >
-                      <v-avatar size="64">
-                        <v-img
-                          v-if="user.profile_image_url !== ''"
-                          :src="user.user_profile_image_url"
-                        ></v-img>
-                        <v-icon
-                          v-if="user.user_profile_image_url == ''"
-                          size="64"
-                          color="grey"
-                        >
-                          mdi-account-circle
-                        </v-icon>
-                      </v-avatar>
-                    </router-link>
-                  </v-col>
                   <v-col>
                     <v-card-title>
                       <router-link
@@ -77,10 +62,24 @@
                       </router-link>
                     </v-card-title>
                     <v-card-subtitle>
-                      <v-icon small :class="`${user.hero}`">mdi-sword</v-icon>
                       Level {{ user.level }}
                       {{ user.hero | HeroNameFilter }}
                     </v-card-subtitle>
+                  </v-col>
+                  <v-col cols="auto">
+                    <router-link
+                      :to="{
+                        name: 'Character',
+                        params: {
+                          user_name: user.user_name,
+                          character_slug: '@'
+                        }
+                      }"
+                    >
+                      <v-avatar size="64" class="mr-3">
+                        <v-img :src="user.user_profile_image_url"></v-img>
+                      </v-avatar>
+                    </router-link>
                   </v-col>
                 </v-row>
               </v-card>

@@ -1,10 +1,9 @@
 <template>
-  <v-container fluid>
-    <v-row>
+  <v-container fluid class="pa-2">
+    <v-row dense>
       <v-col cols="12" lg="6">
         <v-card>
           <v-card-title>
-            <v-icon left>mdi-trophy-outline</v-icon>
             Recently submitted speedruns
           </v-card-title>
           <v-divider></v-divider>
@@ -59,10 +58,9 @@
                       name: 'User',
                       params: { user_name: run.user_name }
                     }"
-                    :style="
-                      `color: ${run.user_color ||
-                        run.speedrun_user_dark_color_from};`
-                    "
+                    :style="`color: ${
+                      run.user_color || run.speedrun_user_dark_color_from
+                    };`"
                   >
                     <v-avatar size="20">
                       <CountryIcon :code="run.speedrun_user_country_code" />
@@ -123,7 +121,6 @@
       <v-col cols="12" lg="6">
         <v-card>
           <v-card-title>
-            <v-icon left color="yellow accent-4">mdi-trophy</v-icon>
             Fresh world records
           </v-card-title>
           <v-divider></v-divider>
@@ -161,10 +158,9 @@
                       name: 'User',
                       params: { user_name: run.user_name }
                     }"
-                    :style="
-                      `color: ${run.user_color ||
-                        run.speedrun_user_dark_color_from};`
-                    "
+                    :style="`color: ${
+                      run.user_color || run.speedrun_user_dark_color_from
+                    };`"
                   >
                     <v-avatar size="20">
                       <CountryIcon :code="run.speedrun_user_country_code" />
@@ -225,7 +221,6 @@
       <v-col cols="12" lg="6">
         <v-card>
           <v-card-title>
-            <v-icon left>mdi-medal</v-icon>
             Runners with most records
           </v-card-title>
           <v-divider></v-divider>
@@ -279,10 +274,9 @@
                       name: 'User',
                       params: { user_name: runner.user_name }
                     }"
-                    :style="
-                      `color: ${runner.user_color ||
-                        runner.speedrun_user_dark_color_from};`
-                    "
+                    :style="`color: ${
+                      runner.user_color || runner.speedrun_user_dark_color_from
+                    };`"
                   >
                     <v-avatar size="20">
                       <CountryIcon :code="runner.speedrun_user_country_code" />
@@ -307,7 +301,6 @@
       <v-col cols="12" lg="6">
         <v-card class="fill-height">
           <v-card-title>
-            <v-icon left>mdi-book-open-variant</v-icon>
             Latest article
           </v-card-title>
           <v-divider></v-divider>
