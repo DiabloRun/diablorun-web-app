@@ -174,7 +174,9 @@
                   <tr v-for="character of characters" :key="character.id">
                     <td>
                       <router-link
-                        :to="`/${character.user_name}/${character.name}${character.id}`"
+                        :to="
+                          `/${character.user_name}/${character.name}${character.id}`
+                        "
                         >{{ character.name }}
                       </router-link>
                       <v-icon v-if="character.dead" small color="error">
@@ -379,7 +381,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: (state) => state.ws.character
+      latestCharacter: state => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -481,7 +483,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter((c) => c !== character);
+        this.characters = this.characters.filter(c => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();
