@@ -96,19 +96,19 @@
                   {{ character.area | AreaNameFilter }}
                 </h5>
               </v-col>
-              <v-col
-                cols="12"
-                class="px-3 mt-3"
-                v-if="character.dead && character.hc"
-              >
-                <v-card color="darkAccent">
-                  <v-card-text class="text-center white--text">
-                    <v-icon color="primary">mdi-grave-stone</v-icon>
-                    Your deeds of valor will be remembered,
-                    <strong> {{ character.name }}</strong
-                    >!
-                  </v-card-text>
-                </v-card>
+              <v-col cols="12">
+                <v-alert
+                  v-if="character.dead && character.hc"
+                  border="left"
+                  text
+                  color="error"
+                  class="mx-2 mt-2 mb-0 text-center"
+                >
+                  <v-icon color="error">mdi-grave-stone</v-icon>
+                  Your deeds of valor will be remembered,
+                  <strong> {{ character.name }}</strong
+                  >!
+                </v-alert>
               </v-col>
             </v-row>
             <v-progress-linear
@@ -116,7 +116,7 @@
               absolute
               bottom
               height="3"
-              color="grey"
+              color="grey lighten-1"
             ></v-progress-linear>
           </v-card>
           <v-row class="pt-6">
@@ -129,9 +129,6 @@
                   Hardcore
                 </h5>
                 <h5 v-if="!character.hc" class="pa-3">
-                  <v-icon left small :class="`${character.hero}`">
-                    mdi-sword
-                  </v-icon>
                   {{ character.deaths }} Deaths
                 </h5>
                 <v-divider></v-divider>

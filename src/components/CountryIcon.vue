@@ -1,8 +1,5 @@
 <template>
-  <img
-    :class="imgClass"
-    :src="icons[`./${code ? code.toUpperCase() : 'ZZZ'}.png`]"
-  />
+  <v-img contain :src="icons[`./${code}.svg`]" />
 </template>
 
 <script>

@@ -38,9 +38,15 @@ body, html {
 }
 
 // Table
-tr:hover {
-    background-color: transparent !important;
- }
+tbody tr:hover {
+    background-color: #282828 !important;
+    transition: background-color 0.5s ease;
+}
+
+// Divider
+.theme--dark.v-divider, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row), .theme--dark.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+    border-color: hsla(0,0%,100%,.08) !important;
+}
 
 // Heroes
 .sor {
@@ -70,3 +76,36 @@ tr:hover {
 .bar {
     color: #e57373 !important;
 }
+
+// Animation
+.fade-in {
+    animation: fadeIn ease .5s;
+    -webkit-animation: fadeIn ease .5s;
+    -moz-animation: fadeIn ease .5s;
+    -o-animation: fadeIn ease .5s;
+    -ms-animation: fadeIn ease .5s;
+    }
+    @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }
+    
+    @-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+    }

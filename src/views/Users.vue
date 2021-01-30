@@ -7,20 +7,25 @@
             <v-icon left>mdi-account-group-outline</v-icon>
             Active users
           </v-card-title>
-          <v-card-subtitle v-if="activeUsers.length > 0">
+          <v-card-subtitle v-if="activeUsers.length === 1">
+            {{ activeUsers.length }} person currently playing
+          </v-card-subtitle>
+          <v-card-subtitle v-if="activeUsers.length > 1">
             {{ activeUsers.length }} people currently playing
           </v-card-subtitle>
           <v-divider></v-divider>
-          <v-card-text v-if="!activeUsers.length > 0">
-            <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-            No one is currently playing with our technology. Try finding some
-            Diablo players from
-            <a
-              href="https://www.twitch.tv/directory/game/Diablo%20II"
-              target="_blank"
-              >Twitch</a
-            >.
-          </v-card-text>
+          <v-container v-if="!activeUsers.length">
+            <v-alert class="mb-0" border="left" text type="primary">
+              <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+              No one is currently playing with our technology. Try finding some
+              Diablo players from
+              <a
+                href="https://www.twitch.tv/directory/game/Diablo%20II"
+                target="_blank"
+                >Twitch</a
+              >.
+            </v-alert>
+          </v-container>
           <v-row no-gutters v-if="activeUsers.length > 0" class="px-2 pb-4">
             <v-col
               v-for="user of activeUsers"
@@ -33,19 +38,29 @@
               <v-card color="darkAccent">
                 <v-row no-gutters align="center">
                   <v-col cols="auto" class="ml-3">
-                    <v-avatar size="64">
-                      <v-img
-                        v-if="user.profile_image_url !== ''"
-                        :src="user.user_profile_image_url"
-                      ></v-img>
-                      <v-icon
-                        v-if="user.user_profile_image_url == ''"
-                        size="64"
-                        color="grey"
-                      >
-                        mdi-account-circle
-                      </v-icon>
-                    </v-avatar>
+                    <router-link
+                      :to="{
+                        name: 'Character',
+                        params: {
+                          user_name: user.user_name,
+                          character_slug: '@'
+                        }
+                      }"
+                    >
+                      <v-avatar size="64">
+                        <v-img
+                          v-if="user.profile_image_url !== ''"
+                          :src="user.user_profile_image_url"
+                        ></v-img>
+                        <v-icon
+                          v-if="user.user_profile_image_url == ''"
+                          size="64"
+                          color="grey"
+                        >
+                          mdi-account-circle
+                        </v-icon>
+                      </v-avatar>
+                    </router-link>
                   </v-col>
                   <v-col>
                     <v-card-title>

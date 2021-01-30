@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <v-btn-toggle dense borderless>
-      <slot />
-    </v-btn-toggle>
-  </div>
+  <v-btn-toggle borderless :value="value">
+    <slot />
+  </v-btn-toggle>
 </template>
 
 <script>
@@ -14,7 +12,9 @@ export default {
   },
   computed: {
     value() {
-      return this.$store.state.leaderboard.filters[this.column];
+      return this.$store.state.leaderboard.filters[this.column] === ''
+        ? 'any'
+        : this.$store.state.leaderboard.filters[this.column];
     }
   }
 };

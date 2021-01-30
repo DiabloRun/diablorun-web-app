@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="select()">
+  <v-btn large @click="select()" :value="any ? 'any' : value">
     <span v-if="label">{{ label }}</span>
     <v-avatar v-if="icon" size="30px">
       <Icon :name="icon" />
@@ -24,7 +24,7 @@ export default {
   methods: {
     async select() {
       await this.$store.dispatch('leaderboard/selectFilter', {
-        column: this.$parent.column,
+        column: this.$parent.$parent.column,
         value: this.any ? '' : this.value
       });
     }

@@ -36,7 +36,7 @@
                   disabled
                 >
                   <v-icon left>mdi-content-save-outline</v-icon>
-                  All good!
+                  Race saved
                 </v-btn>
               </v-col>
             </v-row>
@@ -161,48 +161,115 @@
             <v-divider></v-divider>
             <v-container>
               <v-form v-for="(point, index) of form.points" :key="index">
-                <v-row no-gutters>
-                  <!-- Amount -->
-                  <v-col>
-                    <v-text-field
-                      v-model="point.amount"
-                      outlined
-                      label="Points"
-                      required
-                      hide-details
-                    ></v-text-field>
-                  </v-col>
-                  <!-- Type -->
-                  <v-col>
-                    <v-select
-                      outlined
-                      v-model="point.type"
-                      :items="pointTypes"
-                    ></v-select>
-                  </v-col>
-                  <!-- Counter -->
-                  <v-col>
-                    <v-text-field
-                      v-model="point.counter"
-                      outlined
-                      label="Amount"
-                      required
-                      hide-details
-                    ></v-text-field>
-                  </v-col>
-                  <!-- Type -->
-                  <v-col>
-                    <v-select
-                      outlined
-                      v-model="point.stat"
-                      :items="stats"
-                    ></v-select>
-                  </v-col>
-                </v-row>
+                <v-card hover class="darkAccent pa-1 mb-3">
+                  <v-row no-gutters>
+                    <!-- Type -->
+                    <v-col class="pr-1">
+                      <v-select
+                        v-model="point.type"
+                        :items="pointTypes"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                        label="Type"
+                      ></v-select>
+                    </v-col>
+                    <!-- Amount -->
+                    <v-col class="pr-1">
+                      <v-text-field
+                        v-model="point.amount"
+                        label="Points"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <!-- Amount per/for stat -->
+                    <v-col
+                      v-if="point.type === 'per' || point.type === 'for'"
+                      class="pr-1"
+                    >
+                      <v-text-field
+                        v-model="point.counter"
+                        dense
+                        outlined
+                        :label="point.type"
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <!-- Stat -->
+                    <v-col
+                      v-if="point.type === 'per' || point.type === 'for'"
+                      class="pr-1"
+                    >
+                      <v-select
+                        v-model="point.stat"
+                        :items="stats"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        item-text="name"
+                        item-value="id"
+                        dense
+                        outlined
+                        hide-details
+                        label="Stat"
+                      ></v-select>
+                    </v-col>
+                    <!-- Difficulty -->
+                    <v-col v-if="point.type === 'quest'" class="pr-1">
+                      <select v-model="point.quest_id">
+                        <optgroup
+                          v-for="act of acts"
+                          :key="act.id"
+                          :label="act.name"
+                        >
+                          <option
+                            v-for="quest of act.quests"
+                            :key="quest.id"
+                            :value="quest.id"
+                          >
+                            {{ quest.short_name }}
+                          </option>
+                        </optgroup>
+                      </select>
+                    </v-col>
+                    <!-- Time type -->
+                    <v-col class="pr-1">
+                      <v-select
+                        v-model="point.time_type"
+                        :items="timeTypes"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Stat"
+                      ></v-select>
+                    </v-col>
+                    <!-- Set time for "in under" -->
+                    <v-col v-if="point.time_type === 'in_under'" class="pr-1">
+                      <v-text-field
+                        v-model="point.time"
+                        dense
+                        outlined
+                        label="in under"
+                        placeholder="eg: 1d 2h 30m 50s"
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <!-- Remove -->
+                    <v-col cols="auto">
+                      <v-btn icon @click="removePoint(index)">
+                        <v-icon color="error">mdi-close</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </v-form>
               <v-btn @click="addPoint()">
-                <v-icon left>mdi-plus</v-icon>
-                Add point system
+                <v-icon left color="primary">mdi-plus</v-icon>
+                Point system
               </v-btn>
             </v-container>
             <v-divider></v-divider>
@@ -705,8 +772,22 @@ export default {
 
     return {
       // Static data
-      playersSettings: ['px', 'p1', 'p8'],
-      pointTypes: ['quest', 'per', 'for'],
+      playersSettings: [
+        { text: 'X', value: 'px' },
+        { text: '1', value: 'p1' },
+        { text: '8', value: 'p8' }
+      ],
+      pointTypes: [
+        { text: 'For completing', value: 'quest' },
+        { text: 'Per', value: 'per' },
+        { text: 'For', value: 'for' }
+      ],
+      timeTypes: [
+        { text: 'by latest state', value: 'state' },
+        { text: 'by max value', value: 'max' },
+        { text: 'in under', value: 'in_under' },
+        { text: 'for first claimed', value: 'first' }
+      ],
 
       heroes,
       acts,

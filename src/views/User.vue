@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid v-if="user">
     <v-row>
       <v-col cols="12" md="4">
         <v-row>
@@ -108,15 +108,12 @@
                         }
                       }"
                     >
-                      {{ latestCharacter.hero | HeroNameFilter }}
                       {{ latestCharacter.name }}
                     </router-link>
                   </v-card-title>
                   <v-card-subtitle class="pb-0">
-                    <v-icon small :class="`${latestCharacter.hero}`">
-                      mdi-sword
-                    </v-icon>
-                    Level {{ latestCharacter.level }} in
+                    Level {{ latestCharacter.level }}
+                    {{ latestCharacter.hero | HeroNameFilter }} in
                     {{ latestCharacter.difficulty | DifficultyFilter }}
                     {{ latestCharacter.area | AreaNameFilter }}
                   </v-card-subtitle>
@@ -177,9 +174,7 @@
                   <tr v-for="character of characters" :key="character.id">
                     <td>
                       <router-link
-                        :to="
-                          `/${character.user_name}/${character.name}${character.id}`
-                        "
+                        :to="`/${character.user_name}/${character.name}${character.id}`"
                         >{{ character.name }}
                       </router-link>
                       <v-icon v-if="character.dead" small color="error">
@@ -347,7 +342,6 @@
 
 <script>
 import { mapState } from 'vuex';
-// import CountryIcon from '@/components/CountryIcon.vue';
 import {
   FromNowFilter,
   DifficultyFilter,
@@ -370,7 +364,6 @@ export default {
   },
   components: {
     Icon
-    //CountryIcon
   },
   data: () => ({
     user: null,
@@ -386,7 +379,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: state => state.ws.character
+      latestCharacter: (state) => state.ws.character
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -488,7 +481,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter(c => c !== character);
+        this.characters = this.characters.filter((c) => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();

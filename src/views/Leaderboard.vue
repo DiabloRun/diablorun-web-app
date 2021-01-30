@@ -2,8 +2,8 @@
   <div>
     <v-container>
       <v-card>
-        <v-row no-gutters align="center">
-          <v-col cols="auto" class="ml-3">
+        <v-row no-gutters align="center" class="px-3">
+          <v-col cols="auto">
             <v-avatar size="64">
               <v-img src="@/assets/img/d2_cover.png" v-if="!heroFilter">
                 <template v-slot:placeholder>
@@ -32,68 +32,64 @@
               {{ statistics.speedruns }} runs by {{ statistics.users }} runners
             </v-card-subtitle>
           </v-col>
-          <v-col cols="auto" class="mr-3">
+          <v-col cols="auto">
             <v-btn @click="resetFilters()">
               <v-icon left>mdi-refresh</v-icon> Reset</v-btn
             >
           </v-col>
         </v-row>
-      </v-card>
-      <v-row no-gutters class="mt-3 mb-6">
-        <v-row no-gutters>
-          <!--Category-->
-          <v-col class="mt-3">
-            <LeaderboardFilter column="category_id">
-              <LeaderboardFilterItem :value="1" label="Normal" />
-              <LeaderboardFilterItem :value="2" label="Hell" />
-              <LeaderboardFilterItem :value="3" label="Pacifist" />
-            </LeaderboardFilter>
-          </v-col>
-          <!--Players-->
-          <v-col cols="12" md="auto" class="mt-3">
-            <LeaderboardFilter column="players_category">
-              <LeaderboardFilterItem any label="Any Players" />
-              <LeaderboardFilterItem value="p1" icon="p1" />
-              <LeaderboardFilterItem value="px" icon="px" />
-              <LeaderboardFilterItem value="p8" icon="p8" />
-            </LeaderboardFilter>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <!--Class-->
-          <v-col class="mt-3">
-            <LeaderboardFilter column="hero">
-              <LeaderboardFilterItem any label="Any" />
-              <LeaderboardFilterItem
-                v-for="hero of heroFilterValues"
-                :key="hero"
-                :value="hero"
-                :icon="hero"
-              />
-            </LeaderboardFilter>
-          </v-col>
-          <!--Core-->
-          <v-col cols="12" md="auto" class="mt-3">
-            <LeaderboardFilter column="hc">
-              <LeaderboardFilterItem any label="Any Core" />
-              <LeaderboardFilterItem :value="0" icon="sc" />
-              <LeaderboardFilterItem :value="1" icon="hc" />
-            </LeaderboardFilter>
-          </v-col>
-        </v-row>
-      </v-row>
-      <v-alert
-        v-if="!runs.length > 0"
-        border="left"
-        color="primary"
-        dark
-        colored-border
-      >
-        <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-        {{ categoryName }} category is empty.
-      </v-alert>
-      <v-card v-if="runs.length > 0">
-        <v-simple-table dense class="text-no-wrap">
+        <v-divider></v-divider>
+        <v-container class="pt-0">
+          <v-row no-gutters>
+            <!--Category-->
+            <v-col class="mt-3">
+              <LeaderboardFilter column="category_id">
+                <LeaderboardFilterItem :value="1" label="Normal" />
+                <LeaderboardFilterItem :value="2" label="Hell" />
+                <LeaderboardFilterItem :value="3" label="Pacifist" />
+              </LeaderboardFilter>
+            </v-col>
+            <!--Players-->
+            <v-col cols="12" md="auto" class="mt-3">
+              <LeaderboardFilter column="players_category">
+                <LeaderboardFilterItem any label="Any Players" />
+                <LeaderboardFilterItem value="p1" icon="p1" />
+                <LeaderboardFilterItem value="px" icon="px" />
+                <LeaderboardFilterItem value="p8" icon="p8" />
+              </LeaderboardFilter>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <!--Class-->
+            <v-col class="mt-3">
+              <LeaderboardFilter column="hero">
+                <LeaderboardFilterItem any label="Any" />
+                <LeaderboardFilterItem
+                  v-for="hero of heroFilterValues"
+                  :key="hero"
+                  :value="hero"
+                  :icon="hero"
+                />
+              </LeaderboardFilter>
+            </v-col>
+            <!--Core-->
+            <v-col cols="12" md="auto" class="mt-3">
+              <LeaderboardFilter column="hc">
+                <LeaderboardFilterItem any label="Any Core" />
+                <LeaderboardFilterItem :value="0" icon="sc" />
+                <LeaderboardFilterItem :value="1" icon="hc" />
+              </LeaderboardFilter>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-divider></v-divider>
+        <v-container v-if="!runs.length">
+          <v-alert border="left" text type="primary" class="mb-0">
+            <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+            {{ categoryName }} category is empty.
+          </v-alert>
+        </v-container>
+        <v-simple-table v-if="runs.length" dense class="text-no-wrap">
           <thead>
             <tr>
               <th>#</th>
@@ -146,6 +142,9 @@
                       run.speedrun_user_dark_color_from};`
                   "
                 >
+                  <v-avatar size="20">
+                    <CountryIcon :code="run.speedrun_user_country_code" />
+                  </v-avatar>
                   {{ run.user_name }}
                 </router-link>
               </td>
@@ -200,7 +199,7 @@
 import { mapState } from 'vuex';
 import { DurationFilter, FromNowFilter, HeroNameFilter } from '@/filters';
 import Icon from '@/components/Icon.vue';
-// import CountryIcon from '@/components/CountryIcon.vue';
+import CountryIcon from '@/components/CountryIcon.vue';
 import LeaderboardFilter from '@/components/LeaderboardFilter.vue';
 import LeaderboardFilterItem from '@/components/LeaderboardFilterItem.vue';
 
@@ -213,7 +212,7 @@ export default {
   },
   components: {
     Icon,
-    // CountryIcon,
+    CountryIcon,
     LeaderboardFilter,
     LeaderboardFilterItem
   },

@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- Top app bar -->
     <v-app-bar app dense color="app">
       <v-row no-gutters>
         <v-col>
@@ -40,21 +41,25 @@
         </v-col>
       </v-row>
     </v-app-bar>
+    <!-- Left navigation -->
     <v-navigation-drawer color="app" width="200" v-model="drawer" app>
       <v-row no-gutters class="text-center mt-1">
+        <!-- Logo -->
         <v-col>
           <h1 class="logo">
             diablo<v-icon dense color="primary">mdi-sword</v-icon>run
           </h1>
         </v-col>
       </v-row>
-      <v-list dense class="pb-0">
+      <!-- Main links -->
+      <v-list dense>
         <v-list-item
-          link
-          exact
           v-for="mainItem in mainItems"
           :key="mainItem.title"
           :to="{ name: mainItem.title }"
+          :exact="mainItem.exact"
+          @click="resetFilters()"
+          link
           color="primary"
         >
           <v-icon left>{{ mainItem.icon }}</v-icon>
@@ -64,7 +69,7 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list v-if="!user" dense class="py-0">
+      <v-list v-if="!user" dense>
         <v-list-item link exact :href="twitchAuthenticationUrl">
           <v-icon left>mdi-login</v-icon>
           <v-list-item-content>
@@ -72,11 +77,12 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-list v-if="user" dense class="py-0">
+      <v-list v-if="user" dense>
         <v-list-item
           link
           exact
           :to="{ name: 'User', params: { user_name: user.name } }"
+          color="primary"
         >
           <v-avatar v-if="user.profile_image_url !== ''" class="mr-2" size="24">
             <img :src="user.profile_image_url" :alt="user.name" />
@@ -89,7 +95,11 @@
         <v-list-item
           link
           exact
-          :to="{ name: 'User', params: { user_name: user.name + '/@' } }"
+          color="primary"
+          :to="{
+            name: 'Character',
+            params: { user_name: user.name, character_slug: '@' }
+          }"
         >
           <v-icon left>mdi-sword</v-icon>
           <v-list-item-content>
@@ -99,6 +109,7 @@
         <v-list-item
           link
           exact
+          color="primary"
           :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
         >
           <v-icon left>mdi-flag-plus</v-icon>
@@ -106,7 +117,12 @@
             <v-list-item-title>Race Editor</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link exact :to="{ name: 'Interface Setup' }">
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'Interface Setup' }"
+          color="primary"
+        >
           <v-icon left>mdi-cogs</v-icon>
           <v-list-item-content>
             <v-list-item-title>Interface Setup</v-list-item-title>
@@ -114,12 +130,13 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list dense class="py-0">
+      <v-list dense>
         <v-list-item
           link
           v-for="otherItem in otherItems"
           :key="otherItem.title"
           :to="{ name: otherItem.title }"
+          color="primary"
         >
           <v-list-item-content>
             <v-list-item-title>
@@ -131,7 +148,7 @@
       </v-list>
       <template v-slot:append>
         <v-divider></v-divider>
-        <v-list dense class="py-0">
+        <v-list dense>
           <v-list-item
             link
             v-for="socialItem in socialItems"
@@ -159,9 +176,7 @@
       -->
     </v-navigation-drawer>
     <v-main>
-      <v-fade-transition mode="out-in">
-        <router-view />
-      </v-fade-transition>
+      <router-view class="fade-in" />
     </v-main>
   </v-app>
 </template>
@@ -185,11 +200,11 @@ export default {
     return {
       drawer: null,
       mainItems: [
-        { title: 'Home', icon: 'mdi-home' },
-        { title: 'Leaderboard', icon: 'mdi-trophy' },
-        { title: 'Wiki', icon: 'mdi-book-open-variant' },
-        { title: 'Races', icon: 'mdi-flag-checkered' },
-        { title: 'Users', icon: 'mdi-account-group' }
+        { title: 'Home', icon: 'mdi-home', exact: true },
+        { title: 'Leaderboard', icon: 'mdi-trophy', exact: false },
+        { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
+        { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
+        { title: 'Users', icon: 'mdi-account-group', exact: true }
       ],
       otherItems: [
         { title: 'Patreon', icon: 'mdi-patreon' },

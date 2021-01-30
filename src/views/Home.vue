@@ -64,6 +64,9 @@
                         run.speedrun_user_dark_color_from};`
                     "
                   >
+                    <v-avatar size="20">
+                      <CountryIcon :code="run.speedrun_user_country_code" />
+                    </v-avatar>
                     {{ run.user_name }}
                   </router-link>
                 </td>
@@ -127,6 +130,7 @@
           <v-simple-table dense class="text-no-wrap">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Runner</th>
                 <th>Time</th>
                 <th>Category</th>
@@ -137,9 +141,11 @@
             <tbody>
               <tr v-for="run of latestRecords" :key="run.id">
                 <td>
-                  <v-icon small color="yellow accent-4"
-                    >mdi-trophy-outline</v-icon
-                  >
+                  <v-icon small color="yellow accent-4">
+                    mdi-trophy-outline
+                  </v-icon>
+                </td>
+                <td>
                   <a
                     v-if="!run.user_id"
                     :style="`color: ${run.speedrun_user_dark_color_from};`"
@@ -160,6 +166,9 @@
                         run.speedrun_user_dark_color_from};`
                     "
                   >
+                    <v-avatar size="20">
+                      <CountryIcon :code="run.speedrun_user_country_code" />
+                    </v-avatar>
                     {{ run.user_name }}
                   </router-link>
                 </td>
@@ -275,6 +284,9 @@
                         runner.speedrun_user_dark_color_from};`
                     "
                   >
+                    <v-avatar size="20">
+                      <CountryIcon :code="runner.speedrun_user_country_code" />
+                    </v-avatar>
                     {{ runner.user_name }}
                   </router-link>
                 </td>
@@ -325,7 +337,7 @@
 import { HeroNameFilter } from '@/filters';
 import { FromNowFilter } from '@/filters';
 import { DurationFilter } from '@/filters';
-// import CountryIcon from '@/components/CountryIcon.vue';
+import CountryIcon from '@/components/CountryIcon.vue';
 import BlogPostBox from '@/components/BlogPostBox.vue';
 import blog from '@/router/wiki.js';
 
@@ -336,7 +348,7 @@ export default {
     DurationFilter
   },
   components: {
-    // CountryIcon,
+    CountryIcon,
     BlogPostBox
   },
   name: 'Home',
