@@ -217,9 +217,9 @@ export default {
 
   computed: {
     ...mapState({
-      user: (state) => state.auth.user,
+      user: state => state.auth.user,
       // confirmModal: (state) => state.app.confirmModal,
-      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
+      showHeaderAndFooter: state => state.app.windowStyle === 'window'
     })
   },
   methods: {
