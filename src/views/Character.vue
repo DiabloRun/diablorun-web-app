@@ -207,88 +207,6 @@
                 </v-list>
               </v-card>
             </v-col>
-            <!-- Hireling, mercenary -->
-            <v-col cols="12" v-if="character.hireling_name">
-              <v-card>
-                <v-row no-gutters>
-                  <v-col cols="4">
-                    <v-list dense class="py-0">
-                      <v-list-item>
-                        <v-avatar size="24" class="mr-2">
-                          <Icon :name="`${character.hireling_class}`" />
-                        </v-avatar>
-                        <v-list-item-content>
-                          <v-list-item-title>
-                            {{ character.hireling_name }}
-                          </v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-icon left> mdi-sword </v-icon>
-                        <v-list-item-content>
-                          <v-list-item-title>
-                            Level {{ character.hireling_level }}
-                          </v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-list-item
-                        v-for="hirelingAttribute in hirelingAttributes"
-                        :key="hirelingAttribute.title"
-                        class="px-3"
-                      >
-                        <v-icon left> {{ hirelingAttribute.icon }} </v-icon>
-                        <v-list-item-content>
-                          <v-list-item-title>
-                            {{ character[hirelingAttribute.stat] }}
-                            {{ hirelingAttribute.short }}
-                          </v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-col>
-                  <v-col>
-                    <v-list dense class="py-0">
-                      <v-list-item
-                        v-for="hirelingResistance in hirelingResistances"
-                        :key="hirelingResistance.title"
-                        class="px-3"
-                      >
-                        <v-icon left :color="hirelingResistance.color">
-                          {{ hirelingResistance.icon }}
-                        </v-icon>
-                        <v-list-item-content>
-                          <v-list-item-title
-                            v-if="
-                              character[hirelingResistance.stat] >= 0 &&
-                                character[hirelingResistance.stat] < 75
-                            "
-                          >
-                            {{ character[hirelingResistance.stat] }}%
-                            {{ hirelingResistance.title }}
-                          </v-list-item-title>
-                          <v-list-item-title
-                            v-if="character[hirelingResistance.stat] < 0"
-                          >
-                            <span class="error--text">
-                              {{ character[hirelingResistance.stat] }}%
-                            </span>
-                            {{ hirelingResistance.title }}
-                          </v-list-item-title>
-                          <v-list-item-title
-                            v-if="character[hirelingResistance.stat] >= 75"
-                          >
-                            <span class="orange--text text--lighten-2">
-                              {{ character[hirelingResistance.stat] }}%
-                            </span>
-                            {{ hirelingResistance.title }}
-                          </v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
           </v-row>
           <v-text-field
             outlined
@@ -619,6 +537,85 @@
                 </v-row>
               </v-tab-item>
               <v-tab-item class="pt-2 px-1">
+                <v-row>
+                  <v-col>
+                    <v-list dense class="py-0">
+                      <v-list-item>
+                        <v-avatar size="24" class="mr-2">
+                          <Icon :name="`${character.hireling_class}`" />
+                        </v-avatar>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ character.hireling_name }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-icon left> mdi-sword </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            Level {{ character.hireling_level }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item
+                        v-for="hirelingAttribute in hirelingAttributes"
+                        :key="hirelingAttribute.title"
+                        class="px-3"
+                      >
+                        <v-icon left>
+                          {{ hirelingAttribute.icon }}
+                        </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ character[hirelingAttribute.stat] }}
+                            {{ hirelingAttribute.short }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-col>
+                  <v-col>
+                    <v-list dense class="py-0">
+                      <v-list-item
+                        v-for="hirelingResistance in hirelingResistances"
+                        :key="hirelingResistance.title"
+                        class="px-3"
+                      >
+                        <v-icon left :color="hirelingResistance.color">
+                          {{ hirelingResistance.icon }}
+                        </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-if="
+                              character[hirelingResistance.stat] >= 0 &&
+                                character[hirelingResistance.stat] < 75
+                            "
+                          >
+                            {{ character[hirelingResistance.stat] }}%
+                            {{ hirelingResistance.title }}
+                          </v-list-item-title>
+                          <v-list-item-title
+                            v-if="character[hirelingResistance.stat] < 0"
+                          >
+                            <span class="error--text">
+                              {{ character[hirelingResistance.stat] }}%
+                            </span>
+                            {{ hirelingResistance.title }}
+                          </v-list-item-title>
+                          <v-list-item-title
+                            v-if="character[hirelingResistance.stat] >= 75"
+                          >
+                            <span class="orange--text text--lighten-2">
+                              {{ character[hirelingResistance.stat] }}%
+                            </span>
+                            {{ hirelingResistance.title }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-col>
+                </v-row>
                 <v-row no-gutters>
                   <CharacterItem
                     v-if="character.hireling_primary_left"

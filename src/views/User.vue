@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid v-if="user">
-    <v-row>
+  <v-container fluid v-if="user" class="pa-2">
+    <v-row dense>
       <v-col cols="12" md="4">
-        <v-row>
+        <v-row dense>
           <v-col cols="12">
             <v-card>
               <v-row no-gutters align="center">
@@ -31,12 +31,11 @@
                 </v-col>
                 <v-col cols="auto" class="mr-3">
                   <v-btn
-                    color="primary"
                     icon
                     :href="`https://twitch.com/${user.name}`"
                     target="_blank"
                   >
-                    <v-icon color="twitch"> mdi-twitch </v-icon>
+                    <v-icon> mdi-twitch </v-icon>
                   </v-btn>
                 </v-col>
               </v-row>
@@ -74,15 +73,13 @@
           </v-col>
           <v-col v-if="characters.length > 0">
             <v-card>
-              <v-card-title class="white--text py-1">
-                <h6>
-                  Played
-                  {{ latestCharacter.update_time | FromNowFilter }}
-                </h6>
-              </v-card-title>
+              <h5 class="pa-3">
+                Played
+                {{ latestCharacter.update_time | FromNowFilter }}
+              </h5>
               <v-divider></v-divider>
               <v-row no-gutters class="py-3">
-                <v-col cols="auto" class="ml-4">
+                <v-col cols="auto" class="ml-3">
                   <router-link
                     :to="{
                       name: 'Character',
@@ -128,18 +125,18 @@
               :value="'https://diablo.run/' + user.name + '/@'"
               label="Active character link"
               readonly
+              class="mt-1"
             ></v-text-field>
           </v-col>
         </v-row>
       </v-col>
       <v-col cols="12" md="8" v-if="characters.length > 0">
-        <v-row>
+        <v-row dense>
           <v-col>
             <v-card>
               <v-row no-gutters>
                 <v-col>
                   <v-card-title>
-                    <v-icon left>mdi-format-list-text</v-icon>
                     Hero history
                   </v-card-title>
                 </v-col>
@@ -158,7 +155,7 @@
                 </v-col>
               </v-row>
               <v-divider></v-divider>
-              <v-simple-table dense>
+              <v-simple-table dense class="text-no-wrap">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -226,11 +223,10 @@
           <v-col cols="12" v-if="speedruns.length > 0">
             <v-card>
               <v-card-title>
-                <v-icon left>mdi-trophy</v-icon>
                 Speedruns
               </v-card-title>
               <v-divider></v-divider>
-              <v-simple-table dense>
+              <v-simple-table dense class="text-no-wrap">
                 <thead>
                   <tr>
                     <th>#</th>
