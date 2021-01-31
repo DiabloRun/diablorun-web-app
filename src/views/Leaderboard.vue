@@ -65,8 +65,8 @@
         </v-row>
       </v-container>
       <v-divider></v-divider>
-      <v-container v-if="!runs.length">
-        <v-alert elevation="2" type="info" class="mb-0 font-weight-medium">
+      <v-container v-if="!runs.length" class="pa-2">
+        <v-alert text color="primary" class="mb-0 font-weight-medium">
           {{ categoryName }} category is empty
         </v-alert>
       </v-container>

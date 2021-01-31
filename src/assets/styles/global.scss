@@ -5,7 +5,6 @@ $title-font: 'Texturina', serif;
 
 body, html {
     overflow-y: auto !important;
-    font-size: 1.1rem !important;
 }
 
 .v-application {
@@ -13,6 +12,12 @@ body, html {
         font-family: $title-font, sans-serif !important;
         padding-top: .5rem;
     }
+}
+
+// Title sizes
+h5 {
+    font-size: .9rem;
+    font-weight: 500;
 }
 
 // Strong

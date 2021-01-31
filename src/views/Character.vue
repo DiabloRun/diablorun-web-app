@@ -13,303 +13,280 @@
       <v-row dense>
         <v-col cols="12" md="4">
           <v-row dense>
-            <v-col cols="12" class="mb-2">
+            <v-col cols="12">
               <!-- Character and user name -->
               <v-card>
-                <v-card>
-                  <v-card-title>
-                    {{ character.hero | HeroNameFilter }}
-                    {{ character.name }}
-                  </v-card-title>
-                  <v-card-subtitle>
-                    Added {{ character.start_time | FromNowFilter }} by
+                <v-card-title>
+                  {{ character.hero | HeroNameFilter }}
+                  {{ character.name }}
+                </v-card-title>
+                <v-card-subtitle>
+                  Added {{ character.start_time | FromNowFilter }} by
+                  <router-link
+                    :to="{
+                      name: 'User',
+                      params: { user_name: character.user_name }
+                    }"
+                  >
+                    {{ character.user_name }}
+                  </router-link>
+                </v-card-subtitle>
+                <v-divider></v-divider>
+                <v-row no-gutters class="px-2 pt-2">
+                  <v-col class="pr-4 grey--text">
+                    <h5 class="text-right">
+                      {{ character.difficulty | DifficultyFilter }}
+                    </h5>
+                  </v-col>
+                  <v-col cols="auto">
+                    <h5>{{ character.area | AreaNameFilter }}</h5>
+                  </v-col>
+                  <v-col class="pl-4 grey--text">
+                    <h5>Players {{ character.players }}</h5>
+                  </v-col>
+                </v-row>
+                <!-- Globes -->
+                <v-row no-gutters class="py-2">
+                  <!-- Life -->
+                  <v-col align="right">
+                    <v-progress-circular
+                      v-if="!character.dead"
+                      :rotate="90"
+                      :size="64"
+                      :value="(character.life / character.life_max) * 100"
+                      color="error"
+                    >
+                      <span class="white--text">{{ character.life }}</span>
+                    </v-progress-circular>
+                    <v-progress-circular
+                      v-if="character.dead"
+                      :rotate="90"
+                      :size="64"
+                      :value="0"
+                      color="error"
+                    >
+                      <v-icon color="error"> mdi-skull-crossbones </v-icon>
+                    </v-progress-circular>
+                  </v-col>
+                  <!-- Character avatar -->
+                  <v-col cols="auto" align="center" class="mx-4">
                     <router-link
                       :to="{
-                        name: 'User',
-                        params: { user_name: character.user_name }
+                        name: 'Character',
+                        params: {
+                          user_name: character.user_name,
+                          character_slug: character.name + character.id
+                        }
                       }"
                     >
-                      {{ character.user_name }}
+                      <v-avatar size="64" rounded>
+                        <Icon :name="`big-${character.hero}`" />
+                      </v-avatar>
                     </router-link>
-                  </v-card-subtitle>
-                </v-card>
+                  </v-col>
+                  <!-- Mana -->
+                  <v-col>
+                    <v-progress-circular
+                      :rotate="90"
+                      :size="64"
+                      :value="(character.mana / character.mana_max) * 100"
+                      color="info"
+                    >
+                      <span class="white--text">{{ character.mana }}</span>
+                    </v-progress-circular>
+                  </v-col>
+                </v-row>
+                <!-- Level -->
+                <v-row no-gutters class="px-2 pb-2">
+                  <v-col class="text-right pr-2">
+                    <h5>Level {{ character.level }}</h5>
+                  </v-col>
+                  <v-col class="pl-2">
+                    <h5 class="grey--text">12.23%</h5>
+                  </v-col>
+                </v-row>
+                <!-- Experience bar -->
+                <v-progress-linear
+                  :value="(character.life / character.life_max) * 100"
+                  absolute
+                  bottom
+                  height="3"
+                  color="grey lighten-1"
+                ></v-progress-linear>
               </v-card>
             </v-col>
-          </v-row>
-          <v-card>
-            <v-row no-gutters class="py-3">
-              <v-col align="right">
-                <v-progress-circular
-                  v-if="!character.dead"
-                  :rotate="90"
-                  :size="64"
-                  :value="(character.life / character.life_max) * 100"
-                  color="error"
-                >
-                  <span class="white--text">{{ character.life }}</span>
-                </v-progress-circular>
-                <v-progress-circular
-                  v-if="character.dead"
-                  :rotate="90"
-                  :size="64"
-                  :value="0"
-                  color="error"
-                >
-                  <v-icon color="error"> mdi-skull-crossbones </v-icon>
-                </v-progress-circular>
-              </v-col>
-              <v-col cols="auto" align="center" class="mx-4">
-                <router-link
-                  :to="{
-                    name: 'Character',
-                    params: {
-                      user_name: character.user_name,
-                      character_slug: character.name + character.id
-                    }
-                  }"
-                >
-                  <v-avatar size="64" rounded>
-                    <Icon :name="`big-${character.hero}`" />
-                  </v-avatar>
-                </router-link>
-              </v-col>
-              <v-col>
-                <v-progress-circular
-                  :rotate="90"
-                  :size="64"
-                  :value="(character.mana / character.mana_max) * 100"
-                  color="info"
-                >
-                  <span class="white--text">{{ character.mana }}</span>
-                </v-progress-circular>
-              </v-col>
-            </v-row>
-            <v-row no-gutters class="py-3">
-              <v-col>
-                <h5 class="text-right mr-2">
-                  Players {{ character.players }}
-                  {{ character.difficulty | DifficultyFilter }}
-                </h5>
-              </v-col>
-              <v-col>
-                <h5 class="ml-2">
-                  {{ character.area | AreaNameFilter }}
-                </h5>
-              </v-col>
-              <v-col cols="12">
-                <v-alert
-                  v-if="character.dead && character.hc"
-                  border="left"
-                  text
-                  color="error"
-                  class="mx-2 mt-2 mb-0 text-center"
-                >
-                  <v-icon color="error">mdi-grave-stone</v-icon>
-                  Your deeds of valor will be remembered,
-                  <strong> {{ character.name }}</strong
-                  >!
-                </v-alert>
-              </v-col>
-            </v-row>
-            <v-progress-linear
-              :value="(character.life / character.life_max) * 100"
-              absolute
-              bottom
-              height="3"
-              color="grey lighten-1"
-            ></v-progress-linear>
-          </v-card>
-          <v-row class="pt-6">
+            <!-- Attributes, deaths or hardcore -->
             <v-col>
               <v-card>
                 <h5 v-if="character.hc" class="pa-3">
-                  <v-icon left small :class="`${character.hero}`">
-                    mdi-skull-outline
-                  </v-icon>
+                  <v-icon left color="error"> mdi-skull-outline </v-icon>
                   Hardcore
                 </h5>
                 <h5 v-if="!character.hc" class="pa-3">
                   {{ character.deaths }} Deaths
                 </h5>
                 <v-divider></v-divider>
-                <v-list dense>
-                  <v-list-item>
-                    <v-icon left> mdi-arm-flex </v-icon>
+                <v-list dense class="py-0">
+                  <v-list-item
+                    v-for="attribute in attributes"
+                    :key="attribute.title"
+                    class="px-3"
+                  >
+                    <v-icon left> {{ attribute.icon }} </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.strength }} Str
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left> mdi-bullseye-arrow </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.dexterity }} Dex
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left> mdi-heart </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.vitality }} Vit
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left> mdi-bottle-tonic </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.energy }} Ene
+                        {{ character[attribute.stat] }} {{ attribute.short }}
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-col>
+            <!-- Gold, resistances -->
             <v-col>
               <v-card>
-                <v-row no-gutters>
-                  <v-col>
-                    <h5 class="pa-3">Level {{ character.level }}</h5>
-                  </v-col>
-                  <v-col cols="auto">
-                    <h5 class="pa-3">12.53%</h5>
-                  </v-col>
-                </v-row>
-
+                <h5 class="pa-3">{{ character.gold_total }} Gold</h5>
                 <v-divider></v-divider>
-                <v-list dense>
-                  <v-list-item>
-                    <v-icon left color="error"> mdi-fire </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.fire_res }}% Fire
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left color="info"> mdi-snowflake </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.cold_res }}% Cold
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left color="warning"> mdi-lightning-bolt </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.light_res }}% Lightning
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left color="success">
-                      mdi-bottle-tonic-skull
+                <v-list dense class="py-0">
+                  <v-list-item
+                    v-for="resistance in resistances"
+                    :key="resistance.title"
+                    class="px-3"
+                  >
+                    <v-icon left :color="resistance.color">
+                      {{ resistance.icon }}
                     </v-icon>
                     <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.poison_res }}% Poison
+                      <v-list-item-title
+                        v-if="
+                          character[resistance.stat] >= 0 &&
+                            character[resistance.stat] < 75
+                        "
+                      >
+                        {{ character[resistance.stat] }}% {{ resistance.title }}
+                      </v-list-item-title>
+                      <v-list-item-title v-if="character[resistance.stat] < 0">
+                        <span class="error--text">
+                          {{ character[resistance.stat] }}%
+                        </span>
+                        {{ resistance.title }}
+                      </v-list-item-title>
+                      <v-list-item-title
+                        v-if="character[resistance.stat] >= 75"
+                      >
+                        <span class="orange--text text--lighten-2">
+                          {{ character[resistance.stat] }}%
+                        </span>
+                        {{ resistance.title }}
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-col>
+            <!-- Magic find, speed stats -->
             <v-col>
               <v-card>
                 <h5 class="pa-3">{{ character.mf }}% Magic find</h5>
                 <v-divider></v-divider>
-                <v-list dense>
-                  <v-list-item>
-                    <v-icon left> mdi-auto-fix </v-icon>
+                <v-list dense class="py-0">
+                  <v-list-item
+                    v-for="speedStat in speedStats"
+                    :key="speedStat.title"
+                    class="px-3"
+                  >
+                    <v-icon left>
+                      {{ speedStat.icon }}
+                    </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character.fcr }}% Cast speed
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left> mdi-human-handsdown </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.fhr }}% Hit recovery
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left> mdi-shoe-print </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.frw }}% Run speed
-                      </v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-icon left> mdi-sword-cross </v-icon>
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ character.ias }}% Attack speed
+                        {{ character[speedStat.stat] }}% {{ speedStat.title }}
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-col>
-          </v-row>
-          <v-row class="pt-3" v-if="character.hireling_name">
-            <v-col>
+            <!-- Hireling, mercenary -->
+            <v-col cols="12" v-if="character.hireling_name">
               <v-card>
-                <v-row no-gutters class="pa-3">
-                  <v-col class="my-auto">
-                    <h5>
-                      {{ character.hireling_name }}
-                      <span class="grey--text">
-                        Level {{ character.hireling_level }}
-                      </span>
-                    </h5>
+                <v-row no-gutters>
+                  <v-col cols="4">
+                    <v-list dense class="py-0">
+                      <v-list-item>
+                        <v-avatar size="24" class="mr-2">
+                          <Icon :name="`${character.hireling_class}`" />
+                        </v-avatar>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ character.hireling_name }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-icon left> mdi-sword </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            Level {{ character.hireling_level }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                      <v-list-item
+                        v-for="hirelingAttribute in hirelingAttributes"
+                        :key="hirelingAttribute.title"
+                        class="px-3"
+                      >
+                        <v-icon left> {{ hirelingAttribute.icon }} </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            {{ character[hirelingAttribute.stat] }}
+                            {{ hirelingAttribute.short }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
                   </v-col>
-                  <v-col cols="auto">
-                    <v-avatar size="32">
-                      <Icon :name="`${character.hireling_class}`" />
-                    </v-avatar>
+                  <v-col>
+                    <v-list dense class="py-0">
+                      <v-list-item
+                        v-for="hirelingResistance in hirelingResistances"
+                        :key="hirelingResistance.title"
+                        class="px-3"
+                      >
+                        <v-icon left :color="hirelingResistance.color">
+                          {{ hirelingResistance.icon }}
+                        </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-if="
+                              character[hirelingResistance.stat] >= 0 &&
+                                character[hirelingResistance.stat] < 75
+                            "
+                          >
+                            {{ character[hirelingResistance.stat] }}%
+                            {{ hirelingResistance.title }}
+                          </v-list-item-title>
+                          <v-list-item-title
+                            v-if="character[hirelingResistance.stat] < 0"
+                          >
+                            <span class="error--text">
+                              {{ character[hirelingResistance.stat] }}%
+                            </span>
+                            {{ hirelingResistance.title }}
+                          </v-list-item-title>
+                          <v-list-item-title
+                            v-if="character[hirelingResistance.stat] >= 75"
+                          >
+                            <span class="orange--text text--lighten-2">
+                              {{ character[hirelingResistance.stat] }}%
+                            </span>
+                            {{ hirelingResistance.title }}
+                          </v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list>
                   </v-col>
                 </v-row>
-                <v-divider></v-divider>
-                <v-card-text class="white--text">
-                  <v-row no-gutters>
-                    <v-col>
-                      <v-icon left color="error"> mdi-fire </v-icon>
-                      {{ character.hireling_fire_res }}%
-                    </v-col>
-                    <v-col>
-                      <v-icon left color="info"> mdi-snowflake </v-icon>
-                      {{ character.hireling_cold_res }}%
-                    </v-col>
-                    <v-col>
-                      <v-icon left color="warning"> mdi-lightning-bolt </v-icon
-                      >{{ character.hireling_light_res }}%
-                    </v-col>
-                    <v-col>
-                      <v-icon left color="success">
-                        mdi-bottle-tonic-skull
-                      </v-icon>
-                      {{ character.hireling_poison_res }}%
-                    </v-col>
-                  </v-row>
-                  <v-row no-gutters class="mt-4">
-                    <v-col cols="6">
-                      <v-icon left> mdi-arm-flex </v-icon
-                      >{{ character.hireling_strength }} Str
-                    </v-col>
-                    <v-col>
-                      <v-icon left> mdi-bullseye-arrow </v-icon>
-                      {{ character.hireling_dexterity }} Dex
-                    </v-col>
-                  </v-row>
-                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -323,7 +300,7 @@
             :label="'Share ' + character.name"
             readonly
             hide-details
-            class="mt-6"
+            class="mt-3"
           ></v-text-field>
           <v-text-field
             v-if="isEditor"
@@ -332,8 +309,8 @@
             :value="character.seed"
             :label="character.name + ' map seed'"
             readonly
-            class="mt-3"
             hide-details
+            class="mt-3"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="8">
@@ -349,9 +326,8 @@
                   <v-tab v-if="character.hireling_name">Merc</v-tab>
                 </v-tabs>
               </v-col>
-              <v-col cols="auto" class="my-auto mr-3 body-2">
-                {{ character.gold_total }}
-                <v-icon color="yellow darken-1" small> mdi-gold </v-icon>
+              <v-col cols="auto" class="my-auto mr-3 grey--text">
+                <h5>{{ character.town_visits }} Town visits</h5>
               </v-col>
             </v-row>
             <v-divider></v-divider>
@@ -868,7 +844,71 @@ export default {
       showTwitchEmbed: false,
       tab: 0,
       user: null,
-      username: ''
+      username: '',
+
+      attributes: [
+        { stat: 'strength', short: 'Str', icon: 'mdi-arm-flex' },
+        { stat: 'dexterity', short: 'Dex', icon: 'mdi-bullseye-arrow' },
+        { stat: 'vitality', short: 'Vit', icon: 'mdi-heart' },
+        { stat: 'energy', short: 'Ene', icon: 'mdi-bottle-tonic' }
+      ],
+      resistances: [
+        { stat: 'fire_res', title: 'Fire', icon: 'mdi-fire', color: 'error' },
+        {
+          stat: 'cold_res',
+          title: 'Cold',
+          icon: 'mdi-snowflake',
+          color: 'info'
+        },
+        {
+          stat: 'light_res',
+          title: 'Light',
+          icon: 'mdi-lightning-bolt',
+          color: 'warning'
+        },
+        {
+          stat: 'poison_res',
+          title: 'Poison',
+          icon: 'mdi-bottle-tonic-skull',
+          color: 'success'
+        }
+      ],
+      speedStats: [
+        { stat: 'fcr', title: 'Cast speed', icon: 'mdi-auto-fix' },
+        { stat: 'fhr', title: 'Hit recovery', icon: 'mdi-human-handsdown' },
+        { stat: 'frw', title: 'Run speed', icon: 'mdi-shoe-print' },
+        { stat: 'ias', title: 'Attack speed', icon: 'mdi-sword-cross' }
+      ],
+      hirelingAttributes: [
+        { stat: 'hireling_strength', short: 'Str', icon: 'mdi-arm-flex' },
+        { stat: 'hireling_dexterity', short: 'Dex', icon: 'mdi-bullseye-arrow' }
+      ],
+      hirelingResistances: [
+        {
+          stat: 'hireling_fire_res',
+          title: 'Fire',
+          icon: 'mdi-fire',
+          color: 'error'
+        },
+        {
+          stat: 'hireling_cold_res',
+          title: 'Cold',
+          icon: 'mdi-snowflake',
+          color: 'info'
+        },
+        {
+          stat: 'hireling_light_res',
+          title: 'Light',
+          icon: 'mdi-lightning-bolt',
+          color: 'warning'
+        },
+        {
+          stat: 'hireling_poison_res',
+          title: 'Poison',
+          icon: 'mdi-bottle-tonic-skull',
+          color: 'success'
+        }
+      ]
     };
   },
   computed: {

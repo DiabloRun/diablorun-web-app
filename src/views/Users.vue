@@ -1,10 +1,9 @@
 <template>
-  <v-container>
+  <v-container class="pa-2">
     <v-row>
       <v-col cols="12">
         <v-card>
           <v-card-title>
-            <v-icon left>mdi-account-group-outline</v-icon>
             Active users
           </v-card-title>
           <v-card-subtitle v-if="activeUsers.length === 1">
@@ -14,8 +13,11 @@
             {{ activeUsers.length }} people currently playing
           </v-card-subtitle>
           <v-divider></v-divider>
-          <v-container v-if="!activeUsers.length">
-            <v-alert class="mb-0" border="left" text type="primary">
+          <v-container
+            v-if="!activeUsers.length"
+            class="pa-2 font-weight-medium"
+          >
+            <v-alert class="mb-0" border="left" text color="primary">
               <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
               No one is currently playing with our technology. Try finding some
               Diablo players from
@@ -26,14 +28,13 @@
               >.
             </v-alert>
           </v-container>
-          <v-row no-gutters v-if="activeUsers.length > 0" class="px-2 pb-4">
+          <v-row dense v-if="activeUsers.length" class="px-2 pt-2 pb-1">
             <v-col
               v-for="user of activeUsers"
               :key="user.id"
               cols="12"
               md="6"
               lg="4"
-              class="px-2 pt-4"
             >
               <v-card
                 hover

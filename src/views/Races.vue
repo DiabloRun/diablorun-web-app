@@ -6,11 +6,14 @@
       <v-divider></v-divider>
       <v-row dense class="px-2 pt-2 pb-1">
         <v-col v-for="race of races" :key="race.id" cols="12" md="6">
-          <v-card color="darkAccent" class="fill-height">
-            <v-card-title>
-              <router-link :to="{ name: 'Race', params: { slug: race.id } }">
-                {{ race.name }}
-              </router-link>
+          <v-card
+            hover
+            :to="{ name: 'Race', params: { slug: race.id } }"
+            color="darkAccent"
+            class="fill-height"
+          >
+            <v-card-title class="primary--text">
+              {{ race.name }}
             </v-card-title>
             <v-card-subtitle>{{ race.description }}</v-card-subtitle>
           </v-card>
