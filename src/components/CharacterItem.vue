@@ -1,42 +1,40 @@
 <template>
-  <v-col cols="12" md="6" lg="4" class="pb-2 px-1">
-    <v-card color="darkAccent" class="fill-height">
-      <v-row no-gutters>
-        <v-col cols="auto" class="py-2 pl-2">
-          <v-img :src="imageSrc" contain>
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  size="18"
-                  width="2"
-                  color="primary"
-                ></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
-        </v-col>
-        <v-col align="center" class="py-1 pr-1">
-          <h5 class="mb-1">
-            <span v-if="runeword" class="quality-gold"
-              >{{ runeword }}<br />
-            </span>
-            <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
-              {{ runeword ? item.base_name : item.name }}
-            </span>
-          </h5>
-          <p
-            class="mb-0 body-2"
-            :class="{ 'error--text': property.includes('ÿc1') }"
-            v-for="property of properties"
-            :key="property"
-          >
-            {{ property.replace(/^ÿc1/, '') }}
-          </p>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-col>
+  <v-card color="darkAccent" class="fill-height pa-1">
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <v-img :src="imageSrc" contain>
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular
+                indeterminate
+                size="18"
+                width="2"
+                color="primary"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+      </v-col>
+      <v-col align="center">
+        <h5>
+          <span v-if="runeword" class="quality-gold">
+            {{ runeword }}<br />
+          </span>
+          <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
+            {{ runeword ? item.base_name : item.name }}
+          </span>
+        </h5>
+        <p
+          class="mb-0 body-2"
+          :class="{ 'error--text': property.includes('ÿc1') }"
+          v-for="property of properties"
+          :key="property"
+        >
+          {{ property.replace(/^ÿc1/, '') }}
+        </p>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <style scoped lang="scss">

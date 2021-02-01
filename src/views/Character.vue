@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" lg="3">
           <v-row dense>
             <v-col cols="12">
               <!-- Character and user name -->
@@ -118,11 +118,11 @@
             <!-- Attributes, deaths or hardcore -->
             <v-col>
               <v-card>
-                <h5 v-if="character.hc" class="pa-3">
+                <h5 v-if="character.hc" class="py-2 text-center">
                   <v-icon left color="error"> mdi-skull-outline </v-icon>
                   Hardcore
                 </h5>
-                <h5 v-if="!character.hc" class="pa-3">
+                <h5 v-if="!character.hc" class="py-2 text-center">
                   {{ character.deaths }} Deaths
                 </h5>
                 <v-divider></v-divider>
@@ -130,12 +130,13 @@
                   <v-list-item
                     v-for="attribute in attributes"
                     :key="attribute.title"
-                    class="px-3"
+                    class="px-2"
                   >
                     <v-icon left> {{ attribute.icon }} </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character[attribute.stat] }} {{ attribute.short }}
+                        {{ character[attribute.stat] }}
+                        <span class="grey--text">{{ attribute.short }}</span>
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -145,13 +146,15 @@
             <!-- Gold, resistances -->
             <v-col>
               <v-card>
-                <h5 class="pa-3">{{ character.gold_total }} Gold</h5>
+                <h5 class="text-center py-2">
+                  {{ character.gold_total }} Gold
+                </h5>
                 <v-divider></v-divider>
                 <v-list dense class="py-0">
                   <v-list-item
                     v-for="resistance in resistances"
                     :key="resistance.title"
-                    class="px-3"
+                    class="px-2"
                   >
                     <v-icon left :color="resistance.color">
                       {{ resistance.icon }}
@@ -163,21 +166,19 @@
                             character[resistance.stat] < 75
                         "
                       >
-                        {{ character[resistance.stat] }}% {{ resistance.title }}
+                        {{ character[resistance.stat] }}%
                       </v-list-item-title>
-                      <v-list-item-title v-if="character[resistance.stat] < 0">
-                        <span class="error--text">
-                          {{ character[resistance.stat] }}%
-                        </span>
-                        {{ resistance.title }}
+                      <v-list-item-title
+                        v-if="character[resistance.stat] < 0"
+                        class="error--text"
+                      >
+                        {{ character[resistance.stat] }}%
                       </v-list-item-title>
                       <v-list-item-title
                         v-if="character[resistance.stat] >= 75"
+                        class="orange--text text--lighten-2"
                       >
-                        <span class="orange--text text--lighten-2">
-                          {{ character[resistance.stat] }}%
-                        </span>
-                        {{ resistance.title }}
+                        {{ character[resistance.stat] }}%
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -187,357 +188,31 @@
             <!-- Magic find, speed stats -->
             <v-col>
               <v-card>
-                <h5 class="pa-3">{{ character.mf }}% Magic find</h5>
+                <h5 class="text-center py-2">{{ character.mf }}% Magic find</h5>
                 <v-divider></v-divider>
                 <v-list dense class="py-0">
                   <v-list-item
-                    v-for="speedStat in speedStats"
-                    :key="speedStat.title"
-                    class="px-3"
+                    v-for="stat in stats"
+                    :key="stat.title"
+                    class="px-2"
                   >
                     <v-icon left>
-                      {{ speedStat.icon }}
+                      {{ stat.icon }}
                     </v-icon>
                     <v-list-item-content>
                       <v-list-item-title>
-                        {{ character[speedStat.stat] }}% {{ speedStat.title }}
+                        {{ character[stat.value] }}%
+                        <span class="grey--text">{{ stat.title }}</span>
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
               </v-card>
             </v-col>
-          </v-row>
-          <v-text-field
-            outlined
-            dense
-            prepend-inner-icon="mdi-share"
-            :value="
-              'https://diablo.run/' + character.user_name + '/' + character.id
-            "
-            :label="'Share ' + character.name"
-            readonly
-            hide-details
-            class="mt-3"
-          ></v-text-field>
-          <v-text-field
-            v-if="isEditor"
-            dense
-            outlined
-            :value="character.seed"
-            :label="character.name + ' map seed'"
-            readonly
-            hide-details
-            class="mt-3"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="8">
-          <v-card>
-            <v-row no-gutters>
-              <v-col>
-                <v-tabs
-                  v-model="tab"
-                  background-color="transparent"
-                  color="grey lighten-2"
-                >
-                  <v-tab>Items</v-tab>
-                  <v-tab v-if="character.hireling_name">Merc</v-tab>
-                </v-tabs>
-              </v-col>
-              <v-col cols="auto" class="my-auto mr-3 grey--text">
-                <h5>{{ character.town_visits }} Town visits</h5>
-              </v-col>
-            </v-row>
-            <v-divider></v-divider>
-            <v-tabs-items v-model="tab">
-              <v-tab-item class="pt-2 px-1">
+            <!-- Hireling -->
+            <v-col v-if="character.hireling_name">
+              <v-card>
                 <v-row no-gutters>
-                  <CharacterItem
-                    v-if="character.primary_left"
-                    :item="character.primary_left"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.primary_left"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty primary left
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem v-if="character.head" :item="character.head" />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.head"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty helm
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.primary_right"
-                    :item="character.primary_right"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.primary_right"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty primary right
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.secondary_left"
-                    :item="character.secondary_left"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.secondary_left"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty secondary left
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.body_armor"
-                    :item="character.body_armor"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.body_armor"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty armor
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.secondary_right"
-                    :item="character.secondary_right"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.secondary_right"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty secondary right
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.gloves"
-                    :item="character.gloves"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.gloves"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty gloves
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem v-if="character.belt" :item="character.belt" />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.belt"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty belt
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.boots"
-                    :item="character.boots"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.boots"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty boots
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.ring_left"
-                    :item="character.ring_left"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.ring_left"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty left ring
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.amulet"
-                    :item="character.amulet"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.amulet"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty amulet
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.ring_right"
-                    :item="character.ring_right"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.ring_right"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty right ring
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-tab-item>
-              <v-tab-item class="pt-2 px-1">
-                <v-row>
                   <v-col>
                     <v-list dense class="py-0">
                       <v-list-item>
@@ -593,7 +268,6 @@
                             "
                           >
                             {{ character[hirelingResistance.stat] }}%
-                            {{ hirelingResistance.title }}
                           </v-list-item-title>
                           <v-list-item-title
                             v-if="character[hirelingResistance.stat] < 0"
@@ -601,7 +275,6 @@
                             <span class="error--text">
                               {{ character[hirelingResistance.stat] }}%
                             </span>
-                            {{ hirelingResistance.title }}
                           </v-list-item-title>
                           <v-list-item-title
                             v-if="character[hirelingResistance.stat] >= 75"
@@ -609,102 +282,146 @@
                             <span class="orange--text text--lighten-2">
                               {{ character[hirelingResistance.stat] }}%
                             </span>
-                            {{ hirelingResistance.title }}
                           </v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list>
                   </v-col>
                 </v-row>
-                <v-row no-gutters>
-                  <CharacterItem
-                    v-if="character.hireling_primary_left"
-                    :item="character.hireling_primary_left"
-                  />
-                  <!--Empty-->
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- Share and seed fields -->
+          <v-text-field
+            outlined
+            dense
+            prepend-inner-icon="mdi-share"
+            :value="
+              'https://diablo.run/' + character.user_name + '/' + character.id
+            "
+            :label="'Share ' + character.name"
+            readonly
+            hide-details
+            class="mt-3"
+          ></v-text-field>
+          <v-text-field
+            v-if="isEditor"
+            dense
+            outlined
+            :value="character.seed"
+            :label="character.name + ' map seed'"
+            readonly
+            hide-details
+            class="mt-3"
+          ></v-text-field>
+        </v-col>
+        <!-- Right side columns -->
+        <v-col cols="12" md="8" lg="9">
+          <v-card>
+            <v-row no-gutters>
+              <!-- Tabs -->
+              <v-col>
+                <v-tabs v-model="tab" color="grey lighten-1">
+                  <v-tab>Items</v-tab>
+                  <v-tab v-if="character.hireling_name">Merc</v-tab>
+                </v-tabs>
+              </v-col>
+              <!-- Extra info -->
+              <v-col cols="auto" class="my-auto mr-3 grey--text">
+                <h5>{{ character.town_visits }} Town visits</h5>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+            <!-- Items tab -->
+            <v-tabs-items v-model="tab">
+              <v-tab-item class="pa-2">
+                <v-row dense>
+                  <!-- Character items -->
                   <v-col
-                    v-if="!character.hireling_primary_left"
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-2 px-1"
+                    v-for="item in items"
+                    :key="item.type"
                   >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty hireling primary left
-                          </h5>
-                        </v-col>
-                      </v-row>
+                    <CharacterItem
+                      v-if="character[item.type]"
+                      :item="character[item.type]"
+                    />
+                    <!-- Empty item -->
+                    <v-card
+                      v-if="!character[item.type]"
+                      elevation="1"
+                      class="fill-height d-flex align-center pa-2"
+                    >
+                      <v-flex>
+                        <p
+                          class="text-center grey--text text--darken-2 body-2 font-italic"
+                        >
+                          empty
+                        </p>
+                      </v-flex>
                     </v-card>
                   </v-col>
-                  <CharacterItem
-                    v-if="character.hireling_head"
-                    :item="character.hireling_head"
-                  />
-                  <!--Empty-->
+                </v-row>
+              </v-tab-item>
+              <!-- Merc/Hireling tab -->
+              <v-tab-item class="pa-2">
+                <v-row dense>
+                  <!-- Hireling items -->
                   <v-col
-                    v-if="!character.hireling_head"
+                    cols="12"
+                    md="6"
+                    lg="3"
+                    v-for="hirelingItem in hirelingItems"
+                    :key="hirelingItem.type"
+                  >
+                    <CharacterItem
+                      v-if="character[hirelingItem.type]"
+                      :item="character[hirelingItem.type]"
+                    />
+                    <!-- Empty hireling item -->
+                    <v-card
+                      v-if="!character[hirelingItem.type]"
+                      elevation="1"
+                      class="fill-height d-flex align-center pa-2"
+                    >
+                      <v-flex>
+                        <p
+                          class="text-center grey--text text--darken-2 body-2 font-italic"
+                        >
+                          empty
+                        </p>
+                      </v-flex>
+                    </v-card>
+                  </v-col>
+                  <!-- Hireling extra items for mods like Project D2 -->
+                  <v-col
                     cols="12"
                     md="6"
                     lg="4"
-                    class="pb-2 px-1"
+                    v-for="hirelingExtraItem in hirelingExtraItems"
+                    :key="hirelingExtraItem.type"
                   >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty hireling helm
-                          </h5>
-                        </v-col>
-                      </v-row>
+                    <CharacterItem
+                      v-if="character[hirelingExtraItem.type]"
+                      :item="character[hirelingExtraItem.type]"
+                    />
+                    <!-- Empty hireling item -->
+                    <v-card
+                      v-if="!character[hirelingExtraItem.type]"
+                      elevation="1"
+                      class="fill-height d-flex align-center pa-2"
+                    >
+                      <v-flex>
+                        <p
+                          class="text-center grey--text text--darken-2 body-2 font-italic"
+                        >
+                          empty
+                        </p>
+                      </v-flex>
                     </v-card>
                   </v-col>
-                  <CharacterItem
-                    v-if="character.hireling_body_armor"
-                    :item="character.hireling_body_armor"
-                  />
-                  <!--Empty-->
-                  <v-col
-                    v-if="!character.hireling_body_armor"
-                    cols="12"
-                    md="6"
-                    lg="4"
-                    class="pb-2 px-1"
-                  >
-                    <v-card class="fill-height d-flex align-center">
-                      <v-row no-gutters>
-                        <v-col>
-                          <h5
-                            class="grey--text text-center py-3 body-2 font-italic"
-                          >
-                            empty hireling armor
-                          </h5>
-                        </v-col>
-                      </v-row>
-                    </v-card>
-                  </v-col>
-                  <CharacterItem
-                    v-if="character.hireling_primary_right"
-                    :item="character.hireling_primary_right"
-                  />
-                  <CharacterItem
-                    v-if="character.hireling_gloves"
-                    :item="character.hireling_gloves"
-                  />
-                  <CharacterItem
-                    v-if="character.hireling_belt"
-                    :item="character.hireling_belt"
-                  />
-                  <CharacterItem
-                    v-if="character.hireling_boots"
-                    :item="character.hireling_boots"
-                  />
                 </v-row>
               </v-tab-item>
             </v-tabs-items>
@@ -712,100 +429,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <!-- #overlay for streaming -->
-    <section class="section is-paddingless is-overlay" v-if="streamOverlay">
-      <!-- First row -->
-      <div class="columns mb-3 is-gapless is-mobile is-multiline">
-        <div class="column">
-          <div class="field is-grouped is-grouped-multiline">
-            <!-- Level -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-dark">{{ character.name }}</span>
-                <span class="tag is-light">Level {{ character.level }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="column is-narrow">
-          <div class="field is-grouped is-grouped-multiline">
-            <!-- Core -->
-            <div class="control">
-              <div v-if="character.hc" class="tags are-large">
-                <span class="tag is-danger">HC</span>
-              </div>
-              <div v-if="!character.hc" class="tags are-large">
-                <span class="tag is-light">SC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Second row -->
-      <div class="columns mb-3 is-gapless is-mobile is-multiline">
-        <div class="column">
-          <div class="field is-grouped is-grouped-multiline">
-            <!-- MF -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-dark">MF</span>
-                <span class="tag is-light">{{ character.mf }}</span>
-              </div>
-            </div>
-            <!-- Gold -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-dark">Gold</span>
-                <span class="tag is-light">{{ character.gold_total }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="column is-narrow">
-          <div class="field is-grouped is-grouped-multiline">
-            <!-- Players -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-dark">Players</span>
-                <span class="tag is-light">{{ character.players }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Third row -->
-      <div class="columns is-gapless is-mobile is-multiline">
-        <div class="column">
-          <div class="field is-grouped is-grouped-multiline">
-            <!-- Resistances -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-danger">{{ character.fire_res }}</span>
-                <span class="tag is-primary">{{ character.cold_res }}</span>
-                <span class="tag is-warning">{{ character.light_res }}</span>
-                <span class="tag is-success">{{ character.poison_res }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="column is-narrow">
-          <div class="field is-grouped is-grouped-multiline">
-            <!-- FCR -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-light">{{ character.fcr }} FCR</span>
-              </div>
-            </div>
-            <!-- FRW -->
-            <div class="control">
-              <div class="tags are-large has-addons">
-                <span class="tag is-light">{{ character.frw }} FRW</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
@@ -870,11 +493,11 @@ export default {
           color: 'success'
         }
       ],
-      speedStats: [
-        { stat: 'fcr', title: 'Cast speed', icon: 'mdi-auto-fix' },
-        { stat: 'fhr', title: 'Hit recovery', icon: 'mdi-human-handsdown' },
-        { stat: 'frw', title: 'Run speed', icon: 'mdi-shoe-print' },
-        { stat: 'ias', title: 'Attack speed', icon: 'mdi-sword-cross' }
+      stats: [
+        { value: 'fcr', title: 'FCR', icon: 'mdi-auto-fix' },
+        { value: 'fhr', title: 'FHR', icon: 'mdi-human-handsdown' },
+        { value: 'frw', title: 'FRW', icon: 'mdi-shoe-print' },
+        { value: 'ias', title: 'IAS', icon: 'mdi-sword-cross' }
       ],
       hirelingAttributes: [
         { stat: 'hireling_strength', short: 'Str', icon: 'mdi-arm-flex' },
@@ -905,6 +528,31 @@ export default {
           icon: 'mdi-bottle-tonic-skull',
           color: 'success'
         }
+      ],
+      items: [
+        { type: 'primary_left' },
+        { type: 'head' },
+        { type: 'primary_right' },
+        { type: 'secondary_left' },
+        { type: 'body_armor' },
+        { type: 'secondary_right' },
+        { type: 'gloves' },
+        { type: 'belt' },
+        { type: 'boots' },
+        { type: 'ring_left' },
+        { type: 'amulet' },
+        { type: 'ring_right' }
+      ],
+      hirelingItems: [
+        { type: 'hireling_primary_left' },
+        { type: 'hireling_head' },
+        { type: 'hireling_body_armor' },
+        { type: 'hireling_secondary_left' }
+      ],
+      hirelingExtraItems: [
+        { type: 'hireling_gloves' },
+        { type: 'hireling_belt' },
+        { type: 'hireling_boots' }
       ]
     };
   },
