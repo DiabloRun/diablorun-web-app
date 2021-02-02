@@ -5,8 +5,8 @@
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
     </v-btn>
     <v-container v-if="!streamOverlay && character.name" fluid class="pa-2">
-      <v-row v-if="showTwitchEmbed">
-        <v-col>
+      <v-row no-gutters v-if="showTwitchEmbed">
+        <v-col cols="12">
           <TwitchEmbed :username="character.user_name" />
         </v-col>
       </v-row>
@@ -32,21 +32,22 @@
                   </router-link>
                 </v-card-subtitle>
                 <v-divider></v-divider>
-                <v-row no-gutters class="px-2 pt-2">
-                  <v-col class="pr-4 grey--text">
-                    <h5 class="text-right">
-                      {{ character.difficulty | DifficultyFilter }}
+                <v-row no-gutters class="px-4 py-2">
+                  <v-col class="pr-4">
+                    <h5>
+                      {{ character.area | AreaNameFilter }}
                     </h5>
                   </v-col>
-                  <v-col cols="auto">
-                    <h5>{{ character.area | AreaNameFilter }}</h5>
-                  </v-col>
-                  <v-col class="pl-4 grey--text">
-                    <h5>Players {{ character.players }}</h5>
+                  <v-col class="pl-4 text-right">
+                    <h5>
+                      {{ character.difficulty | DifficultyFilter }} p{{
+                        character.players
+                      }}
+                    </h5>
                   </v-col>
                 </v-row>
                 <!-- Globes -->
-                <v-row no-gutters class="py-2">
+                <v-row no-gutters>
                   <!-- Life -->
                   <v-col align="right">
                     <v-progress-circular
@@ -97,12 +98,12 @@
                   </v-col>
                 </v-row>
                 <!-- Level -->
-                <v-row no-gutters class="px-2 pb-2">
-                  <v-col class="text-right pr-2">
+                <v-row no-gutters class="px-4 py-2">
+                  <v-col>
                     <h5>Level {{ character.level }}</h5>
                   </v-col>
-                  <v-col class="pl-2">
-                    <h5 class="grey--text">12.23%</h5>
+                  <v-col class="text-right">
+                    <h5 class="grey--text">12.23% xp</h5>
                   </v-col>
                 </v-row>
                 <!-- Experience bar -->
@@ -115,11 +116,17 @@
                 ></v-progress-linear>
               </v-card>
             </v-col>
+            <!-- Deeds if dead in hardcore -->
+            <v-col cols="12" v-if="character.dead && character.hc">
+              <v-alert text color="error" class="mb-0 text-center">
+                Your deeds of valor will be remembered
+              </v-alert>
+            </v-col>
             <!-- Attributes, deaths or hardcore -->
             <v-col>
               <v-card>
                 <h5 v-if="character.hc" class="py-2 text-center">
-                  <v-icon left color="error"> mdi-skull-outline </v-icon>
+                  <v-icon small color="error"> mdi-skull-outline </v-icon>
                   Hardcore
                 </h5>
                 <h5 v-if="!character.hc" class="py-2 text-center">
@@ -209,8 +216,8 @@
                 </v-list>
               </v-card>
             </v-col>
-            <!-- Hireling -->
-            <v-col v-if="character.hireling_name">
+            <!-- Mercenary/Hireling stats -->
+            <v-col cols="12" v-if="character.hireling_name">
               <v-card>
                 <v-row no-gutters>
                   <v-col>
@@ -365,7 +372,7 @@
                   </v-col>
                 </v-row>
               </v-tab-item>
-              <!-- Merc/Hireling tab -->
+              <!-- Mercenary/Hireling tab -->
               <v-tab-item class="pa-2">
                 <v-row dense>
                   <!-- Hireling items -->

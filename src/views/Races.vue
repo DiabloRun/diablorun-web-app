@@ -2,7 +2,7 @@
   <v-container class="pa-2">
     <v-card>
       <v-card-title> Races </v-card-title>
-      <v-card-subtitle> hey</v-card-subtitle>
+      <v-card-subtitle>Recent history of racing events</v-card-subtitle>
       <v-divider></v-divider>
       <v-row dense class="px-2 pt-2 pb-1">
         <v-col v-for="race of races" :key="race.id" cols="12" md="6">
@@ -16,6 +16,11 @@
               {{ race.name }}
             </v-card-title>
             <v-card-subtitle>{{ race.description }}</v-card-subtitle>
+            <v-card-text
+              ><v-chip small outlined>{{
+                race.start_time | FromNowFilter
+              }}</v-chip></v-card-text
+            >
           </v-card>
         </v-col>
       </v-row>

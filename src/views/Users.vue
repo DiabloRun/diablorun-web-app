@@ -77,7 +77,7 @@
                         }
                       }"
                     >
-                      <v-avatar size="64" class="mr-3">
+                      <v-avatar size="64" class="mr-2">
                         <v-img :src="user.user_profile_image_url"></v-img>
                       </v-avatar>
                     </router-link>

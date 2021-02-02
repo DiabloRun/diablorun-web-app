@@ -6,8 +6,8 @@
           <v-col cols="12">
             <v-card>
               <v-row no-gutters align="center">
-                <v-col cols="auto" class="ml-3">
-                  <v-avatar size="64" class="my-1">
+                <v-col cols="auto" class="py-3 pl-3">
+                  <v-avatar size="64">
                     <img
                       v-if="user.profile_image_url !== ''"
                       :src="user.profile_image_url"
@@ -72,8 +72,17 @@
             </v-card>
           </v-col>
           <v-col v-if="characters.length > 0">
-            <v-card>
-              <h5 class="pa-3">
+            <v-card
+              hover
+              :to="{
+                name: 'Character',
+                params: {
+                  user_name: latestCharacter.user_name,
+                  character_slug: '@'
+                }
+              }"
+            >
+              <h5 class="pl-3 py-2">
                 Played
                 {{ latestCharacter.update_time | FromNowFilter }}
               </h5>
@@ -136,9 +145,7 @@
             <v-card>
               <v-row no-gutters>
                 <v-col>
-                  <v-card-title>
-                    Hero history
-                  </v-card-title>
+                  <v-card-title> Hero history </v-card-title>
                 </v-col>
                 <v-col cols="auto" class="my-auto mr-4">
                   <v-btn
@@ -222,9 +229,7 @@
           </v-col>
           <v-col cols="12" v-if="speedruns.length > 0">
             <v-card>
-              <v-card-title>
-                Speedruns
-              </v-card-title>
+              <v-card-title> Speedruns </v-card-title>
               <v-divider></v-divider>
               <v-simple-table dense class="text-no-wrap">
                 <thead>
