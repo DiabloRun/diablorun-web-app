@@ -17,17 +17,18 @@ body, html {
 
 // Title sizes
 h1 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
 }
 
 h1.subtitle {
     font-size: 1rem;
     opacity: $grey;
-    font-weight: 400;
+    font-weight: 400 !important;
 }
 
 h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 400;
 }
 
 h2.subtitle {
@@ -36,13 +37,9 @@ h2.subtitle {
     font-weight: 400;
 }
 
-h5 {
-    font-size: .9rem;
-    font-weight: 500;
-}
 
 // Strong
-b, strong {
+b, strong, .v-progress-circular {
     font-weight: 500 !important;
 }
 

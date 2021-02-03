@@ -42,7 +42,7 @@
       </v-row>
     </v-app-bar>
     <!-- Left navigation -->
-    <v-navigation-drawer color="app" width="200" v-model="drawer" app>
+    <v-navigation-drawer color="app" width="150" v-model="drawer" app>
       <v-row no-gutters class="text-center mt-1">
         <!-- Logo -->
         <v-col>
@@ -125,7 +125,7 @@
         >
           <v-icon left>mdi-cogs</v-icon>
           <v-list-item-content>
-            <v-list-item-title>Interface Setup</v-list-item-title>
+            <v-list-item-title>Setup</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -212,7 +212,7 @@ export default {
       ],
       socialItems: [
         {
-          title: 'Join our community',
+          title: 'Discord',
           icon: 'mdi-discord',
           url: 'https://discord.gg/QMMDR2a'
         },
