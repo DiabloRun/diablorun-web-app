@@ -76,7 +76,9 @@
                     <h2 class="subtitle">{{ resistance.title }}</h2>
                   </v-list-subtitle>
                 </v-list-item-content>
-                <v-icon :color="resistance.color"> {{ resistance.icon }} </v-icon>
+                <v-icon :color="resistance.color">
+                  {{ resistance.icon }}
+                </v-icon>
               </v-list-item>
             </v-list>
           </v-col>
@@ -362,7 +364,7 @@
                       <v-list-item-title
                         v-if="
                           character[resistance.stat] >= 0 &&
-                          character[resistance.stat] < 75
+                            character[resistance.stat] < 75
                         "
                       >
                         {{ character[resistance.stat] }}%
@@ -463,7 +465,7 @@
                           <v-list-item-title
                             v-if="
                               character[hirelingResistance.stat] >= 0 &&
-                              character[hirelingResistance.stat] < 75
+                                character[hirelingResistance.stat] < 75
                             "
                           >
                             {{ character[hirelingResistance.stat] }}%
@@ -757,8 +759,8 @@ export default {
   },
   computed: {
     ...mapState({
-      character: (state) => state.ws.character,
-      streamOverlay: (state) => state.app.windowStyle === 'overlay'
+      character: state => state.ws.character,
+      streamOverlay: state => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
