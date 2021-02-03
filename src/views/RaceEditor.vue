@@ -1,5 +1,9 @@
 <template>
-  <div class="race-editor" v-if="!loading">
+  <v-form
+    v-if="!loading"
+    :disabled="start_time || !canEdit"
+    class="race-editor"
+  >
     <v-container>
       <v-row>
         <v-col cols="12">
@@ -44,69 +48,67 @@
             <v-row no-gutters>
               <v-col>
                 <v-container>
-                  <v-form v-model="valid">
-                    <v-row no-gutters>
-                      <v-col cols="12" class="mb-4">
-                        <v-text-field
-                          v-model="form.name"
-                          outlined
-                          label="Name of the race"
-                          required
-                          hide-details
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" class="mb-4">
-                        <v-textarea
-                          v-model="form.description"
-                          outlined
-                          label="Description"
-                          required
-                          hide-details
-                          rows="3"
-                        ></v-textarea>
-                      </v-col>
-                      <v-col cols="6" class="pr-2">
-                        <v-text-field
-                          v-if="token"
-                          :value="'RACE_TOKEN=' + token"
-                          outlined
-                          label="Token"
-                          required
-                          hide-details
-                          readonly
-                        ></v-text-field>
-                        <v-text-field
-                          v-if="!token"
-                          value="Generated after saving"
-                          outlined
-                          label="Token"
-                          required
-                          hide-details
-                          readonly
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="6" class="pl-2">
-                        <v-text-field
-                          v-if="leaderboard_url"
-                          :value="leaderboard_url"
-                          outlined
-                          label="Link"
-                          required
-                          hide-details
-                          readonly
-                        ></v-text-field>
-                        <v-text-field
-                          v-if="!leaderboard_url"
-                          value="Generated after saving"
-                          outlined
-                          label="Link"
-                          required
-                          hide-details
-                          readonly
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-form>
+                  <v-row no-gutters>
+                    <v-col cols="12" class="mb-4">
+                      <v-text-field
+                        v-model="form.name"
+                        outlined
+                        label="Name of the race"
+                        required
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" class="mb-4">
+                      <v-textarea
+                        v-model="form.description"
+                        outlined
+                        label="Description"
+                        required
+                        hide-details
+                        rows="3"
+                      ></v-textarea>
+                    </v-col>
+                    <v-col cols="6" class="pr-2">
+                      <v-text-field
+                        v-if="token"
+                        :value="'RACE_TOKEN=' + token"
+                        outlined
+                        label="Token"
+                        required
+                        hide-details
+                        readonly
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="!token"
+                        value="Generated after saving"
+                        outlined
+                        label="Token"
+                        required
+                        hide-details
+                        readonly
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="6" class="pl-2">
+                      <v-text-field
+                        v-if="leaderboard_url"
+                        :value="leaderboard_url"
+                        outlined
+                        label="Link"
+                        required
+                        hide-details
+                        readonly
+                      ></v-text-field>
+                      <v-text-field
+                        v-if="!leaderboard_url"
+                        value="Generated after saving"
+                        outlined
+                        label="Link"
+                        required
+                        hide-details
+                        readonly
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-col>
               <v-divider vertical></v-divider>
@@ -273,462 +275,584 @@
               </v-btn>
             </v-container>
             <v-divider></v-divider>
-            <v-card-text> 2 </v-card-text>
+            <v-container>
+              <!--Finish-->
+              <div class="box">
+                <h1 class="subtitle mb-3">Finish conditions</h1>
+                <div
+                  v-for="(condition, index) of form.finish_conditions"
+                  :key="index"
+                  class="field has-addons"
+                >
+                  <p class="control">
+                    <span class="select is-small">
+                      <select v-model="condition.type">
+                        <option value="quest">Complete</option>
+                        <option value="time">After</option>
+                        <option value="stat">Reach</option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control" v-if="condition.type === 'time'">
+                    <input
+                      class="input is-small"
+                      type="text"
+                      placeholder="eg: 1d 2h 30m 50s"
+                      v-model="condition.time"
+                    />
+                  </p>
+                  <p class="control" v-if="condition.type === 'time'">
+                    <span class="select is-small">
+                      <select v-model="condition.time_type">
+                        <option value="race">from race start</option>
+                        <option value="character">
+                          from character creation
+                        </option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control" v-if="condition.type === 'stat'">
+                    <input
+                      class="input is-small"
+                      type="number"
+                      v-model="condition.counter"
+                    />
+                  </p>
+                  <p class="control" v-if="condition.type === 'stat'">
+                    <span class="select is-small">
+                      <select v-model="condition.stat">
+                        <option
+                          v-for="stat of stats"
+                          :key="stat.id"
+                          :value="stat.id"
+                        >
+                          {{ stat.name }}
+                        </option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control" v-if="condition.type === 'quest'">
+                    <span class="select is-small">
+                      <select v-model="condition.difficulty">
+                        <option
+                          v-for="difficulty of difficulties"
+                          :key="difficulty.id"
+                          :value="difficulty.id"
+                        >
+                          {{ difficulty.name }}
+                        </option>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control" v-if="condition.type === 'quest'">
+                    <span class="select is-small">
+                      <select v-model="condition.quest_id">
+                        <optgroup
+                          v-for="act of acts"
+                          :key="act.id"
+                          :label="act.name"
+                        >
+                          <option
+                            v-for="quest of act.quests"
+                            :key="quest.id"
+                            :value="quest.id"
+                          >
+                            {{ quest.short_name }}
+                          </option>
+                        </optgroup>
+                      </select>
+                    </span>
+                  </p>
+                  <p class="control">
+                    <a
+                      class="button is-small is-static"
+                      @click="removeFinishCondition(index)"
+                    >
+                      <span class="delete has-background-danger"></span>
+                    </a>
+                  </p>
+                </div>
+                <div class="field">
+                  <button
+                    class="button is-small is-primary"
+                    @click="addFinishCondition()"
+                  >
+                    Add
+                  </button>
+                </div>
+                <div class="field">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      v-model="form.finish_conditions_global"
+                    />
+                    Finish conditions are global
+                  </label>
+                </div>
+              </div>
+              <v-btn @click="addFinishCondition()">
+                <v-icon left color="primary">mdi-plus</v-icon>
+                Finish condition
+              </v-btn>
+            </v-container>
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
-
-    <fieldset :disabled="start_time || !canEdit">
-      <!-- Title -->
-      <section class="hero is-dark is-bold">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title is-1">Race Editor</h1>
-          </div>
-        </div>
-      </section>
-      <!-- Can not edit message -->
-      <section class="section" v-if="!canEdit">
-        <div class="container">
-          <div class="box">
-            <p>
-              The race editor is only available for diablo.run supporters on
-              Patreon. Please
-              <a href="https://www.patreon.com/diablorun">become a Patreon</a>
-              and
-              <router-link :to="{ name: 'Patreon' }"
-                >link your Patreon account</router-link
-              >
-              to create and run races.
-            </p>
-          </div>
-        </div>
-      </section>
-      <!-- Save -->
-      <section class="section pb-0" v-if="canEdit">
-        <div class="container">
-          <div class="columns is-vcentered is-mobile">
-            <div class="column">
-              <button
-                v-if="dirty"
-                class="button is-small is-primary"
-                :class="{ 'is-loading': saving }"
-                @click="save()"
-              >
-                Save changes
-              </button>
-              <button v-if="!dirty" class="button is-small is-primary">
-                No changes since saving
-              </button>
+      <!-- Old -->
+      <fieldset :disabled="start_time || !canEdit">
+        <!-- Title -->
+        <section class="hero is-dark is-bold">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title is-1">Race Editor</h1>
             </div>
-            <div class="column is-narrow">
-              <p v-if="token && !start_time">
-                <RaceCountdown
-                  ref="countdown"
-                  :start="start_time"
-                  :finish="finish_time"
-                />
+          </div>
+        </section>
+        <!-- Can not edit message -->
+        <section class="section" v-if="!canEdit">
+          <div class="container">
+            <div class="box">
+              <p>
+                The race editor is only available for diablo.run supporters on
+                Patreon. Please
+                <a href="https://www.patreon.com/diablorun">become a Patreon</a>
+                and
+                <router-link :to="{ name: 'Patreon' }"
+                  >link your Patreon account</router-link
+                >
+                to create and run races.
               </p>
             </div>
-            <div v-if="token && !start_time" class="column is-narrow">
-              <button
-                v-if="canHost"
-                class="button is-small is-primary"
-                @click="startCountdown()"
-              >
-                Start race countdown from 10s
-              </button>
-              <button v-if="!canHost" class="button is-small is-primary">
-                Only Patreons can host races
-              </button>
+          </div>
+        </section>
+        <!-- Save -->
+        <section class="section pb-0" v-if="canEdit">
+          <div class="container">
+            <div class="columns is-vcentered is-mobile">
+              <div class="column">
+                <button
+                  v-if="dirty"
+                  class="button is-small is-primary"
+                  :class="{ 'is-loading': saving }"
+                  @click="save()"
+                >
+                  Save changes
+                </button>
+                <button v-if="!dirty" class="button is-small is-primary">
+                  No changes since saving
+                </button>
+              </div>
+              <div class="column is-narrow">
+                <p v-if="token && !start_time">
+                  <RaceCountdown
+                    ref="countdown"
+                    :start="start_time"
+                    :finish="finish_time"
+                  />
+                </p>
+              </div>
+              <div v-if="token && !start_time" class="column is-narrow">
+                <button
+                  v-if="canHost"
+                  class="button is-small is-primary"
+                  @click="startCountdown()"
+                >
+                  Start race countdown from 10s
+                </button>
+                <button v-if="!canHost" class="button is-small is-primary">
+                  Only Patreons can host races
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section class="section">
-        <div class="container">
-          <div class="box">
-            <div class="columns">
-              <div class="column">
-                <div class="field">
-                  <h1 class="subtitle mb-3">Name</h1>
-                  <div class="control">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="How would you like to call your race?"
-                      v-model="form.name"
-                    />
+        </section>
+        <section class="section">
+          <div class="container">
+            <div class="box">
+              <div class="columns">
+                <div class="column">
+                  <div class="field">
+                    <h1 class="subtitle mb-3">Name</h1>
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="text"
+                        placeholder="How would you like to call your race?"
+                        v-model="form.name"
+                      />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <h1 class="subtitle mb-3 pt-3">Description</h1>
+                    <div class="control">
+                      <textarea
+                        class="textarea"
+                        placeholder="Describe the race"
+                        v-model="form.description"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="field" v-if="canHost">
+                    <h1 class="subtitle mb-3 pt-3">Estimated start time</h1>
+                    <div class="control">
+                      <DateTimeInput v-model="form.estimated_start_time" />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <h1 class="subtitle mb-3 pt-3">Allowed Players Setting</h1>
+                    <div class="control">
+                      <div class="select">
+                        <select v-model="form.entry_players">
+                          <option value="p1">Players 1</option>
+                          <option value="px">Players X</option>
+                          <option value="p8">Players 8</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column">
+                      <div class="field">
+                        <h1 class="subtitle mb-3 pt-3">Token</h1>
+                        <input
+                          v-if="token"
+                          readonly
+                          class="input"
+                          type="text"
+                          placeholder="Token"
+                          :value="'RACE_TOKEN=' + token"
+                        />
+                        <input
+                          v-if="!token"
+                          readonly
+                          class="input"
+                          type="text"
+                          placeholder="Race token is generated after saving"
+                        />
+                      </div>
+                    </div>
+                    <div class="column">
+                      <div class="field">
+                        <h1 class="subtitle mb-3 pt-3">Race Page</h1>
+                        <input
+                          v-if="leaderboard_url"
+                          readonly
+                          class="input"
+                          type="text"
+                          placeholder="Token"
+                          :value="leaderboard_url"
+                        />
+                        <input
+                          v-if="!leaderboard_url"
+                          readonly
+                          class="input"
+                          type="text"
+                          placeholder="Race page link is generated after saving"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">Description</h1>
-                  <div class="control">
-                    <textarea
-                      class="textarea"
-                      placeholder="Describe the race"
-                      v-model="form.description"
-                    ></textarea>
+                <div class="column is-narrow">
+                  <h1 class="subtitle mb-3">Entry Conditions</h1>
+                  <div class="field">
+                    <label class="checkbox">
+                      <input
+                        type="checkbox"
+                        v-model="form.entry_new_character"
+                      />
+                      Must make new character
+                    </label>
                   </div>
-                </div>
-                <div class="field" v-if="canHost">
-                  <h1 class="subtitle mb-3 pt-3">Estimated start time</h1>
-                  <div class="control">
-                    <DateTimeInput v-model="form.estimated_start_time" />
+                  <div class="field">
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="form.entry_classic" />
+                      Classic only
+                    </label>
                   </div>
-                </div>
-                <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">Allowed Players Setting</h1>
-                  <div class="control">
-                    <div class="select">
-                      <select v-model="form.entry_players">
-                        <option value="p1">Players 1</option>
-                        <option value="px">Players X</option>
-                        <option value="p8">Players 8</option>
+                  <div class="field">
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="form.entry_hc" />
+                      Hardcore only
+                    </label>
+                  </div>
+                  <div class="field">
+                    <h1 class="subtitle mb-3 pt-3">Allowed Classes</h1>
+                    <p class="mb-3">Hold control to select multiple</p>
+                    <div class="select is-multiple">
+                      <select
+                        multiple
+                        :size="heroes.length"
+                        v-model="form.entry_hero"
+                      >
+                        <option
+                          v-for="hero of heroes"
+                          :key="hero.id"
+                          :value="hero.id"
+                        >
+                          {{ hero.name }}
+                        </option>
                       </select>
                     </div>
                   </div>
                 </div>
-                <div class="columns">
-                  <div class="column">
-                    <div class="field">
-                      <h1 class="subtitle mb-3 pt-3">Token</h1>
-                      <input
-                        v-if="token"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Token"
-                        :value="'RACE_TOKEN=' + token"
-                      />
-                      <input
-                        v-if="!token"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Race token is generated after saving"
-                      />
-                    </div>
-                  </div>
-                  <div class="column">
-                    <div class="field">
-                      <h1 class="subtitle mb-3 pt-3">Race Page</h1>
-                      <input
-                        v-if="leaderboard_url"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Token"
-                        :value="leaderboard_url"
-                      />
-                      <input
-                        v-if="!leaderboard_url"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Race page link is generated after saving"
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
-              <div class="column is-narrow">
-                <h1 class="subtitle mb-3">Entry Conditions</h1>
-                <div class="field">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_new_character" />
-                    Must make new character
-                  </label>
-                </div>
-                <div class="field">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_classic" />
-                    Classic only
-                  </label>
-                </div>
-                <div class="field">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_hc" />
-                    Hardcore only
-                  </label>
-                </div>
-                <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">Allowed Classes</h1>
-                  <p class="mb-3">Hold control to select multiple</p>
-                  <div class="select is-multiple">
-                    <select
-                      multiple
-                      :size="heroes.length"
-                      v-model="form.entry_hero"
-                    >
+            </div>
+          </div>
+        </section>
+        <section class="section pt-0">
+          <div class="container">
+            <!-- Points -->
+            <div class="box">
+              <h1 class="subtitle mb-3">Points</h1>
+              <div
+                class="field has-addons"
+                v-for="(point, index) of form.points"
+                :key="index"
+              >
+                <p class="control">
+                  <input
+                    class="input is-small"
+                    type="number"
+                    v-model="point.amount"
+                  />
+                </p>
+                <p class="control">
+                  <span class="select is-small">
+                    <select v-model="point.type">
+                      <option value="quest">for completing</option>
+                      <option value="per">per</option>
+                      <option value="for">for reaching</option>
+                    </select>
+                  </span>
+                </p>
+                <p
+                  class="control"
+                  v-if="point.type === 'per' || point.type === 'for'"
+                >
+                  <input
+                    class="input is-small"
+                    type="number"
+                    v-model="point.counter"
+                  />
+                </p>
+                <p
+                  class="control"
+                  v-if="point.type === 'per' || point.type === 'for'"
+                >
+                  <span class="select is-small">
+                    <select v-model="point.stat">
                       <option
-                        v-for="hero of heroes"
-                        :key="hero.id"
-                        :value="hero.id"
+                        v-for="stat of stats"
+                        :key="stat.id"
+                        :value="stat.id"
                       >
-                        {{ hero.name }}
+                        {{ stat.name }}
                       </option>
                     </select>
-                  </div>
-                </div>
+                  </span>
+                </p>
+                <p class="control" v-if="point.type === 'quest'">
+                  <span class="select is-small">
+                    <select v-model="point.difficulty">
+                      <option
+                        v-for="difficulty of difficulties"
+                        :key="difficulty.id"
+                        :value="difficulty.id"
+                      >
+                        {{ difficulty.name }}
+                      </option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control" v-if="point.type === 'quest'">
+                  <span class="select is-small">
+                    <select v-model="point.quest_id">
+                      <optgroup
+                        v-for="act of acts"
+                        :key="act.id"
+                        :label="act.name"
+                      >
+                        <option
+                          v-for="quest of act.quests"
+                          :key="quest.id"
+                          :value="quest.id"
+                        >
+                          {{ quest.short_name }}
+                        </option>
+                      </optgroup>
+                    </select>
+                  </span>
+                </p>
+                <p class="control">
+                  <span class="select is-small">
+                    <select v-model="point.time_type">
+                      <option value="state">by latest state</option>
+                      <option value="max" :disabled="point.type !== 'per'">
+                        by max value
+                      </option>
+                      <option value="in_under" :disabled="point.type === 'per'">
+                        in under
+                      </option>
+                      <option value="first" :disabled="point.type === 'per'">
+                        for first claimed
+                      </option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control" v-if="point.time_type === 'in_under'">
+                  <input
+                    class="input is-small"
+                    type="text"
+                    placeholder="eg: 1d 2h 30m 50s"
+                    v-model="point.time"
+                  />
+                </p>
+                <p class="control">
+                  <a
+                    class="button is-small is-static"
+                    @click="removePoint(index)"
+                  >
+                    <span class="delete has-background-danger"></span>
+                  </a>
+                </p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section pt-0">
-        <div class="container">
-          <!-- Points -->
-          <div class="box">
-            <h1 class="subtitle mb-3">Points</h1>
-            <div
-              class="field has-addons"
-              v-for="(point, index) of form.points"
-              :key="index"
-            >
-              <p class="control">
-                <input
-                  class="input is-small"
-                  type="number"
-                  v-model="point.amount"
-                />
-              </p>
-              <p class="control">
-                <span class="select is-small">
-                  <select v-model="point.type">
-                    <option value="quest">for completing</option>
-                    <option value="per">per</option>
-                    <option value="for">for reaching</option>
-                  </select>
-                </span>
-              </p>
-              <p
-                class="control"
-                v-if="point.type === 'per' || point.type === 'for'"
-              >
-                <input
-                  class="input is-small"
-                  type="number"
-                  v-model="point.counter"
-                />
-              </p>
-              <p
-                class="control"
-                v-if="point.type === 'per' || point.type === 'for'"
-              >
-                <span class="select is-small">
-                  <select v-model="point.stat">
-                    <option
-                      v-for="stat of stats"
-                      :key="stat.id"
-                      :value="stat.id"
-                    >
-                      {{ stat.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="point.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="point.difficulty">
-                    <option
-                      v-for="difficulty of difficulties"
-                      :key="difficulty.id"
-                      :value="difficulty.id"
-                    >
-                      {{ difficulty.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="point.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="point.quest_id">
-                    <optgroup
-                      v-for="act of acts"
-                      :key="act.id"
-                      :label="act.name"
-                    >
-                      <option
-                        v-for="quest of act.quests"
-                        :key="quest.id"
-                        :value="quest.id"
-                      >
-                        {{ quest.short_name }}
-                      </option>
-                    </optgroup>
-                  </select>
-                </span>
-              </p>
-              <p class="control">
-                <span class="select is-small">
-                  <select v-model="point.time_type">
-                    <option value="state">by latest state</option>
-                    <option value="max" :disabled="point.type !== 'per'">
-                      by max value
-                    </option>
-                    <option value="in_under" :disabled="point.type === 'per'">
-                      in under
-                    </option>
-                    <option value="first" :disabled="point.type === 'per'">
-                      for first claimed
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="point.time_type === 'in_under'">
-                <input
-                  class="input is-small"
-                  type="text"
-                  placeholder="eg: 1d 2h 30m 50s"
-                  v-model="point.time"
-                />
-              </p>
-              <p class="control">
-                <a
-                  class="button is-small is-static"
-                  @click="removePoint(index)"
-                >
-                  <span class="delete has-background-danger"></span>
-                </a>
-              </p>
-            </div>
-            <button class="button is-small is-primary" @click="addPoint()">
-              Add
-            </button>
-          </div>
-          <!--Finish-->
-          <div class="box">
-            <h1 class="subtitle mb-3">Finish conditions</h1>
-            <div
-              v-for="(condition, index) of form.finish_conditions"
-              :key="index"
-              class="field has-addons"
-            >
-              <p class="control">
-                <span class="select is-small">
-                  <select v-model="condition.type">
-                    <option value="quest">Complete</option>
-                    <option value="time">After</option>
-                    <option value="stat">Reach</option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'time'">
-                <input
-                  class="input is-small"
-                  type="text"
-                  placeholder="eg: 1d 2h 30m 50s"
-                  v-model="condition.time"
-                />
-              </p>
-              <p class="control" v-if="condition.type === 'time'">
-                <span class="select is-small">
-                  <select v-model="condition.time_type">
-                    <option value="race">from race start</option>
-                    <option value="character">from character creation</option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'stat'">
-                <input
-                  class="input is-small"
-                  type="number"
-                  v-model="condition.counter"
-                />
-              </p>
-              <p class="control" v-if="condition.type === 'stat'">
-                <span class="select is-small">
-                  <select v-model="condition.stat">
-                    <option
-                      v-for="stat of stats"
-                      :key="stat.id"
-                      :value="stat.id"
-                    >
-                      {{ stat.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="condition.difficulty">
-                    <option
-                      v-for="difficulty of difficulties"
-                      :key="difficulty.id"
-                      :value="difficulty.id"
-                    >
-                      {{ difficulty.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="condition.quest_id">
-                    <optgroup
-                      v-for="act of acts"
-                      :key="act.id"
-                      :label="act.name"
-                    >
-                      <option
-                        v-for="quest of act.quests"
-                        :key="quest.id"
-                        :value="quest.id"
-                      >
-                        {{ quest.short_name }}
-                      </option>
-                    </optgroup>
-                  </select>
-                </span>
-              </p>
-              <p class="control">
-                <a
-                  class="button is-small is-static"
-                  @click="removeFinishCondition(index)"
-                >
-                  <span class="delete has-background-danger"></span>
-                </a>
-              </p>
-            </div>
-            <div class="field">
-              <button
-                class="button is-small is-primary"
-                @click="addFinishCondition()"
-              >
+              <button class="button is-small is-primary" @click="addPoint()">
                 Add
               </button>
             </div>
-            <div class="field">
-              <label class="checkbox">
-                <input
-                  type="checkbox"
-                  v-model="form.finish_conditions_global"
-                />
-                Finish conditions are global
-              </label>
+            <!--Finish-->
+            <div class="box">
+              <h1 class="subtitle mb-3">Finish conditions</h1>
+              <div
+                v-for="(condition, index) of form.finish_conditions"
+                :key="index"
+                class="field has-addons"
+              >
+                <p class="control">
+                  <span class="select is-small">
+                    <select v-model="condition.type">
+                      <option value="quest">Complete</option>
+                      <option value="time">After</option>
+                      <option value="stat">Reach</option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control" v-if="condition.type === 'time'">
+                  <input
+                    class="input is-small"
+                    type="text"
+                    placeholder="eg: 1d 2h 30m 50s"
+                    v-model="condition.time"
+                  />
+                </p>
+                <p class="control" v-if="condition.type === 'time'">
+                  <span class="select is-small">
+                    <select v-model="condition.time_type">
+                      <option value="race">from race start</option>
+                      <option value="character">from character creation</option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control" v-if="condition.type === 'stat'">
+                  <input
+                    class="input is-small"
+                    type="number"
+                    v-model="condition.counter"
+                  />
+                </p>
+                <p class="control" v-if="condition.type === 'stat'">
+                  <span class="select is-small">
+                    <select v-model="condition.stat">
+                      <option
+                        v-for="stat of stats"
+                        :key="stat.id"
+                        :value="stat.id"
+                      >
+                        {{ stat.name }}
+                      </option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control" v-if="condition.type === 'quest'">
+                  <span class="select is-small">
+                    <select v-model="condition.difficulty">
+                      <option
+                        v-for="difficulty of difficulties"
+                        :key="difficulty.id"
+                        :value="difficulty.id"
+                      >
+                        {{ difficulty.name }}
+                      </option>
+                    </select>
+                  </span>
+                </p>
+                <p class="control" v-if="condition.type === 'quest'">
+                  <span class="select is-small">
+                    <select v-model="condition.quest_id">
+                      <optgroup
+                        v-for="act of acts"
+                        :key="act.id"
+                        :label="act.name"
+                      >
+                        <option
+                          v-for="quest of act.quests"
+                          :key="quest.id"
+                          :value="quest.id"
+                        >
+                          {{ quest.short_name }}
+                        </option>
+                      </optgroup>
+                    </select>
+                  </span>
+                </p>
+                <p class="control">
+                  <a
+                    class="button is-small is-static"
+                    @click="removeFinishCondition(index)"
+                  >
+                    <span class="delete has-background-danger"></span>
+                  </a>
+                </p>
+              </div>
+              <div class="field">
+                <button
+                  class="button is-small is-primary"
+                  @click="addFinishCondition()"
+                >
+                  Add
+                </button>
+              </div>
+              <div class="field">
+                <label class="checkbox">
+                  <input
+                    type="checkbox"
+                    v-model="form.finish_conditions_global"
+                  />
+                  Finish conditions are global
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section class="section pt-0" v-if="canEdit">
-        <div class="container">
-          <button
-            v-if="dirty"
-            class="button is-small is-primary"
-            :class="{ 'is-loading': saving }"
-            @click="save()"
-          >
-            Save changes
-          </button>
-          <button v-if="!dirty" class="button is-small is-primary">
-            No changes since saving
-          </button>
-        </div>
-      </section>
-    </fieldset>
-  </div>
+        </section>
+        <section class="section pt-0" v-if="canEdit">
+          <div class="container">
+            <button
+              v-if="dirty"
+              class="button is-small is-primary"
+              :class="{ 'is-loading': saving }"
+              @click="save()"
+            >
+              Save changes
+            </button>
+            <button v-if="!dirty" class="button is-small is-primary">
+              No changes since saving
+            </button>
+          </div>
+        </section>
+      </fieldset>
+    </v-container>
+  </v-form>
 </template>
 
 <script>

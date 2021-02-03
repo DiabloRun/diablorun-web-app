@@ -134,7 +134,8 @@
               :value="'https://diablo.run/' + user.name + '/@'"
               label="Active character link"
               readonly
-              class="mt-1"
+              hide-details
+              class="my-1"
             ></v-text-field>
           </v-col>
         </v-row>
