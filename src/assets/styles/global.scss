@@ -2,19 +2,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Texturina:ital,wght@0,400;0,500;0,600;0,700;1,100&display=swap');
 
 $title-font: 'Texturina', serif;
+$grey: .6;
+
 
 body, html {
     overflow-y: auto !important;
 }
 
 .v-application {
-    .v-card__title {
+    .v-card__title, h1 {
         font-family: $title-font, sans-serif !important;
-        padding-top: .5rem;
     }
 }
 
 // Title sizes
+h1 {
+    font-size: 1.25rem;
+}
+
+h1.subtitle {
+    font-size: 1rem;
+    opacity: $grey;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 1.2rem;
+}
+
+h2.subtitle {
+    font-size: .9rem;
+    opacity: $grey;
+    font-weight: 400;
+}
+
 h5 {
     font-size: .9rem;
     font-weight: 500;

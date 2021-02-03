@@ -1,5 +1,197 @@
 <template>
   <div>
+    <v-row no-gutters v-if="!streamOverlay && character.name">
+      <v-col cols="12" lg="2">
+        <v-row no-gutters>
+          <!-- Character avatar, name, hero -->
+          <v-col cols="12" class="text-center mb-2 mt-4">
+            <router-link
+              :to="{
+                name: 'Character',
+                params: {
+                  user_name: character.user_name,
+                  character_slug: character.name + character.id
+                }
+              }"
+            >
+              <v-avatar size="64">
+                <Icon :name="`big-${character.hero}`" />
+              </v-avatar>
+            </router-link>
+            <h1>{{ character.name }}</h1>
+            <h1 class="subtitle">{{ character.hero | HeroNameFilter }}</h1>
+          </v-col>
+          <!-- Level -->
+          <v-row dense class="px-4 my-2">
+            <v-col cols="auto" class="text-center">
+              <v-sheet rounded class="px-3 py-1">
+                <h2 class="subtitle">lvl</h2>
+                <h2 class="mt-n2">{{ character.level }}</h2>
+              </v-sheet>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto my-auto">
+              <h2 class="subtitle"><strong>12</strong>.45% xp</h2>
+            </v-col>
+            <v-col cols="12">
+              <v-progress-linear
+                :value="(character.life / character.life_max) * 100"
+                height="8"
+                color="primary"
+                rounded
+              ></v-progress-linear>
+            </v-col>
+          </v-row>
+          <!-- Attributes -->
+          <v-col cols="12">
+            <v-list dense color="transparent">
+              <v-list-item
+                v-for="attribute in attributes"
+                :key="attribute.title"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <h2>{{ character[attribute.stat] }}</h2>
+                  </v-list-item-title>
+                  <v-list-subtitle>
+                    <h2 class="subtitle">{{ attribute.title }}</h2>
+                  </v-list-subtitle>
+                </v-list-item-content>
+                <v-icon> {{ attribute.icon }} </v-icon>
+              </v-list-item>
+            </v-list>
+          </v-col>
+          <!-- Attributes -->
+          <v-col cols="12">
+            <v-list dense color="transparent">
+              <v-list-item
+                v-for="resistance in resistances"
+                :key="resistance.title"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <h2>{{ character[resistance.stat] }}</h2>
+                  </v-list-item-title>
+                  <v-list-subtitle>
+                    <h2 class="subtitle">{{ resistance.title }}</h2>
+                  </v-list-subtitle>
+                </v-list-item-content>
+                <v-icon :color="resistance.color"> {{ resistance.icon }} </v-icon>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-divider vertical></v-divider>
+      <!-- Middle tabs -->
+      <v-col>
+        <!-- Right side columns -->
+        <v-tabs v-model="tab">
+          <v-tab>Items</v-tab>
+          <v-tab v-if="character.hireling_name">Merc</v-tab>
+        </v-tabs>
+        <v-divider></v-divider>
+        <v-card class="ma-1">
+          <!-- Items tab -->
+          <v-tabs-items v-model="tab">
+            <v-tab-item class="pa-2">
+              <v-row dense>
+                <!-- Character items -->
+                <v-col
+                  cols="12"
+                  md="6"
+                  lg="4"
+                  v-for="item in items"
+                  :key="item.type"
+                >
+                  <CharacterItem
+                    v-if="character[item.type]"
+                    :item="character[item.type]"
+                  />
+                  <!-- Empty item -->
+                  <v-card
+                    v-if="!character[item.type]"
+                    elevation="1"
+                    class="fill-height d-flex align-center pa-2"
+                  >
+                    <v-flex>
+                      <p
+                        class="text-center grey--text text--darken-2 body-2 font-italic"
+                      >
+                        empty
+                      </p>
+                    </v-flex>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <!-- Mercenary/Hireling tab -->
+            <v-tab-item class="pa-2">
+              <v-row dense>
+                <!-- Hireling items -->
+                <v-col
+                  cols="12"
+                  md="6"
+                  lg="3"
+                  v-for="hirelingItem in hirelingItems"
+                  :key="hirelingItem.type"
+                >
+                  <CharacterItem
+                    v-if="character[hirelingItem.type]"
+                    :item="character[hirelingItem.type]"
+                  />
+                  <!-- Empty hireling item -->
+                  <v-card
+                    v-if="!character[hirelingItem.type]"
+                    elevation="1"
+                    class="fill-height d-flex align-center pa-2"
+                  >
+                    <v-flex>
+                      <p
+                        class="text-center grey--text text--darken-2 body-2 font-italic"
+                      >
+                        empty
+                      </p>
+                    </v-flex>
+                  </v-card>
+                </v-col>
+                <!-- Hireling extra items for mods like Project D2 -->
+                <v-col
+                  cols="12"
+                  md="6"
+                  lg="4"
+                  v-for="hirelingExtraItem in hirelingExtraItems"
+                  :key="hirelingExtraItem.type"
+                >
+                  <CharacterItem
+                    v-if="character[hirelingExtraItem.type]"
+                    :item="character[hirelingExtraItem.type]"
+                  />
+                  <!-- Empty hireling item -->
+                  <v-card
+                    v-if="!character[hirelingExtraItem.type]"
+                    elevation="1"
+                    class="fill-height d-flex align-center pa-2"
+                  >
+                    <v-flex>
+                      <p
+                        class="text-center grey--text text--darken-2 body-2 font-italic"
+                      >
+                        empty
+                      </p>
+                    </v-flex>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+          </v-tabs-items>
+        </v-card>
+      </v-col>
+      <v-divider vertical></v-divider>
+      <v-col cols="12" lg="2"> 3 </v-col>
+    </v-row>
+    <v-divider></v-divider>
+
     <v-btn fixed right bottom fab small @click="toggleTwitchEmbed()">
       <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
@@ -170,7 +362,7 @@
                       <v-list-item-title
                         v-if="
                           character[resistance.stat] >= 0 &&
-                            character[resistance.stat] < 75
+                          character[resistance.stat] < 75
                         "
                       >
                         {{ character[resistance.stat] }}%
@@ -271,7 +463,7 @@
                           <v-list-item-title
                             v-if="
                               character[hirelingResistance.stat] >= 0 &&
-                                character[hirelingResistance.stat] < 75
+                              character[hirelingResistance.stat] < 75
                             "
                           >
                             {{ character[hirelingResistance.stat] }}%
@@ -474,10 +666,10 @@ export default {
       username: '',
 
       attributes: [
-        { stat: 'strength', short: 'Str', icon: 'mdi-arm-flex' },
-        { stat: 'dexterity', short: 'Dex', icon: 'mdi-bullseye-arrow' },
-        { stat: 'vitality', short: 'Vit', icon: 'mdi-heart' },
-        { stat: 'energy', short: 'Ene', icon: 'mdi-bottle-tonic' }
+        { stat: 'strength', title: 'Strength', icon: 'mdi-arm-flex' },
+        { stat: 'dexterity', title: 'Dexterity', icon: 'mdi-bullseye-arrow' },
+        { stat: 'vitality', title: 'Vitality', icon: 'mdi-heart' },
+        { stat: 'energy', title: 'Energy', icon: 'mdi-bottle-tonic' }
       ],
       resistances: [
         { stat: 'fire_res', title: 'Fire', icon: 'mdi-fire', color: 'error' },
@@ -565,8 +757,8 @@ export default {
   },
   computed: {
     ...mapState({
-      character: state => state.ws.character,
-      streamOverlay: state => state.app.windowStyle === 'overlay'
+      character: (state) => state.ws.character,
+      streamOverlay: (state) => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
