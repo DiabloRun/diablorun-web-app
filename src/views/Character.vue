@@ -79,7 +79,7 @@
             tile
           ></v-progress-linear>
         </v-col>
-        <!-- Level, deaths, players -->
+        <!-- Level, deaths, players/difficulty -->
         <v-col cols="6">
           <v-list dense color="transparent">
             <v-list-item>
@@ -96,13 +96,13 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <h2>{{ character.players }}</h2>
-                <h2 class="subtitle">Players</h2>
+                <h2>{{ character.difficulty | DifficultyFilter }}</h2>
+                <h2 class="subtitle">Players {{ character.players }}</h2>
               </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-col>
-        <!-- Experience, gold, magic find -->
+        <!-- Experience, gold, town visits -->
         <v-col cols="6">
           <v-list dense color="transparent">
             <v-list-item>
@@ -119,8 +119,8 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <h2>{{ character.mf }}%</h2>
-                <h2 class="subtitle">Magic find</h2>
+                <h2>{{ character.town_visits }}</h2>
+                <h2 class="subtitle">Town visits</h2>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -186,101 +186,99 @@
           <TwitchEmbed :username="character.user_name" />
         </v-col>
       </v-row>
-      <v-card class="ma-1">
-        <!-- Items tab -->
-        <v-tabs-items v-model="tab">
-          <v-tab-item class="pa-2">
-            <v-row dense>
-              <!-- Character items -->
-              <v-col
-                cols="12"
-                md="6"
-                lg="4"
-                v-for="item in items"
-                :key="item.type"
+      <!-- Items tab -->
+      <v-tabs-items v-model="tab">
+        <v-tab-item class="pa-2">
+          <v-row dense>
+            <!-- Character items -->
+            <v-col
+              cols="12"
+              md="6"
+              lg="4"
+              v-for="item in items"
+              :key="item.type"
+            >
+              <CharacterItem
+                v-if="character[item.type]"
+                :item="character[item.type]"
+              />
+              <!-- Empty item -->
+              <v-card
+                v-if="!character[item.type]"
+                elevation="1"
+                class="fill-height d-flex align-center pa-2"
               >
-                <CharacterItem
-                  v-if="character[item.type]"
-                  :item="character[item.type]"
-                />
-                <!-- Empty item -->
-                <v-card
-                  v-if="!character[item.type]"
-                  elevation="1"
-                  class="fill-height d-flex align-center pa-2"
-                >
-                  <v-flex>
-                    <p
-                      class="text-center grey--text text--darken-2 body-2 font-italic"
-                    >
-                      empty
-                    </p>
-                  </v-flex>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-tab-item>
-          <!-- Mercenary/Hireling tab -->
-          <v-tab-item class="pa-2">
-            <v-row dense>
-              <!-- Hireling items -->
-              <v-col
-                cols="12"
-                md="6"
-                lg="3"
-                v-for="hirelingItem in hirelingItems"
-                :key="hirelingItem.type"
+                <v-flex>
+                  <p
+                    class="text-center grey--text text--darken-2 body-2 font-italic"
+                  >
+                    empty
+                  </p>
+                </v-flex>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+        <!-- Mercenary/Hireling tab -->
+        <v-tab-item class="pa-2">
+          <v-row dense>
+            <!-- Hireling items -->
+            <v-col
+              cols="12"
+              md="6"
+              lg="3"
+              v-for="hirelingItem in hirelingItems"
+              :key="hirelingItem.type"
+            >
+              <CharacterItem
+                v-if="character[hirelingItem.type]"
+                :item="character[hirelingItem.type]"
+              />
+              <!-- Empty hireling item -->
+              <v-card
+                v-if="!character[hirelingItem.type]"
+                elevation="1"
+                class="fill-height d-flex align-center pa-2"
               >
-                <CharacterItem
-                  v-if="character[hirelingItem.type]"
-                  :item="character[hirelingItem.type]"
-                />
-                <!-- Empty hireling item -->
-                <v-card
-                  v-if="!character[hirelingItem.type]"
-                  elevation="1"
-                  class="fill-height d-flex align-center pa-2"
-                >
-                  <v-flex>
-                    <p
-                      class="text-center grey--text text--darken-2 body-2 font-italic"
-                    >
-                      empty
-                    </p>
-                  </v-flex>
-                </v-card>
-              </v-col>
-              <!-- Hireling extra items for mods like Project D2 -->
-              <v-col
-                cols="12"
-                md="6"
-                lg="4"
-                v-for="hirelingExtraItem in hirelingExtraItems"
-                :key="hirelingExtraItem.type"
+                <v-flex>
+                  <p
+                    class="text-center grey--text text--darken-2 body-2 font-italic"
+                  >
+                    empty
+                  </p>
+                </v-flex>
+              </v-card>
+            </v-col>
+            <!-- Hireling extra items for mods like Project D2 -->
+            <v-col
+              cols="12"
+              md="6"
+              lg="4"
+              v-for="hirelingExtraItem in hirelingExtraItems"
+              :key="hirelingExtraItem.type"
+            >
+              <CharacterItem
+                v-if="character[hirelingExtraItem.type]"
+                :item="character[hirelingExtraItem.type]"
+              />
+              <!-- Empty hireling item -->
+              <v-card
+                v-if="!character[hirelingExtraItem.type]"
+                elevation="1"
+                class="fill-height d-flex align-center pa-2"
               >
-                <CharacterItem
-                  v-if="character[hirelingExtraItem.type]"
-                  :item="character[hirelingExtraItem.type]"
-                />
-                <!-- Empty hireling item -->
-                <v-card
-                  v-if="!character[hirelingExtraItem.type]"
-                  elevation="1"
-                  class="fill-height d-flex align-center pa-2"
-                >
-                  <v-flex>
-                    <p
-                      class="text-center grey--text text--darken-2 body-2 font-italic"
-                    >
-                      empty
-                    </p>
-                  </v-flex>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-tab-item>
-        </v-tabs-items>
-      </v-card>
+                <v-flex>
+                  <p
+                    class="text-center grey--text text--darken-2 body-2 font-italic"
+                  >
+                    empty
+                  </p>
+                </v-flex>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-tab-item>
+      </v-tabs-items>
     </v-col>
     <v-divider vertical></v-divider>
     <!-- Right columns -->
@@ -319,8 +317,6 @@
         <!-- Stats -->
         <v-col cols="12">
           <v-divider></v-divider>
-          {{ character.area | AreaNameFilter }}
-          {{ character.difficulty | DifficultyFilter }} p{{ character.players }}
           <v-list dense color="transparent">
             <v-list-item v-for="stat in stats" :key="stat.title">
               <v-icon left> {{ stat.icon }} </v-icon>
@@ -518,9 +514,9 @@ export default {
           icon: 'mdi-sword-cross'
         },
         {
-          value: 'town_visits',
-          title: 'Town visits',
-          icon: 'mdi-castle'
+          value: 'mf',
+          title: 'Magic find',
+          icon: 'mdi-horseshoe'
         }
       ],
       hirelingAttributes: [
