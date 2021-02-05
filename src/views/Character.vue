@@ -172,11 +172,17 @@
         </v-col>
       </v-row>
     </v-col>
-    <v-divider vertical></v-divider>
+    <v-divider vertical class="hidden-sm-and-down" />
     <!-- Middle tabs -->
     <v-col>
       <!-- Right side columns -->
-      <v-tabs v-model="tab">
+      <v-tabs
+        v-model="tab"
+        color="grey"
+        active-class="white--text"
+        slider-size="1"
+        background-color="transparent"
+      >
         <v-tab>Items</v-tab>
         <v-tab v-if="character.hireling_name">Merc</v-tab>
       </v-tabs>
@@ -206,11 +212,11 @@
               <v-card
                 v-if="!character[item.type]"
                 elevation="1"
-                class="fill-height d-flex align-center pa-2"
+                class="fill-height d-flex align-center pa-2 fade"
               >
                 <v-flex>
                   <p
-                    class="text-center grey--text text--darken-2 body-2 font-italic"
+                    class="text-center grey--text text--darken-1 body-2 font-italic"
                   >
                     empty
                   </p>
@@ -279,8 +285,9 @@
           </v-row>
         </v-tab-item>
       </v-tabs-items>
+      <v-divider />
     </v-col>
-    <v-divider vertical></v-divider>
+    <v-divider vertical class="hidden-sm-and-down" />
     <!-- Right columns -->
     <v-col cols="12" sm="2" md="3" lg="2">
       <v-row no-gutters>

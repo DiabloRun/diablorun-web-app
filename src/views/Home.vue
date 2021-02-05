@@ -214,7 +214,7 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-card>
-          <v-card-title> Runners with most records </v-card-title>
+          <v-card-title> Runners with the most records </v-card-title>
           <v-divider></v-divider>
           <v-simple-table dense class="text-no-wrap">
             <thead>
@@ -291,24 +291,9 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-card class="fill-height">
-          <v-card-title> Latest article </v-card-title>
+          <v-card-title> Active race </v-card-title>
           <v-divider></v-divider>
-          <BlogPostBox :post="latestPost"></BlogPostBox>
-          <v-card-actions class="pl-3 pb-4">
-            <v-btn :to="{ name: 'Wiki' }"> More articles </v-btn>
-          </v-card-actions>
-          <v-divider></v-divider>
-          <v-card-subtitle class="pb-2"
-            ><h3>Open access publishing</h3></v-card-subtitle
-          >
-          <v-card-text>
-            Anyone can contribute relevant blog posts through our
-            <a href="https://github.com/diablorun" target="_blank">GitHub</a>.
-            If you lack programming knowledge, but would like to contribute then
-            join our
-            <a href="https://discord.gg/QMMDR2a" target="_blank">Discord</a> and
-            we can work it out together.
-          </v-card-text>
+          Active race here
         </v-card>
       </v-col>
     </v-row>
@@ -320,7 +305,7 @@ import { HeroNameFilter } from '@/filters';
 import { FromNowFilter } from '@/filters';
 import { DurationFilter } from '@/filters';
 import CountryIcon from '@/components/CountryIcon.vue';
-import BlogPostBox from '@/components/BlogPostBox.vue';
+// import BlogPostBox from '@/components/BlogPostBox.vue';
 import blog from '@/router/wiki.js';
 
 export default {
@@ -331,7 +316,7 @@ export default {
   },
   components: {
     CountryIcon,
-    BlogPostBox
+    // BlogPostBox
   },
   name: 'Home',
   data() {

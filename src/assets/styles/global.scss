@@ -15,6 +15,10 @@ body, html {
     }
 }
 
+.fade {
+    opacity: .75;
+}
+
 // Title sizes
 h1 {
     font-size: 1.2rem;
@@ -52,6 +56,7 @@ b, strong, .v-progress-circular {
     font-family: 'Texturina', serif;
     font-size: 1.4rem !important;
     font-weight: 700;
+    line-height: 1.2rem;
 }
 
 a {

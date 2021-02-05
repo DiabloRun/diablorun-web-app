@@ -1,17 +1,20 @@
 <template>
   <v-app>
     <!-- Top app bar -->
-    <v-app-bar app dense color="app">
+    <v-app-bar app dense clipped-left color="app">
       <v-row no-gutters>
-        <v-col>
-          <v-tabs active-class="grey--text" hide-slider background-color="app">
-            <v-tab @click="drawer = !drawer">
-              <v-icon>mdi-menu</v-icon>
-            </v-tab>
-          </v-tabs>
+        <v-col cols="auto" class="my-auto px-2">
+          <v-btn @click="drawer = !drawer" icon width="42" height="42">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col class="my-auto">
+          <h1 class="logo">
+            diablo<v-icon dense color="primary">mdi-sword</v-icon>run
+          </h1>
         </v-col>
         <v-col cols="auto">
-          <v-tabs active-class="grey--text" hide-slider background-color="app">
+          <v-tabs active-class="grey--text" hide-slider>
             <v-tab v-if="!user" :href="twitchAuthenticationUrl">
               Login
               <v-icon>mdi-login</v-icon>
@@ -42,17 +45,9 @@
       </v-row>
     </v-app-bar>
     <!-- Left navigation -->
-    <v-navigation-drawer color="app" width="150" v-model="drawer" app>
-      <v-row no-gutters class="text-center mt-1">
-        <!-- Logo -->
-        <v-col>
-          <h1 class="logo">
-            diablo<v-icon dense color="primary">mdi-sword</v-icon>run
-          </h1>
-        </v-col>
-      </v-row>
+    <v-navigation-drawer color="app" width="150" v-model="drawer" app clipped>
       <!-- Main links -->
-      <v-list dense>
+      <v-list dense class="pt-0">
         <v-list-item
           v-for="mainItem in mainItems"
           :key="mainItem.title"
@@ -165,15 +160,6 @@
           </v-list-item>
         </v-list>
       </template>
-      <!--
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block>
-            Logout
-          </v-btn>
-        </div>
-      </template>
-      -->
     </v-navigation-drawer>
     <v-main>
       <router-view class="fade-in" />
