@@ -161,7 +161,7 @@
                 </h2>
                 <h2
                   v-if="character[resistance.stat] >= 75"
-                  class="primary--text"
+                  class="orange--text text-lighten-2"
                 >
                   {{ character[resistance.stat] }}
                 </h2>
@@ -194,7 +194,7 @@
       </v-row>
       <!-- Items tab -->
       <v-tabs-items v-model="tab">
-        <v-tab-item class="pa-2">
+        <v-tab-item class="pa-2 darker">
           <v-row dense>
             <!-- Character items -->
             <v-col
@@ -215,18 +215,14 @@
                 class="fill-height d-flex align-center pa-2 fade"
               >
                 <v-flex>
-                  <p
-                    class="text-center grey--text text--darken-1 body-2 font-italic"
-                  >
-                    empty
-                  </p>
+                  <p class="text-center grey--text body-2 font-italic">empty</p>
                 </v-flex>
               </v-card>
             </v-col>
           </v-row>
         </v-tab-item>
         <!-- Mercenary/Hireling tab -->
-        <v-tab-item class="pa-2">
+        <v-tab-item class="pa-2 darker">
           <v-row dense>
             <!-- Hireling items -->
             <v-col
@@ -244,14 +240,10 @@
               <v-card
                 v-if="!character[hirelingItem.type]"
                 elevation="1"
-                class="fill-height d-flex align-center pa-2"
+                class="fill-height d-flex align-center pa-2 fade"
               >
                 <v-flex>
-                  <p
-                    class="text-center grey--text text--darken-2 body-2 font-italic"
-                  >
-                    empty
-                  </p>
+                  <p class="text-center grey--text body-2 font-italic">empty</p>
                 </v-flex>
               </v-card>
             </v-col>
@@ -271,14 +263,10 @@
               <v-card
                 v-if="!character[hirelingExtraItem.type]"
                 elevation="1"
-                class="fill-height d-flex align-center pa-2"
+                class="fill-height d-flex align-center pa-2 fade"
               >
                 <v-flex>
-                  <p
-                    class="text-center grey--text text--darken-2 body-2 font-italic"
-                  >
-                    empty
-                  </p>
+                  <p class="text-center grey--text body-2 font-italic">empty</p>
                 </v-flex>
               </v-card>
             </v-col>
@@ -336,10 +324,11 @@
         </v-col>
         <!-- Mercenary -->
         <v-col cols="12" v-if="character.hireling_name">
-          <v-card>
+          <v-divider />
+          <v-card flat>
             <v-row no-gutters>
               <v-col>
-                <v-list dense class="py-0">
+                <v-list dense class="py-0 darker">
                   <v-list-item>
                     <v-avatar size="24" class="mr-2">
                       <Icon :name="`${character.hireling_class}`" />
@@ -376,7 +365,7 @@
                 </v-list>
               </v-col>
               <v-col>
-                <v-list dense class="py-0">
+                <v-list dense class="py-0 darker">
                   <v-list-item
                     v-for="hirelingResistance in hirelingResistances"
                     :key="hirelingResistance.title"
@@ -392,20 +381,20 @@
                             character[hirelingResistance.stat] < 75
                         "
                       >
-                        {{ character[hirelingResistance.stat] }}%
+                        {{ character[hirelingResistance.stat] }}
                       </v-list-item-title>
                       <v-list-item-title
                         v-if="character[hirelingResistance.stat] < 0"
                       >
                         <span class="error--text">
-                          {{ character[hirelingResistance.stat] }}%
+                          {{ character[hirelingResistance.stat] }}
                         </span>
                       </v-list-item-title>
                       <v-list-item-title
                         v-if="character[hirelingResistance.stat] >= 75"
                       >
                         <span class="orange--text text--lighten-2">
-                          {{ character[hirelingResistance.stat] }}%
+                          {{ character[hirelingResistance.stat] }}
                         </span>
                       </v-list-item-title>
                     </v-list-item-content>
@@ -416,7 +405,8 @@
           </v-card>
         </v-col>
         <!-- Share, seed -->
-        <v-col cols="12" class="px-4">
+        <v-col cols="12">
+          <v-divider></v-divider>
           <!-- Share and seed fields -->
           <v-text-field
             outlined
@@ -428,7 +418,7 @@
             :label="'Share ' + character.name"
             readonly
             hide-details
-            class="mt-3"
+            class="mt-3 px-4"
           ></v-text-field>
           <v-text-field
             v-if="isEditor"
@@ -438,7 +428,7 @@
             :label="character.name + ' map seed'"
             readonly
             hide-details
-            class="mt-3"
+            class="mt-3 px-4"
           ></v-text-field>
         </v-col>
       </v-row>

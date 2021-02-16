@@ -315,7 +315,7 @@ export default {
     DurationFilter
   },
   components: {
-    CountryIcon,
+    CountryIcon
     // BlogPostBox
   },
   name: 'Home',

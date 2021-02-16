@@ -1,5 +1,5 @@
 <template>
-  <v-card color="darkAccent" class="fill-height pa-1">
+  <v-card class="fill-height pa-1">
     <v-row no-gutters>
       <v-col cols="auto">
         <v-img :src="imageSrc" contain>

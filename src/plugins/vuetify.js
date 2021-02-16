@@ -19,7 +19,7 @@ export default new Vuetify({
         accent: '#82B1FF',
         app: '#1e1e1e',
         appIcon: '#1e1e1e',
-        darker: '#1e1e1e',
+        darker: '#121212',
         darkAccent: '#222222',
         twitch: '#b9a3e3',
         discord: '#7289d9'
