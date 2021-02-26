@@ -4,7 +4,7 @@
       <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
       <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
     </v-btn>
-    <v-col cols="12" sm="2" md="3" lg="2">
+    <v-col>
       <v-row no-gutters>
         <v-col cols="12" class="mt-3 text-center">
           <v-icon v-if="character.hc" color="error"> mdi-skull-outline </v-icon>
@@ -174,7 +174,7 @@
     </v-col>
     <v-divider vertical class="hidden-sm-and-down" />
     <!-- Middle tabs -->
-    <v-col>
+    <v-col cols="12" md="6">
       <!-- Right side columns -->
       <v-tabs
         v-model="tab"
@@ -277,7 +277,7 @@
     </v-col>
     <v-divider vertical class="hidden-sm-and-down" />
     <!-- Right columns -->
-    <v-col cols="12" sm="2" md="3" lg="2">
+    <v-col>
       <v-row no-gutters>
         <!-- User info -->
         <v-col class="pa-4 text-center">

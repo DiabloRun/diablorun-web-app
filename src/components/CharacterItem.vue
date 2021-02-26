@@ -1,19 +1,8 @@
 <template>
-  <v-card class="fill-height pa-1">
+  <v-card class="fill-height">
     <v-row no-gutters>
       <v-col cols="auto">
-        <v-img :src="imageSrc" contain>
-          <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular
-                indeterminate
-                size="18"
-                width="2"
-                color="primary"
-              ></v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
+        <v-img :src="imageSrc" contain />
       </v-col>
       <v-col align="center">
         <h5>

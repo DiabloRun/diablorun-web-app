@@ -1,107 +1,89 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Texturina:ital,wght@0,400;0,500;0,600;0,700;1,100&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Texturina:ital,wght@0,400;0,500;0,600;0,700;1,100&display=swap");
 
-$title-font: 'Texturina', serif;
-$grey: .6;
+$title-font: "Texturina", serif;
 
-
-body, html {
+body,
+html {
     overflow-y: auto !important;
+    font-size: 16px;
+
+    --v-anchor-base: var(--v-primary-lighten4);
 }
 
 .v-application {
-    .v-card__title, h1 {
-        font-family: $title-font, sans-serif !important;
+    .v-application--wrap {
+        background-color: var(--v-secondary-darken1);
     }
-}
 
-.fade {
-    opacity: .4;
-}
+    .theme--dark.v-app-bar.v-toolbar.v-sheet {
+        background-color: var(--v-secondary-lighten1);
+    }
 
-// Title sizes
-h1 {
-    font-size: 1.2rem;
-}
+    .theme--dark.v-navigation-drawer {
+        background-color: var(--v-secondary-base);
+        
+        .v-list-item__title {
+            letter-spacing: 0.025rem;
+        }
+        .v-icon {
+            padding: 0 .7rem;
+        }
+    }
 
-h1.subtitle {
-    font-size: 1rem;
-    opacity: $grey;
-    font-weight: 400 !important;
-}
+    .v-navigation-drawer__border {
+        width: 0;
+    }
 
-h2 {
-    font-size: 1.1rem;
-    font-weight: 400;
-}
+    .v-card__title,
+    h1 {
+        font-family: $title-font, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
 
-h2.subtitle {
-    font-size: .9rem;
-    opacity: $grey;
-    font-weight: 400;
-}
+    h1.logo {
+        font-size: 1.75rem;
+        line-height: 1.75rem;
 
+        .v-icon {
+            color: var(--v-primary-lighten3);
+            padding: 0 0.1rem;
+        }
+    }
 
-// Strong
-b, strong, .v-progress-circular {
-    font-weight: 500 !important;
-}
+    .theme--dark.v-card {
+        background-color: var(--v-secondary-darken1);
+    }
 
-// Toolbar
-.v-toolbar__content, .v-toolbar__extension {
-    padding: 0 !important;
-}
+    .theme--dark.v-data-table {
+        background-color: var(--v-secondary-base);
+    }
 
-.logo {
-    font-family: 'Texturina', serif;
-    font-size: 1.4rem !important;
-    font-weight: 700;
-    line-height: 1.2rem;
-}
+    tbody tr:hover {
+        background: var(--v-secondary-lighten1) !important;
+      }
 
-a {
-    text-decoration: none;
-}
-
-.v-btn:hover {
-    text-shadow: none !important;
-}
-
-.v-application p.body-2 {
-    font-size: .8rem !important;
-    line-height: 1rem;
-}
-
-.v-application p:last-child {
-    margin-bottom: 0;
-}
-
-// Table
-tbody tr:hover {
-    background-color: #282828 !important;
-    transition: background-color 0.5s ease;
-}
-
-// Divider
-.theme--dark.v-divider, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child, .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row), .theme--dark.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
-    border-color: hsla(0,0%,100%,.08) !important;
+    a {
+        text-decoration: none;
+    }
 }
 
 // Heroes
 .sor {
-    color: #26A69A !important;
+    color: #26a69a !important;
 }
 
 .nec {
-    color: #00BCD4 !important;
+    color: #00bcd4 !important;
 }
 
 .ama {
-    color: #FFD54F !important;
+    color: #ffd54f !important;
 }
 
 .dru {
-    color: #FF8A65 !important;
+    color: #ff8a65 !important;
 }
 
 .asn {
@@ -109,42 +91,9 @@ tbody tr:hover {
 }
 
 .pal {
-    color: #E0E0E0 !important;
+    color: #e0e0e0 !important;
 }
 
 .bar {
     color: #e57373 !important;
 }
-
-// Animation
-.fade-in {
-    animation: fadeIn ease .5s;
-    -webkit-animation: fadeIn ease .5s;
-    -moz-animation: fadeIn ease .5s;
-    -o-animation: fadeIn ease .5s;
-    -ms-animation: fadeIn ease .5s;
-    }
-    @keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-    }
-    
-    @-moz-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-    }
-    
-    @-webkit-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-    }
-    
-    @-o-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-    }
-    
-    @-ms-keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-    }

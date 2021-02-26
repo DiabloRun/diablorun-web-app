@@ -1,20 +1,20 @@
 <template>
   <v-app>
-    <!-- Top app bar -->
-    <v-app-bar app dense clipped-left color="app">
+    <v-app-bar app clipped-left>
       <v-row no-gutters>
-        <v-col cols="auto" class="my-auto px-2">
+        <!-- Toggle navigation -->
+        <v-col cols="auto" class="my-auto">
           <v-btn @click="drawer = !drawer" icon width="42" height="42">
             <v-icon>mdi-menu</v-icon>
           </v-btn>
         </v-col>
-        <v-col class="my-auto">
-          <h1 class="logo">
-            diablo<v-icon dense color="primary">mdi-sword</v-icon>run
-          </h1>
+        <!-- Logo -->
+        <v-col class="my-auto ml-3">
+          <h1 class="logo">diablo<v-icon>mdi-sword</v-icon>run</h1>
         </v-col>
+        <!-- Menu -->
         <v-col cols="auto">
-          <v-tabs active-class="grey--text" hide-slider>
+          <v-tabs hide-slider background-color="secondary lighten-1">
             <v-tab v-if="!user" :href="twitchAuthenticationUrl">
               Login
               <v-icon>mdi-login</v-icon>
@@ -32,7 +32,8 @@
             </v-tab>
           </v-tabs>
         </v-col>
-        <v-col cols="auto" v-if="user && user.profile_image_url !== ''">
+        <!-- User avatar -->
+        <v-col cols="auto ml-3" v-if="user && user.profile_image_url !== ''">
           <router-link :to="{ name: 'User', params: { user_name: user.name } }">
             <v-avatar tile>
               <img
@@ -45,7 +46,7 @@
       </v-row>
     </v-app-bar>
     <!-- Left navigation -->
-    <v-navigation-drawer color="app" width="150" v-model="drawer" app clipped>
+    <v-navigation-drawer width="240" v-model="drawer" app clipped>
       <!-- Main links -->
       <v-list dense class="pt-0">
         <v-list-item
@@ -55,7 +56,6 @@
           :exact="mainItem.exact"
           @click="resetFilters()"
           link
-          color="primary"
         >
           <v-icon left>{{ mainItem.icon }}</v-icon>
           <v-list-item-content>
@@ -63,7 +63,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider></v-divider>
+      <!-- Logged out links -->
       <v-list v-if="!user" dense>
         <v-list-item link exact :href="twitchAuthenticationUrl">
           <v-icon left>mdi-login</v-icon>
@@ -72,17 +72,14 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <!-- Logged in links -->
       <v-list v-if="user" dense>
         <v-list-item
           link
           exact
           :to="{ name: 'User', params: { user_name: user.name } }"
-          color="primary"
         >
-          <v-avatar v-if="user.profile_image_url !== ''" class="mr-2" size="24">
-            <img :src="user.profile_image_url" :alt="user.name" />
-          </v-avatar>
-          <v-icon v-if="user.profile_image_url == ''" left>mdi-account</v-icon>
+          <v-icon left>mdi-account</v-icon>
           <v-list-item-content>
             <v-list-item-title>{{ user.name }}</v-list-item-title>
           </v-list-item-content>
@@ -90,7 +87,6 @@
         <v-list-item
           link
           exact
-          color="primary"
           :to="{
             name: 'Character',
             params: { user_name: user.name, character_slug: '@' }
@@ -104,7 +100,6 @@
         <v-list-item
           link
           exact
-          color="primary"
           :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
         >
           <v-icon left>mdi-flag-plus</v-icon>
@@ -112,37 +107,31 @@
             <v-list-item-title>Race Editor</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          link
-          exact
-          :to="{ name: 'Interface Setup' }"
-          color="primary"
-        >
+        <v-list-item link exact :to="{ name: 'Interface Setup' }">
           <v-icon left>mdi-cogs</v-icon>
           <v-list-item-content>
             <v-list-item-title>Setup</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider></v-divider>
-      <v-list dense>
-        <v-list-item
-          link
-          v-for="otherItem in otherItems"
-          :key="otherItem.title"
-          :to="{ name: otherItem.title }"
-          color="primary"
-        >
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-icon left>{{ otherItem.icon }}</v-icon>
-              {{ otherItem.title }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <!-- Social links -->
       <template v-slot:append>
-        <v-divider></v-divider>
+        <!-- Other links -->
+        <v-list dense>
+          <v-list-item
+            link
+            v-for="otherItem in otherItems"
+            :key="otherItem.title"
+            :to="{ name: otherItem.title }"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                <v-icon left>{{ otherItem.icon }}</v-icon>
+                {{ otherItem.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
         <v-list dense>
           <v-list-item
             link
@@ -162,7 +151,7 @@
       </template>
     </v-navigation-drawer>
     <v-main>
-      <router-view class="fade-in" />
+      <router-view />
     </v-main>
   </v-app>
 </template>
