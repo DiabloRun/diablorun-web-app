@@ -19,7 +19,6 @@ export default new Vuetify({
         silver: '#C0C0C0',
         bronze: '#CD7F32',
 
-
         error: '#e53935',
         info: '#1E88E5',
         success: '#c0ca33',
@@ -28,7 +27,7 @@ export default new Vuetify({
         app: '#1e1e1e',
         appIcon: '#1e1e1e',
         darker: '#121212',
-        darkAccent: '#222222',
+        darkAccent: '#222222'
 
         /*
         sor: '#26A69A',

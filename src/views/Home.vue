@@ -51,9 +51,10 @@
                     name: 'User',
                     params: { user_name: run.user_name }
                   }"
-                  :style="`color: ${
-                    run.user_color || run.speedrun_user_dark_color_from
-                  };`"
+                  :style="
+                    `color: ${run.user_color ||
+                      run.speedrun_user_dark_color_from};`
+                  "
                 >
                   <CountryIcon :code="run.speedrun_user_country_code" />
                   <strong>{{ run.user_name }}</strong>
@@ -103,7 +104,9 @@
                   </router-link>
                 </span>
               </td>
-              <td class="silver--text">{{ run.submit_time | FromNowFilter }}</td>
+              <td class="silver--text">
+                {{ run.submit_time | FromNowFilter }}
+              </td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -143,9 +146,10 @@
                     name: 'User',
                     params: { user_name: run.user_name }
                   }"
-                  :style="`color: ${
-                    run.user_color || run.speedrun_user_dark_color_from
-                  };`"
+                  :style="
+                    `color: ${run.user_color ||
+                      run.speedrun_user_dark_color_from};`
+                  "
                 >
                   <CountryIcon :code="run.speedrun_user_country_code" />
                   <strong>{{ run.user_name }}</strong>
@@ -195,7 +199,9 @@
                   </router-link>
                 </span>
               </td>
-              <td class="silver--text">{{ run.submit_time | FromNowFilter }}</td>
+              <td class="silver--text">
+                {{ run.submit_time | FromNowFilter }}
+              </td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -250,9 +256,10 @@
                     name: 'User',
                     params: { user_name: runner.user_name }
                   }"
-                  :style="`color: ${
-                    runner.user_color || runner.speedrun_user_dark_color_from
-                  };`"
+                  :style="
+                    `color: ${runner.user_color ||
+                      runner.speedrun_user_dark_color_from};`
+                  "
                 >
                   <CountryIcon :code="runner.speedrun_user_country_code" />
                   <strong>{{ runner.user_name }}</strong>

@@ -106,7 +106,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                        character[resistance.stat] < 75
+                          character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -309,9 +309,9 @@
                 prepend-inner-icon="mdi-share"
                 :value="
                   'https://diablo.run/' +
-                  character.user_name +
-                  '/' +
-                  character.id
+                    character.user_name +
+                    '/' +
+                    character.id
                 "
                 :label="'Share ' + character.name"
                 readonly
@@ -429,7 +429,7 @@
                   <h2
                     v-if="
                       character[resistance.stat] >= 0 &&
-                      character[resistance.stat] < 75
+                        character[resistance.stat] < 75
                     "
                   >
                     {{ character[resistance.stat] }}
@@ -662,7 +662,7 @@
                         <v-list-item-title
                           v-if="
                             character[hirelingResistance.stat] >= 0 &&
-                            character[hirelingResistance.stat] < 75
+                              character[hirelingResistance.stat] < 75
                           "
                         >
                           {{ character[hirelingResistance.stat] }}
@@ -870,8 +870,8 @@ export default {
   },
   computed: {
     ...mapState({
-      character: (state) => state.ws.character,
-      streamOverlay: (state) => state.app.windowStyle === 'overlay'
+      character: state => state.ws.character,
+      streamOverlay: state => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
