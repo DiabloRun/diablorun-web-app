@@ -25,7 +25,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary"
+              color="primary lighten-2"
               text
               href="https://www.patreon.com/diablorun"
               target="_blank"
