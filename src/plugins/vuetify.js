@@ -11,15 +11,15 @@ export default new Vuetify({
     },
     themes: {
       dark: {
-        primary: '#ff5959',
+        primary: '#3c2e99',
         secondary: '#272727',
-        link: '#87755a',
+        link: '#996b2e',
 
         gold: '#FFD700',
         silver: '#C0C0C0',
         bronze: '#CD7F32',
 
-        error: '#e53935',
+        error: '#99352e',
         info: '#1E88E5',
         success: '#c0ca33',
         warning: '#fdd835',

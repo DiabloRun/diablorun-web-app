@@ -55,7 +55,7 @@ html {
         margin: 0;
 
         .v-icon {
-            color: var(--v-primary-base);
+            color: var(--v-primary-lighten3);
             padding: 0 0.1rem;
         }
     }
@@ -89,7 +89,7 @@ html {
     }
 
     .theme--dark.v-card--hover:hover {
-        background-color: var(--v-secondary-lighten1);
+        background-color: var(--v-link-darken4);
         transition: ease-in 0.2s;
     }
 
