@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app clipped-left>
+    <v-app-bar app dense clipped-left>
       <v-row no-gutters>
         <!-- Toggle navigation -->
         <v-col cols="auto" class="my-auto">
@@ -14,7 +14,7 @@
         </v-col>
         <!-- Menu -->
         <v-col cols="auto">
-          <v-tabs hide-slider background-color="secondary lighten-1">
+          <v-tabs hide-slider background-color="secondary">
             <v-tab v-if="!user" :href="twitchAuthenticationUrl">
               Login
               <v-icon>mdi-login</v-icon>
@@ -97,6 +97,7 @@
             <v-list-item-title>Latest Hero</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <!-- 
         <v-list-item
           link
           exact
@@ -107,6 +108,7 @@
             <v-list-item-title>Race Editor</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        -->
         <v-list-item link exact :to="{ name: 'Interface Setup' }">
           <v-icon left>mdi-cogs</v-icon>
           <v-list-item-content>
@@ -177,8 +179,8 @@ export default {
       mainItems: [
         { title: 'Home', icon: 'mdi-home', exact: true },
         { title: 'Leaderboard', icon: 'mdi-trophy', exact: false },
-        { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
-        { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
+        // { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
+        // { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
         { title: 'Users', icon: 'mdi-account-group', exact: true }
       ],
       otherItems: [

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid v-if="user" class="pa-2">
+  <v-container v-if="user" class="mt-5">
     <v-row dense>
       <v-col cols="12" md="4">
         <v-row dense>
@@ -136,6 +136,7 @@
               readonly
               hide-details
               class="my-1"
+              color="link lighten-2"
             ></v-text-field>
           </v-col>
         </v-row>

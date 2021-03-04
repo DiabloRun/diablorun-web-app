@@ -11,11 +11,15 @@ export default new Vuetify({
     },
     themes: {
       dark: {
-        secondary: '#0f0d27',
+        primary: '#3c2e99',
+        secondary: '#272727',
+        link: '#996b2e',
 
-        primary: '#8f0d27',
-        primaryDark: '#1d1312',
-        error: '#e53935',
+        gold: '#FFD700',
+        silver: '#C0C0C0',
+        bronze: '#CD7F32',
+
+        error: '#99352e',
         info: '#1E88E5',
         success: '#c0ca33',
         warning: '#fdd835',
@@ -23,9 +27,7 @@ export default new Vuetify({
         app: '#1e1e1e',
         appIcon: '#1e1e1e',
         darker: '#121212',
-        darkAccent: '#222222',
-        twitch: '#b9a3e3',
-        discord: '#7289d9'
+        darkAccent: '#222222'
 
         /*
         sor: '#26A69A',

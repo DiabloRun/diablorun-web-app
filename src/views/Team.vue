@@ -38,21 +38,20 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary"
+              color="primary lighten-2"
               text
               href="https://discord.gg/QMMDR2a"
               target="_blank"
             >
-              <v-icon left color="discord">mdi-discord</v-icon>Contact us on
-              Discord
+              <v-icon left>mdi-discord</v-icon>Contact us on Discord
             </v-btn>
             <v-btn
-              color="primary"
+              color="primary lighten-2"
               text
               href="https://github.com/DiabloRun/"
               target="_blank"
             >
-              <v-icon left color="grey lighten-4">mdi-github</v-icon>GitHub
+              <v-icon left>mdi-github</v-icon>GitHub
             </v-btn>
           </v-card-actions>
         </v-card>

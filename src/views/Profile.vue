@@ -39,11 +39,13 @@
               v-model="updateUrl"
               label="URL"
               readonly
+              color="link lighten-2"
             ></v-text-field>
             <v-text-field
               :value="'API_KEY=' + user.api_key"
               label="Headers"
               readonly
+              color="link lighten-2"
             ></v-text-field>
             <ol>
               <li>Download and open Diablo Interface</li>
@@ -69,7 +71,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary"
+              color="primary lighten-2"
               text
               href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.8"
               target="_blank"
@@ -77,7 +79,7 @@
               <v-icon left>mdi-download</v-icon>Diablo Interface 0.6.8
             </v-btn>
             <v-btn
-              color="primary"
+              color="primary lighten-2"
               text
               :to="{ name: 'User', params: { user_name: user.name } }"
             >
