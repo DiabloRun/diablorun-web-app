@@ -579,13 +579,19 @@ export default {
         const character = { ...state.ws.character };
 
         for (const slot of this.items) {
-          character[slot.type] = state.ws.items.find(item => item.container === 'character' && item.slot === slot.type);
+          character[slot.type] = state.ws.items.find(
+            item => item.container === 'character' && item.slot === slot.type
+          );
         }
 
         for (const slot of [...this.hirelingItems, this.hirelingExtraItems]) {
-          character[slot.type] = state.ws.items.find(item => item.container === 'hireling' && `hireling_${item.slot}` === slot.type);
+          character[slot.type] = state.ws.items.find(
+            item =>
+              item.container === 'hireling' &&
+              `hireling_${item.slot}` === slot.type
+          );
         }
-        
+
         return character;
       },
       streamOverlay: state => state.app.windowStyle === 'overlay'
