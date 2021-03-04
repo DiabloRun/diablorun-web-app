@@ -1,5 +1,5 @@
 <template>
-  <v-btn large @click="select()" :value="any ? 'any' : value">
+  <v-btn color="secondary" large @click="select()" :value="any ? 'any' : value">
     <span v-if="label">{{ label }}</span>
     <v-avatar v-if="icon" size="30px">
       <Icon :name="icon" />

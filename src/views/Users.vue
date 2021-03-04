@@ -1,73 +1,54 @@
 <template>
-  <v-container class="pa-2">
-    <v-row>
-      <v-col cols="12">
-        <v-card>
-          <v-card-title>
-            Active users
-          </v-card-title>
-          <v-card-subtitle v-if="activeUsers.length === 1">
-            {{ activeUsers.length }} person currently playing
-          </v-card-subtitle>
-          <v-card-subtitle v-if="activeUsers.length > 1">
-            {{ activeUsers.length }} people currently playing
-          </v-card-subtitle>
-          <v-divider></v-divider>
-          <v-container
-            v-if="!activeUsers.length"
-            class="pa-2 font-weight-medium"
+  <v-container>
+    <v-row dense class="mt-5">
+      <!-- Title -->
+      <v-col class="mb-4">
+        <h2>Active users</h2>
+        <h2 v-if="activeUsers.length === 1" class="subtitle">
+          {{ activeUsers.length }} person currently playing
+        </h2>
+        <h2 v-if="activeUsers.length > 1" class="subtitle">
+          {{ activeUsers.length }} people currently playing
+        </h2>
+      </v-col>
+      <!-- Empty error -->
+      <v-col v-if="!activeUsers.length" cols="12">
+        <v-alert
+          text
+          color="primary"
+          class="ma-0 font-weight-medium text-center"
+        >
+          No one is currently playing with our technology
+        </v-alert>
+      </v-col>
+      <!-- Userlist -->
+      <v-col v-if="activeUsers.length" cols="12">
+        <v-row dense>
+          <v-col
+            v-for="user of activeUsers"
+            :key="user.id"
+            cols="12"
+            md="4"
+            lg="3"
           >
-            <v-alert class="mb-0" border="left" text color="primary">
-              <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-              No one is currently playing with our technology. Try finding some
-              Diablo players from
-              <a
-                href="https://www.twitch.tv/directory/game/Diablo%20II"
-                target="_blank"
-                >Twitch</a
-              >.
-            </v-alert>
-          </v-container>
-          <v-row dense v-if="activeUsers.length" class="px-2 pt-2 pb-1">
-            <v-col
-              v-for="user of activeUsers"
-              :key="user.id"
-              cols="12"
-              md="6"
-              lg="4"
+            <v-card
+              hover
+              :to="{
+                name: 'Character',
+                params: {
+                  user_name: user.user_name,
+                  character_slug: '@'
+                }
+              }"
             >
-              <v-card
-                hover
-                color="darkAccent"
-                :to="{
-                  name: 'Character',
-                  params: {
-                    user_name: user.user_name,
-                    character_slug: '@'
-                  }
-                }"
-              >
-                <v-row no-gutters align="center">
-                  <v-col>
-                    <v-card-title>
-                      <router-link
-                        :to="{
-                          name: 'Character',
-                          params: {
-                            user_name: user.user_name,
-                            character_slug: '@'
-                          }
-                        }"
-                      >
-                        {{ user.user_name }}
-                      </router-link>
-                    </v-card-title>
-                    <v-card-subtitle>
-                      Level {{ user.level }}
-                      {{ user.hero | HeroNameFilter }}
-                    </v-card-subtitle>
-                  </v-col>
-                  <v-col cols="auto">
+              <v-row no-gutters align="center">
+                <v-col cols="auto">
+                  <v-avatar size="64" class="ml-3">
+                    <v-img :src="user.user_profile_image_url"></v-img>
+                  </v-avatar>
+                </v-col>
+                <v-col>
+                  <v-card-title>
                     <router-link
                       :to="{
                         name: 'Character',
@@ -77,16 +58,18 @@
                         }
                       }"
                     >
-                      <v-avatar size="64" class="mr-2">
-                        <v-img :src="user.user_profile_image_url"></v-img>
-                      </v-avatar>
+                      {{ user.user_name }}
                     </router-link>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-card>
+                  </v-card-title>
+                  <v-card-subtitle>
+                    Level {{ user.level }}
+                    {{ user.hero | HeroNameFilter }}
+                  </v-card-subtitle>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>

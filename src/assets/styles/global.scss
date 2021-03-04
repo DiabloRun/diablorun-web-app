@@ -8,26 +8,26 @@ html {
     overflow-y: auto !important;
     font-size: 16px;
 
-    --v-anchor-base: var(--v-primary-lighten4);
+    --v-anchor-base: var(--v-link-lighten3);
 }
 
 .v-application {
     .v-application--wrap {
-        background-color: var(--v-secondary-darken1);
+        background-color: var(--v-secondary-darken2);
     }
 
     .theme--dark.v-app-bar.v-toolbar.v-sheet {
-        background-color: var(--v-secondary-lighten1);
+        background-color: var(--v-secondary-base);
     }
 
     .theme--dark.v-navigation-drawer {
-        background-color: var(--v-secondary-base);
-        
+        background-color: var(--v-secondary-darken1);
+
         .v-list-item__title {
             letter-spacing: 0.025rem;
         }
         .v-icon {
-            padding: 0 .7rem;
+            padding: 0 0.7rem;
         }
     }
 
@@ -35,37 +35,79 @@ html {
         width: 0;
     }
 
-    .v-card__title,
-    h1 {
+    h1,
+    h1.logo,
+    h2,
+    h2.subtitle {
         font-family: $title-font, sans-serif;
+        font-weight: 600;
+    }
+
+    h1 {
         font-size: 1.5rem;
-        font-weight: 500;
+        line-height: 1.5rem;
+        margin: 2rem 0 1.25rem 0;
     }
 
     h1.logo {
         font-size: 1.75rem;
         line-height: 1.75rem;
+        margin: 0;
 
         .v-icon {
-            color: var(--v-primary-lighten3);
+            color: var(--v-primary-base);
             padding: 0 0.1rem;
         }
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    h1.subtitle, h2.subtitle {
+        font-size: 1.15rem;
+        line-height: 1.15rem;
+        font-weight: 400;
+        color: var(--v-silver-darken1);
+        margin-top: .25rem;
+    }
+
+    h3 {
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
+
+    h3.subtitle {
+        font-size: 1rem;
+        color: var(--v-silver-darken1);
+        font-weight: 400;
     }
 
     .theme--dark.v-card {
         background-color: var(--v-secondary-darken1);
     }
 
+    .theme--dark.v-card--hover:hover {
+        background-color: var(--v-secondary-lighten1);
+        transition: ease-in 0.2s;
+    }
+
     .theme--dark.v-data-table {
-        background-color: var(--v-secondary-base);
+        background-color: var(--v-secondary-darken1);
     }
 
     tbody tr:hover {
-        background: var(--v-secondary-lighten1) !important;
-      }
+        background: var(--v-secondary-base) !important;
+        transition: ease-in 0.2s;
+    }
 
     a {
         text-decoration: none;
+    }
+
+    .neon {
+        box-shadow: 0 0 50px var(--v-secondary-lighten2);
     }
 }
 
