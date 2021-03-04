@@ -9,6 +9,7 @@ export default {
     characters: [],
     notifications: [],
     character: {},
+    items: [],
     subscribedToCharacterById: false,
     timeOffset: 0,
     pointsLog: [],
@@ -23,6 +24,7 @@ export default {
       state.characters = [];
       state.notifications = [];
       state.character = {};
+      state.items = [];
     },
 
     setLastUpdateTime(state, time) {
@@ -132,7 +134,7 @@ export default {
       state.subscribedToCharacterById = subscribedToCharacterById;
     },
 
-    updateCharacter(state, { character }) {
+    updateCharacter(state, { character, items }) {
       if (state.character.id === character.id) {
         state.character = {
           ...state.character,
@@ -141,18 +143,6 @@ export default {
       } else {
         state.character = {
           ...state.character,
-          head: null,
-          amulet: null,
-          body_armor: null,
-          primary_left: null,
-          primary_right: null,
-          ring_left: null,
-          ring_right: null,
-          belt: null,
-          boots: null,
-          gloves: null,
-          secondary_left: null,
-          secondary_right: null,
           hireling_name: null,
           hireling_class: null,
           hireling_level: null,
@@ -164,12 +154,12 @@ export default {
           hireling_light_res: null,
           hireling_poison_res: null,
           hireling_skill_ids: null,
-          hireling_head: null,
-          hireling_body_armor: null,
-          hireling_primary_left: null,
-          hireling_primary_right: null,
           ...character
         };
+      }
+
+      if (items) {
+        state.items = items;
       }
     },
 
@@ -226,8 +216,8 @@ export default {
       if (!lastUpdate) {
         const res = await fetch(
           id
-            ? `${process.env.VUE_APP_API_URL}/characters/${id}`
-            : `${process.env.VUE_APP_API_URL}/users/${name}`
+            ? `${process.env.VUE_APP_API_URL}/snapshots/characters/${id}`
+            : `${process.env.VUE_APP_API_URL}/snapshots/users/${name}`
         );
         const body = await res.json();
 
