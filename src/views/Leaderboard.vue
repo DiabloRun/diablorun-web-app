@@ -156,7 +156,13 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <v-btn v-if="pagination.more" flat class="mt-5" color="primary" @click="loadMore()">
+    <v-btn
+      v-if="pagination.more"
+      flat
+      class="mt-5"
+      color="primary"
+      @click="loadMore()"
+    >
       Load more speedruns
     </v-btn>
   </v-container>

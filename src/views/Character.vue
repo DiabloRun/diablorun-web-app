@@ -251,7 +251,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                        character[resistance.stat] < 75
+                          character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -293,9 +293,9 @@
                 prepend-inner-icon="mdi-share"
                 :value="
                   'https://diablo.run/' +
-                  character.user_name +
-                  '/' +
-                  character.id
+                    character.user_name +
+                    '/' +
+                    character.id
                 "
                 :label="'Share ' + character.name"
                 readonly
@@ -476,13 +476,13 @@ export default {
 
         for (const slot of this.items) {
           character[slot.type] = state.ws.items.find(
-            (item) => item.container === 'character' && item.slot === slot.type
+            item => item.container === 'character' && item.slot === slot.type
           );
         }
 
         for (const slot of [...this.hirelingItems, this.hirelingExtraItems]) {
           character[slot.type] = state.ws.items.find(
-            (item) =>
+            item =>
               item.container === 'hireling' &&
               `hireling_${item.slot}` === slot.type
           );
@@ -490,7 +490,7 @@ export default {
 
         return character;
       },
-      streamOverlay: (state) => state.app.windowStyle === 'overlay'
+      streamOverlay: state => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {

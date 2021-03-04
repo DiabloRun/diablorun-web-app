@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app clipped-left>
+    <v-app-bar app dense clipped-left>
       <v-row no-gutters>
         <!-- Toggle navigation -->
         <v-col cols="auto" class="my-auto">

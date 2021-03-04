@@ -117,7 +117,7 @@ export default {
   },
   computed: {
     ...mapState({
-      user: (state) => state.auth.user
+      user: state => state.auth.user
     })
   },
   async mounted() {

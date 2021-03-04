@@ -43,8 +43,7 @@
               href="https://discord.gg/QMMDR2a"
               target="_blank"
             >
-              <v-icon left>mdi-discord</v-icon>Contact us on
-              Discord
+              <v-icon left>mdi-discord</v-icon>Contact us on Discord
             </v-btn>
             <v-btn
               color="primary lighten-2"

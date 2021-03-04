@@ -136,7 +136,7 @@
               readonly
               hide-details
               class="my-1"
-                color="link lighten-2"
+              color="link lighten-2"
             ></v-text-field>
           </v-col>
         </v-row>
