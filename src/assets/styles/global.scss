@@ -90,7 +90,6 @@ html {
 
     .theme--dark.v-card--hover:hover {
         background-color: var(--v-secondary-lighten1);
-        transition: ease-in 0.2s;
     }
 
     .theme--dark.v-data-table {
@@ -99,7 +98,10 @@ html {
 
     tbody tr:hover {
         background: var(--v-secondary-base) !important;
-        transition: ease-in 0.2s;
+    }
+
+    .theme--dark.v-tabs-items {
+        background-color: transparent;
     }
 
     a {

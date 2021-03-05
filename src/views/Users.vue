@@ -42,7 +42,7 @@
               }"
             >
               <v-row no-gutters align="center">
-                <v-col cols="auto">
+                <v-col cols="auto" v-if="user.user_profile_image_url">
                   <v-avatar size="64" class="ml-3">
                     <v-img :src="user.user_profile_image_url"></v-img>
                   </v-avatar>
