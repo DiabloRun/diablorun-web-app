@@ -134,32 +134,26 @@ export default {
       state.subscribedToCharacterById = subscribedToCharacterById;
     },
 
-    updateCharacter(state, { character, items }) {
-      if (state.character.id === character.id) {
-        state.character = {
-          ...state.character,
-          ...character
-        };
-      } else {
-        state.character = {
-          ...state.character,
-          hireling_name: null,
-          hireling_class: null,
-          hireling_level: null,
-          hireling_experience: null,
-          hireling_strength: null,
-          hireling_dexterity: null,
-          hireling_fire_res: null,
-          hireling_cold_res: null,
-          hireling_light_res: null,
-          hireling_poison_res: null,
-          hireling_skill_ids: null,
-          ...character
-        };
+    updateCharacter(
+      state,
+      { character, items, characterUpdates, itemUpdates }
+    ) {
+      if (character) {
+        state.character = character;
       }
 
       if (items) {
         state.items = items;
+      }
+
+      if (characterUpdates) {
+        state.character = { ...state.character, ...characterUpdates };
+      }
+
+      if (itemUpdates) {
+        state.items = state.items
+          .filter(item => !itemUpdates.removedItems.includes(item.item_id))
+          .concat(itemUpdates.addedItems);
       }
     },
 
@@ -239,35 +233,43 @@ export default {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/races/${id}`);
       const body = await res.json();
 
-      console.log('init', body);
-
       await dispatch('updateRace', body);
       await dispatch('flushQueue');
     },
 
-    async message({ state, commit, dispatch }, data) {
+    async message({ state, commit }, json) {
       if (state.queueing) {
-        commit('queue', data);
+        commit('queue', json);
         return;
       }
 
-      const { room, action, payload } = JSON.parse(data);
+      const data = JSON.parse(json);
 
       if (process.env.NODE_ENV === 'development') {
-        console.log(room, action, payload);
+        console.log(data);
       }
 
-      switch (action) {
+      switch (data.action) {
+        /*
         case 'character':
           if (
             !state.subscribedToCharacterById ||
-            state.character.id === payload.character.id
+            state.character.id === data.payload.character.id
           ) {
             commit('updateCharacter', payload);
           }
           break;
         case 'race':
           await dispatch('updateRace', payload);
+          break;
+        */
+        case 'update_character':
+          if (
+            !state.subscribedToCharacterById ||
+            state.character.id === data.id
+          ) {
+            commit('updateCharacter', data);
+          }
           break;
       }
     },
