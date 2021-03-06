@@ -1,9 +1,35 @@
 <template>
   <div>
-    <v-container v-if="character.name" class="mt-5">
-      <v-row>
+    <v-container fluid v-if="character.name" class="mt-5">
+      <v-row dense>
         <v-col cols="12">
-          <v-row no-gutters>
+          <v-row no-gutters class="mb-2">
+            <!-- Hero name -->
+            <v-col cols="12" class="text-center pb-6">
+              <h2>
+                <router-link
+                  :to="{
+                    name: 'User',
+                    params: { user_name: character.user_name }
+                  }"
+                >
+                  {{ character.name }}
+                </router-link>
+                by
+                <router-link
+                  :to="{
+                    name: 'User',
+                    params: { user_name: character.user_name }
+                  }"
+                >
+                  {{ character.user_name }}
+                </router-link>
+              </h2>
+              <h2 class="subtitle">
+                <span v-if="character.hc"> Hardcore </span>
+                {{ character.hero | HeroNameFilter }}
+              </h2>
+            </v-col>
             <!-- Life -->
             <v-col class="text-right">
               <v-progress-circular
@@ -55,36 +81,26 @@
                 {{ character.mana }}
               </v-progress-circular>
             </v-col>
-            <!-- Hero name -->
-            <v-col cols="12" class="text-center mt-5">
-              <h2>
-                <router-link
-                  :to="{
-                    name: 'User',
-                    params: { user_name: character.user_name }
-                  }"
-                >
-                  {{ character.name }}
-                </router-link>
-                by
-                <router-link
-                  :to="{
-                    name: 'User',
-                    params: { user_name: character.user_name }
-                  }"
-                >
-                  {{ character.user_name }}
-                </router-link>
-              </h2>
-              <h2 class="subtitle">
-                <span v-if="character.hc"> Hardcore </span>
-                {{ character.hero | HeroNameFilter }}
-              </h2>
-            </v-col>
           </v-row>
         </v-col>
+        <v-col cols="12">
+          <!-- Tabs -->
+          <v-tabs
+            v-model="tab"
+            color="grey"
+            active-class="white--text"
+            slider-size="1"
+            background-color="transparent"
+            centered
+          >
+            <v-tab>Items</v-tab>
+            <v-tab>Inventory</v-tab>
+            <v-tab>Stash</v-tab>
+            <v-tab>Merc</v-tab>
+          </v-tabs>
+        </v-col>
         <!-- Left -->
-        <v-col cols="12" md="3" lg="2">
+        <v-col cols="12" md="3" lg="2" class="text-right">
           <v-row dense>
             <!-- Level, deaths, players/difficulty -->
             <v-col cols="12">
@@ -116,11 +132,11 @@
                   v-for="attribute in attributes"
                   :key="attribute.title"
                 >
-                  <v-icon left> {{ attribute.icon }} </v-icon>
                   <v-list-item-content>
                     <h3>{{ character[attribute.stat] }}</h3>
                     <h3 class="subtitle">{{ attribute.title }}</h3>
                   </v-list-item-content>
+                  <v-icon right> {{ attribute.icon }} </v-icon>
                 </v-list-item>
               </v-list>
             </v-col>
@@ -128,19 +144,6 @@
         </v-col>
         <!-- Middle -->
         <v-col cols="12" md="6" lg="8">
-          <!-- Middle tabs -->
-
-          <v-tabs
-            v-model="tab"
-            color="grey"
-            active-class="white--text"
-            slider-size="1"
-            background-color="transparent"
-          >
-            <v-tab>Items</v-tab>
-            <v-tab v-if="character.hireling_name">Merc</v-tab>
-          </v-tabs>
-          <v-divider></v-divider>
           <v-row no-gutters v-if="showTwitchEmbed">
             <v-col cols="12">
               <TwitchEmbed :username="character.user_name" />
@@ -148,7 +151,7 @@
           </v-row>
           <!-- Items tab -->
           <v-tabs-items v-model="tab">
-            <v-tab-item class="pa-2 darker">
+            <v-tab-item>
               <v-row dense>
                 <!-- Character items -->
                 <v-col
@@ -164,9 +167,38 @@
                   />
                   <!-- Empty item -->
                   <v-card
+                    flat
                     v-if="!character[item.type]"
-                    elevation="1"
-                    class="fill-height d-flex align-center pa-2 fade"
+                    class="fill-height d-flex align-center pa-2"
+                  >
+                    <v-flex>
+                      <p class="text-center grey--text body-2 font-italic">
+                        empty
+                      </p>
+                    </v-flex>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <!-- Inventory tab -->
+            <v-tab-item>
+              <v-row dense>
+                <v-col
+                  cols="12"
+                  md="6"
+                  lg="4"
+                  v-for="item in items"
+                  :key="item.type"
+                >
+                  <CharacterItem
+                    v-if="character[item.type]"
+                    :item="character[item.type]"
+                  />
+                  <!-- Empty item -->
+                  <v-card
+                    flat
+                    v-if="!character[item.type]"
+                    class="fill-height d-flex align-center pa-2"
                   >
                     <v-flex>
                       <p class="text-center grey--text body-2 font-italic">

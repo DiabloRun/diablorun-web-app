@@ -13,7 +13,7 @@ export default new Vuetify({
       dark: {
         primary: '#3c2e99',
         secondary: '#272727',
-        link: '#996b2e',
+        link: '#7c6850',
 
         gold: '#FFD700',
         silver: '#C0C0C0',

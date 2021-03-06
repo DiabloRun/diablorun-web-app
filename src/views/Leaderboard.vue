@@ -149,7 +149,7 @@
           </td>
           <td>
             <span v-if="!run.hc">SC</span>
-            <span v-if="run.hc" class="primary--text">HC</span>
+            <span v-if="run.hc" class="error--text text--lighten-2">HC</span>
             <span class="silver--text ml-2">{{ run.players_category }}</span>
           </td>
           <td class="silver--text">{{ run.submit_time | FromNowFilter }}</td>

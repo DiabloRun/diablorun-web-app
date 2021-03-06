@@ -1,5 +1,5 @@
 <template>
-  <v-card class="fill-height">
+  <v-card class="fill-height pa-2" flat>
     <v-row no-gutters>
       <v-col cols="auto">
         <v-img :src="imageSrc" contain />

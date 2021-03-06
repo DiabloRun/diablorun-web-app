@@ -13,15 +13,17 @@ html {
 
 .v-application {
     .v-application--wrap {
-        background-color: var(--v-secondary-darken2);
+        background-color: hsl(240, 22%, 10%);
+        background-image: url("assets/img/body-bg.jpg");
+        background-repeat: repeat;
     }
 
     .theme--dark.v-app-bar.v-toolbar.v-sheet {
-        background-color: var(--v-secondary-base);
+        background-color: hsl(240, 22%, 12%);
     }
 
     .theme--dark.v-navigation-drawer {
-        background-color: var(--v-secondary-darken1);
+        background-color: hsla(240, 22%, 20%, .15);
 
         .v-list-item__title {
             letter-spacing: 0.025rem;
@@ -65,12 +67,13 @@ html {
         line-height: 1.5rem;
     }
 
-    h1.subtitle, h2.subtitle {
+    h1.subtitle,
+    h2.subtitle {
         font-size: 1.15rem;
         line-height: 1.15rem;
         font-weight: 400;
         color: var(--v-silver-darken1);
-        margin-top: .25rem;
+        margin-top: 0.25rem;
     }
 
     h3 {
@@ -85,29 +88,35 @@ html {
     }
 
     .theme--dark.v-card {
-        background-color: var(--v-secondary-darken1);
+        background-color: hsl(240, 22%, 14%);
     }
 
     .theme--dark.v-card--hover:hover {
-        background-color: var(--v-secondary-lighten1);
-        transition: ease-in 0.2s;
+        background-color: hsl(240, 22%, 20%);
     }
 
     .theme--dark.v-data-table {
-        background-color: var(--v-secondary-darken1);
+        background-color: hsl(240, 22%, 14%);
     }
 
     tbody tr:hover {
-        background: var(--v-secondary-base) !important;
-        transition: ease-in 0.2s;
+        background-color: hsl(240, 22%, 20%) !important;
+    }
+
+    .theme--dark.v-tabs-items {
+        background-color: transparent;
     }
 
     a {
         text-decoration: none;
+
+        &:hover {
+            color: var(--v-link-lighten4);
+        }
     }
 
     .neon {
-        box-shadow: 0 0 50px var(--v-secondary-lighten2);
+        box-shadow: 0 0 50px var(--v-primary-lighten1);
     }
 }
 
