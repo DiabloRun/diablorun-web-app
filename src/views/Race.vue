@@ -6,13 +6,15 @@
           <v-row dense>
             <v-col cols="12">
               <v-card>
+                <!--
                 <RaceCountdown
                   :start="race.start_time"
                   :finish="race.finish_time"
                 />
                 <v-divider></v-divider>
+                -->
                 <v-card-text class="white--text">
-                  <!-- Type -->
+                  <!-- Finish condition type
                   <span v-if="race.finish_conditions_global">
                     Type: race ends for everybody when any runner fulfils a
                     finish condition.
@@ -21,6 +23,7 @@
                     Type: race ends for each runner separately when they fulfil
                     a finish condition.
                   </span>
+                  -->
                   <!-- Conditions -->
                   <div
                     v-for="condition of finish_conditions"
@@ -29,7 +32,7 @@
                     <p
                       v-if="
                         condition.type === 'time' &&
-                          condition.time_type === 'race'
+                        condition.time_type === 'race'
                       "
                     >
                       <span class="subtitle is-5 has-text-danger">Finish:</span>
@@ -39,7 +42,7 @@
                     <p
                       v-if="
                         condition.type === 'time' &&
-                          condition.time_type === 'character'
+                        condition.time_type === 'character'
                       "
                     >
                       <span class="subtitle is-5 has-text-danger">Finish:</span>
@@ -107,7 +110,7 @@
               <v-row dense>
                 <v-col v-if="positivePoints.length">
                   <v-card class="fill-height">
-                    <h5 class="py-2 pl-4">Points</h5>
+                    <h5 class="py-2 pl-4">{{ race.type === 'speedrun' ? 'Splits' : 'Points' }}</h5>
                     <v-divider></v-divider>
                     <RacePoints :points="positivePoints" />
                   </v-card>
@@ -127,7 +130,7 @@
                 outlined
                 dense
                 :value="race.name"
-                label="Token"
+                label="Race"
                 readonly
                 hide-details
                 class="mt-3"
@@ -182,9 +185,7 @@
                     <v-btn
                       fab
                       small
-                      :onclick="
-                        `window.open('/race/${race.id}','popup','width=550,height=900'); return false;`
-                      "
+                      :onclick="`window.open('/race/${race.id}','popup','width=550,height=900'); return false;`"
                       target="popup"
                       :href="`/race/${race.id}`"
                     >
@@ -537,27 +538,27 @@ export default {
   },
   computed: {
     ...mapState({
-      race: state => state.ws.race,
-      rules: state => state.ws.rules,
-      positivePoints: state =>
+      race: (state) => state.ws.race,
+      rules: (state) => state.ws.rules,
+      positivePoints: (state) =>
         state.ws.rules.filter(
-          rule => rule.context === 'points' && rule.amount > 0
+          (rule) => rule.context === 'points' && rule.amount > 0
         ),
-      negativePoints: state =>
+      negativePoints: (state) =>
         state.ws.rules.filter(
-          rule => rule.context === 'points' && rule.amount < 0
+          (rule) => rule.context === 'points' && rule.amount < 0
         ),
-      finish_conditions: state =>
-        state.ws.rules.filter(rule => rule.context === 'finish_conditions'),
-      characters: state => state.ws.characters,
-      notifications: state => state.ws.notifications,
+      finish_conditions: (state) =>
+        state.ws.rules.filter((rule) => rule.context === 'finish_conditions'),
+      characters: (state) => state.ws.characters,
+      notifications: (state) => state.ws.notifications,
       entry_heroes(state) {
         if (!state.ws.race) {
           return [];
         }
 
         const heroes = [];
-        
+
         if (state.ws.race.entry_ama) heroes.push('ama');
         if (state.ws.race.entry_sor) heroes.push('sor');
         if (state.ws.race.entry_nec) heroes.push('nec');
@@ -568,9 +569,9 @@ export default {
 
         return heroes;
       },
-      streamOverlay: state => state.app.windowStyle === 'overlay',
-      isPopup: state => state.app.windowStyle === 'popup',
-      lastUpdateTime: state => state.ws.lastUpdateTime
+      streamOverlay: (state) => state.app.windowStyle === 'overlay',
+      isPopup: (state) => state.app.windowStyle === 'popup',
+      lastUpdateTime: (state) => state.ws.lastUpdateTime
     })
   },
   watch: {
@@ -588,7 +589,7 @@ export default {
           this.pointsLogIndex
         ];
         const character = this.characters.find(
-          character => character.user_id === user_id
+          (character) => character.user_id === user_id
         );
 
         if (!character) {
@@ -596,7 +597,7 @@ export default {
         }
 
         let dataset = this.pointsChartData.datasets.find(
-          d => d.label === character.user_name
+          (d) => d.label === character.user_name
         );
 
         if (!dataset) {

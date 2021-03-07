@@ -458,7 +458,7 @@ export default {
           text: 'Speedrun (earliest to finish condition wins)',
           value: 'speedrun'
         },
-        // { text: 'Points chase (most points wins)', value: 'points_chase' }
+        { text: 'Points chase (most points wins)', value: 'points_chase' }
       ],
       playersSettings: [
         { text: 'X', value: 'px' },
@@ -564,7 +564,7 @@ export default {
     const { race, rules } = await res.json();
 
     this.form = {
-      type: 'speedrun',
+      type: race.type,
       name: race.name,
       slug: race.slug,
       description: race.description,
