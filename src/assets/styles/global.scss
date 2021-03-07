@@ -34,6 +34,11 @@ html {
         max-height: 30px;
         width: auto;
         display: flex;
+
+        &.big {
+            max-height: 50px;
+            display: inline;
+        }
     }
 
     .theme--dark.v-app-bar.v-toolbar.v-sheet {
@@ -157,11 +162,7 @@ html {
             color: var(--v-link-lighten2);
         }
     }
-
-    .neon {
-        box-shadow: 0 0 40px var(--v-primary-darken3);
-    }
-
+    
     .theme--dark.v-divider {
         border-color: hsla(0, 0%, 100%, 0.075);
     }

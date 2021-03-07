@@ -2,7 +2,7 @@
   <v-container>
     <v-row dense class="mt-5">
       <v-col cols="auto" class="mr-3">
-        <v-avatar size="64" class="neon">
+        <v-avatar size="64">
           <v-img src="@/assets/img/d2_cover.png" v-if="!heroFilter" />
           <Icon :name="`big-${heroFilter}`" v-if="heroFilter" />
         </v-avatar>

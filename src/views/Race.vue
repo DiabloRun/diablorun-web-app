@@ -430,10 +430,10 @@ import {
 } from '@/filters';
 import Icon from '@/components/Icon.vue';
 import RaceCountdown from '@/components/RaceCountdown.vue';
-import RaceNotification from '@/components/RaceNotification.vue';
+// import RaceNotification from '@/components/RaceNotification.vue';
 import CharacterUser from '@/components/CharacterUser.vue';
 import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
-import ScatterChart from '@/components/ScatterChart.vue';
+// import ScatterChart from '@/components/ScatterChart.vue';
 import RacePoints from '@/components/RacePoints.vue';
 import RaceCharactersTable from '@/components/RaceCharactersTable.vue';
 
@@ -453,17 +453,17 @@ export default {
   components: {
     Icon,
     RaceCountdown,
-    RaceNotification,
+    // RaceNotification,
     CharacterUser,
     CharacterRaceStatus,
-    ScatterChart,
+    // ScatterChart,
     RacePoints,
     RaceCharactersTable
   },
   data() {
     return {
       loading: true,
-      pointsLogIndex: 0,
+      // pointsLogIndex: 0,
       pointsChartData: {
         datasets: []
       }

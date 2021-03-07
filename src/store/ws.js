@@ -8,12 +8,12 @@ export default {
     rules: [],
     finishedCharacters: [],
     unfinishedCharacters: [],
-    notifications: [],
+    // notifications: [],
     character: {},
     items: [],
     subscribedToCharacterById: false,
     timeOffset: 0,
-    pointsLog: [],
+    // pointsLog: [],
     lastUpdateTime: 0
   },
   mutations: {
@@ -171,9 +171,9 @@ export default {
         unfinishedCharacters,
         raceId,
         characterId,
-        raceCharacterUpdates,
-        notifications,
-        pointsLog
+        raceCharacterUpdates
+        // notifications,
+        // pointsLog
       }
     ) {
       if (time) {

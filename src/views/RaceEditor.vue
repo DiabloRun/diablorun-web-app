@@ -48,7 +48,7 @@
         <v-col cols="12">
           <v-card>
             <v-row no-gutters>
-              <v-col class="px-3">
+              <v-col cols="12" md="6" lg="8" xl="9" class="px-3">
                 <v-row no-gutters>
                   <v-col cols="12" class="mb-4">
                     <v-select
@@ -103,8 +103,9 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-divider vertical></v-divider>
-              <v-col cols="3">
+              <v-divider vertical class="hidden-sm-and-down" />
+              <v-col>
+                <v-divider class="hidden-md-and-up" />
                 <v-container>
                   <h5>Qualification</h5>
                   <!--
@@ -139,7 +140,8 @@
                 </v-container>
               </v-col>
               <v-divider vertical></v-divider>
-              <v-col cols="auto">
+              <v-col md="auto">
+                <v-divider class="hidden-md-and-up" />
                 <v-container>
                   <h5>Allowed heroes</h5>
                   <v-checkbox
