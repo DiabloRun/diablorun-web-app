@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="characters" sort-by="rank"> </v-data-table>
+    <v-data-table :headers="headers" :items="characters" sort-by="rank">
+    </v-data-table>
 
     <v-simple-table dense class="text-no-wrap">
       <thead>
@@ -120,7 +121,7 @@ export default {
           sort?: (a: any, b: any) => number
         */
       ]
-    }
+    };
   }
 };
 </script>

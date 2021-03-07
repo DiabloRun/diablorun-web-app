@@ -163,7 +163,18 @@ export default {
 
     updateRace(
       state,
-      { time, race, rules, finishedCharacters, unfinishedCharacters, raceId, characterId, raceCharacterUpdates, notifications, pointsLog }
+      {
+        time,
+        race,
+        rules,
+        finishedCharacters,
+        unfinishedCharacters,
+        raceId,
+        characterId,
+        raceCharacterUpdates,
+        notifications,
+        pointsLog
+      }
     ) {
       if (time) {
         state.timeOffset = time - new Date().getTime();
@@ -186,12 +197,17 @@ export default {
       }
 
       if (state.race && raceCharacterUpdates && raceId === state.race.id) {
-        const characterIndex = state.unfinishedCharacters.findIndex(c => c.race_id === raceId && c.id === characterId);
+        const characterIndex = state.unfinishedCharacters.findIndex(
+          c => c.race_id === raceId && c.id === characterId
+        );
 
         if (characterIndex !== -1) {
           state.unfinishedCharacters = [
             ...state.unfinishedCharacters.slice(0, characterIndex),
-            { ...state.unfinishedCharacters[characterIndex], ...raceCharacterUpdates },
+            {
+              ...state.unfinishedCharacters[characterIndex],
+              ...raceCharacterUpdates
+            },
             ...state.unfinishedCharacters.slice(characterIndex + 1)
           ];
         }
@@ -410,6 +426,6 @@ export default {
       }
 
       commit('clearQueue');
-    },
+    }
   }
 };

@@ -4,21 +4,18 @@
     :disabled="start_time || !canEdit"
     class="race-editor"
   >
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <v-card>
-            <v-row no-gutters>
-              <v-col>
-                <v-card-title v-if="!token">
-                  <v-icon left>mdi-flag-plus</v-icon>
-                  Build a new race
-                </v-card-title>
-                <v-card-title v-if="token">
-                  <v-icon left>mdi-flag</v-icon>
-                  Edit race
-                </v-card-title>
-                <!--
+    <v-container class="mt-5">
+      <v-row no-gutters class="mb-5">
+        <v-col>
+          <h2 v-if="!token">
+            <v-icon left>mdi-flag-plus</v-icon>
+            Build a new race
+          </h2>
+          <h2 v-if="token">
+            <v-icon left>mdi-flag</v-icon>
+            Edit race
+          </h2>
+          <!--
                 <RaceCountdown
                   v-if="token && !start_time"
                   ref="countdown"
@@ -26,9 +23,9 @@
                   :finish="finish_time"
                 />
                 -->
-              </v-col>
-              <v-col cols="auto" class="mr-3 my-auto">
-                <!--
+        </v-col>
+        <v-col cols="auto" class="my-auto">
+          <!--
                 <v-btn
                   v-if="token && !start_time && canHost"
                   @click="startCountdown()"
@@ -37,79 +34,74 @@
                   Start the race
                 </v-btn>
                 -->
-                <v-btn v-if="canEdit && dirty" @click="save()" class="ml-3">
-                  <v-icon left color="primary">mdi-content-save-alert</v-icon>
-                  Save changes
-                </v-btn>
-                <v-btn
-                  v-if="canEdit && !dirty"
-                  @click="save()"
-                  class="ml-3"
-                  disabled
-                >
-                  <v-icon left>mdi-content-save-outline</v-icon>
-                  Race saved
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-divider></v-divider>
+          <v-btn v-if="canEdit && dirty" @click="save()">
+            <v-icon left>mdi-content-save-alert</v-icon>
+            Save changes
+          </v-btn>
+          <v-btn v-if="canEdit && !dirty" @click="save()" disabled>
+            <v-icon left>mdi-content-save-outline</v-icon>
+            Race saved
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-card>
             <v-row no-gutters>
-              <v-col>
-                <v-container>
-                  <v-row no-gutters>
-                    <v-col cols="12" class="mb-4">
-                      <v-select
-                        class="mt-4"
-                        :menu-props="{ bottom: true, offsetY: true }"
-                        dense
-                        hide-details
-                        v-model="form.type"
-                        :items="raceTypes"
-                        label="Race type"
-                        outlined
-                      />
-                    </v-col>
-                    <v-col cols="12" class="mb-4">
-                      <v-text-field
-                        v-model="form.name"
-                        outlined
-                        label="Name of the race"
-                        required
-                        hide-details
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" class="mb-4">
-                      <v-textarea
-                        v-model="form.description"
-                        outlined
-                        label="Description"
-                        required
-                        hide-details
-                        rows="3"
-                      ></v-textarea>
-                    </v-col>
-                    <v-col cols="12" class="pl-2">
-                      <v-text-field
-                        v-if="leaderboard_url"
-                        :value="leaderboard_url"
-                        outlined
-                        label="Link"
-                        required
-                        hide-details
-                        readonly
-                      ></v-text-field>
-                      <v-text-field
-                        v-if="!leaderboard_url"
-                        value="Generated after saving"
-                        outlined
-                        label="Link"
-                        required
-                        hide-details
-                        readonly
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
+              <v-col class="px-3">
+                <v-row no-gutters>
+                  <v-col cols="12" class="mb-4">
+                    <v-select
+                      class="mt-4"
+                      :menu-props="{ bottom: true, offsetY: true }"
+                      dense
+                      hide-details
+                      v-model="form.type"
+                      :items="raceTypes"
+                      label="Race type"
+                      outlined
+                    />
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-text-field
+                      v-model="form.name"
+                      outlined
+                      label="Name of the race"
+                      required
+                      hide-details
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-textarea
+                      v-model="form.description"
+                      outlined
+                      label="Description"
+                      required
+                      hide-details
+                      rows="3"
+                    ></v-textarea>
+                  </v-col>
+                  <v-col cols="12" class="mb-3">
+                    <v-text-field
+                      v-if="leaderboard_url"
+                      :value="leaderboard_url"
+                      outlined
+                      label="Link"
+                      required
+                      hide-details
+                      readonly
+                    ></v-text-field>
+                    <v-text-field
+                      v-if="!leaderboard_url"
+                      value="Generated after saving"
+                      outlined
+                      label="Link"
+                      required
+                      hide-details
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
               </v-col>
               <v-divider vertical></v-divider>
               <v-col cols="3">
@@ -163,9 +155,16 @@
             </v-row>
             <v-divider></v-divider>
             <v-container>
+              <v-card-title class="pl-0 pt-0"> Point systems </v-card-title>
               <v-form v-for="(point, index) of form.points" :key="index">
-                <v-card hover class="darkAccent pa-1 mb-3">
+                <v-card hover class="pa-1 mb-3">
                   <v-row no-gutters>
+                    <!-- Remove -->
+                    <v-col cols="auto" class="pr-1">
+                      <v-btn icon @click="removePoint(index)">
+                        <v-icon color="error">mdi-close</v-icon>
+                      </v-btn>
+                    </v-col>
                     <!-- Amount of points -->
                     <v-col class="pr-1">
                       <v-text-field
@@ -257,7 +256,7 @@
                       ></v-select>
                     </v-col>
                     <!-- Set time for "in under" -->
-                    <v-col v-if="point.time_type === 'in_under'" class="pr-1">
+                    <v-col v-if="point.time_type === 'in_under'">
                       <v-text-field
                         v-model="point.time"
                         dense
@@ -267,29 +266,30 @@
                         hide-details
                       ></v-text-field>
                     </v-col>
-                    <!-- Remove -->
-                    <v-col cols="auto">
-                      <v-btn icon @click="removePoint(index)">
-                        <v-icon color="error">mdi-close</v-icon>
-                      </v-btn>
-                    </v-col>
                   </v-row>
                 </v-card>
               </v-form>
-              <v-btn @click="addPoint()">
-                <v-icon left color="primary">mdi-plus</v-icon>
-                Point system
+              <v-btn small @click="addPoint()">
+                <v-icon left>mdi-plus</v-icon>
+                Add
               </v-btn>
             </v-container>
             <v-divider></v-divider>
             <!-- Finish conditions -->
             <v-container>
+              <v-card-title class="pl-0 pt-0"> Finish conditions </v-card-title>
               <v-form
                 v-for="(condition, index) of form.finish_conditions"
                 :key="index"
               >
-                <v-card hover class="darkAccent pa-1 mb-3">
+                <v-card hover class="pa-1 mb-3">
                   <v-row no-gutters>
+                    <!-- Remove -->
+                    <v-col cols="auto" class="pr-1">
+                      <v-btn icon @click="removeFinishCondition(index)">
+                        <v-icon color="error">mdi-close</v-icon>
+                      </v-btn>
+                    </v-col>
                     <!-- Condition type -->
                     <v-col class="pr-1">
                       <v-select
@@ -363,7 +363,7 @@
                         label="Difficulty"
                       />
                     </v-col>
-                    <v-col v-if="condition.type === 'quest'" class="pr-1">
+                    <v-col v-if="condition.type === 'quest'">
                       <v-select
                         v-model="condition.quest_id"
                         :items="questOptions"
@@ -373,13 +373,6 @@
                         hide-details
                         label="Quest"
                       />
-                    </v-col>
-
-                    <!-- Remove -->
-                    <v-col cols="auto">
-                      <v-btn icon @click="removeFinishCondition(index)">
-                        <v-icon color="error">mdi-close</v-icon>
-                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -399,9 +392,9 @@
               </div>
               -->
 
-              <v-btn @click="addFinishCondition()">
-                <v-icon left color="primary">mdi-plus</v-icon>
-                Finish condition
+              <v-btn small @click="addFinishCondition()">
+                <v-icon left>mdi-plus</v-icon>
+                Add
               </v-btn>
             </v-container>
           </v-card>

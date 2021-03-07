@@ -32,7 +32,7 @@
                     <p
                       v-if="
                         condition.type === 'time' &&
-                        condition.time_type === 'race'
+                          condition.time_type === 'race'
                       "
                     >
                       <span class="subtitle is-5 has-text-danger">Finish:</span>
@@ -42,7 +42,7 @@
                     <p
                       v-if="
                         condition.type === 'time' &&
-                        condition.time_type === 'character'
+                          condition.time_type === 'character'
                       "
                     >
                       <span class="subtitle is-5 has-text-danger">Finish:</span>
@@ -478,21 +478,21 @@ export default {
   },
   computed: {
     ...mapState({
-      race: (state) => state.ws.race,
-      rules: (state) => state.ws.rules,
-      positivePoints: (state) =>
+      race: state => state.ws.race,
+      rules: state => state.ws.rules,
+      positivePoints: state =>
         state.ws.rules.filter(
-          (rule) => rule.context === 'points' && rule.amount > 0
+          rule => rule.context === 'points' && rule.amount > 0
         ),
-      negativePoints: (state) =>
+      negativePoints: state =>
         state.ws.rules.filter(
-          (rule) => rule.context === 'points' && rule.amount < 0
+          rule => rule.context === 'points' && rule.amount < 0
         ),
-      finish_conditions: (state) =>
-        state.ws.rules.filter((rule) => rule.context === 'finish_conditions'),
-      finishedCharacters: (state) => state.ws.finishedCharacters,
-      unfinishedCharacters: (state) => state.ws.unfinishedCharacters,
-      notifications: (state) => state.ws.notifications,
+      finish_conditions: state =>
+        state.ws.rules.filter(rule => rule.context === 'finish_conditions'),
+      finishedCharacters: state => state.ws.finishedCharacters,
+      unfinishedCharacters: state => state.ws.unfinishedCharacters,
+      notifications: state => state.ws.notifications,
       entry_heroes(state) {
         if (!state.ws.race) {
           return [];
@@ -510,8 +510,8 @@ export default {
 
         return heroes;
       },
-      streamOverlay: (state) => state.app.windowStyle === 'overlay',
-      isPopup: (state) => state.app.windowStyle === 'popup'
+      streamOverlay: state => state.app.windowStyle === 'overlay',
+      isPopup: state => state.app.windowStyle === 'popup'
       // lastUpdateTime: (state) => state.ws.lastUpdateTime
     })
   },
