@@ -293,7 +293,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                        character[resistance.stat] < 75
+                          character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -477,40 +477,40 @@ export default {
           'ring_right'
         ];
 
-        return slots.map((slot) => ({
+        return slots.map(slot => ({
           slot,
           item: state.ws.items.find(
-            (item) => item.container === 'character' && item.slot === slot
+            item => item.container === 'character' && item.slot === slot
           )
         }));
       },
       hirelingItems(state) {
         const slots = ['primary_left', 'head', 'body_armor', 'primary_right'];
 
-        return slots.map((slot) => ({
+        return slots.map(slot => ({
           slot,
           item: state.ws.items.find(
-            (item) => item.container === 'hireling' && item.slot === slot
+            item => item.container === 'hireling' && item.slot === slot
           )
         }));
       },
       hirelingExtraItems(state) {
         const slots = ['gloves', 'belt', 'boots'];
 
-        return slots.map((slot) => ({
+        return slots.map(slot => ({
           slot,
           item: state.ws.items.find(
-            (item) => item.container === 'hireling' && item.slot === slot
+            item => item.container === 'hireling' && item.slot === slot
           )
         }));
       },
       inventoryItems(state) {
-        return state.ws.items.filter((item) => item.container === 'inventory');
+        return state.ws.items.filter(item => item.container === 'inventory');
       },
       stashItems(state) {
-        return state.ws.items.filter((item) => item.container === 'stash');
+        return state.ws.items.filter(item => item.container === 'stash');
       },
-      streamOverlay: (state) => state.app.windowStyle === 'overlay'
+      streamOverlay: state => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
