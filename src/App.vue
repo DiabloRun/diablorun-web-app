@@ -12,25 +12,17 @@
         <v-col class="my-auto ml-3">
           <img class="logo" src="@/assets/img/logo.png" />
         </v-col>
+        <!-- Login -->
+        <v-col v-if="!user" cols="auto" class="my-auto">
+          <v-btn :href="twitchAuthenticationUrl" text>
+            <v-icon left>mdi-login</v-icon> login
+          </v-btn>
+        </v-col>
         <!-- Menu -->
-        <v-col cols="auto">
-          <v-tabs hide-slider background-color="secondary">
-            <v-tab v-if="!user" :href="twitchAuthenticationUrl">
-              Login
-              <v-icon>mdi-login</v-icon>
-            </v-tab>
-            <v-tab
-              v-if="user"
-              :to="{ name: 'User', params: { user_name: user.name } }"
-              class="hidden-xs-only"
-            >
-              {{ user.name }}
-            </v-tab>
-            <v-tab v-if="user" @click="signOut()">
-              Exit
-              <v-icon>mdi-logout</v-icon>
-            </v-tab>
-          </v-tabs>
+        <v-col v-if="user" cols="auto" class="my-auto">
+          <v-btn @click="signOut()" text class="ml-2">
+            <v-icon left>mdi-logout</v-icon> Exit
+          </v-btn>
         </v-col>
         <!-- User avatar -->
         <v-col cols="auto ml-3" v-if="user && user.profile_image_url !== ''">
@@ -97,7 +89,6 @@
             <v-list-item-title>Latest Hero</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!-- 
         <v-list-item
           link
           exact
@@ -108,7 +99,6 @@
             <v-list-item-title>Race Editor</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        -->
         <v-list-item link exact :to="{ name: 'Interface Setup' }">
           <v-icon left>mdi-cogs</v-icon>
           <v-list-item-content>
