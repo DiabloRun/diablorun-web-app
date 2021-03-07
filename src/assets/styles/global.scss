@@ -28,8 +28,9 @@ html {
     }
 
     .logo {
-        height: 30px;
+        max-height: 30px;
         width: auto;
+        display: flex;
     }
 
     .theme--dark.v-app-bar.v-toolbar.v-sheet {
@@ -151,7 +152,7 @@ html {
     }
 
     .neon {
-        box-shadow: 0 0 50px var(--v-primary-lighten1);
+        box-shadow: 0 0 40px var(--v-primary-darken3);
     }
 
     .theme--dark.v-divider {

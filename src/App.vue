@@ -1,64 +1,157 @@
 <template>
   <v-app>
-    <v-container class="mt-5">
+    <v-app-bar app dense clipped-left>
       <v-row no-gutters>
-        <v-col cols="auto" class="mr-3 my-auto">
+        <!-- Toggle navigation -->
+        <v-col cols="auto" class="my-auto">
+          <v-btn @click="drawer = !drawer" icon width="42" height="42">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </v-col>
+        <!-- Logo -->
+        <v-col class="my-auto ml-3">
           <img class="logo" src="@/assets/img/logo.png" />
         </v-col>
-        <v-col class="my-auto dr-nav">
-          <v-row no-gutters>
-            <v-col
-              cols="auto"
-              class="mr-3"
-              v-for="mainItem in mainItems"
-              :key="mainItem.title"
-              :exact="mainItem.exact"
-              link
+        <!-- Menu -->
+        <v-col cols="auto">
+          <v-tabs hide-slider background-color="secondary">
+            <v-tab v-if="!user" :href="twitchAuthenticationUrl">
+              Login
+              <v-icon>mdi-login</v-icon>
+            </v-tab>
+            <v-tab
+              v-if="user"
+              :to="{ name: 'User', params: { user_name: user.name } }"
+              class="hidden-xs-only"
             >
-              <v-btn :to="{ name: mainItem.title }" text>
-                {{ mainItem.title }}</v-btn
-              >
-            </v-col>
-          </v-row>
+              {{ user.name }}
+            </v-tab>
+            <v-tab v-if="user" @click="signOut()">
+              Exit
+              <v-icon>mdi-logout</v-icon>
+            </v-tab>
+          </v-tabs>
         </v-col>
-        <v-col v-if="!user" class="my-auto">
-          <v-row no-gutters>
-            <v-spacer></v-spacer>
-            <v-col
-              cols="auto"
-              class="ml-3"
-              v-for="mainItem in mainItems"
-              :key="mainItem.title"
-              :exact="mainItem.exact"
-              link
-            >
-              <v-btn :to="{ name: mainItem.title }" text>
-                {{ mainItem.title }}</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-col>
-        <!-- Logged in -->
-        <v-col v-if="user" class="my-auto">
-          <v-row no-gutters>
-            <v-spacer></v-spacer>
-            <v-col
-              cols="auto"
-              class="ml-3"
-              v-for="userItem in userItems"
-              :key="userItem.title"
-              :exact="userItem.exact"
-              link
-            >
-              <v-btn :to="{ name: userItem.title }" text>
-                <v-icon left>{{ userItem.icon }}</v-icon>
-                {{ userItem.title }}</v-btn
-              >
-            </v-col>
-          </v-row>
+        <!-- User avatar -->
+        <v-col cols="auto ml-3" v-if="user && user.profile_image_url !== ''">
+          <router-link :to="{ name: 'User', params: { user_name: user.name } }">
+            <v-avatar tile>
+              <img
+                :src="user.profile_image_url"
+                :to="{ name: 'User', params: { user_name: user.name } }"
+              />
+            </v-avatar>
+          </router-link>
         </v-col>
       </v-row>
-    </v-container>
+    </v-app-bar>
+    <!-- Left navigation -->
+    <v-navigation-drawer width="240" v-model="drawer" app clipped>
+      <!-- Main links -->
+      <v-list dense class="pt-0">
+        <v-list-item
+          v-for="mainItem in mainItems"
+          :key="mainItem.title"
+          :to="{ name: mainItem.title }"
+          :exact="mainItem.exact"
+          @click="resetFilters()"
+          link
+        >
+          <v-icon left>{{ mainItem.icon }}</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ mainItem.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <!-- Logged out links -->
+      <v-list v-if="!user" dense>
+        <v-list-item link exact :href="twitchAuthenticationUrl">
+          <v-icon left>mdi-login</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <!-- Logged in links -->
+      <v-list v-if="user" dense>
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'User', params: { user_name: user.name } }"
+        >
+          <v-icon left>mdi-account</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ user.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          exact
+          :to="{
+            name: 'Character',
+            params: { user_name: user.name, character_slug: '@' }
+          }"
+        >
+          <v-icon left>mdi-sword</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Latest Hero</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- 
+        <v-list-item
+          link
+          exact
+          :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
+        >
+          <v-icon left>mdi-flag-plus</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Race Editor</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        -->
+        <v-list-item link exact :to="{ name: 'Interface Setup' }">
+          <v-icon left>mdi-cogs</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>Setup</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <!-- Social links -->
+      <template v-slot:append>
+        <!-- Other links -->
+        <v-list dense>
+          <v-list-item
+            link
+            v-for="otherItem in otherItems"
+            :key="otherItem.title"
+            :to="{ name: otherItem.title }"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                <v-icon left>{{ otherItem.icon }}</v-icon>
+                {{ otherItem.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-list dense>
+          <v-list-item
+            link
+            v-for="socialItem in socialItems"
+            :key="socialItem.title"
+            :href="socialItem.url"
+            target="_blank"
+          >
+            <v-list-item-content>
+              <v-list-item-title>
+                <v-icon left>{{ socialItem.icon }}</v-icon>
+                {{ socialItem.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </template>
+    </v-navigation-drawer>
     <v-main>
       <router-view />
     </v-main>
@@ -89,11 +182,6 @@ export default {
         // { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
         // { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
         { title: 'Users', icon: 'mdi-account-group', exact: true }
-      ],
-      userItems: [
-        { title: 'Profile', icon: 'mdi-account', exact: true },
-        { title: 'Setup', icon: 'mdi-cog', exact: false },
-        { title: 'Logout', icon: 'mdi-logout', exact: false }
       ],
       otherItems: [
         { title: 'Patreon', icon: 'mdi-patreon' },

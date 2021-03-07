@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="character.name">
+  <v-container v-if="character.name" class="mt-5">
     <v-row dense>
       <!-- Hero icon -->
       <v-col cols="auto" class="mr-3">
