@@ -279,7 +279,7 @@ import {
   HeroNameFilter,
   PlayersCategoryNameFilter
 } from '@/filters';
-import Icon from '@/components/Icon.vue';
+// import Icon from '@/components/Icon.vue';
 
 export default {
   name: 'Character',
@@ -292,7 +292,7 @@ export default {
     PlayersCategoryNameFilter
   },
   components: {
-    Icon
+    // Icon
   },
   data: () => ({
     user: null,
