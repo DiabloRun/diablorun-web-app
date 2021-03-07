@@ -14,7 +14,6 @@ html {
 .dr-nav {
     font-weight: 700;
     letter-spacing: 0.5px;
-
 }
 
 .v-application {
@@ -103,6 +102,10 @@ html {
 
     .theme--dark.v-data-table {
         background-color: hsla(240, 22%, 14%, 0.5);
+    }
+
+    .theme--dark.v-divider {
+        border-color: hsla(0, 0%, 100%, 0.075);
     }
 
     tbody tr:hover {

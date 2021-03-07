@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container class="my-5">
+    <v-container class="my-3">
       <v-row no-gutters>
         <v-col class="my-auto dr-nav">
           <v-row no-gutters>
