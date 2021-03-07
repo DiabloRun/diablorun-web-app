@@ -551,8 +551,23 @@ export default {
         state.ws.rules.filter(rule => rule.context === 'finish_conditions'),
       characters: state => state.ws.characters,
       notifications: state => state.ws.notifications,
-      entry_heroes: state =>
-        state.ws.race ? state.ws.race.entry_hero.split(',') : [],
+      entry_heroes(state) {
+        if (!state.ws.race) {
+          return [];
+        }
+
+        const heroes = [];
+        
+        if (state.ws.race.entry_ama) heroes.push('ama');
+        if (state.ws.race.entry_sor) heroes.push('sor');
+        if (state.ws.race.entry_nec) heroes.push('nec');
+        if (state.ws.race.entry_pal) heroes.push('pal');
+        if (state.ws.race.entry_bar) heroes.push('bar');
+        if (state.ws.race.entry_dru) heroes.push('dru');
+        if (state.ws.race.entry_asn) heroes.push('asn');
+
+        return heroes;
+      },
       streamOverlay: state => state.app.windowStyle === 'overlay',
       isPopup: state => state.app.windowStyle === 'popup',
       lastUpdateTime: state => state.ws.lastUpdateTime
