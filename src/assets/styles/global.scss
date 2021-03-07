@@ -11,6 +11,12 @@ html {
     --v-anchor-base: var(--v-link-lighten3);
 }
 
+.dr-nav {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+}
+
 .v-application {
     .v-application--wrap {
         background-color: hsl(240, 22%, 10%);
@@ -23,7 +29,7 @@ html {
     }
 
     .theme--dark.v-navigation-drawer {
-        background-color: hsla(240, 22%, 20%, .15);
+        background-color: hsla(240, 22%, 20%, 0.15);
 
         .v-list-item__title {
             letter-spacing: 0.025rem;
@@ -52,13 +58,13 @@ html {
     }
 
     h1.logo {
-        font-size: 1.75rem;
-        line-height: 1.75rem;
+        font-size: 2rem;
+        line-height: 2rem;
         margin: 0;
 
         .v-icon {
             color: var(--v-primary-lighten3);
-            padding: 0 0.1rem;
+            padding: 0 0.15rem;
         }
     }
 
@@ -88,15 +94,15 @@ html {
     }
 
     .theme--dark.v-card {
-        background-color: hsl(240, 22%, 14%);
+        background-color: hsla(240, 22%, 14%, 0.5);
     }
 
     .theme--dark.v-card--hover:hover {
-        background-color: hsl(240, 22%, 20%);
+        background-color: hsla(240, 22%, 14%, 0.75);
     }
 
     .theme--dark.v-data-table {
-        background-color: hsl(240, 22%, 14%);
+        background-color: hsla(240, 22%, 14%, 0.5);
     }
 
     tbody tr:hover {

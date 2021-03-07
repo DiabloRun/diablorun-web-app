@@ -1,28 +1,23 @@
 <template>
   <div>
-    <v-container fluid v-if="character.name" class="mt-5">
+    <v-container v-if="character.name">
       <v-row dense>
+        <!-- Title -->
         <v-col cols="12">
           <v-row no-gutters class="mb-2">
             <!-- Hero name -->
-            <v-col cols="12" class="text-center pb-6">
+            <v-col cols="12" lg="4">
               <h2>
                 <router-link
                   :to="{
-                    name: 'User',
-                    params: { user_name: character.user_name }
+                    name: 'Character',
+                    params: {
+                      user_name: character.user_name,
+                      character_slug: character.name + character.id
+                    }
                   }"
                 >
                   {{ character.name }}
-                </router-link>
-                by
-                <router-link
-                  :to="{
-                    name: 'User',
-                    params: { user_name: character.user_name }
-                  }"
-                >
-                  {{ character.user_name }}
                 </router-link>
               </h2>
               <h2 class="subtitle">
@@ -81,10 +76,26 @@
                 {{ character.mana }}
               </v-progress-circular>
             </v-col>
+            <v-col cols="12" lg="4" class="text-right">
+              <h2>
+                by
+                <router-link
+                  :to="{
+                    name: 'User',
+                    params: { user_name: character.user_name }
+                  }"
+                >
+                  {{ character.user_name }}
+                </router-link>
+              </h2>
+              <h2 class="subtitle">
+                {{ character.update_time | FromNowFilter }}
+              </h2>
+            </v-col>
           </v-row>
         </v-col>
+        <!-- Tabs -->
         <v-col cols="12">
-          <!-- Tabs -->
           <v-tabs
             v-model="tab"
             color="grey"
@@ -121,6 +132,12 @@
                   <v-list-item-content>
                     <h3>{{ character.difficulty | DifficultyFilter }}</h3>
                     <h3 class="subtitle">Players {{ character.players }}</h3>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>
+                    <h3>{{ character.seed }}</h3>
+                    <h3 class="subtitle">Seed</h3>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -316,36 +333,6 @@
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-col>
-            <!-- Share, seed -->
-            <v-col cols="12">
-              <v-text-field
-                outlined
-                dense
-                prepend-inner-icon="mdi-share"
-                :value="
-                  'https://diablo.run/' +
-                    character.user_name +
-                    '/' +
-                    character.id
-                "
-                :label="'Share ' + character.name"
-                readonly
-                hide-details
-                class="mt-3"
-                color="link lighten-2"
-              ></v-text-field>
-              <v-text-field
-                v-if="isEditor"
-                dense
-                outlined
-                :value="character.seed"
-                :label="character.name + ' map seed'"
-                readonly
-                hide-details
-                class="mt-3"
-                color="link lighten-2"
-              ></v-text-field>
             </v-col>
           </v-row>
         </v-col>
