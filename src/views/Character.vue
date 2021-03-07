@@ -175,17 +175,15 @@
                   cols="12"
                   md="6"
                   lg="4"
-                  v-for="item in items"
-                  :key="item.type"
+                  v-for="{ slot, item } in characterItems"
+                  :key="slot"
                 >
-                  <CharacterItem
-                    v-if="character[item.type]"
-                    :item="character[item.type]"
-                  />
-                  <!-- Empty item -->
+                  <CharacterItem v-if="item" :item="item" />
+
+                  <!-- Empty slot -->
                   <v-card
                     flat
-                    v-if="!character[item.type]"
+                    v-if="!item"
                     class="fill-height d-flex align-center pa-2"
                   >
                     <v-flex>
@@ -204,25 +202,24 @@
                   cols="12"
                   md="6"
                   lg="4"
-                  v-for="item in items"
-                  :key="item.type"
+                  v-for="item in inventoryItems"
+                  :key="item.item_hash"
                 >
-                  <CharacterItem
-                    v-if="character[item.type]"
-                    :item="character[item.type]"
-                  />
-                  <!-- Empty item -->
-                  <v-card
-                    flat
-                    v-if="!character[item.type]"
-                    class="fill-height d-flex align-center pa-2"
-                  >
-                    <v-flex>
-                      <p class="text-center grey--text body-2 font-italic">
-                        empty
-                      </p>
-                    </v-flex>
-                  </v-card>
+                  <CharacterItem :item="item" />
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <!-- Stash tab -->
+            <v-tab-item>
+              <v-row dense>
+                <v-col
+                  cols="12"
+                  md="6"
+                  lg="4"
+                  v-for="item in stashItems"
+                  :key="item.item_hash"
+                >
+                  <CharacterItem :item="item" />
                 </v-col>
               </v-row>
             </v-tab-item>
@@ -234,16 +231,14 @@
                   cols="12"
                   md="6"
                   lg="3"
-                  v-for="hirelingItem in hirelingItems"
-                  :key="hirelingItem.type"
+                  v-for="{ slot, item } in hirelingItems"
+                  :key="slot"
                 >
-                  <CharacterItem
-                    v-if="character[hirelingItem.type]"
-                    :item="character[hirelingItem.type]"
-                  />
+                  <CharacterItem v-if="item" :item="item" />
+
                   <!-- Empty hireling item -->
                   <v-card
-                    v-if="!character[hirelingItem.type]"
+                    v-if="!item"
                     elevation="1"
                     class="fill-height d-flex align-center pa-2 fade"
                   >
@@ -259,16 +254,14 @@
                   cols="12"
                   md="6"
                   lg="4"
-                  v-for="hirelingExtraItem in hirelingExtraItems"
-                  :key="hirelingExtraItem.type"
+                  v-for="{ slot, item } in hirelingExtraItems"
+                  :key="slot"
                 >
-                  <CharacterItem
-                    v-if="character[hirelingExtraItem.type]"
-                    :item="character[hirelingExtraItem.type]"
-                  />
+                  <CharacterItem v-if="item" :item="item" />
+
                   <!-- Empty hireling item -->
                   <v-card
-                    v-if="!character[hirelingExtraItem.type]"
+                    v-if="!item"
                     elevation="1"
                     class="fill-height d-flex align-center pa-2 fade"
                   >
@@ -300,7 +293,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                          character[resistance.stat] < 75
+                        character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -460,56 +453,64 @@ export default {
           icon: 'mdi-bottle-tonic-skull',
           color: 'success'
         }
-      ],
-      items: [
-        { type: 'primary_left' },
-        { type: 'head' },
-        { type: 'primary_right' },
-        { type: 'secondary_left' },
-        { type: 'body_armor' },
-        { type: 'secondary_right' },
-        { type: 'gloves' },
-        { type: 'belt' },
-        { type: 'boots' },
-        { type: 'ring_left' },
-        { type: 'amulet' },
-        { type: 'ring_right' }
-      ],
-      hirelingItems: [
-        { type: 'hireling_primary_left' },
-        { type: 'hireling_head' },
-        { type: 'hireling_body_armor' },
-        { type: 'hireling_secondary_left' }
-      ],
-      hirelingExtraItems: [
-        { type: 'hireling_gloves' },
-        { type: 'hireling_belt' },
-        { type: 'hireling_boots' }
       ]
     };
   },
   computed: {
     ...mapState({
       character(state) {
-        const character = { ...state.ws.character };
-
-        for (const slot of this.items) {
-          character[slot.type] = state.ws.items.find(
-            item => item.container === 'character' && item.slot === slot.type
-          );
-        }
-
-        for (const slot of [...this.hirelingItems, this.hirelingExtraItems]) {
-          character[slot.type] = state.ws.items.find(
-            item =>
-              item.container === 'hireling' &&
-              `hireling_${item.slot}` === slot.type
-          );
-        }
-
-        return character;
+        return state.ws.character;
       },
-      streamOverlay: state => state.app.windowStyle === 'overlay'
+      characterItems(state) {
+        const slots = [
+          'primary_left',
+          'head',
+          'primary_right',
+          'secondary_left',
+          'body_armor',
+          'secondary_right',
+          'gloves',
+          'belt',
+          'boots',
+          'ring_left',
+          'amulet',
+          'ring_right'
+        ];
+
+        return slots.map((slot) => ({
+          slot,
+          item: state.ws.items.find(
+            (item) => item.container === 'character' && item.slot === slot
+          )
+        }));
+      },
+      hirelingItems(state) {
+        const slots = ['primary_left', 'head', 'body_armor', 'primary_right'];
+
+        return slots.map((slot) => ({
+          slot,
+          item: state.ws.items.find(
+            (item) => item.container === 'hireling' && item.slot === slot
+          )
+        }));
+      },
+      hirelingExtraItems(state) {
+        const slots = ['gloves', 'belt', 'boots'];
+
+        return slots.map((slot) => ({
+          slot,
+          item: state.ws.items.find(
+            (item) => item.container === 'hireling' && item.slot === slot
+          )
+        }));
+      },
+      inventoryItems(state) {
+        return state.ws.items.filter((item) => item.container === 'inventory');
+      },
+      stashItems(state) {
+        return state.ws.items.filter((item) => item.container === 'stash');
+      },
+      streamOverlay: (state) => state.app.windowStyle === 'overlay'
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
