@@ -24,7 +24,10 @@ html {
     .v-application--wrap {
         background-color: hsl(240, 22%, 10%);
         background-image: url("assets/img/body-bg.jpg");
+        background-attachment: fixed;
         background-repeat: repeat;
+        background-position: top center;
+        background-size: initial;
     }
 
     .logo {
