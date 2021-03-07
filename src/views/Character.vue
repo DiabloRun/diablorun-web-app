@@ -53,7 +53,7 @@
             <v-col cols="12">
               <v-tabs
                 v-model="tab"
-                color="primary lighten-3"
+                color="primary lighten-1"
                 slider-size="1"
                 background-color="transparent"
                 centered
@@ -73,27 +73,28 @@
                 <!-- Life -->
                 <v-col cols="6" class="text-right">
                   <v-progress-circular
-                    v-if="!character.dead"
                     :rotate="90"
                     :size="64"
                     :value="(character.life / character.life_max) * 100"
-                    color="error lighten-1"
+                    color="error"
                     width="3"
                   >
                     {{ character.life }}
                   </v-progress-circular>
-                  <v-progress-circular
-                    v-if="character.dead"
+                  <!--
+                    <v-progress-circular
+                    v-if="character.dead && character.hc"
                     :rotate="90"
                     :size="64"
                     :value="0"
-                    color="error lighten-1"
+                    color="error"
                     width="3"
                   >
-                    <v-icon color="error lighten-1">
+                    <v-icon color="error">
                       mdi-skull-crossbones
                     </v-icon>
                   </v-progress-circular>
+                  -->
                 </v-col>
                 <!-- Mana -->
                 <v-col cols="6">
@@ -101,7 +102,7 @@
                     :rotate="90"
                     :size="64"
                     :value="(character.mana / character.mana_max) * 100"
-                    color="primary lighten-1"
+                    color="primary darken-1"
                     width="3"
                   >
                     {{ character.mana }}
@@ -178,7 +179,7 @@
               <v-divider class="hidden-sm-and-up"></v-divider>
             </v-col>
             <v-divider vertical class="hidden-xs-only"></v-divider>
-            <!-- Middle -->
+            <!-- Right -->
             <v-col>
               <v-row no-gutters v-if="showTwitchEmbed">
                 <v-col cols="12">
@@ -313,12 +314,12 @@
                         class="fill-height d-flex align-center pa-2"
                       >
                         <v-row dense>
-                          <v-col>
+                          <v-col cols="auto" class="my-auto ml-2">
+                            <v-icon left> {{ stat.icon }} </v-icon>
+                          </v-col>
+                          <v-col class="dense-text">
                             <h3>{{ character[stat.value] }}</h3>
                             <h3 class="subtitle">{{ stat.title }}</h3>
-                          </v-col>
-                          <v-col cols="auto" class="my-auto">
-                            <v-icon left> {{ stat.icon }} </v-icon>
                           </v-col>
                         </v-row>
                       </v-card>

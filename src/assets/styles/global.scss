@@ -8,12 +8,16 @@ html {
     overflow-y: auto !important;
     font-size: 16px;
 
-    --v-anchor-base: var(--v-link-lighten3);
+    --v-anchor-base: var(--v-link-base);
 }
 
 .dr-nav {
     font-weight: 700;
     letter-spacing: 0.5px;
+}
+
+.dense-text {
+    line-height: 1.1;
 }
 
 .v-application {
@@ -62,7 +66,7 @@ html {
         margin: 0;
 
         .v-icon {
-            color: var(--v-primary-lighten3);
+            color: var(--v-primary-base);
             padding: 0 0.15rem;
         }
     }
@@ -90,6 +94,10 @@ html {
         font-size: 1rem;
         color: var(--v-silver-darken1);
         font-weight: 400;
+    }
+
+    .theme--dark.v-btn.v-btn--has-bg {
+        background-color: var(--v-primary-darken2);
     }
 
     .theme--dark.v-card {
@@ -120,7 +128,7 @@ html {
         text-decoration: none;
 
         &:hover {
-            color: var(--v-link-lighten4);
+            color: var(--v-link-lighten1);
         }
     }
 
