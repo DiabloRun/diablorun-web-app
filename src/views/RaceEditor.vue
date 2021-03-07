@@ -413,24 +413,24 @@
 
 <script>
 import { mapState } from 'vuex';
-import RaceCountdown from '@/components/RaceCountdown.vue';
-import DateTimeInput from '@/components/DateTimeInput.vue';
+// import RaceCountdown from '@/components/RaceCountdown.vue';
+// import DateTimeInput from '@/components/DateTimeInput.vue';
 import { heroes, quests, stats } from '@diablorun/diablorun-data';
 
 export default {
   name: 'Race Editor',
   components: {
-    RaceCountdown,
-    DateTimeInput
+    // RaceCountdown
+    // DateTimeInput
   },
   data() {
-    const statsList = Object.keys(stats).map((id) => ({
+    const statsList = Object.keys(stats).map(id => ({
       id,
       name: stats[id]
     }));
 
     // Generate quest options with act dividers
-    const questsList = Object.keys(quests).map((id) => ({
+    const questsList = Object.keys(quests).map(id => ({
       ...quests[id],
       value: Number(id),
       text: quests[id].short_name
@@ -440,15 +440,15 @@ export default {
 
     const questOptions = [
       { header: 'Act I', divider: true },
-      ...questsList.filter((q) => q.act === 1),
+      ...questsList.filter(q => q.act === 1),
       { header: 'Act II', divider: true },
-      ...questsList.filter((q) => q.act === 2),
+      ...questsList.filter(q => q.act === 2),
       { header: 'Act III', divider: true },
-      ...questsList.filter((q) => q.act === 3),
+      ...questsList.filter(q => q.act === 3),
       { header: 'Act IV', divider: true },
-      ...questsList.filter((q) => q.act === 4),
+      ...questsList.filter(q => q.act === 4),
       { header: 'Act V', divider: true },
-      ...questsList.filter((q) => q.act === 5)
+      ...questsList.filter(q => q.act === 5)
     ];
 
     return {
@@ -485,7 +485,7 @@ export default {
         { text: 'from race start', value: 'race' },
         { text: 'from character creation', value: 'character' }
       ],
-      heroes: heroes.map((hero) => ({ ...hero, input: `entry_${hero.id}` })),
+      heroes: heroes.map(hero => ({ ...hero, input: `entry_${hero.id}` })),
       questOptions,
       stats: statsList,
       difficulties: [
@@ -539,10 +539,10 @@ export default {
   },
   computed: {
     ...mapState({
-      canEdit: (state) => {
+      canEdit: state => {
         return !!state.auth.user && state.auth.user.patreon_amount_cents > 0;
       },
-      canHost: (state) => {
+      canHost: state => {
         return (
           !!state.auth.user && state.auth.user.patreon_amount_cents >= 1000
         );
@@ -580,9 +580,9 @@ export default {
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
       finish_conditions_global: race.finish_conditions_global,
-      points: rules.filter((rule) => rule.context === 'points'),
+      points: rules.filter(rule => rule.context === 'points'),
       finish_conditions: rules.filter(
-        (rule) => rule.context === 'finish_conditions'
+        rule => rule.context === 'finish_conditions'
       ),
       estimated_start_time: race.estimated_start_time
     };

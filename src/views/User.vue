@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="user">
+  <v-container v-if="user" class="mt-5">
     <v-row dense>
       <!-- User icon -->
       <v-col cols="auto" class="mr-3">

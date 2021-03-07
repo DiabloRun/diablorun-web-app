@@ -8,7 +8,7 @@ html {
     overflow-y: auto !important;
     font-size: 16px;
 
-    --v-anchor-base: var(--v-link-base);
+    --v-anchor-base: var(--v-link-lighten1);
 }
 
 .dr-nav {
@@ -24,7 +24,16 @@ html {
     .v-application--wrap {
         background-color: hsl(240, 22%, 10%);
         background-image: url("assets/img/body-bg.jpg");
+        background-attachment: fixed;
         background-repeat: repeat;
+        background-position: top center;
+        background-size: initial;
+    }
+
+    .logo {
+        max-height: 30px;
+        width: auto;
+        display: flex;
     }
 
     .theme--dark.v-app-bar.v-toolbar.v-sheet {
@@ -47,7 +56,6 @@ html {
     }
 
     h1,
-    h1.logo,
     h2,
     h2.subtitle {
         font-family: $title-font, sans-serif;
@@ -58,17 +66,6 @@ html {
         font-size: 1.5rem;
         line-height: 1.5rem;
         margin: 2rem 0 1.25rem 0;
-    }
-
-    h1.logo {
-        font-size: 2rem;
-        line-height: 2rem;
-        margin: 0;
-
-        .v-icon {
-            color: var(--v-primary-base);
-            padding: 0 0.15rem;
-        }
     }
 
     h2 {
@@ -112,8 +109,22 @@ html {
         background-color: hsla(240, 22%, 14%, 0.5);
     }
 
-    .theme--dark.v-divider {
-        border-color: hsla(0, 0%, 100%, 0.075);
+    .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child,
+    .theme--dark.v-data-table
+        > .v-data-table__wrapper
+        > table
+        > tbody
+        > tr:not(:last-child)
+        > td:not(.v-data-table__mobile-row),
+    .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child,
+    .theme--dark.v-data-table
+        > .v-data-table__wrapper
+        > table
+        > tbody
+        > tr:not(:last-child)
+        > th:not(.v-data-table__mobile-row),
+    .theme--dark.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+        border-color: hsla(0, 0%, 100%, 0.065);
     }
 
     tbody tr:hover {
@@ -124,16 +135,31 @@ html {
         background-color: transparent;
     }
 
+    .theme--dark.v-tabs .v-tab {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+
+    .theme--dark.v-tabs .v-tab:hover::before {
+        color: var(--v-primary-lighten1);
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+
     a {
         text-decoration: none;
 
         &:hover {
-            color: var(--v-link-lighten1);
+            color: var(--v-link-lighten2);
         }
     }
 
     .neon {
-        box-shadow: 0 0 50px var(--v-primary-lighten1);
+        box-shadow: 0 0 40px var(--v-primary-darken3);
+    }
+
+    .theme--dark.v-divider {
+        border-color: hsla(0, 0%, 100%, 0.075);
     }
 }
 
