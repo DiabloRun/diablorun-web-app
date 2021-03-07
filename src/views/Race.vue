@@ -97,9 +97,9 @@
                     </v-col>
                   </v-row>
                 </v-card-text>
-                <v-divider v-if="race.description.length"></v-divider>
+                <v-divider v-if="race.description"></v-divider>
                 <v-card-text
-                  v-if="race.description.length"
+                  v-if="race.description"
                   class="white--text"
                   :inner-html.prop="race.description | ParagraphsFilter"
                 >
@@ -110,7 +110,9 @@
               <v-row dense>
                 <v-col v-if="positivePoints.length">
                   <v-card class="fill-height">
-                    <h5 class="py-2 pl-4">{{ race.type === 'speedrun' ? 'Splits' : 'Points' }}</h5>
+                    <h5 class="py-2 pl-4">
+                      {{ race.type === 'speedrun' ? 'Splits' : 'Points' }}
+                    </h5>
                     <v-divider></v-divider>
                     <RacePoints :points="positivePoints" />
                   </v-card>
@@ -152,6 +154,7 @@
         </v-col>
         <v-col cols="12" md="8">
           <v-row dense>
+            <!--
             <v-col cols="12" lg="6" v-if="notifications.length">
               <v-card class="fill-height">
                 <v-card-text class="white--text">
@@ -175,12 +178,16 @@
                 />
               </v-card>
             </v-col>
+            -->
+
+            <!-- Finished characters table -->
             <v-col cols="12">
               <v-card>
                 <v-row no-gutters>
                   <v-col>
                     <v-card-title> {{ race.name }} Leaderboard </v-card-title>
                   </v-col>
+                  <!--
                   <v-col cols="auto" class="my-auto mr-4">
                     <v-btn
                       fab
@@ -192,106 +199,37 @@
                       <v-icon>mdi-open-in-new</v-icon>
                     </v-btn>
                   </v-col>
+                  -->
                 </v-row>
                 <v-divider></v-divider>
-                <v-card-text v-if="!characters.length > 0">
+                <v-card-text v-if="!finishedCharacters.length">
                   <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-                  No one has joined the race yet.
+                  No one has finished the race yet.
                 </v-card-text>
-                <v-simple-table
-                  dense
-                  v-if="characters.length > 0"
-                  class="text-no-wrap"
-                >
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Points</th>
-                      <th>Runner</th>
-                      <th>Area</th>
-                      <th>Level</th>
-                      <th>
-                        <v-icon small color="error">
-                          mdi-skull-crossbones
-                        </v-icon>
-                      </th>
-                      <th>
-                        <v-icon small color="warning"> mdi-gold </v-icon>
-                      </th>
-                      <th>Difficulty</th>
-                      <th>Hero</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="character of characters" :key="character.id">
-                      <td>
-                        <span v-if="character.rank > 3" class="grey--text">
-                          {{ character.rank }}
-                        </span>
-                        <v-icon
-                          v-if="character.rank == 1"
-                          small
-                          color="yellow accent-4"
-                        >
-                          mdi-trophy-outline
-                        </v-icon>
-                        <v-icon
-                          v-if="character.rank == 2"
-                          small
-                          color="grey lighten-1"
-                        >
-                          mdi-trophy-outline
-                        </v-icon>
-                        <v-icon v-if="character.rank == 3" small color="brown">
-                          mdi-trophy-outline
-                        </v-icon>
-                      </td>
-                      <td>
-                        {{ character.points }}
-                      </td>
-                      <td>
-                        <CharacterUser :character="character" />
-                        <v-icon v-if="character.dead" small color="error">
-                          mdi-skull-crossbones
-                        </v-icon>
-                      </td>
-                      <td>{{ character.area | AreaNameFilter }}</td>
-                      <td>{{ character.level }}</td>
-                      <td>{{ character.deaths }}</td>
-                      <td>{{ character.gold_total }}</td>
-                      <td>
-                        {{ character.difficulty | DifficultyFilter }}
-                        <span class="grey--text">p{{ character.players }}</span>
-                      </td>
+                <RaceCharactersTable
+                  v-if="finishedCharacters.length"
+                  :characters="finishedCharacters"
+                />
+              </v-card>
+            </v-col>
 
-                      <td>
-                        <v-icon
-                          v-if="!character.hc"
-                          small
-                          :class="`${character.hero}`"
-                        >
-                          mdi-sword
-                        </v-icon>
-                        <v-icon
-                          v-if="character.hc"
-                          small
-                          :class="`${character.hero}`"
-                        >
-                          mdi-skull-outline
-                        </v-icon>
-                        {{ character.hero | HeroNameFilter }}
-                      </td>
-                      <td>
-                        <CharacterRaceStatus
-                          :character="character"
-                          :start="race.start_time"
-                          :finish="race.finish_time"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </v-simple-table>
+            <!-- Unfinished characters table -->
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-title>Currently running</v-card-title>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-card-text v-if="!unfinishedCharacters.length">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No one is currently running in this race.
+                </v-card-text>
+                <RaceCharactersTable
+                  v-if="unfinishedCharacters.length"
+                  :characters="unfinishedCharacters"
+                />
               </v-card>
             </v-col>
           </v-row>
@@ -497,6 +435,7 @@ import CharacterUser from '@/components/CharacterUser.vue';
 import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
 import ScatterChart from '@/components/ScatterChart.vue';
 import RacePoints from '@/components/RacePoints.vue';
+import RaceCharactersTable from '@/components/RaceCharactersTable.vue';
 
 export default {
   name: 'Race',
@@ -518,7 +457,8 @@ export default {
     CharacterUser,
     CharacterRaceStatus,
     ScatterChart,
-    RacePoints
+    RacePoints,
+    RaceCharactersTable
   },
   data() {
     return {
@@ -550,7 +490,8 @@ export default {
         ),
       finish_conditions: (state) =>
         state.ws.rules.filter((rule) => rule.context === 'finish_conditions'),
-      characters: (state) => state.ws.characters,
+      finishedCharacters: (state) => state.ws.finishedCharacters,
+      unfinishedCharacters: (state) => state.ws.unfinishedCharacters,
       notifications: (state) => state.ws.notifications,
       entry_heroes(state) {
         if (!state.ws.race) {
@@ -570,8 +511,8 @@ export default {
         return heroes;
       },
       streamOverlay: (state) => state.app.windowStyle === 'overlay',
-      isPopup: (state) => state.app.windowStyle === 'popup',
-      lastUpdateTime: (state) => state.ws.lastUpdateTime
+      isPopup: (state) => state.app.windowStyle === 'popup'
+      // lastUpdateTime: (state) => state.ws.lastUpdateTime
     })
   },
   watch: {
@@ -580,7 +521,8 @@ export default {
       async handler({ params: { slug } }) {
         await this.$store.dispatch('ws/subscribeToRace', slug);
       }
-    },
+    }
+    /*
     lastUpdateTime() {
       let updateChart = false;
 
@@ -630,6 +572,7 @@ export default {
         }
       }
     }
+    */
   }
 };
 </script>

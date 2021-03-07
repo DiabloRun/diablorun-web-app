@@ -6,7 +6,8 @@ export default {
     queue: [],
     race: {},
     rules: [],
-    characters: [],
+    finishedCharacters: [],
+    unfinishedCharacters: [],
     notifications: [],
     character: {},
     items: [],
@@ -21,7 +22,8 @@ export default {
       state.queue = [];
       state.race = {};
       state.rules = [];
-      state.characters = [];
+      state.finishedCharacters = [];
+      state.unfinishedCharacters = [];
       state.notifications = [];
       state.character = {};
       state.items = [];
@@ -31,10 +33,7 @@ export default {
       state.lastUpdateTime = time;
     },
 
-    setTimeOffset(state, offset) {
-      state.timeOffset = offset;
-    },
-
+    /*
     setRace(state, race) {
       state.race = race;
 
@@ -46,14 +45,7 @@ export default {
         }));
       }
     },
-
-    setRules(state, rules) {
-      state.rules = rules;
-    },
-
-    setCharacters(state, characters) {
-      state.characters = characters;
-    },
+    */
 
     setPointsLog(state, pointsLog) {
       state.pointsLog = pointsLog;
@@ -167,148 +159,55 @@ export default {
 
     clearQueue(state) {
       state.queue = [];
-    }
-  },
-  actions: {
-    async connect({ state, dispatch }) {
-      if (state.ws) {
-        return state.wsReady;
-      }
-
-      state.ws = new WebSocket(process.env.VUE_APP_WS_URL);
-      state.wsReady = new Promise(resolve => {
-        state.ws.addEventListener('open', resolve);
-        setInterval(() => state.ws.send('ping'), 30000);
-      });
-
-      await state.wsReady;
-
-      state.ws.addEventListener('message', message => {
-        if (message.data === 'pong') {
-          return;
-        }
-
-        dispatch('message', message.data);
-      });
     },
 
-    async send({ state }, data) {
-      state.ws.send(JSON.stringify(data));
-    },
-
-    async subscribeToCharacter({ commit, dispatch }, { name, id, lastUpdate }) {
-      commit('reset');
-      commit('setQueueing', true);
-      commit('setSubscribedToCharacterById', !!id);
-
-      await dispatch('connect');
-      await dispatch('send', {
-        action: 'subscribe',
-        payload: `user/${name.toLowerCase()}`
-      });
-
-      if (!lastUpdate) {
-        const res = await fetch(
-          id
-            ? `${process.env.VUE_APP_API_URL}/snapshots/characters/${id}`
-            : `${process.env.VUE_APP_API_URL}/snapshots/users/${name}`
-        );
-        const body = await res.json();
-
-        commit('updateCharacter', body);
-      } else {
-        commit('updateCharacter', lastUpdate);
-      }
-
-      dispatch('flushQueue');
-    },
-
-    async subscribeToRace({ commit, dispatch }, id) {
-      commit('reset');
-      commit('setQueueing', true);
-
-      await dispatch('connect');
-      await dispatch('send', { action: 'subscribe', payload: `race/${id}` });
-
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/races/${id}`);
-      const body = await res.json();
-
-      await dispatch('updateRace', body);
-      await dispatch('flushQueue');
-    },
-
-    async message({ state, commit }, json) {
-      if (state.queueing) {
-        commit('queue', json);
-        return;
-      }
-
-      const data = JSON.parse(json);
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log(data);
-      }
-
-      switch (data.action) {
-        /*
-        case 'character':
-          if (
-            !state.subscribedToCharacterById ||
-            state.character.id === data.payload.character.id
-          ) {
-            commit('updateCharacter', payload);
-          }
-          break;
-        case 'race':
-          await dispatch('updateRace', payload);
-          break;
-        */
-        case 'update_character':
-          if (
-            !state.subscribedToCharacterById ||
-            state.character.id === data.id
-          ) {
-            commit('updateCharacter', data);
-          }
-          break;
-      }
-    },
-
-    async flushQueue({ state, commit, dispatch }) {
-      commit('setQueueing', false);
-
-      for (const message of state.queue) {
-        await dispatch('message', message);
-      }
-
-      commit('clearQueue');
-    },
-
-    async updateRace(
-      { state, commit },
-      { time, race, rules, characters, notifications, pointsLog }
+    updateRace(
+      state,
+      { time, race, rules, finishedCharacters, unfinishedCharacters, raceId, characterId, raceCharacterUpdates, notifications, pointsLog }
     ) {
       if (time) {
-        commit('setTimeOffset', time - new Date().getTime());
+        state.timeOffset = time - new Date().getTime();
       }
 
       if (race) {
-        commit('setRace', race);
+        state.race = race;
       }
 
       if (rules) {
-        commit('setRules', rules);
+        state.rules = rules;
       }
 
+      if (finishedCharacters) {
+        state.finishedCharacters = finishedCharacters;
+      }
+
+      if (unfinishedCharacters) {
+        state.unfinishedCharacters = unfinishedCharacters;
+      }
+
+      if (state.race && raceCharacterUpdates && raceId === state.race.id) {
+        const characterIndex = state.unfinishedCharacters.findIndex(c => c.race_id === raceId && c.id === characterId);
+
+        if (characterIndex !== -1) {
+          state.unfinishedCharacters = [
+            ...state.unfinishedCharacters.slice(0, characterIndex),
+            { ...state.unfinishedCharacters[characterIndex], ...raceCharacterUpdates },
+            ...state.unfinishedCharacters.slice(characterIndex + 1)
+          ];
+        }
+      }
+
+      /*
       if (notifications) {
         commit('addNotifications', notifications);
       }
 
-      // Set points log
       if (pointsLog) {
         commit('setPointsLog', pointsLog);
       }
+      */
 
+      /*
       if (characters) {
         if (!state.characters.length) {
           commit('setCharacters', characters);
@@ -392,6 +291,125 @@ export default {
 
         commit('setLastUpdateTime', new Date());
       }
+      */
     }
+  },
+  actions: {
+    async connect({ state, dispatch }) {
+      if (state.ws) {
+        return state.wsReady;
+      }
+
+      state.ws = new WebSocket(process.env.VUE_APP_WS_URL);
+      state.wsReady = new Promise(resolve => {
+        state.ws.addEventListener('open', resolve);
+        setInterval(() => state.ws.send('ping'), 30000);
+      });
+
+      await state.wsReady;
+
+      state.ws.addEventListener('message', message => {
+        if (message.data === 'pong') {
+          return;
+        }
+
+        dispatch('message', message.data);
+      });
+    },
+
+    async send({ state }, data) {
+      state.ws.send(JSON.stringify(data));
+    },
+
+    async subscribeToCharacter({ commit, dispatch }, { name, id, lastUpdate }) {
+      commit('reset');
+      commit('setQueueing', true);
+      commit('setSubscribedToCharacterById', !!id);
+
+      await dispatch('connect');
+      await dispatch('send', {
+        action: 'subscribe',
+        payload: `user/${name.toLowerCase()}`
+      });
+
+      if (!lastUpdate) {
+        const res = await fetch(
+          id
+            ? `${process.env.VUE_APP_API_URL}/snapshots/characters/${id}`
+            : `${process.env.VUE_APP_API_URL}/snapshots/users/${name}`
+        );
+        const body = await res.json();
+
+        commit('updateCharacter', body);
+      } else {
+        commit('updateCharacter', lastUpdate);
+      }
+
+      dispatch('flushQueue');
+    },
+
+    async subscribeToRace({ commit, dispatch }, id) {
+      commit('reset');
+      commit('setQueueing', true);
+
+      await dispatch('connect');
+      await dispatch('send', { action: 'subscribe', payload: `race/${id}` });
+
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/races/${id}`);
+      const body = await res.json();
+
+      commit('updateRace', body);
+      await dispatch('flushQueue');
+    },
+
+    async message({ state, commit }, json) {
+      if (state.queueing) {
+        commit('queue', json);
+        return;
+      }
+
+      const data = JSON.parse(json);
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log(data);
+      }
+
+      switch (data.action) {
+        /*
+        case 'character':
+          if (
+            !state.subscribedToCharacterById ||
+            state.character.id === data.payload.character.id
+          ) {
+            commit('updateCharacter', payload);
+          }
+          break;
+        case 'race':
+          await dispatch('updateRace', payload);
+          break;
+        */
+        case 'update_character':
+          if (
+            !state.subscribedToCharacterById ||
+            state.character.id === data.id
+          ) {
+            commit('updateCharacter', data);
+          }
+          break;
+        case 'update_race_character':
+          commit('updateRace', data);
+          break;
+      }
+    },
+
+    async flushQueue({ state, commit, dispatch }) {
+      commit('setQueueing', false);
+
+      for (const message of state.queue) {
+        await dispatch('message', message);
+      }
+
+      commit('clearQueue');
+    },
   }
 };
