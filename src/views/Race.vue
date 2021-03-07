@@ -557,7 +557,7 @@ export default {
         }
 
         const heroes = [];
-        
+
         if (state.ws.race.entry_ama) heroes.push('ama');
         if (state.ws.race.entry_sor) heroes.push('sor');
         if (state.ws.race.entry_nec) heroes.push('nec');

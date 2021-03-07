@@ -46,27 +46,32 @@
           </router-link>
         </h2>
       </v-col>
-      <!-- Tabs -->
+      <!-- Twitch toggle -->
+      <v-col cols="auto" class="my-auto">
+        <v-btn icon @click="toggleTwitchEmbed()">
+          <v-icon> mdi-twitch </v-icon>
+        </v-btn>
+      </v-col>
+      <!-- Twitch iframe -->
+      <v-col cols="12" class="mt-5" v-if="showTwitchEmbed">
+        <TwitchEmbed :username="character.user_name" />
+      </v-col>
       <v-col cols="12" class="mt-3">
+        <!-- Tabs -->
+        <v-tabs
+          v-model="tab"
+          color="primary lighten-1"
+          slider-size="1"
+          background-color="transparent"
+          centered
+        >
+          <v-tab>Items</v-tab>
+          <v-tab>Inventory</v-tab>
+          <v-tab>Stash</v-tab>
+          <v-tab>Merc</v-tab>
+          <v-tab>Stats</v-tab>
+        </v-tabs>
         <v-card>
-          <v-row no-gutters>
-            <v-col cols="12">
-              <v-tabs
-                v-model="tab"
-                color="primary lighten-1"
-                slider-size="1"
-                background-color="transparent"
-                centered
-              >
-                <v-tab>Items</v-tab>
-                <v-tab>Inventory</v-tab>
-                <v-tab>Stash</v-tab>
-                <v-tab>Merc</v-tab>
-                <v-tab>Stats</v-tab>
-              </v-tabs>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
           <v-row no-gutters>
             <v-col cols="12" sm="4" lg="3" xl="2">
               <v-row class="my-1">
@@ -181,11 +186,6 @@
             <v-divider vertical class="hidden-xs-only"></v-divider>
             <!-- Right -->
             <v-col>
-              <v-row no-gutters v-if="showTwitchEmbed">
-                <v-col cols="12">
-                  <TwitchEmbed :username="character.user_name" />
-                </v-col>
-              </v-row>
               <!-- Items tab -->
               <v-tabs-items v-model="tab">
                 <v-tab-item class="pa-2">

@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <v-container class="my-3">
+    <v-container class="mt-5">
       <v-row no-gutters>
+        <v-col cols="auto" class="mr-3 my-auto">
+          <img class="logo" src="@/assets/img/logo.png" />
+        </v-col>
         <v-col class="my-auto dr-nav">
           <v-row no-gutters>
             <v-col
@@ -13,14 +16,10 @@
               link
             >
               <v-btn :to="{ name: mainItem.title }" text>
-                <v-icon left>{{ mainItem.icon }}</v-icon>
                 {{ mainItem.title }}</v-btn
               >
             </v-col>
           </v-row>
-        </v-col>
-        <v-col class="my-auto" cols="auto">
-          <h1 class="logo">diablo<v-icon>mdi-sword</v-icon>run</h1>
         </v-col>
         <v-col v-if="!user" class="my-auto">
           <v-row no-gutters>
@@ -34,7 +33,6 @@
               link
             >
               <v-btn :to="{ name: mainItem.title }" text>
-                <v-icon left>{{ mainItem.icon }}</v-icon>
                 {{ mainItem.title }}</v-btn
               >
             </v-col>
@@ -94,7 +92,7 @@ export default {
       ],
       userItems: [
         { title: 'Profile', icon: 'mdi-account', exact: true },
-        { title: 'Setup', icon: 'mdi-cog', exact: true },
+        { title: 'Setup', icon: 'mdi-cog', exact: false },
         { title: 'Logout', icon: 'mdi-logout', exact: false }
       ],
       otherItems: [
