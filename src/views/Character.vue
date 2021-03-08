@@ -69,6 +69,7 @@
           <v-tab>Items</v-tab>
           <v-tab>Inventory</v-tab>
           <v-tab>Stash</v-tab>
+          <v-tab>Cube</v-tab>
           <v-tab>Merc</v-tab>
           <v-tab>Stats</v-tab>
         </v-tabs>
@@ -240,6 +241,20 @@
                       md="6"
                       lg="4"
                       v-for="item in stashItems"
+                      :key="item.item_hash"
+                    >
+                      <CharacterItem :item="item" />
+                    </v-col>
+                  </v-row>
+                </v-tab-item>
+                <!-- Stash tab -->
+                <v-tab-item class="pa-2">
+                  <v-row dense>
+                    <v-col
+                      cols="12"
+                      md="6"
+                      lg="4"
+                      v-for="item in cubeItems"
                       :key="item.item_hash"
                     >
                       <CharacterItem :item="item" />
@@ -481,6 +496,9 @@ export default {
       },
       stashItems(state) {
         return state.ws.items.filter(item => item.container === 'stash');
+      },
+      cubeItems(state) {
+        return state.ws.items.filter(item => item.container === 'cube');
       },
       streamOverlay: state => state.app.windowStyle === 'overlay'
     }),
