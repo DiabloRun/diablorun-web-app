@@ -49,7 +49,8 @@
       <!-- Twitch toggle -->
       <v-col cols="auto" class="my-auto">
         <v-btn icon @click="toggleTwitchEmbed()">
-          <v-icon> mdi-twitch </v-icon>
+          <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
+          <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
         </v-btn>
       </v-col>
       <!-- Twitch iframe -->

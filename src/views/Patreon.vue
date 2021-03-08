@@ -25,7 +25,6 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary lighten-2"
               text
               href="https://www.patreon.com/diablorun"
               target="_blank"
@@ -50,7 +49,6 @@
               </v-card-subtitle>
               <v-btn
                 class="mt-3"
-                color="primary"
                 v-if="!user.patreon_id"
                 :href="patreonAuthenticationUrl"
                 target="_blank"
@@ -63,7 +61,6 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary"
               text
               href="https://www.patreon.com/diablorun"
               target="_blank"
@@ -90,11 +87,7 @@
               <v-card-subtitle class="pb-0">
                 Login to link your account
               </v-card-subtitle>
-              <v-btn
-                class="mt-3"
-                color="primary"
-                :href="twitchAuthenticationUrl"
-              >
+              <v-btn class="mt-3" :href="twitchAuthenticationUrl">
                 Login
               </v-btn>
             </v-col>
@@ -102,7 +95,6 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary"
               text
               href="https://www.patreon.com/diablorun"
               target="_blank"

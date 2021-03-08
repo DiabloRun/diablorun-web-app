@@ -108,6 +108,14 @@ html {
 
     .theme--dark.v-card {
         background-color: hsla(240, 22%, 14%, 0.5);
+
+        & .v-card__text {
+            color: hsla(0, 0%, 100%, 1);
+
+            & a {
+                font-weight: 600;
+            }
+        }
     }
 
     .theme--dark.v-card--hover:hover {
@@ -116,6 +124,10 @@ html {
 
     .theme--dark.v-data-table {
         background-color: hsla(240, 22%, 14%, 0.5);
+
+        & a {
+            font-weight: 500;
+        }
     }
 
     .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child,

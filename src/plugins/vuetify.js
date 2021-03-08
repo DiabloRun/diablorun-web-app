@@ -12,7 +12,7 @@ export default new Vuetify({
     themes: {
       dark: {
         primary: '#9276ed',
-        secondary: '#272727',
+        secondary: '#252236',
         link: '#d3b8ae',
 
         gold: '#FFD700',

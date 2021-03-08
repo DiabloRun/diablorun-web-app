@@ -1,22 +1,17 @@
 <template>
   <v-container fill-height fluid>
     <v-row v-if="!user" align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
+      <v-col cols="12" sm="8" md="6" lg="5" xl="3">
+        <h1>Login</h1>
         <v-card :loading="loading">
-          <v-card-title> Login </v-card-title>
-          <v-divider></v-divider>
           <div class="pa-10 text-center">
-            <v-btn
-              @click="login"
-              :href="twitchAuthenticationUrl"
-              color="primary"
-            >
+            <v-btn @click="login" :href="twitchAuthenticationUrl">
               <v-icon left>mdi-twitch</v-icon>Login with Twitch
             </v-btn>
           </div>
           <v-divider></v-divider>
-          <v-card-subtitle>
-            Twitch account is required. Don't have a Twitch account?
+          <v-card-subtitle class="text-center">
+            Twitch account is required.
             <a href="https://www.twitch.tv/signup" target="_blank">
               Create one here<v-icon small color="grey"
                 >mdi-open-in-new</v-icon
@@ -27,25 +22,24 @@
       </v-col>
     </v-row>
     <v-row v-if="user" align="center" justify="center">
-      <v-col cols="12" md="8" lg="6">
+      <v-col cols="12" lg="8" xl="5">
+        <h1>
+          <v-icon left>mdi-cogs</v-icon> Connect Interface with Diablo.run
+        </h1>
         <v-card>
-          <v-card-title>
-            <v-icon left>mdi-cogs</v-icon>
-            Connect Interface with Diablo.run
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text class="white--text">
+          <v-card-text>
             <v-text-field
+              outlined
               v-model="updateUrl"
               label="URL"
               readonly
-              color="link lighten-2"
+              class="mb-0 pb-0"
             ></v-text-field>
             <v-text-field
+              outlined
               :value="'API_KEY=' + user.api_key"
               label="Headers"
               readonly
-              color="link lighten-2"
             ></v-text-field>
             <ol>
               <li>Download and open Diablo Interface</li>
@@ -65,21 +59,20 @@
             <p class="mt-5">
               After saving you can enter a character in Diablo II and see if it
               is synced in your profile page. Restart the game and Interface if
-              it didn't work.
+              it didn't work. Feel free to ask help from our
+              <a target="_blank" href="https://discord.gg/QMMDR2a">Discord</a>
+              channel!
             </p>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              color="primary lighten-2"
-              text
-              href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.8"
+              href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.9"
               target="_blank"
             >
-              <v-icon left>mdi-download</v-icon>Diablo Interface 0.6.8
+              <v-icon left>mdi-download</v-icon>Diablo Interface 0.6.9
             </v-btn>
             <v-btn
-              color="primary lighten-2"
               text
               :to="{ name: 'User', params: { user_name: user.name } }"
             >

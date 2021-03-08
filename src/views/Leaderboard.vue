@@ -16,7 +16,7 @@
         </h2>
       </v-col>
       <v-col cols="auto" class="my-auto">
-        <v-btn flat @click="resetFilters()">
+        <v-btn outlined color="primary" @click="resetFilters()">
           <v-icon left>mdi-refresh</v-icon> Reset
         </v-btn>
       </v-col>
@@ -156,14 +156,8 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <v-btn
-      v-if="pagination.more"
-      flat
-      class="mt-5"
-      color="primary"
-      @click="loadMore()"
-    >
-      Load more speedruns
+    <v-btn small v-if="pagination.more" flat class="mt-5" @click="loadMore()">
+      <v-icon left>mdi-chevron-down</v-icon> Load more
     </v-btn>
   </v-container>
 </template>
