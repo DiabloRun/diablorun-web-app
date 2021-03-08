@@ -1,5 +1,16 @@
 <template>
-  <img :class="imgClass" :src="icons[`./${name}.png`]" />
+  <v-img :src="icons[`./${name}.png`]">
+    <template v-slot:placeholder>
+      <v-row class="fill-height ma-0" align="center" justify="center">
+        <v-progress-circular
+          indeterminate
+          size="18"
+          width="2"
+          color="primary"
+        ></v-progress-circular>
+      </v-row>
+    </template>
+  </v-img>
 </template>
 
 <script>

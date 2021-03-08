@@ -1,44 +1,35 @@
 <template>
-  <div>
-    <!-- Hero -->
-    <section class="hero is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title is-1">Race history</h1>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="columns">
-          <div class="column">
-            <table class="table is-narrow is-fullwidth is-striped">
-              <thead>
-                <tr>
-                  <th>Race</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="race of races" :key="race.id">
-                  <td>
-                    <router-link
-                      :to="{ name: 'Race', params: { slug: race.id } }"
-                    >
-                      {{ race.name }}
-                    </router-link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+  <v-container class="pa-2">
+    <v-card>
+      <v-card-title> Races </v-card-title>
+      <v-card-subtitle>Recent history of racing events</v-card-subtitle>
+      <v-divider></v-divider>
+      <v-row dense class="px-2 pt-2 pb-1">
+        <v-col v-for="race of races" :key="race.id" cols="12" md="6">
+          <v-card
+            hover
+            :to="{ name: 'Race', params: { slug: race.id } }"
+            color="darkAccent"
+            class="fill-height"
+          >
+            <v-card-title class="primary--text">
+              {{ race.name }}
+            </v-card-title>
+            <v-card-subtitle>{{ race.description }}</v-card-subtitle>
+            <v-card-text
+              ><v-chip small outlined>{{
+                race.start_time | FromNowFilter
+              }}</v-chip></v-card-text
+            >
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables.scss';
+@import '@/styles/variables.scss';
 </style>
 
 <script>

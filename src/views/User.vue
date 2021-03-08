@@ -1,87 +1,78 @@
 <template>
-  <div>
-    <!-- Hero -->
-    <section class="hero is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
-            <div
-              v-if="user.profile_image_url !== ''"
-              class="column is-narrow py-0"
-            >
-              <figure class="image is-64x64">
-                <img
-                  :src="user.profile_image_url"
-                  class="is-rounded has-glow"
-                />
-              </figure>
-            </div>
-            <div class="column">
-              <h1 class="title">{{ user.name }}</h1>
-            </div>
-            <div class="column is-narrow has-text-grey is-hidden-mobile">
-              <p>
-                {{ user.name }} last active
-                {{ latestCharacter.update_time | FromNowFilter }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Character history -->
-    <section class="section" v-if="characters.length > 0">
-      <div class="container">
-        <h1 class="subtitle">Character history</h1>
-        <div class="columns is-vcentered is-mobile">
-          <div class="column is-narrow">
-            <div class="box">
-              <div class="columns is-mobile is-vcentered">
-                <div class="column is-narrow">
-                  <router-link
-                    :to="{
-                      name: 'Character',
-                      params: {
-                        user_name: latestCharacter.user_name,
-                        character_slug: '@'
-                      }
-                    }"
-                  >
-                    <figure class="image is-48x48">
-                      <Icon
-                        :imgClass="
-                          `has-glow-${latestCharacter.hero} is-rounded`
-                        "
-                        :name="`big-${latestCharacter.hero}`"
-                      />
-                    </figure>
-                  </router-link>
-                </div>
-                <div class="column">
-                  <p class="title is-5">
-                    <router-link
-                      :to="{
-                        name: 'Character',
-                        params: {
-                          user_name: latestCharacter.user_name,
-                          character_slug: '@'
-                        }
-                      }"
-                      >{{ latestCharacter.name }}</router-link
-                    >
-                  </p>
-                  <p class="subtitle is-6">
-                    Level {{ latestCharacter.level }}
-                    <span class="has-text-grey">in</span>
-                    {{ latestCharacter.difficulty | DifficultyFilter }}
-                    {{ latestCharacter.area | AreaNameFilter }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column has-text-right is-hidden-mobile">
-            <router-link
+  <v-container v-if="user" class="mt-5">
+    <v-row dense>
+      <!-- User icon -->
+      <v-col cols="auto" class="mr-3">
+        <v-avatar size="64">
+          <img
+            v-if="user.profile_image_url !== ''"
+            :src="user.profile_image_url"
+          />
+          <v-icon v-if="user.profile_image_url == ''" size="64" color="primary">
+            mdi-account-circle
+          </v-icon>
+        </v-avatar>
+      </v-col>
+      <!-- Title -->
+      <v-col class="my-auto">
+        <h2>
+          {{ user.name }}
+        </h2>
+        <h2 class="subtitle">
+          Played {{ latestCharacter.update_time | FromNowFilter }} with
+          <router-link
+            :to="{
+              name: 'Character',
+              params: {
+                user_name: latestCharacter.user_name,
+                character_slug: '@'
+              }
+            }"
+          >
+            {{ latestCharacter.hero | HeroNameFilter }}
+            {{ latestCharacter.name }}
+          </router-link>
+        </h2>
+      </v-col>
+      <v-col cols="auto" class="my-auto">
+        <v-btn icon :href="`https://twitch.com/${user.name}`" target="_blank">
+          <v-icon> mdi-twitch </v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="12">
+        <v-row dense class="mt-3">
+          <v-col class="my-auto">
+            <v-row>
+              <v-col cols="auto">
+                <v-icon left color="gold">
+                  mdi-trophy-outline
+                </v-icon>
+                {{ speedrunsStatistics.gold }}
+              </v-col>
+              <v-col cols="auto">
+                <v-icon left color="silver">
+                  mdi-trophy-outline
+                </v-icon>
+                {{ speedrunsStatistics.silver }}
+              </v-col>
+              <v-col cols="auto">
+                <v-icon left color="bronze"> mdi-trophy-outline </v-icon>
+                {{ speedrunsStatistics.bronze }}
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="4" lg="3" xl="2">
+            <v-text-field
+              dense
+              outlined
+              :value="'https://diablo.run/' + user.name + '/@'"
+              label="Share active character link"
+              readonly
+              hide-details
+            ></v-text-field>
+          </v-col>
+          <v-col cols="auto" class="my-auto">
+            <v-btn
               :to="{
                 name: 'Character',
                 params: {
@@ -90,224 +81,187 @@
                 }
               }"
             >
-              <button
-                class="button is-small is-primary has-tooltip-left"
-                :data-tooltip="
-                  user.name + '/@ always links to active character'
-                "
-              >
-                <span class="is-hidden-mobile"
-                  >diablo.run/{{ latestCharacter.user_name }}/</span
-                >@
-              </button>
-            </router-link>
-          </div>
-          <div
-            class="column is-narrow has-tooltip-left is-hidden-mobile"
-            :data-tooltip="user.name + ' on Twitch'"
-          >
-            <figure class="image is-24x24">
-              <a :href="`https://twitch.com/${user.name}`" target="_blank">
-                <img src="@/assets/img/icons/TwitchGlitchWhite.svg" />
-              </a>
-            </figure>
-          </div>
-        </div>
-        <table class="table is-narrow is-fullwidth is-striped is-hoverable">
-          <thead>
-            <tr>
-              <th>Level</th>
-              <th>Name</th>
-              <th>Hero</th>
-              <th>Core</th>
-              <th>Location</th>
-              <th class="is-hidden-mobile">Playtime</th>
-              <th class="is-hidden-mobile">Added</th>
-              <th v-if="isEditor">Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="character of characters" :key="character.id">
-              <td class="is-narrow has-text-centered">
-                {{ character.level }}
-              </td>
-              <td>
-                <router-link
-                  :to="
-                    `/${character.user_name}/${character.name}${character.id}`
-                  "
-                >
-                  {{ character.name }}
-                </router-link>
-              </td>
-              <td>
-                <span
-                  :class="
-                    `is-hidden-desktop has-text-capitalized ${character.hero}`
-                  "
-                  >{{ character.hero }}
-                </span>
-                <span :class="`is-hidden-touch ${character.hero}`">
-                  {{ character.hero | HeroNameFilter }}
-                </span>
-              </td>
-              <td>
-                <span v-if="!character.hc">SC</span>
-                <span v-if="character.hc" class="has-text-danger">HC</span>
-              </td>
-              <td>
-                <span v-if="!(character.hc && character.dead)">
-                  {{ character.area | AreaNameFilter }}
-                </span>
-                <span
-                  v-if="character.hc && character.dead"
-                  class="has-text-warning"
-                >
-                  Died in {{ character.area | AreaNameFilter }}
-                </span>
-              </td>
-              <td class="is-hidden-mobile">
-                {{ character.seconds_played | DurationFilter }}
-              </td>
-              <td class="is-hidden-mobile has-text-grey is-narrow">
-                {{ character.start_time | FromNowFilter }}
-              </td>
-              <td v-if="isEditor" class="is-narrow">
-                <a class="has-text-danger" @click="deleteCharacter(character)">
-                  Delete
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button
-          v-if="moreCharacters"
-          class="button is-small is-primary"
-          :class="{ 'is-loading': loadingCharacters }"
-          @click="loadMoreCharacters()"
-        >
-          Load more characters
-        </button>
-      </div>
-    </section>
-    <!-- Speedrun history -->
-    <section class="section pt-0" v-if="speedruns.length > 0">
-      <div class="container">
-        <div class="columns is-mobile is-multiline">
-          <div class="column is-full-mobile">
-            <h1 class="subtitle">
-              <CountryIcon imgClass="flag" :code="user.country_code" />
-              {{ latestCharacter.user_name }}'s Speedruns
-            </h1>
-          </div>
-          <div class="column is-narrow">
-            <p class="subtitle has-text-grey">
-              <span class="rank-1">{{ speedrunsStatistics.gold }}</span> Gold
-            </p>
-          </div>
-          <div class="column is-narrow">
-            <p class="subtitle has-text-grey">
-              <span class="rank-2">{{ speedrunsStatistics.silver }}</span>
-              Silver
-            </p>
-          </div>
-          <div class="column is-narrow">
-            <p class="subtitle has-text-grey">
-              <span class="rank-3">{{ speedrunsStatistics.bronze }}</span>
-              Bronze
-            </p>
-          </div>
-        </div>
-        <table class="table is-fullwidth is-narrow is-striped is-hoverable">
-          <thead>
-            <tr>
-              <th class="is-narrow has-text-centered">#</th>
-              <th>Time</th>
-              <th>Category</th>
-              <th class="is-hidden-mobile has-text-centered">Armory</th>
-              <th>Submitted</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="run of speedruns" :key="run.id">
-              <td class="is-narrow has-text-grey has-text-centered">
-                <span :class="`rank-${run.category_rank}`">
-                  {{ run.category_rank }}
-                </span>
-              </td>
-              <td class="is-narrow">
-                <span class="is-family-monospace">
-                  <a :href="run.speedrun_link" target="_blank">
-                    {{ run.seconds_played | DurationFilter }}
-                  </a>
-                </span>
-              </td>
-              <td class="is-narrow has-text-capitalized">
-                <router-link
-                  :to="{
-                    name: 'Leaderboard',
-                    hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
-                      run.hero
-                    }/${run.players_category}`
-                  }"
-                >
-                  {{ run.category_name }}
-                  <span :class="`has-hero ${run.hero} is-hidden-touch`">
-                    {{ run.hero | HeroNameFilter }}
-                  </span>
-                  <span :class="`has-hero ${run.hero} is-hidden-desktop`">
-                    {{ run.hero }}
-                  </span>
-                  <span class="is-hidden-touch">
-                    {{ run.hc ? 'Hardcore' : 'Softcore' }}
-                  </span>
-                  <span class="is-hidden-desktop">
-                    {{ run.hc ? 'HC' : 'SC' }}
-                  </span>
-                  <span class="is-hidden-touch">
-                    {{ run.players_category | PlayersCategoryNameFilter }}
-                  </span>
-                  <span class="is-hidden-desktop">
-                    {{ run.players_category }}
-                  </span>
-                </router-link>
-              </td>
-              <td class="is-hidden-mobile has-text-centered">
-                <span v-if="run.character_id" class="subtitle is-6">
-                  <router-link
-                    :to="{
-                      name: 'Character',
-                      params: {
-                        user_name: run.user_name,
-                        character_slug: run.character_name + run.character_id
-                      }
-                    }"
-                  >
-                    {{ run.character_name }}
-                  </router-link>
-                </span>
-              </td>
-              <td class="has-text-grey is-narrow">
-                {{ run.submit_time | FromNowFilter }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button
-          v-if="speedrunsPagination.more"
-          class="button is-small is-primary"
-          :class="{ 'is-loading': loadingSpeedruns }"
-          @click="loadMoreSpeedruns()"
-        >
-          Load more speedruns
-        </button>
-      </div>
-    </section>
-  </div>
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+      <!-- Content -->
+      <v-col cols="12" class="mt-3">
+        <v-card>
+          <v-card-title> Hero history </v-card-title>
+          <v-card-text>
+            <v-simple-table dense class="text-no-wrap">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Level</th>
+                  <th>Core</th>
+                  <th>Hero</th>
+                  <th>Area</th>
+                  <th>Added</th>
+                  <th v-if="isEditor">Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="character of characters" :key="character.id">
+                  <td>
+                    <router-link
+                      :to="
+                        `/${character.user_name}/${character.name}${character.id}`
+                      "
+                      >{{ character.name }}
+                    </router-link>
+                    <v-icon v-if="character.dead" small color="error">
+                      mdi-skull-crossbones
+                    </v-icon>
+                  </td>
+                  <td>{{ character.level }}</td>
+                  <td>
+                    <span v-if="!character.hc">SC</span>
+                    <span v-if="character.hc" class="error--text">HC</span>
+                  </td>
+                  <td>
+                    <v-icon
+                      v-if="!character.hc"
+                      small
+                      :class="`${character.hero}`"
+                    >
+                      mdi-sword
+                    </v-icon>
+                    <v-icon
+                      v-if="character.hc"
+                      small
+                      :class="`${character.hero}`"
+                    >
+                      mdi-skull-outline
+                    </v-icon>
+                    {{ character.hero | HeroNameFilter }}
+                  </td>
+                  <td>{{ character.area | AreaNameFilter }}</td>
+                  <td>{{ character.start_time | FromNowFilter }}</td>
+                  <td v-if="isEditor">
+                    <a @click="deleteCharacter(character)"> Delete </a>
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+            <v-btn
+              v-if="moreCharacters"
+              class="mt-3"
+              small
+              @click="loadMoreCharacters()"
+            >
+              <v-icon left>mdi-chevron-down</v-icon> Load more
+            </v-btn>
+          </v-card-text>
+
+          <v-divider />
+          <v-card-title> Race standings </v-card-title>
+          <v-card-text>
+            <v-simple-table dense class="text-no-wrap">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Time</th>
+                  <th>Category</th>
+                  <th>Hero</th>
+                  <th>Submitted</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="run of speedruns" :key="run.id">
+                  <td class="grey--text">
+                    <span v-if="run.category_rank > 3">{{
+                      run.category_rank
+                    }}</span>
+                    <v-icon
+                      v-if="run.category_rank == 1"
+                      small
+                      color="yellow accent-4"
+                    >
+                      mdi-trophy-outline
+                    </v-icon>
+                    <v-icon
+                      v-if="run.category_rank == 2"
+                      small
+                      color="grey lighten-1"
+                    >
+                      mdi-trophy-outline
+                    </v-icon>
+                    <v-icon v-if="run.category_rank == 3" small color="brown">
+                      mdi-trophy-outline
+                    </v-icon>
+                  </td>
+                  <td>
+                    <a :href="run.speedrun_link" target="_blank">
+                      {{ run.seconds_played | DurationFilter }}
+                    </a>
+                  </td>
+                  <td>
+                    <router-link
+                      :to="{
+                        name: 'Leaderboard',
+                        hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
+                          run.hero
+                        }/${run.players_category}`
+                      }"
+                    >
+                      {{ run.category_name }}
+                      {{ run.hc ? 'HC' : '' }}
+                      {{ run.players_category }}
+                    </router-link>
+                  </td>
+                  <td>
+                    <router-link
+                      v-if="run.character_id"
+                      :to="{
+                        name: 'Character',
+                        params: {
+                          user_name: run.user_name,
+                          character_slug: run.character_name + run.character_id
+                        }
+                      }"
+                    >
+                      <v-icon v-if="!run.hc" small :class="`${run.hero}`">
+                        mdi-sword
+                      </v-icon>
+                      <v-icon v-if="run.hc" small :class="`${run.hero}`">
+                        mdi-skull-outline
+                      </v-icon>
+                      {{ run.hero | HeroNameFilter }}
+                    </router-link>
+                    <span v-if="!run.character_id">
+                      <v-icon v-if="!run.hc" small :class="`${run.hero}`">
+                        mdi-sword
+                      </v-icon>
+                      <v-icon v-if="run.hc" small :class="`${run.hero}`">
+                        mdi-skull-outline
+                      </v-icon>
+                      {{ run.hero | HeroNameFilter }}
+                    </span>
+                  </td>
+                  <td>{{ run.submit_time | FromNowFilter }}</td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+            <v-btn
+              v-if="speedrunsPagination.more"
+              class="mt-3"
+              small
+              @click="loadMoreSpeedruns()"
+            >
+              <v-icon left>mdi-chevron-down</v-icon> Load more
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables.scss';
+@import '@/styles/variables.scss';
 
 .table th {
   word-wrap: none;
@@ -317,7 +271,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import CountryIcon from '@/components/CountryIcon.vue';
 import {
   FromNowFilter,
   DifficultyFilter,
@@ -326,7 +279,7 @@ import {
   HeroNameFilter,
   PlayersCategoryNameFilter
 } from '@/filters';
-import Icon from '@/components/Icon.vue';
+// import Icon from '@/components/Icon.vue';
 
 export default {
   name: 'Character',
@@ -339,8 +292,7 @@ export default {
     PlayersCategoryNameFilter
   },
   components: {
-    Icon,
-    CountryIcon
+    // Icon
   },
   data: () => ({
     user: null,

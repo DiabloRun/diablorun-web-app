@@ -1,474 +1,422 @@
 <template>
-  <div class="race-editor" v-if="!loading">
-    <fieldset :disabled="start_time || !canEdit">
-      <!-- Title -->
-      <section class="hero is-dark is-bold">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title is-1">Race Editor</h1>
-          </div>
-        </div>
-      </section>
-      <!-- Can not edit message -->
-      <section class="section" v-if="!canEdit">
-        <div class="container">
-          <div class="box">
-            <p>
-              The race editor is only available for diablo.run supporters on
-              Patreon. Please
-              <a href="https://www.patreon.com/diablorun">become a Patreon</a>
-              and
-              <router-link :to="{ name: 'Patreon' }"
-                >link your Patreon account</router-link
-              >
-              to create and run races.
-            </p>
-          </div>
-        </div>
-      </section>
-      <!-- Save -->
-      <section class="section pb-0" v-if="canEdit">
-        <div class="container">
-          <div class="columns is-vcentered is-mobile">
-            <div class="column">
-              <button
-                v-if="dirty"
-                class="button is-small is-primary"
-                :class="{ 'is-loading': saving }"
-                @click="save()"
-              >
-                Save changes
-              </button>
-              <button v-if="!dirty" class="button is-small is-primary">
-                No changes since saving
-              </button>
-            </div>
-            <div class="column is-narrow">
-              <p v-if="token && !start_time">
+  <v-form
+    v-if="!loading"
+    :disabled="start_time || !canEdit"
+    class="race-editor"
+  >
+    <v-container class="mt-5">
+      <v-row no-gutters class="mb-5">
+        <v-col>
+          <h2 v-if="!token">
+            <v-icon left>mdi-flag-plus</v-icon>
+            Build a new race
+          </h2>
+          <h2 v-if="token">
+            <v-icon left>mdi-flag</v-icon>
+            Edit race
+          </h2>
+          <!--
                 <RaceCountdown
+                  v-if="token && !start_time"
                   ref="countdown"
                   :start="start_time"
                   :finish="finish_time"
                 />
-              </p>
-            </div>
-            <div v-if="token && !start_time" class="column is-narrow">
-              <button
-                v-if="canHost"
-                class="button is-small is-primary"
-                @click="startCountdown()"
-              >
-                Start race countdown from 10s
-              </button>
-              <button v-if="!canHost" class="button is-small is-primary">
-                Only Patreons can host races
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section">
-        <div class="container">
-          <div class="box">
-            <div class="columns">
-              <div class="column">
-                <div class="field">
-                  <h1 class="subtitle mb-3">Name</h1>
-                  <div class="control">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="How would you like to call your race?"
-                      v-model="form.name"
-                    />
-                  </div>
-                </div>
-                <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">Description</h1>
-                  <div class="control">
-                    <textarea
-                      class="textarea"
-                      placeholder="Describe the race"
-                      v-model="form.description"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="field" v-if="canHost">
-                  <h1 class="subtitle mb-3 pt-3">
-                    Estimated start time
-                  </h1>
-                  <div class="control">
-                    <DateTimeInput v-model="form.estimated_start_time" />
-                  </div>
-                </div>
-                <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">
-                    Allowed Players Setting
-                  </h1>
-                  <div class="control">
-                    <div class="select">
-                      <select v-model="form.entry_players">
-                        <option value="p1">Players 1</option>
-                        <option value="px">Players X</option>
-                        <option value="p8">Players 8</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="columns">
-                  <div class="column">
-                    <div class="field">
-                      <h1 class="subtitle mb-3 pt-3">Token</h1>
-                      <input
-                        v-if="token"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Token"
-                        :value="'RACE_TOKEN=' + token"
-                      />
-                      <input
-                        v-if="!token"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Race token is generated after saving"
-                      />
-                    </div>
-                  </div>
-                  <div class="column">
-                    <div class="field">
-                      <h1 class="subtitle mb-3 pt-3">Race Page</h1>
-                      <input
-                        v-if="leaderboard_url"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Token"
-                        :value="leaderboard_url"
-                      />
-                      <input
-                        v-if="!leaderboard_url"
-                        readonly
-                        class="input"
-                        type="text"
-                        placeholder="Race page link is generated after saving"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="column is-narrow">
-                <h1 class="subtitle mb-3">Entry Conditions</h1>
-                <div class="field">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_new_character" />
-                    Must make new character
-                  </label>
-                </div>
-                <div class="field">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_classic" />
-                    Classic only
-                  </label>
-                </div>
-                <div class="field">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="form.entry_hc" />
-                    Hardcore only
-                  </label>
-                </div>
-                <div class="field">
-                  <h1 class="subtitle mb-3 pt-3">
-                    Allowed Classes
-                  </h1>
-                  <p class="mb-3">Hold control to select multiple</p>
-                  <div class="select is-multiple">
-                    <select
-                      multiple
-                      :size="heroes.length"
-                      v-model="form.entry_hero"
-                    >
-                      <option
-                        v-for="hero of heroes"
-                        :key="hero.id"
-                        :value="hero.id"
-                      >
-                        {{ hero.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section pt-0">
-        <div class="container">
-          <!-- Points -->
-          <div class="box">
-            <h1 class="subtitle mb-3">Points</h1>
-            <div
-              class="field has-addons"
-              v-for="(point, index) of form.points"
-              :key="index"
-            >
-              <p class="control">
-                <input
-                  class="input is-small"
-                  type="number"
-                  v-model="point.amount"
-                />
-              </p>
-              <p class="control">
-                <span class="select is-small">
-                  <select v-model="point.type">
-                    <option value="quest">for completing</option>
-                    <option value="per">per</option>
-                    <option value="for">for reaching</option>
-                  </select>
-                </span>
-              </p>
-              <p
-                class="control"
-                v-if="point.type === 'per' || point.type === 'for'"
-              >
-                <input
-                  class="input is-small"
-                  type="number"
-                  v-model="point.counter"
-                />
-              </p>
-              <p
-                class="control"
-                v-if="point.type === 'per' || point.type === 'for'"
-              >
-                <span class="select is-small">
-                  <select v-model="point.stat">
-                    <option
-                      v-for="stat of stats"
-                      :key="stat.id"
-                      :value="stat.id"
-                    >
-                      {{ stat.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="point.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="point.difficulty">
-                    <option
-                      v-for="difficulty of difficulties"
-                      :key="difficulty.id"
-                      :value="difficulty.id"
-                    >
-                      {{ difficulty.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="point.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="point.quest_id">
-                    <optgroup
-                      v-for="act of acts"
-                      :key="act.id"
-                      :label="act.name"
-                    >
-                      <option
-                        v-for="quest of act.quests"
-                        :key="quest.id"
-                        :value="quest.id"
-                      >
-                        {{ quest.short_name }}
-                      </option>
-                    </optgroup>
-                  </select>
-                </span>
-              </p>
-              <p class="control">
-                <span class="select is-small">
-                  <select v-model="point.time_type">
-                    <option value="state">by latest state</option>
-                    <option value="max" :disabled="point.type !== 'per'">
-                      by max value
-                    </option>
-                    <option value="in_under" :disabled="point.type === 'per'">
-                      in under
-                    </option>
-                    <option value="first" :disabled="point.type === 'per'">
-                      for first claimed
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="point.time_type === 'in_under'">
-                <input
-                  class="input is-small"
-                  type="text"
-                  placeholder="eg: 1d 2h 30m 50s"
-                  v-model="point.time"
-                />
-              </p>
-              <p class="control">
-                <a
-                  class="button is-small is-static"
-                  @click="removePoint(index)"
+                -->
+        </v-col>
+        <v-col cols="auto" class="my-auto">
+          <!--
+                <v-btn
+                  v-if="token && !start_time && canHost"
+                  @click="startCountdown()"
                 >
-                  <span class="delete has-background-danger"></span>
-                </a>
-              </p>
-            </div>
-            <button class="button is-small is-primary" @click="addPoint()">
-              Add
-            </button>
-          </div>
-          <!--Finish-->
-          <div class="box">
-            <h1 class="subtitle mb-3">Finish conditions</h1>
-            <div
-              v-for="(condition, index) of form.finish_conditions"
-              :key="index"
-              class="field has-addons"
-            >
-              <p class="control">
-                <span class="select is-small">
-                  <select v-model="condition.type">
-                    <option value="quest">Complete</option>
-                    <option value="time">After</option>
-                    <option value="stat">Reach</option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'time'">
-                <input
-                  class="input is-small"
-                  type="text"
-                  placeholder="eg: 1d 2h 30m 50s"
-                  v-model="condition.time"
-                />
-              </p>
-              <p class="control" v-if="condition.type === 'time'">
-                <span class="select is-small">
-                  <select v-model="condition.time_type">
-                    <option value="race">from race start</option>
-                    <option value="character">from character creation</option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'stat'">
-                <input
-                  class="input is-small"
-                  type="number"
-                  v-model="condition.counter"
-                />
-              </p>
-              <p class="control" v-if="condition.type === 'stat'">
-                <span class="select is-small">
-                  <select v-model="condition.stat">
-                    <option
-                      v-for="stat of stats"
-                      :key="stat.id"
-                      :value="stat.id"
-                    >
-                      {{ stat.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="condition.difficulty">
-                    <option
-                      v-for="difficulty of difficulties"
-                      :key="difficulty.id"
-                      :value="difficulty.id"
-                    >
-                      {{ difficulty.name }}
-                    </option>
-                  </select>
-                </span>
-              </p>
-              <p class="control" v-if="condition.type === 'quest'">
-                <span class="select is-small">
-                  <select v-model="condition.quest_id">
-                    <optgroup
-                      v-for="act of acts"
-                      :key="act.id"
-                      :label="act.name"
-                    >
-                      <option
-                        v-for="quest of act.quests"
-                        :key="quest.id"
-                        :value="quest.id"
-                      >
-                        {{ quest.short_name }}
-                      </option>
-                    </optgroup>
-                  </select>
-                </span>
-              </p>
-              <p class="control">
-                <a
-                  class="button is-small is-static"
-                  @click="removeFinishCondition(index)"
-                >
-                  <span class="delete has-background-danger"></span>
-                </a>
-              </p>
-            </div>
-            <div class="field">
-              <button
-                class="button is-small is-primary"
-                @click="addFinishCondition()"
-              >
-                Add
-              </button>
-            </div>
-            <div class="field">
-              <label class="checkbox">
-                <input
-                  type="checkbox"
-                  v-model="form.finish_conditions_global"
-                />
-                Finish conditions are global
-              </label>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section pt-0" v-if="canEdit">
-        <div class="container">
-          <button
-            v-if="dirty"
-            class="button is-small is-primary"
-            :class="{ 'is-loading': saving }"
-            @click="save()"
-          >
+                  <v-icon left color="primary">mdi-timer-10</v-icon>
+                  Start the race
+                </v-btn>
+                -->
+          <v-btn v-if="canEdit && dirty" @click="save()">
+            <v-icon left>mdi-content-save-alert</v-icon>
             Save changes
-          </button>
-          <button v-if="!dirty" class="button is-small is-primary">
-            No changes since saving
-          </button>
-        </div>
-      </section>
-    </fieldset>
-  </div>
+          </v-btn>
+          <v-btn v-if="canEdit && !dirty" @click="save()" disabled>
+            <v-icon left>mdi-content-save-outline</v-icon>
+            Race saved
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-card>
+            <v-row no-gutters>
+              <v-col cols="12" md="6" lg="8" xl="9" class="px-3">
+                <v-row no-gutters>
+                  <v-col cols="12" class="mb-4">
+                    <v-select
+                      class="mt-4"
+                      :menu-props="{ bottom: true, offsetY: true }"
+                      dense
+                      hide-details
+                      v-model="form.type"
+                      :items="raceTypes"
+                      label="Race type"
+                      outlined
+                    />
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-text-field
+                      v-model="form.name"
+                      outlined
+                      label="Name of the race"
+                      required
+                      hide-details
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-textarea
+                      v-model="form.description"
+                      outlined
+                      label="Description"
+                      required
+                      hide-details
+                      rows="3"
+                    ></v-textarea>
+                  </v-col>
+                  <v-col cols="12" class="mb-3">
+                    <v-text-field
+                      v-if="leaderboard_url"
+                      :value="leaderboard_url"
+                      outlined
+                      label="Link"
+                      required
+                      hide-details
+                      readonly
+                    ></v-text-field>
+                    <v-text-field
+                      v-if="!leaderboard_url"
+                      value="Generated after saving"
+                      outlined
+                      label="Link"
+                      required
+                      hide-details
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-divider vertical class="hidden-sm-and-down" />
+              <v-col>
+                <v-divider class="hidden-md-and-up" />
+                <v-container>
+                  <h5>Qualification</h5>
+                  <!--
+                  <v-checkbox
+                    v-model="form.entry_new_character"
+                    label="Must start with a new hero"
+                    hide-details
+                  ></v-checkbox>
+                  -->
+                  <v-checkbox
+                    v-model="form.entry_classic"
+                    label="Classic"
+                    hide-details
+                  ></v-checkbox>
+                  <v-checkbox
+                    v-model="form.entry_hc"
+                    label="Hardcore"
+                    color="error"
+                    hide-details
+                  ></v-checkbox>
+                  <v-select
+                    class="mt-4"
+                    :menu-props="{ bottom: true, offsetY: true }"
+                    dense
+                    hide-details
+                    v-model="form.entry_players"
+                    :items="playersSettings"
+                    label="Players set to"
+                    outlined
+                  >
+                  </v-select>
+                </v-container>
+              </v-col>
+              <v-divider vertical></v-divider>
+              <v-col md="auto">
+                <v-divider class="hidden-md-and-up" />
+                <v-container>
+                  <h5>Allowed heroes</h5>
+                  <v-checkbox
+                    v-model="form[hero.input]"
+                    hide-details
+                    v-for="hero of heroes"
+                    :key="hero.id"
+                    :label="hero.name"
+                  >
+                  </v-checkbox>
+                </v-container>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+            <v-container>
+              <v-card-title class="pl-0 pt-0"> Point systems </v-card-title>
+              <v-form v-for="(point, index) of form.points" :key="index">
+                <v-card hover class="pa-1 mb-3">
+                  <v-row no-gutters>
+                    <!-- Remove -->
+                    <v-col cols="auto" class="pr-1">
+                      <v-btn icon @click="removePoint(index)">
+                        <v-icon color="error">mdi-close</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <!-- Amount of points -->
+                    <v-col class="pr-1">
+                      <v-text-field
+                        v-model="point.amount"
+                        label="Points"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <!-- Point type -->
+                    <v-col class="pr-1">
+                      <v-select
+                        v-model="point.type"
+                        :items="pointTypes"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                        label="Type"
+                      ></v-select>
+                    </v-col>
+                    <!-- Amount per/for stat counter -->
+                    <v-col
+                      v-if="point.type === 'per' || point.type === 'for'"
+                      class="pr-1"
+                    >
+                      <v-text-field
+                        v-model="point.counter"
+                        dense
+                        outlined
+                        :label="point.type"
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <!-- Stat -->
+                    <v-col
+                      v-if="point.type === 'per' || point.type === 'for'"
+                      class="pr-1"
+                    >
+                      <v-select
+                        v-model="point.stat"
+                        :items="stats"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        item-text="name"
+                        item-value="id"
+                        dense
+                        outlined
+                        hide-details
+                        label="Stat"
+                      ></v-select>
+                    </v-col>
+                    <!-- Difficulty if quest type -->
+                    <v-col v-if="point.type === 'quest'" class="pr-1">
+                      <v-select
+                        v-model="point.difficulty"
+                        :items="difficulties"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Difficulty"
+                      />
+                    </v-col>
+                    <!-- Difficulty if quest type -->
+                    <v-col v-if="point.type === 'quest'" class="pr-1">
+                      <v-select
+                        v-model="point.quest_id"
+                        :items="questOptions"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Quest"
+                      />
+                    </v-col>
+                    <!-- Time type -->
+                    <v-col class="pr-1">
+                      <v-select
+                        v-model="point.time_type"
+                        :items="pointTimeTypes"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Claiming"
+                      ></v-select>
+                    </v-col>
+                    <!-- Set time for "in under" -->
+                    <v-col v-if="point.time_type === 'in_under'">
+                      <v-text-field
+                        v-model="point.time"
+                        dense
+                        outlined
+                        label="in under"
+                        placeholder="eg: 1d 2h 30m 50s"
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-form>
+              <v-btn small @click="addPoint()">
+                <v-icon left>mdi-plus</v-icon>
+                Add
+              </v-btn>
+            </v-container>
+            <v-divider></v-divider>
+            <!-- Finish conditions -->
+            <v-container>
+              <v-card-title class="pl-0 pt-0"> Finish conditions </v-card-title>
+              <v-form
+                v-for="(condition, index) of form.finish_conditions"
+                :key="index"
+              >
+                <v-card hover class="pa-1 mb-3">
+                  <v-row no-gutters>
+                    <!-- Remove -->
+                    <v-col cols="auto" class="pr-1">
+                      <v-btn icon @click="removeFinishCondition(index)">
+                        <v-icon color="error">mdi-close</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <!-- Condition type -->
+                    <v-col class="pr-1">
+                      <v-select
+                        v-model="condition.type"
+                        :items="finishConditionTypes"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                        label="Type"
+                      ></v-select>
+                    </v-col>
+
+                    <!-- Duration and counting start time if time type -->
+                    <v-col class="pr-1" v-if="condition.type === 'time'">
+                      <v-text-field
+                        v-model="condition.time"
+                        dense
+                        outlined
+                        label="duration"
+                        placeholder="eg: 1d 2h 30m 50s"
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <v-col class="pr-1" v-if="condition.type === 'time'">
+                      <v-select
+                        v-model="condition.time_type"
+                        :items="finishConditionTimeTypes"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Counting time from"
+                      ></v-select>
+                    </v-col>
+
+                    <!-- Amount and stat if stat type -->
+                    <v-col v-if="condition.type === 'stat'" class="pr-1">
+                      <v-text-field
+                        v-model="condition.counter"
+                        dense
+                        outlined
+                        label="Amount"
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                    <v-col v-if="condition.type === 'stat'" class="pr-1">
+                      <v-select
+                        v-model="condition.stat"
+                        :items="stats"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        item-text="name"
+                        item-value="id"
+                        dense
+                        outlined
+                        hide-details
+                        label="Stat"
+                      ></v-select>
+                    </v-col>
+
+                    <!-- Difficulty and quest if quest type -->
+                    <v-col v-if="condition.type === 'quest'" class="pr-1">
+                      <v-select
+                        v-model="condition.difficulty"
+                        :items="difficulties"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Difficulty"
+                      />
+                    </v-col>
+                    <v-col v-if="condition.type === 'quest'">
+                      <v-select
+                        v-model="condition.quest_id"
+                        :items="questOptions"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        dense
+                        outlined
+                        hide-details
+                        label="Quest"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-form>
+
+              <!--
+              <div class="box">
+                <div class="field">
+                  <label class="checkbox">
+                    <input
+                      type="checkbox"
+                      v-model="form.finish_conditions_global"
+                    />
+                    Finish conditions are global
+                  </label>
+                </div>
+              </div>
+              -->
+
+              <v-btn small @click="addFinishCondition()">
+                <v-icon left>mdi-plus</v-icon>
+                Add
+              </v-btn>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import RaceCountdown from '@/components/RaceCountdown.vue';
-import DateTimeInput from '@/components/DateTimeInput.vue';
+// import RaceCountdown from '@/components/RaceCountdown.vue';
+// import DateTimeInput from '@/components/DateTimeInput.vue';
 import { heroes, quests, stats } from '@diablorun/diablorun-data';
 
 export default {
-  name: 'RaceEditor',
+  name: 'Race Editor',
   components: {
-    RaceCountdown,
-    DateTimeInput
+    // RaceCountdown
+    // DateTimeInput
   },
   data() {
     const statsList = Object.keys(stats).map(id => ({
@@ -476,47 +424,87 @@ export default {
       name: stats[id]
     }));
 
+    // Generate quest options with act dividers
     const questsList = Object.keys(quests).map(id => ({
-      id,
-      ...quests[id]
+      ...quests[id],
+      value: Number(id),
+      text: quests[id].short_name
     }));
 
-    const acts = [
-      { name: 'Act I', quests: questsList.filter(quest => quest.act === 1) },
-      { name: 'Act II', quests: questsList.filter(quest => quest.act === 2) },
-      {
-        name: 'Act III',
-        quests: questsList.filter(quest => quest.act === 3)
-      },
-      { name: 'Act IV', quests: questsList.filter(quest => quest.act === 4) },
-      { name: 'Act V', quests: questsList.filter(quest => quest.act === 5) },
-      { name: 'Other', quests: questsList.filter(quest => quest.act === 0) }
-    ];
+    questsList.sort((a, b) => a.order - b.order);
 
-    for (const act of acts) {
-      act.quests.sort((a, b) => a.order - b.order);
-    }
+    const questOptions = [
+      { header: 'Act I', divider: true },
+      ...questsList.filter(q => q.act === 1),
+      { header: 'Act II', divider: true },
+      ...questsList.filter(q => q.act === 2),
+      { header: 'Act III', divider: true },
+      ...questsList.filter(q => q.act === 3),
+      { header: 'Act IV', divider: true },
+      ...questsList.filter(q => q.act === 4),
+      { header: 'Act V', divider: true },
+      ...questsList.filter(q => q.act === 5)
+    ];
 
     return {
       // Static data
-      heroes,
-      acts,
+      raceTypes: [
+        {
+          text: 'Speedrun (earliest to finish condition wins)',
+          value: 'speedrun'
+        },
+        { text: 'Points chase (most points wins)', value: 'points_chase' }
+      ],
+      playersSettings: [
+        { text: 'X', value: 'px' },
+        { text: '1', value: 'p1' },
+        { text: '8', value: 'p8' }
+      ],
+      pointTypes: [
+        { text: 'For completing', value: 'quest' },
+        { text: 'Per', value: 'per' },
+        { text: 'For', value: 'for' }
+      ],
+      pointTimeTypes: [
+        { text: 'by latest state', value: 'state' },
+        { text: 'by max value', value: 'max' },
+        { text: 'in under', value: 'in_under' },
+        { text: 'for first claimed', value: 'first' }
+      ],
+      finishConditionTypes: [
+        { text: 'After quest', value: 'quest' },
+        { text: 'When stat reached', value: 'stat' },
+        { text: 'After time', value: 'time' }
+      ],
+      finishConditionTimeTypes: [
+        { text: 'from race start', value: 'race' },
+        { text: 'from character creation', value: 'character' }
+      ],
+      heroes: heroes.map(hero => ({ ...hero, input: `entry_${hero.id}` })),
+      questOptions,
       stats: statsList,
       difficulties: [
-        { id: 'normal', name: 'Normal' },
-        { id: 'nightmare', name: 'Nightmare' },
-        { id: 'hell', name: 'Hell' }
+        { value: 'normal', text: 'Normal' },
+        { value: 'nightmare', text: 'Nightmare' },
+        { value: 'hell', text: 'Hell' }
       ],
       // Form
       form: {
+        type: 'speedrun',
         name: '',
         slug: '',
         description: '',
         entry_new_character: true,
-        entry_hero: heroes.map(hero => hero.id),
+        entry_ama: true,
+        entry_sor: true,
+        entry_nec: true,
+        entry_pal: true,
+        entry_bar: true,
+        entry_dru: true,
+        entry_asn: true,
         entry_classic: false,
         entry_hc: false,
-        entry_players: 'p1',
+        entry_players: 'px',
         finish_conditions_global: false,
         points: [],
         finish_conditions: [
@@ -525,9 +513,8 @@ export default {
             type: 'quest',
             difficulty: 'normal',
             quest_id: 80,
-            since: 'race',
             stat: '',
-            time_type: 'race',
+            time_type: 'character',
             time: ''
           }
         ],
@@ -572,11 +559,18 @@ export default {
     const { race, rules } = await res.json();
 
     this.form = {
+      type: race.type,
       name: race.name,
       slug: race.slug,
       description: race.description,
       entry_new_character: race.entry_new_character,
-      entry_hero: race.entry_hero.split(','),
+      entry_ama: race.entry_ama,
+      entry_sor: race.entry_sor,
+      entry_nec: race.entry_nec,
+      entry_pal: race.entry_pal,
+      entry_bar: race.entry_bar,
+      entry_dru: race.entry_dru,
+      entry_asn: race.entry_asn,
       entry_classic: race.entry_classic,
       entry_hc: race.entry_hc,
       entry_players: race.entry_players,
@@ -646,7 +640,6 @@ export default {
           },
           body: JSON.stringify({
             ...this.form,
-            entry_hero: this.form.entry_hero.join(','),
             update_rules,
             rules,
             editor_token: this.editor_token,
@@ -660,13 +653,15 @@ export default {
 
         const body = await res.json();
 
+        console.log(body);
+
         if (this.editor_token !== body.editor_token) {
           this.token = body.token;
           this.editor_token = body.editor_token;
           this.leaderboard_url = `${process.env.VUE_APP_WEB_URL}/race/${body.slug}${body.id}`;
 
           this.$router.push({
-            name: 'RaceEditor',
+            name: 'Race Editor',
             params: {
               editor_token: body.editor_token
             }

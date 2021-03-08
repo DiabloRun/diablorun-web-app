@@ -1,147 +1,218 @@
 @charset "utf-8";
-@import "./variables.scss";
-@import "~bulma/bulma";
-@import "~bulma-tooltip/dist/css/bulma-tooltip.min.css";
+@import url("https://fonts.googleapis.com/css2?family=Texturina:ital,wght@0,400;0,500;0,600;0,700;1,100&display=swap");
 
-// Body
-body, html {
-    overflow: auto;
+$title-font: "Texturina", serif;
+
+body,
+html {
+    overflow-y: auto !important;
+    font-size: 16px;
+
+    --v-anchor-base: var(--v-link-lighten1);
 }
 
-// Hero
-.hero a {
-    color: $white;
-    border-bottom: 2px dotted $grey-er;
+.dr-nav {
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
-.hero a:hover {
-    color: $white;
-    border-bottom: 2px dotted $purple-neon;
+.dense-text {
+    line-height: 1.1;
 }
 
-// Table
-.table {
-    border-radius: $radius;
+.v-application {
+    .v-application--wrap {
+        background-color: hsl(240, 22%, 10%);
+        background-image: url("assets/img/body-bg.jpg");
+        background-attachment: fixed;
+        background-repeat: repeat;
+        background-position: top center;
+        background-size: initial;
+    }
+
+    .logo {
+        max-height: 30px;
+        width: auto;
+        display: flex;
+
+        &.big {
+            max-height: 50px;
+            display: inline;
+        }
+    }
+
+    .theme--dark.v-app-bar.v-toolbar.v-sheet {
+        background-color: hsl(240, 22%, 12%);
+    }
+
+    .theme--dark.v-navigation-drawer {
+        background-color: hsla(240, 22%, 20%, 0.15);
+
+        .theme--dark.v-list-item--active::before,
+        .theme--dark.v-list-item--active:hover::before,
+        .theme--dark.v-list-item:focus::before {
+            color: var(--v-primary-lighten1);
+            opacity: 0.1;
+        }
+
+        .v-icon {
+            padding: 0 0.7rem;
+        }
+    }
+
+    .v-navigation-drawer__border {
+        width: 0;
+    }
+
+    h1,
+    h2,
+    h2.subtitle {
+        font-family: $title-font, sans-serif;
+        font-weight: 600;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        margin: 2rem 0 1.25rem 0;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
+
+    h1.subtitle,
+    h2.subtitle {
+        font-size: 1.15rem;
+        line-height: 1.15rem;
+        font-weight: 400;
+        color: var(--v-silver-darken1);
+        margin-top: 0.25rem;
+    }
+
+    h3 {
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
+
+    h3.subtitle {
+        font-size: 1rem;
+        color: var(--v-silver-darken1);
+        font-weight: 400;
+    }
+
+    .theme--dark.v-btn.v-btn--has-bg {
+        background-color: var(--v-primary-darken2);
+    }
+
+    .theme--dark.v-card {
+        background-color: hsla(240, 22%, 14%, 0.5);
+
+        & .v-card__text {
+            color: hsla(0, 0%, 100%, 1);
+
+            & a {
+                font-weight: 600;
+            }
+        }
+    }
+
+    .theme--dark.v-card--hover:hover {
+        background-color: hsla(240, 22%, 14%, 0.75);
+    }
+
+    .theme--dark.v-data-table {
+        background-color: hsla(240, 22%, 14%, 0.5);
+
+        & a {
+            font-weight: 500;
+        }
+    }
+
+    .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child,
+    .theme--dark.v-data-table
+        > .v-data-table__wrapper
+        > table
+        > tbody
+        > tr:not(:last-child)
+        > td:not(.v-data-table__mobile-row),
+    .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child,
+    .theme--dark.v-data-table
+        > .v-data-table__wrapper
+        > table
+        > tbody
+        > tr:not(:last-child)
+        > th:not(.v-data-table__mobile-row),
+    .theme--dark.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+        border-color: hsla(0, 0%, 100%, 0.065);
+    }
+
+    tbody tr:hover {
+        background-color: hsl(240, 22%, 20%) !important;
+    }
+
+    .theme--dark.v-tabs-items {
+        background-color: transparent;
+    }
+
+    .theme--dark.v-tabs .v-tab {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+
+    .theme--dark.v-tabs .v-tab:hover::before {
+        color: var(--v-primary-lighten1);
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            color: var(--v-link-lighten2);
+        }
+    }
+    
+    .theme--dark.v-divider {
+        border-color: hsla(0, 0%, 100%, 0.075);
+    }
+
+    .v-select__slot .theme--dark.v-label {
+        color: hsla(0,0%,100%,.5);
+    }
+
+    .v-input__slot > .theme--dark.v-label {
+        color: hsla(0,0%,100%,1);
+    }
 }
 
-// Tabs
-.tabs ul a {
-    background: $dark;
-}
-
-// Leaderboard
-.rank-1 {
-    color: $gold;
-    text-shadow: 0 0 5px $gold;
-}
-  
-.rank-2 {
-    color: $white;
-    text-shadow: 0 0 5px $white;
-}
-
-.rank-3 {
-    color: $bronze;
-    text-shadow: 0 0 5px $bronze;
-}
-
-.flag {
-  float: left;
-  padding: 5px 4px 0 0;
-}
-
-// Cards
-.card-content.equipment {
-    margin-bottom: 0;
-    padding: .75rem;
-    background: $grey-darker;
-    background: linear-gradient(180deg, $grey-darker, $black);
-}
-
-// Progress bars
-.progress {
-    background-color: $light;
-  }
-
-// Helpers
-.is-overlay .tags.are-large .tag {
-    padding: .5rem;
-    height: 2rem;
-}
-
-.is-rounded-slightly {
-    border-radius: $radius;
-}
-
-.has-no-wrap {
-    white-space: nowrap;
-}
-
-.has-no-border-radius {
-    border-radius: 0;
-}
-
-.has-text-capitalized {
-    text-transform: capitalize;
-}
-
-.has-glow {
-    box-shadow: 0 0px 60px $primary;
-}
-
-//Heroes
+// Heroes
 .sor {
-    color: $sor;
+    color: #26a69a !important;
 }
 
 .nec {
-    color: $nec;
+    color: #00bcd4 !important;
 }
 
 .ama {
-    color: $ama;
+    color: #ffd54f !important;
 }
 
 .dru {
-    color: $dru;
+    color: #ff8a65 !important;
 }
 
 .asn {
-    color: $asn;
+    color: #ae4ebe !important;
 }
 
 .pal {
-    color: $pal;
+    color: #e0e0e0 !important;
 }
 
 .bar {
-    color: $bar;
-}
-
-.has-glow-sor {
-    box-shadow: 0 0px 60px $sor;
-}
-
-.has-glow-nec {
-    box-shadow: 0 0px 60px $nec;
-}
-
-.has-glow-ama {
-    box-shadow: 0 0px 60px $ama;
-}
-
-.has-glow-dru {
-    box-shadow: 0 0px 60px $dru;
-}
-
-.has-glow-asn {
-    box-shadow: 0 0px 60px $asn;
-}
-
-.has-glow-pal {
-    box-shadow: 0 0px 60px $pal;
-}
-
-.has-glow-bar {
-    box-shadow: 0 0px 60px $bar;
+    color: #e57373 !important;
 }

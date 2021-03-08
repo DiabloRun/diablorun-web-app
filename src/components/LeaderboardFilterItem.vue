@@ -1,17 +1,10 @@
 <template>
-  <li
-    class="tab"
-    :class="{
-      'is-active': any ? $parent.value === '' : value === $parent.value
-    }"
-  >
-    <a @click="select()">
-      <span v-if="label">{{ label }}</span>
-      <span v-if="icon" class="icon">
-        <Icon imgClass="is-rounded-slightly" :name="icon" />
-      </span>
-    </a>
-  </li>
+  <v-btn color="secondary" large @click="select()" :value="any ? 'any' : value">
+    <span v-if="label">{{ label }}</span>
+    <v-avatar v-if="icon" size="30px">
+      <Icon :name="icon" />
+    </v-avatar>
+  </v-btn>
 </template>
 
 <script>
@@ -31,7 +24,7 @@ export default {
   methods: {
     async select() {
       await this.$store.dispatch('leaderboard/selectFilter', {
-        column: this.$parent.column,
+        column: this.$parent.$parent.column,
         value: this.any ? '' : this.value
       });
     }

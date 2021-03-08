@@ -1,220 +1,241 @@
 <template>
-  <div v-if="race.id">
-    <div v-if="!streamOverlay && !isPopup">
-      <!-- Hero  -->
-      <section class="hero is-dark is-bold">
-        <div class="hero-body">
-          <div class="container">
-            <div class="columns is-vcentered is-multiline is-mobile">
-              <div class="column">
-                <h1 class="title">{{ race.name }}</h1>
-              </div>
-              <div class="column is-narrow is-hidden-mobile">
-                <button
-                  :onclick="
-                    `window.open('/race/${race.id}','popup','width=550,height=900'); return false;`
-                  "
-                  target="popup"
-                  :href="`/race/${race.id}`"
-                  class="button is-primary is-outlined is-inverted"
-                >
-                  Popout
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Leaderboard -->
-      <section class="section">
-        <div class="container">
-          <div class="columns is-vcentered is-multiline">
-            <div class="column">
-              <h1 class="title is-2">
+  <div>
+    <v-container fluid v-if="!streamOverlay && !isPopup" class="pa-2">
+      <v-row dense>
+        <v-col cols="12" md="4">
+          <v-row dense>
+            <v-col cols="12">
+              <v-card>
+                <!--
                 <RaceCountdown
                   :start="race.start_time"
                   :finish="race.finish_time"
                 />
-              </h1>
-            </div>
-            <div
-              class="column is-narrow-tablet"
-              v-if="!race.start_time && race.estimated_start_time"
-            >
-              <h1 class="subtitle is-5">
-                Estimated start:
-                {{ race.estimated_start_time | LocalTimeFilter }} ({{
-                  race.estimated_start_time | FromNowFilter
-                }})
-              </h1>
-            </div>
-          </div>
-          <!-- Race is empty -->
-          <div
-            class="notification is-dark has-text-centered"
-            v-if="!characters.length > 0"
-          >
-            <p>Noone has entered the race.</p>
-          </div>
-          <!-- Participants -->
-          <table
-            class="table is-narrow is-striped is-hoverable"
-            v-if="characters.length > 0"
-          >
-            <thead>
-              <tr>
-                <th class="has-text-centered">#</th>
-                <th class="has-text-centered">Points</th>
-                <th>Runner</th>
-                <th>Level</th>
-                <th v-if="entry_heroes.length > 1">Hero</th>
-                <th>Area</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="character of characters" :key="character.id">
-                <td class="is-narrow has-text-centered has-text-grey">
-                  <span :class="`rank-${character.rank}`">
-                    {{ character.rank }}
+                <v-divider></v-divider>
+                -->
+                <v-card-text class="white--text">
+                  <!-- Finish condition type
+                  <span v-if="race.finish_conditions_global">
+                    Type: race ends for everybody when any runner fulfils a
+                    finish condition.
                   </span>
-                </td>
-                <td class="is-narrow has-text-centered">
-                  {{ character.points }}
-                </td>
-                <td>
-                  <CharacterUser :character="character" />
-                </td>
-                <td>
-                  {{ character.level }}
-                </td>
-                <td class="has-text-centered" v-if="entry_heroes.length > 1">
-                  {{ character.hero | HeroNameFilter }}
-                </td>
-                <td>
-                  {{ character.area | AreaNameFilter }}
-                </td>
-                <td class="is-narrow">
-                  <CharacterRaceStatus
-                    :character="character"
-                    :start="race.start_time"
-                    :finish="race.finish_time"
+                  <span v-if="!race.finish_conditions_global">
+                    Type: race ends for each runner separately when they fulfil
+                    a finish condition.
+                  </span>
+                  -->
+                  <!-- Conditions -->
+                  <div
+                    v-for="condition of finish_conditions"
+                    :key="condition.id"
+                  >
+                    <p
+                      v-if="
+                        condition.type === 'time' &&
+                          condition.time_type === 'race'
+                      "
+                    >
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      race ends {{ condition.time }} after the start of the
+                      race.
+                    </p>
+                    <p
+                      v-if="
+                        condition.type === 'time' &&
+                          condition.time_type === 'character'
+                      "
+                    >
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      race ends {{ condition.time }} after character creation.
+                    </p>
+                    <p v-if="condition.type === 'quest'">
+                      <!--<QuestIcon :id="condition.quest_id" />-->
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      complete
+                      {{ condition.quest_id | QuestShortNameFilter }}
+                      in {{ condition.difficulty | DifficultyFilter }}.
+                    </p>
+                    <p v-if="condition.type === 'stat'">
+                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      reach {{ condition.counter }}
+                      {{ condition.stat | StatNameFilter }}.
+                    </p>
+                  </div>
+                  <!-- In-game requirements -->
+                  <v-row class="pt-3">
+                    <v-col v-if="!race.entry_hc" cols="auto">
+                      <v-icon small color="primary"> mdi-sword </v-icon>
+                      Softcore
+                    </v-col>
+                    <v-col v-if="race.entry_hc" cols="auto" class="error--text">
+                      <v-icon small color="error"> mdi-skull-outline </v-icon>
+                      Hardcore
+                    </v-col>
+                    <v-col cols="auto">
+                      <v-icon small color="primary">
+                        mdi-slash-forward-box
+                      </v-icon>
+                      Players set to {{ race.entry_players }}
+                    </v-col>
+                    <v-col v-if="race.entry_classic" cols="auto">
+                      <v-icon small color="primary">
+                        mdi-alpha-c-circle
+                      </v-icon>
+                      Classic
+                    </v-col>
+                  </v-row>
+                  <v-row no-gutters class="pt-1">
+                    <v-col>
+                      <v-avatar
+                        size="42"
+                        class="mr-2 mt-2"
+                        v-for="hero of entry_heroes"
+                        :key="hero"
+                      >
+                        <Icon :name="'big-' + hero" />
+                      </v-avatar>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-divider v-if="race.description"></v-divider>
+                <v-card-text
+                  v-if="race.description"
+                  class="white--text"
+                  :inner-html.prop="race.description | ParagraphsFilter"
+                >
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="12" class="pb-0">
+              <v-row dense>
+                <v-col v-if="positivePoints.length">
+                  <v-card class="fill-height">
+                    <h5 class="py-2 pl-4">
+                      {{ race.type === 'speedrun' ? 'Splits' : 'Points' }}
+                    </h5>
+                    <v-divider></v-divider>
+                    <RacePoints :points="positivePoints" />
+                  </v-card>
+                </v-col>
+                <v-col v-if="negativePoints.length">
+                  <v-card class="fill-height">
+                    <h5 class="py-2 pl-4">Penalties</h5>
+                    <v-divider></v-divider>
+                    <v-card-tex></v-card-tex>
+                    <RacePoints :points="negativePoints" />
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                outlined
+                dense
+                :value="race.name"
+                label="Race"
+                readonly
+                hide-details
+                class="mt-3"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                outlined
+                dense
+                prepend-inner-icon="mdi-share"
+                :value="'https://diablo.run/race/' + race.id"
+                :label="'Share ' + race.name"
+                readonly
+                hide-details
+                class="my-3"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="12" md="8">
+          <v-row dense>
+            <!--
+            <v-col cols="12" lg="6" v-if="notifications.length">
+              <v-card class="fill-height">
+                <v-card-text class="white--text">
+                  <RaceNotification
+                    v-for="(notification, index) of notifications"
+                    :key="notification.id"
+                    :index="index"
+                    :rules="rules"
+                    :characters="characters"
+                    :notification="notification"
                   />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="tile is-ancestor">
-            <div class="tile is-vertical is-parent">
-              <div class="tile is-child box" v-if="positivePoints.length">
-                <p class="subtitle is-4 mb-3">Points</p>
-                <RacePoints :points="positivePoints" />
-              </div>
-              <div class="tile is-child box" v-if="negativePoints.length">
-                <p class="subtitle is-4 mb-3">Penalties</p>
-                <RacePoints :points="negativePoints" />
-              </div>
-              <div class="tile is-child box" v-if="notifications.length">
-                <RaceNotification
-                  v-for="(notification, index) of notifications"
-                  :key="notification.id"
-                  :index="index"
-                  :rules="rules"
-                  :characters="characters"
-                  :notification="notification"
-                />
-              </div>
-            </div>
-            <div class="tile is-6 is-vertical is-parent">
-              <div
-                class="tile is-child box"
-                v-if="pointsChartData.datasets.length"
-              >
-                <p class="subtitle is-4 mb-3">Points over time</p>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col v-if="pointsChartData.datasets.length" cols="12" lg="6">
+              <v-card>
                 <ScatterChart
                   ref="pointsChart"
                   :style="{ height: '250px', position: 'relative' }"
                   :chartData="pointsChartData"
                 />
-              </div>
-              <div class="tile is-child box" v-if="race.description.length">
-                <p class="subtitle is-4 mb-3">Description</p>
-                <div
-                  :inner-html.prop="race.description | ParagraphsFilter"
-                ></div>
-              </div>
-              <div class="tile is-child box">
-                <p class="subtitle is-4 mb-3">Rules</p>
-                <!-- Type -->
-                <p v-if="race.finish_conditions_global">
-                  <span class="subtitle is-5 has-text-danger">Type:</span> race
-                  ends for everybody when any runner fulfils a finish condition.
-                </p>
-                <p v-if="!race.finish_conditions_global">
-                  <span class="subtitle is-5 has-text-danger">Type:</span> race
-                  ends for each runner separately when they fulfil a finish
-                  condition.
-                </p>
-                <!-- Conditions -->
-                <div v-for="condition of finish_conditions" :key="condition.id">
-                  <p
-                    v-if="
-                      condition.type === 'time' &&
-                        condition.time_type === 'race'
-                    "
-                  >
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    race ends {{ condition.time }} after the start of the race.
-                  </p>
-                  <p
-                    v-if="
-                      condition.type === 'time' &&
-                        condition.time_type === 'character'
-                    "
-                  >
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    race ends {{ condition.time }} after character creation.
-                  </p>
-                  <p v-if="condition.type === 'quest'">
-                    <!--<QuestIcon :id="condition.quest_id" />-->
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    complete
-                    {{ condition.quest_id | QuestShortNameFilter }}
-                    in {{ condition.difficulty | DifficultyFilter }}.
-                  </p>
-                  <p v-if="condition.type === 'stat'">
-                    <span class="subtitle is-5 has-text-danger">Finish:</span>
-                    reach {{ condition.counter }}
-                    {{ condition.stat | StatNameFilter }}.
-                  </p>
-                </div>
-                <!-- In-game requirements -->
-                <div class="columns is-mobile pt-3">
-                  <div class="column is-narrow">
-                    <Icon :name="race.entry_hc ? 'hc' : 'sc'" />
-                  </div>
-                  <div class="column is-narrow">
-                    <Icon :name="race.entry_players" />
-                  </div>
-                  <div class="column">
-                    <Icon
-                      v-for="hero of entry_heroes"
-                      :key="hero"
-                      :name="hero"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+              </v-card>
+            </v-col>
+            -->
+
+            <!-- Finished characters table -->
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-title> {{ race.name }} Leaderboard </v-card-title>
+                  </v-col>
+                  <!--
+                  <v-col cols="auto" class="my-auto mr-4">
+                    <v-btn
+                      fab
+                      small
+                      :onclick="`window.open('/race/${race.id}','popup','width=550,height=900'); return false;`"
+                      target="popup"
+                      :href="`/race/${race.id}`"
+                    >
+                      <v-icon>mdi-open-in-new</v-icon>
+                    </v-btn>
+                  </v-col>
+                  -->
+                </v-row>
+                <v-divider></v-divider>
+                <v-card-text v-if="!finishedCharacters.length">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No one has finished the race yet.
+                </v-card-text>
+                <RaceCharactersTable
+                  v-if="finishedCharacters.length"
+                  :characters="finishedCharacters"
+                />
+              </v-card>
+            </v-col>
+
+            <!-- Unfinished characters table -->
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-title>Currently running</v-card-title>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-card-text v-if="!unfinishedCharacters.length">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No one is currently running in this race.
+                </v-card-text>
+                <RaceCharactersTable
+                  v-if="unfinishedCharacters.length"
+                  :characters="unfinishedCharacters"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
     <div v-if="streamOverlay">
       <div
         class="notification is-dark has-text-centered"
@@ -275,130 +296,118 @@
       </table>
     </div>
     <div v-if="isPopup">
-      <section class="section">
-        <div class="container has-text-centered">
-          <RaceCountdown :start="race.start_time" :finish="race.finish_time" />
-        </div>
-      </section>
-      <!-- Race is empty -->
-      <div
-        class="notification is-dark has-text-centered"
-        v-if="!characters.length > 0"
-      >
-        <p>Noone has entered the race.</p>
-      </div>
-      <!-- Participants -->
-      <table
-        class="table is-fullwidth is-striped is-hoverable"
-        v-if="characters.length > 0"
-      >
+      <RaceCountdown :start="race.start_time" :finish="race.finish_time" />
+      <v-simple-table dense v-if="characters.length > 0" class="text-no-wrap">
         <thead>
           <tr>
-            <th class="has-text-centered has-text-fade">#</th>
+            <th>#</th>
+            <th>Pts</th>
             <th>Runner</th>
-            <th class="has-text-centered is-hidden-touch">Points</th>
-            <th class="has-text-centered is-hidden-touch">Level</th>
-            <th class="has-text-centered is-hidden-desktop">pts</th>
-            <th class="has-text-centered is-hidden-desktop">lvl</th>
-            <th class="has-text-centered" v-if="entry_heroes.length > 1">
-              Hero
+            <th>Area</th>
+            <th>Lvl</th>
+            <th>
+              <v-icon small color="error"> mdi-skull-crossbones </v-icon>
             </th>
-            <th class="has-text-centered">Area</th>
+            <th>
+              <v-icon small color="warning"> mdi-gold </v-icon>
+            </th>
+            <th>Hero</th>
+            <th>Status</th>
           </tr>
         </thead>
-        <tbody class="has-no-overflow">
+        <tbody>
           <tr v-for="character of characters" :key="character.id">
-            <td class="is-narrow has-text-centered">
-              <p :class="`subtitle is-6 has-text-fade rank-${character.rank}`">
+            <td>
+              <span v-if="character.rank > 3" class="grey--text">
                 {{ character.rank }}
-              </p>
+              </span>
+              <v-icon v-if="character.rank == 1" small color="yellow accent-4">
+                mdi-trophy-outline
+              </v-icon>
+              <v-icon v-if="character.rank == 2" small color="grey lighten-1">
+                mdi-trophy-outline
+              </v-icon>
+              <v-icon v-if="character.rank == 3" small color="brown">
+                mdi-trophy-outline
+              </v-icon>
             </td>
-            <td class="is-narrow-desktop has-no-overflow">
-              <p class="subtitle is-5">
-                <CharacterUser :character="character" />
-              </p>
+            <td>
+              {{ character.points }}
             </td>
-
-            <td class="has-text-centered is-right-mobile">
-              <p class="subtitle is-5">
-                {{ character.points }}
-              </p>
+            <td>
+              <CharacterUser :character="character" />
+              <v-icon v-if="character.dead" small color="error">
+                mdi-skull-crossbones
+              </v-icon>
             </td>
-            <td class="has-text-centered">
-              <p class="subtitle is-5">
-                {{ character.level }}
-              </p>
+            <td style="max-width: 80px" class="text-truncate">
+              {{ character.area | AreaNameFilter }}
             </td>
-            <td class="has-text-centered" v-if="entry_heroes.length > 1">
-              <span
-                :class="
-                  `is-hidden-touch has-hero ${character.hero} subtitle is-5`
-                "
-                >{{ character.hero | HeroNameFilter }}</span
-              >
-              <span
-                :class="
-                  `is-hidden-desktop has-hero ${character.hero} subtitle is-5`
-                "
-                >{{ character.hero }}</span
-              >
+            <td>{{ character.level }}</td>
+            <td>{{ character.deaths }}</td>
+            <td>{{ character.gold_total }}</td>
+            <td>
+              {{ character.hero }}
             </td>
-            <td class="has-text-centered has-no-overflow">
-              <p class="subtitle is-5">
-                {{ character.area | AreaNameFilter }}
-              </p>
+            <td>
+              <CharacterRaceStatus
+                :character="character"
+                :start="race.start_time"
+                :finish="race.finish_time"
+              />
             </td>
           </tr>
         </tbody>
-      </table>
-      <section v-if="positivePoints.length" class="section has-no-padding-top">
-        <div class="box">
-          <RacePoints :points="positivePoints" />
+      </v-simple-table>
+      <v-divider></v-divider>
+      <v-sheet class="pa-3">
+        <!-- Conditions -->
+        <div v-for="condition of finish_conditions" :key="condition.id">
+          <p v-if="condition.type === 'time' && condition.time_type === 'race'">
+            <span class="subtitle is-5 has-text-danger">Finish:</span>
+            race ends {{ condition.time }} after the start of the race.
+          </p>
+          <p
+            v-if="
+              condition.type === 'time' && condition.time_type === 'character'
+            "
+          >
+            <span class="subtitle is-5 has-text-danger">Finish:</span>
+            race ends {{ condition.time }} after character creation.
+          </p>
+          <p v-if="condition.type === 'quest'">
+            <!--<QuestIcon :id="condition.quest_id" />-->
+            <span class="subtitle is-5 has-text-danger">Finish:</span>
+            complete
+            {{ condition.quest_id | QuestShortNameFilter }}
+            in {{ condition.difficulty | DifficultyFilter }}.
+          </p>
+          <p v-if="condition.type === 'stat'">
+            <span class="subtitle is-5 has-text-danger">Finish:</span>
+            reach {{ condition.counter }} {{ condition.stat | StatNameFilter }}.
+          </p>
         </div>
-      </section>
-      <section v-if="negativePoints.length" class="section has-no-padding-top">
-        <div class="box">
-          <RacePoints :points="negativePoints" />
-        </div>
-      </section>
-      <section class="section has-no-padding-top">
-        <div class="box">
-          <!-- Conditions -->
-          <div v-for="condition of finish_conditions" :key="condition.id">
-            <p
-              v-if="condition.type === 'time' && condition.time_type === 'race'"
-            >
-              <span class="subtitle is-5 has-text-danger">Finish:</span> ends
-              {{ condition.time }} after the start of the race.
-            </p>
-            <p
-              v-if="
-                condition.type === 'time' && condition.time_type === 'character'
-              "
-            >
-              <span class="subtitle is-5 has-text-danger">Finish:</span> race
-              ends {{ condition.time }} after character creation.
-            </p>
-            <p v-if="condition.type === 'quest'">
-              <!--<QuestIcon :id="condition.quest_id" />-->
-              <span class="subtitle is-5 has-text-danger">Finish:</span>
-              complete
-              {{ condition.quest_id | QuestShortNameFilter }}
-              in {{ condition.difficulty | DifficultyFilter }}.
-            </p>
-            <p v-if="condition.type === 'stat'">
-              <span class="subtitle is-5 has-text-danger">Finish:</span> reach
-              {{ condition.counter }} {{ condition.stat | StatNameFilter }}.
-            </p>
-          </div>
-        </div>
-      </section>
+      </v-sheet>
+      <v-divider></v-divider>
+      <v-row no-gutters>
+        <v-col v-if="positivePoints.length">
+          <v-sheet class="fill-height">
+            <RacePoints :points="positivePoints" />
+          </v-sheet>
+        </v-col>
+        <v-divider vertical></v-divider>
+        <v-col v-if="negativePoints.length">
+          <v-sheet class="fill-height">
+            <RacePoints :points="negativePoints" />
+          </v-sheet>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/variables.scss';
+@import '@/styles/variables.scss';
 // Race page styles
 
 .mr-2 {
@@ -421,11 +430,12 @@ import {
 } from '@/filters';
 import Icon from '@/components/Icon.vue';
 import RaceCountdown from '@/components/RaceCountdown.vue';
-import RaceNotification from '@/components/RaceNotification.vue';
+// import RaceNotification from '@/components/RaceNotification.vue';
 import CharacterUser from '@/components/CharacterUser.vue';
 import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
-import ScatterChart from '@/components/ScatterChart.vue';
+// import ScatterChart from '@/components/ScatterChart.vue';
 import RacePoints from '@/components/RacePoints.vue';
+import RaceCharactersTable from '@/components/RaceCharactersTable.vue';
 
 export default {
   name: 'Race',
@@ -443,16 +453,17 @@ export default {
   components: {
     Icon,
     RaceCountdown,
-    RaceNotification,
+    // RaceNotification,
     CharacterUser,
     CharacterRaceStatus,
-    ScatterChart,
-    RacePoints
+    // ScatterChart,
+    RacePoints,
+    RaceCharactersTable
   },
   data() {
     return {
       loading: true,
-      pointsLogIndex: 0,
+      // pointsLogIndex: 0,
       pointsChartData: {
         datasets: []
       }
@@ -479,13 +490,29 @@ export default {
         ),
       finish_conditions: state =>
         state.ws.rules.filter(rule => rule.context === 'finish_conditions'),
-      characters: state => state.ws.characters,
+      finishedCharacters: state => state.ws.finishedCharacters,
+      unfinishedCharacters: state => state.ws.unfinishedCharacters,
       notifications: state => state.ws.notifications,
-      entry_heroes: state =>
-        state.ws.race ? state.ws.race.entry_hero.split(',') : [],
+      entry_heroes(state) {
+        if (!state.ws.race) {
+          return [];
+        }
+
+        const heroes = [];
+
+        if (state.ws.race.entry_ama) heroes.push('ama');
+        if (state.ws.race.entry_sor) heroes.push('sor');
+        if (state.ws.race.entry_nec) heroes.push('nec');
+        if (state.ws.race.entry_pal) heroes.push('pal');
+        if (state.ws.race.entry_bar) heroes.push('bar');
+        if (state.ws.race.entry_dru) heroes.push('dru');
+        if (state.ws.race.entry_asn) heroes.push('asn');
+
+        return heroes;
+      },
       streamOverlay: state => state.app.windowStyle === 'overlay',
-      isPopup: state => state.app.windowStyle === 'popup',
-      lastUpdateTime: state => state.ws.lastUpdateTime
+      isPopup: state => state.app.windowStyle === 'popup'
+      // lastUpdateTime: (state) => state.ws.lastUpdateTime
     })
   },
   watch: {
@@ -494,7 +521,8 @@ export default {
       async handler({ params: { slug } }) {
         await this.$store.dispatch('ws/subscribeToRace', slug);
       }
-    },
+    }
+    /*
     lastUpdateTime() {
       let updateChart = false;
 
@@ -503,7 +531,7 @@ export default {
           this.pointsLogIndex
         ];
         const character = this.characters.find(
-          character => character.user_id === user_id
+          (character) => character.user_id === user_id
         );
 
         if (!character) {
@@ -511,7 +539,7 @@ export default {
         }
 
         let dataset = this.pointsChartData.datasets.find(
-          d => d.label === character.user_name
+          (d) => d.label === character.user_name
         );
 
         if (!dataset) {
@@ -544,6 +572,7 @@ export default {
         }
       }
     }
+    */
   }
 };
 </script>

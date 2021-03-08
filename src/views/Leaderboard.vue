@@ -1,215 +1,165 @@
 <template>
-  <div>
-    <!-- Filters -->
-    <section class="section pb-0">
-      <div class="container">
-        <div class="columns is-mobile is-vcentered is-multiline">
-          <div class="column is-narrow py-0">
-            <figure class="image is-48x48">
-              <img
-                class="has-glow is-rounded"
-                src="@/assets/img/d2_cover.png"
-                v-if="!heroFilter"
-              />
-              <Icon
-                :imgClass="`has-glow-${heroFilter} is-rounded`"
-                :name="`big-${heroFilter}`"
-                v-if="heroFilter"
-              />
-            </figure>
-          </div>
-          <div class="column">
-            <h1 class="subtitle">{{ categoryName }}</h1>
-          </div>
-          <div class="column is-narrow is-hidden-mobile">
-            <p>
-              {{ statistics.speedruns }} runs by {{ statistics.users }} runners
-            </p>
-          </div>
-          <div class="column is-narrow">
-            <button
-              class="button is-primary has-tooltip-left"
-              data-tooltip="Reset Filters"
-              @click="resetFilters()"
-            >
-              <span class="icon is-small">
-                <img src="@/assets/img/icons/Refresh_icon.svg" />
-              </span>
-            </button>
-          </div>
-        </div>
-        <div class="columns is-overflow-visible is-multiline">
-          <!--Category-->
-          <div class="column is-4">
-            <LeaderboardFilter column="category_id">
-              <LeaderboardFilterItem :value="1" label="Normal" />
-              <LeaderboardFilterItem :value="2" label="Hell" />
-              <LeaderboardFilterItem :value="3" label="Pacifist" />
-            </LeaderboardFilter>
-          </div>
-          <!--Core-->
-          <div class="column is-4">
-            <LeaderboardFilter column="hc">
-              <LeaderboardFilterItem any label="Any Core" />
-              <LeaderboardFilterItem :value="0" icon="sc" />
-              <LeaderboardFilterItem :value="1" icon="hc" />
-            </LeaderboardFilter>
-          </div>
-          <!--Players-->
-          <div class="column is-4">
-            <LeaderboardFilter column="players_category">
-              <LeaderboardFilterItem any label="Any Players" />
-              <LeaderboardFilterItem value="p1" icon="p1" />
-              <LeaderboardFilterItem value="px" icon="px" />
-              <LeaderboardFilterItem value="p8" icon="p8" />
-            </LeaderboardFilter>
-          </div>
-          <!--Class-->
-          <div class="column">
-            <LeaderboardFilter column="hero">
-              <LeaderboardFilterItem any label="Any Class" />
-              <LeaderboardFilterItem
-                v-for="hero of heroFilterValues"
-                :key="hero"
-                :value="hero"
-                :icon="hero"
-              />
-            </LeaderboardFilter>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Category is empty -->
-    <section class="section" v-if="!runs.length > 0">
-      <div class="container">
-        <div class="notification is-dark has-text-centered">
-          <p>
-            Selected category is empty
-          </p>
-        </div>
-      </div>
-    </section>
-    <!-- Table -->
-    <section class="section mt-0 pt-5" v-if="runs.length > 0">
-      <p class="is-hidden-tablet pb-5">
-        {{ statistics.speedruns }} runs by {{ statistics.users }} runners
-      </p>
-      <div class="container">
-        <table class="table is-striped is-hoverable is-narrow">
-          <thead>
-            <tr>
-              <th class="has-text-centered is-narrow">#</th>
-              <th>Runner</th>
-              <th>Time</th>
-              <th>
-                <span class="is-hidden-mobile">Hero</span>
-                <span class="is-hidden-tablet"></span>
-              </th>
-              <th>
-                <span class="is-hidden-mobile">Core</span>
-                <span class="is-hidden-tablet"></span>
-              </th>
-              <th>
-                <span class="is-hidden-mobile">Players</span>
-                <span class="is-hidden-tablet"></span>
-              </th>
-              <th class="is-hidden-mobile">Submitted</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(run, index) of runs" :key="run.id">
-              <td class="is-narrow has-text-centered has-text-grey">
-                <p :class="`rank-${index + 1}`">
-                  {{ index + 1 }}
-                </p>
-              </td>
-              <td>
-                <span class="has-no-wrap">
-                  <a
-                    v-if="!run.user_id"
-                    :style="`color: ${run.speedrun_user_dark_color_from};`"
-                    :href="run.speedrun_user_weblink"
-                    target="_blank"
-                  >
-                    <CountryIcon
-                      imgClass="flag"
-                      :code="run.speedrun_user_country_code"
-                    />
-                    {{ run.speedrun_user_name }}
-                  </a>
-                  <router-link
-                    v-if="run.user_id"
-                    :to="{
-                      name: 'User',
-                      params: { user_name: run.user_name }
-                    }"
-                    :style="
-                      `color: ${run.user_color ||
-                        run.speedrun_user_dark_color_from};`
-                    "
-                  >
-                    <CountryIcon
-                      imgClass="flag"
-                      :code="run.speedrun_user_country_code"
-                    />
-                    {{ run.user_name }}
-                  </router-link>
-                </span>
-                <span v-if="run.character_id">
-                  <span class="has-text-grey">as</span>
-                  <router-link
-                    :to="{
-                      name: 'Character',
-                      params: {
-                        user_name: run.user_name,
-                        character_slug: run.character_name + run.character_id
-                      }
-                    }"
-                  >
-                    {{ run.character_name }}
-                  </router-link>
-                </span>
-              </td>
-              <td>
-                <span class="is-family-monospace">
-                  <a :href="run.speedrun_link" target="_blank">
-                    {{ run.seconds_played | DurationFilter }}
-                  </a>
-                </span>
-              </td>
-              <td class="has-text-capitalized">
-                <span :class="`is-hidden-touch has-hero ${run.hero}`">
-                  {{ run.hero | HeroNameFilter }}
-                </span>
-                <span :class="`is-hidden-desktop has-hero ${run.hero}`">
-                  {{ run.hero }}
-                </span>
-              </td>
-              <td>
-                <span v-if="!run.hc">SC</span>
-                <span v-if="run.hc" class="has-text-danger">HC</span>
-              </td>
-              <td class="has-text-capitalized">
-                {{ run.players_category }}
-              </td>
-              <td class="is-narrow is-hidden-mobile has-text-grey">
-                {{ run.submit_time | FromNowFilter }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <v-container>
+    <v-row dense class="mt-5">
+      <v-col cols="auto" class="mr-3">
+        <v-avatar size="64">
+          <v-img src="@/assets/img/d2_cover.png" v-if="!heroFilter" />
+          <Icon :name="`big-${heroFilter}`" v-if="heroFilter" />
+        </v-avatar>
+      </v-col>
+      <v-col class="my-auto">
+        <h2>
+          {{ categoryName }}
+        </h2>
+        <h2 class="subtitle">
+          {{ statistics.speedruns }} runs by {{ statistics.users }} runners
+        </h2>
+      </v-col>
+      <v-col cols="auto" class="my-auto">
+        <v-btn outlined color="primary" @click="resetFilters()">
+          <v-icon left>mdi-refresh</v-icon> Reset
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row dense class="my-5">
+      <!--Category-->
+      <v-col>
+        <LeaderboardFilter column="category_id">
+          <LeaderboardFilterItem :value="1" label="Normal" />
+          <LeaderboardFilterItem :value="2" label="Hell" />
+          <LeaderboardFilterItem :value="3" label="Pacifist" />
+        </LeaderboardFilter>
+      </v-col>
+      <!--Players-->
+      <v-col cols="12" md="auto">
+        <LeaderboardFilter column="players_category">
+          <LeaderboardFilterItem any label="Any Players" />
+          <LeaderboardFilterItem value="p1" icon="p1" />
+          <LeaderboardFilterItem value="px" icon="px" />
+          <LeaderboardFilterItem value="p8" icon="p8" />
+        </LeaderboardFilter>
+      </v-col>
+      <!--Class-->
+      <v-col>
+        <LeaderboardFilter column="hero">
+          <LeaderboardFilterItem any label="Any" />
+          <LeaderboardFilterItem
+            v-for="hero of heroFilterValues"
+            :key="hero"
+            :value="hero"
+            :icon="hero"
+          />
+        </LeaderboardFilter>
+      </v-col>
+      <!--Core-->
+      <v-col cols="12" md="auto">
+        <LeaderboardFilter column="hc">
+          <LeaderboardFilterItem any label="Any Core" />
+          <LeaderboardFilterItem :value="0" icon="sc" />
+          <LeaderboardFilterItem :value="1" icon="hc" />
+        </LeaderboardFilter>
+      </v-col>
+    </v-row>
 
-        <button
-          v-if="pagination.more"
-          class="button is-small is-primary"
-          :class="{ 'is-loading': pagination.loading }"
-          @click="loadMore()"
-        >
-          Load more speedruns
-        </button>
-      </div>
-    </section>
-  </div>
+    <v-alert
+      v-if="!runs.length"
+      text
+      color="primary"
+      class="mb-0 font-weight-medium text-center"
+    >
+      {{ categoryName }} category is empty
+    </v-alert>
+
+    <v-simple-table v-if="runs.length" dense class="text-no-wrap">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Runner</th>
+          <th>Time</th>
+          <th>Hero</th>
+          <th>Core</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(run, index) of runs" :key="run.id">
+          <td class="silver--text">
+            {{ index + 1 }}
+            <v-icon v-if="run.category_rank == 1" small color="gold">
+              mdi-trophy-outline
+            </v-icon>
+            <v-icon v-if="run.category_rank == 2" small color="silver">
+              mdi-trophy-outline
+            </v-icon>
+            <v-icon v-if="run.category_rank == 3" small color="bronze">
+              mdi-trophy-outline
+            </v-icon>
+          </td>
+          <td>
+            <a
+              v-if="!run.user_id"
+              :style="`color: ${run.speedrun_user_dark_color_from};`"
+              :href="run.speedrun_user_weblink"
+              target="_blank"
+            >
+              {{ run.speedrun_user_name }}
+            </a>
+            <router-link
+              v-if="run.user_id"
+              :to="{
+                name: 'User',
+                params: { user_name: run.user_name }
+              }"
+              :style="
+                `color: ${run.user_color || run.speedrun_user_dark_color_from};`
+              "
+            >
+              <CountryIcon :code="run.speedrun_user_country_code" />
+              <strong>{{ run.user_name }}</strong>
+            </router-link>
+          </td>
+          <td>
+            <a :href="run.speedrun_link" target="_blank">
+              {{ run.seconds_played | DurationFilter }}
+            </a>
+          </td>
+          <td>
+            <v-icon v-if="!run.hc" small :class="`${run.hero}`">
+              mdi-sword
+            </v-icon>
+            <v-icon v-if="run.hc" small :class="`${run.hero}`">
+              mdi-skull-outline
+            </v-icon>
+            <span v-if="!run.character_id" class="silver--text">
+              {{ run.hero | HeroNameFilter }}
+            </span>
+            <span v-if="run.character_id">
+              <router-link
+                :to="{
+                  name: 'Character',
+                  params: {
+                    user_name: run.user_name,
+                    character_slug: run.character_name + run.character_id
+                  }
+                }"
+              >
+                {{ run.hero | HeroNameFilter }}
+              </router-link>
+            </span>
+          </td>
+          <td>
+            <span v-if="!run.hc">SC</span>
+            <span v-if="run.hc" class="error--text text--lighten-2">HC</span>
+            <span class="silver--text ml-2">{{ run.players_category }}</span>
+          </td>
+          <td class="silver--text">{{ run.submit_time | FromNowFilter }}</td>
+        </tr>
+      </tbody>
+    </v-simple-table>
+    <v-btn small v-if="pagination.more" class="mt-5" @click="loadMore()">
+      <v-icon left>mdi-chevron-down</v-icon> Load more
+    </v-btn>
+  </v-container>
 </template>
 
 <script>

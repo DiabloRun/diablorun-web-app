@@ -1,114 +1,71 @@
 <template>
-  <div>
-    <!-- Hero -->
-    <section class="hero is-medium is-dark is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-vcentered is-multiline is-mobile">
-            <div class="column">
-              <h1 class="title">
-                Join our
-                <a href="https://discord.gg/QMMDR2a">diablo.run Discord</a> to
-                quickly get in touch with us
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Content -->
-    <section class="section mt-5">
-      <div class="container">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-7">
-            <div class="content is-large">
-              <h1 class="title">We're brothers from Estonia</h1>
-              <p>
+  <v-container>
+    <v-row class="my-16">
+      <v-col class="text-center">
+        <img class="logo big" src="@/assets/img/logo.png" />
+        <h2>Team</h2>
+      </v-col>
+    </v-row>
+    <v-row no-gutters align="center" justify="center">
+      <v-col cols="12" lg="10" xl="8">
+        <v-card>
+          <v-row no-gutters>
+            <v-col cols="12" lg="8" class="d-flex flex-column">
+              <v-card-title>We're brothers from Estonia</v-card-title>
+              <v-card-subtitle>
                 Our goal is to build a portal for Diablo players where people
                 can compete in races, share their speedruns, characters and
                 playthroughs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-4-fullhd is-half-tablet">
-            <div class="box">
-              <article class="media">
-                <div class="media-left">
-                  <figure class="image is-96x96">
+              </v-card-subtitle>
+              <v-spacer></v-spacer>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-btn text href="https://discord.gg/QMMDR2a" target="_blank">
+                  <v-icon left>mdi-discord</v-icon>Contact us on Discord
+                </v-btn>
+                <v-btn
+                  text
+                  href="https://github.com/DiabloRun/"
+                  target="_blank"
+                >
+                  <v-icon left>mdi-github</v-icon>GitHub
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+            <v-divider vertical class="hidden-md-and-down" />
+            <v-col class="pa-5">
+              <v-row no-gutters class="pb-5">
+                <v-col cols="auto">
+                  <v-avatar size="96">
                     <img
-                      class="is-rounded has-glow"
+                      alt="user"
                       src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/shenk.jpg"
-                      alt="Image"
                     />
-                  </figure>
-                </div>
-                <div class="media-content is-vcentered">
-                  <div class="content">
-                    <p class="title is-4">OverseerShenk</p>
-                    <p class="subtitle is-5 has-text-fade">Developer</p>
-                  </div>
-                  <nav class="level is-mobile">
-                    <div class="level-left">
-                      <a class="level-item" href="/OverseerShenk">
-                        Diablo.run
-                      </a>
-                      <a
-                        class="level-item"
-                        href="https://www.twitch.tv/OverseerShenk"
-                      >
-                        Twitch
-                      </a>
-                    </div>
-                  </nav>
-                </div>
-              </article>
-            </div>
-          </div>
-          <div class="column is-4-fullhd is-half-tablet">
-            <div class="box">
-              <article class="media">
-                <div class="media-left">
-                  <figure class="image is-96x96">
+                  </v-avatar>
+                </v-col>
+                <v-col class="my-auto">
+                  <v-card-title> OverseerShenk </v-card-title>
+                  <v-card-subtitle> Developer </v-card-subtitle>
+                </v-col>
+              </v-row>
+              <v-row no-gutters>
+                <v-col cols="auto">
+                  <v-avatar size="96">
                     <img
-                      class="is-rounded has-glow"
+                      alt="user"
                       src="https://s3.eu-central-1.amazonaws.com/d2.leede.ee/static/img/indrek.jpg"
-                      alt="Image"
                     />
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <p class="title is-4">Indrek</p>
-                    <p class="subtitle is-5 has-text-fade">
-                      Front-end developer
-                    </p>
-                  </div>
-                  <nav class="level is-mobile">
-                    <div class="level-left">
-                      <a class="level-item" href="/Indrek"> Diablo.run </a>
-                      <a class="level-item" href="https://www.twitch.tv/Indrek">
-                        Twitch
-                      </a>
-                      <a
-                        class="level-item"
-                        href="https://www.youtube.com/c/indrekleede"
-                      >
-                        YouTube
-                      </a>
-                    </div>
-                  </nav>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+                  </v-avatar>
+                </v-col>
+                <v-col class="my-auto">
+                  <v-card-title> Indrek </v-card-title>
+                  <v-card-subtitle> Front-end developer </v-card-subtitle>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

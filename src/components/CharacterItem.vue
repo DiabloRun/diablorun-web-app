@@ -1,33 +1,29 @@
 <template>
-  <div class="card has-no-border-radius">
-    <div class="card-content equipment">
-      <div class="content has-text-centered">
-        <div class="columns is-mobile is-centered is-gapless">
-          <div class="column is-narrow">
-            <img :src="imageSrc" />
-          </div>
-          <div class="column is-10">
-            <h1 :class="`subtitle is-6 mb-1`">
-              <span v-if="runeword" class="quality-gold"
-                >{{ runeword }}<br
-              /></span>
-              <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
-                {{ runeword ? item.base_name : item.name }}
-              </span>
-            </h1>
-            <p
-              class="mb-0 is-size-7"
-              :class="{ 'has-text-danger': property.includes('ÿc1') }"
-              v-for="property of properties"
-              :key="property"
-            >
-              {{ property.replace(/^ÿc1/, '') }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-card elevation="1" class="fill-height pa-2">
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <v-img :src="imageSrc" contain />
+      </v-col>
+      <v-col align="center">
+        <h5>
+          <span v-if="runeword" class="quality-gold">
+            {{ runeword }}<br />
+          </span>
+          <span :class="`quality-${runeword ? 'socketed' : item.quality}`">
+            {{ runeword ? item.base_name : item.name }}
+          </span>
+        </h5>
+        <p
+          class="mb-0 body-2"
+          :class="{ 'error--text': property.includes('ÿc1') }"
+          v-for="property of properties"
+          :key="property"
+        >
+          {{ property.replace(/^ÿc1/, '') }}
+        </p>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <style scoped lang="scss">
@@ -52,8 +48,8 @@
 }
 
 .quality-socketed {
-  font-weight: 400;
   opacity: 0.5;
+  font-weight: 400;
 }
 
 .quality-white {
