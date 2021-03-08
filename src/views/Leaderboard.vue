@@ -156,7 +156,7 @@
         </tr>
       </tbody>
     </v-simple-table>
-    <v-btn small v-if="pagination.more" flat class="mt-5" @click="loadMore()">
+    <v-btn small v-if="pagination.more" class="mt-5" @click="loadMore()">
       <v-icon left>mdi-chevron-down</v-icon> Load more
     </v-btn>
   </v-container>

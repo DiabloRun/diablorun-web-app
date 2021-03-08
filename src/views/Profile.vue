@@ -5,7 +5,7 @@
         <h1>Login</h1>
         <v-card :loading="loading">
           <div class="pa-10 text-center">
-            <v-btn @click="login" :href="twitchAuthenticationUrl">
+            <v-btn :href="twitchAuthenticationUrl">
               <v-icon left>mdi-twitch</v-icon>Login with Twitch
             </v-btn>
           </div>

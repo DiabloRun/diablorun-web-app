@@ -149,7 +149,9 @@ export default {
 
       if (itemUpdates) {
         state.items = state.items
-          .filter(item => !itemUpdates.removedItemHashes.includes(item.item_hash))
+          .filter(
+            item => !itemUpdates.removedItemHashes.includes(item.item_hash)
+          )
           .concat(itemUpdates.addedItems);
       }
     },
