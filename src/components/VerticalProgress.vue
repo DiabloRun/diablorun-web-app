@@ -1,9 +1,7 @@
 <template>
-  <transition appear>
-    <div v-bind:style="wrapper">
-      <div v-bind:style="progress"></div>
-    </div>
-  </transition>
+  <div v-bind:style="wrapper">
+    <div v-bind:style="progress"></div>
+  </div>
 </template>
 
 <script>
