@@ -128,8 +128,13 @@ export default {
 
     updateCharacter(
       state,
-      { character, items, characterUpdates, itemUpdates }
+      { id, name, character, items, characterUpdates, itemUpdates }
     ) {
+      if (id && state.character.id !== id) {
+        state.character = { ...state.character, id, name };
+        state.items = [];
+      }
+
       if (character) {
         state.character = character;
       }
@@ -144,7 +149,7 @@ export default {
 
       if (itemUpdates) {
         state.items = state.items
-          .filter(item => !itemUpdates.removedItems.includes(item.item_id))
+          .filter(item => !itemUpdates.removedItemHashes.includes(item.item_hash))
           .concat(itemUpdates.addedItems);
       }
     },
