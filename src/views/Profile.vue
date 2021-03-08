@@ -97,7 +97,7 @@ export default {
       loading: false,
       invalid: false,
       updateUrl:
-        'https://g48bwtx3c2.execute-api.eu-central-1.amazonaws.com/default/d2id-update',
+        'https://api-1.diablo.run/sync',
       twitchAuthenticationUrl: `https://id.twitch.tv/oauth2/authorize?client_id=${process.env.VUE_APP_TWITCH_CLIENT_ID}&redirect_uri=${redirect_uri}&response_type=token&scope=`
     };
   },
