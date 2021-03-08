@@ -258,21 +258,6 @@
                       :key="slot"
                     >
                       <CharacterItem v-if="item" :item="item" />
-
-                      <!-- Empty hireling item -->
-                      <v-card
-                        elevation="1"
-                        v-if="!item"
-                        class="fill-height d-flex align-center pa-2"
-                      >
-                        <v-flex>
-                          <p
-                            class="text-center grey--text body-2 font-italic mb-0"
-                          >
-                            empty
-                          </p>
-                        </v-flex>
-                      </v-card>
                     </v-col>
                     <!-- Hireling extra items for mods like Project D2 -->
                     <v-col
@@ -283,21 +268,6 @@
                       :key="slot"
                     >
                       <CharacterItem v-if="item" :item="item" />
-
-                      <!-- Empty hireling item -->
-                      <v-card
-                        elevation="1"
-                        v-if="!item"
-                        class="fill-height d-flex align-center pa-2"
-                      >
-                        <v-flex>
-                          <p
-                            class="text-center grey--text body-2 font-italic mb-0"
-                          >
-                            empty
-                          </p>
-                        </v-flex>
-                      </v-card>
                     </v-col>
                   </v-row>
                 </v-tab-item>
