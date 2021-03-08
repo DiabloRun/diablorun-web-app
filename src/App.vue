@@ -89,7 +89,8 @@
             <v-list-item-title>Latest Hero</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
+        <!--
+          <v-list-item
           link
           exact
           :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
@@ -99,6 +100,7 @@
             <v-list-item-title>Race Editor</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        -->
         <v-list-item link exact :to="{ name: 'Interface Setup' }">
           <v-icon left>mdi-cogs</v-icon>
           <v-list-item-content>
