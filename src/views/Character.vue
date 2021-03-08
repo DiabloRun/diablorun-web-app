@@ -78,42 +78,35 @@
             <v-col cols="12" sm="4" lg="3" xl="2">
               <v-row class="my-1">
                 <!-- Life -->
-                <v-col cols="6" class="text-right">
-                  <v-progress-circular
-                    :rotate="90"
-                    :size="64"
-                    :value="(character.life / character.life_max) * 100"
-                    color="error"
-                    width="3"
-                  >
-                    {{ character.life }}
-                  </v-progress-circular>
-                  <!--
-                    <v-progress-circular
-                    v-if="character.dead && character.hc"
-                    :rotate="90"
-                    :size="64"
-                    :value="0"
-                    color="error"
-                    width="3"
-                  >
-                    <v-icon color="error">
-                      mdi-skull-crossbones
-                    </v-icon>
-                  </v-progress-circular>
-                  -->
+                <v-col
+                  cols="6"
+                  style="display: flex; justifyContent: space-between;"
+                >
+                  <div style="padding-left: 16px;">
+                    <h3>{{ character.life }}</h3>
+                    <h3 class="subtitle">Life</h3>
+                  </div>
+                  <VerticalProgress
+                    v-if="character.life"
+                    :current="character.life"
+                    :total="character.life_max"
+                    color="#df1368"
+                  />
                 </v-col>
                 <!-- Mana -->
-                <v-col cols="6">
-                  <v-progress-circular
-                    :rotate="90"
-                    :size="64"
-                    :value="(character.mana / character.mana_max) * 100"
-                    color="primary darken-1"
-                    width="3"
-                  >
-                    {{ character.mana }}
-                  </v-progress-circular>
+                <v-col
+                  cols="6"
+                  style="display: flex; justifyContent: space-between;"
+                >
+                  <VerticalProgress
+                    :current="character.mana"
+                    :total="character.mana_max"
+                    color="#765dd0"
+                  />
+                  <div style="padding-right: 16px;" class="text-right">
+                    <h3>{{ character.mana }}</h3>
+                    <h3 class="subtitle">Mana</h3>
+                  </div>
                 </v-col>
               </v-row>
               <v-list dense color="transparent">
@@ -333,6 +326,7 @@ import {
 import Icon from '@/components/Icon.vue';
 import CharacterItem from '@/components/CharacterItem.vue';
 import TwitchEmbed from '@/components/TwitchEmbed.vue';
+import VerticalProgress from '@/components/VerticalProgress.vue';
 
 export default {
   name: 'Character',
@@ -346,7 +340,8 @@ export default {
   components: {
     Icon,
     CharacterItem,
-    TwitchEmbed
+    TwitchEmbed,
+    VerticalProgress
   },
   data() {
     return {
