@@ -93,7 +93,7 @@
                           v-if="character.life"
                           :current="character.life"
                           :total="character.life_max"
-                          color="#df1368"
+                          color="danger"
                         />
                       </div>
                     </template>
@@ -112,7 +112,7 @@
                           v-if="character.mana"
                           :current="character.mana"
                           :total="character.mana_max"
-                          color="#765dd0"
+                          color="primary"
                         />
                       </div>
                       <div style="padding-right: 16px;" class="text-right">
