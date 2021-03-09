@@ -25,11 +25,12 @@ export default {
     size: {
       type: Number,
       default: 48
-    },
-    show: {
-      type: Boolean,
-      default: false
     }
+  },
+  data() {
+    return {
+      show: false
+    };
   },
   mounted() {
     setTimeout(() => {
