@@ -82,31 +82,46 @@
                   cols="6"
                   style="display: flex; justifyContent: space-between;"
                 >
-                  <div style="padding-left: 16px;">
-                    <h3>{{ character.life }}</h3>
-                    <h3 class="subtitle">Life</h3>
-                  </div>
-                  <VerticalProgress
-                    v-if="character.life"
-                    :current="character.life"
-                    :total="character.life_max"
-                    color="#df1368"
-                  />
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div style="padding-left: 16px;">
+                        <h3>{{ character.life ? character.life : 'RIP' }}</h3>
+                        <h3 class="subtitle">Life</h3>
+                      </div>
+                      <div v-bind="attrs" v-on="on">
+                        <VerticalProgress
+                          v-if="character.life"
+                          :current="character.life"
+                          :total="character.life_max"
+                          color="#df1368"
+                        />
+                      </div>
+                    </template>
+                    <span>{{ character.life }} / {{ character.life_max }}</span>
+                  </v-tooltip>
                 </v-col>
                 <!-- Mana -->
                 <v-col
                   cols="6"
                   style="display: flex; justifyContent: space-between;"
                 >
-                  <VerticalProgress
-                    :current="character.mana"
-                    :total="character.mana_max"
-                    color="#765dd0"
-                  />
-                  <div style="padding-right: 16px;" class="text-right">
-                    <h3>{{ character.mana }}</h3>
-                    <h3 class="subtitle">Mana</h3>
-                  </div>
+                  <v-tooltip top v-if="character.mana">
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <VerticalProgress
+                          v-if="character.mana"
+                          :current="character.mana"
+                          :total="character.mana_max"
+                          color="#765dd0"
+                        />
+                      </div>
+                      <div style="padding-right: 16px;" class="text-right">
+                        <h3>{{ character.mana }}</h3>
+                        <h3 class="subtitle">Mana</h3>
+                      </div>
+                    </template>
+                    <span>{{ character.mana }} / {{ character.mana_max }}</span>
+                  </v-tooltip>
                 </v-col>
               </v-row>
               <v-list dense color="transparent">
