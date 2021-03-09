@@ -20,7 +20,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'red'
+      default: 'primary'
     },
     size: {
       type: Number,
@@ -45,7 +45,7 @@ export default {
           : 'translateY(100%)',
         width: this.size + 'px',
         height: this.size + 'px',
-        background: this.color,
+        background: this.$vuetify.theme.themes.dark[this.color],
         transition: 'all 1s'
       };
     },
@@ -57,7 +57,7 @@ export default {
         overflow: 'hidden',
         width: this.size + 'px',
         height: this.size + 'px',
-        borderColor: this.color
+        borderColor: this.$vuetify.theme.themes.dark[this.color]
       };
     }
   }
