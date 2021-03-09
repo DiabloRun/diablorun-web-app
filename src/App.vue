@@ -189,6 +189,12 @@ export default {
           title: 'Open source',
           icon: 'mdi-github',
           url: 'https://github.com/diablorun'
+        },
+        {
+          title: 'Diablo Interface 0.6.9',
+          icon: 'mdi-download',
+          url:
+            'https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.9'
         }
       ],
       loading: false,
