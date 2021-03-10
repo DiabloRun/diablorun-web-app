@@ -76,38 +76,33 @@
         <v-card>
           <v-row no-gutters>
             <v-col cols="12" sm="4" lg="3" xl="2">
-              <v-row class="my-1">
-                <!-- Life -->
-                <v-col
-                  cols="6"
-                  style="display: flex; justifyContent: space-between;"
-                >
+              <v-row class="pt-3 px-4">
+                <v-col cols="6" class="d-flex justify-end text-center">
+                  <!-- Life -->
                   <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
-                      <div style="padding-left: 16px;">
-                        <h3>{{ character.life ? character.life : 'RIP' }}</h3>
-                        <h3 class="subtitle">Life</h3>
-                      </div>
                       <div v-bind="attrs" v-on="on">
+                        <h5>{{ character.life }}</h5>
                         <VerticalProgress
                           v-if="character.life"
                           :current="character.life"
                           :total="character.life_max"
-                          color="danger"
+                          color="error"
                         />
                       </div>
                     </template>
-                    <span>{{ character.life }} / {{ character.life_max }}</span>
+                    <span
+                      >Life: {{ character.life }} /
+                      {{ character.life_max }}</span
+                    >
                   </v-tooltip>
                 </v-col>
-                <!-- Mana -->
-                <v-col
-                  cols="6"
-                  style="display: flex; justifyContent: space-between;"
-                >
+                <v-col cols="6" class="d-flex justify-start text-center">
+                  <!-- Mana -->
                   <v-tooltip top v-if="character.mana">
                     <template v-slot:activator="{ on, attrs }">
                       <div v-bind="attrs" v-on="on">
+                        <h5>{{ character.mana }}</h5>
                         <VerticalProgress
                           v-if="character.mana"
                           :current="character.mana"
@@ -115,12 +110,11 @@
                           color="primary"
                         />
                       </div>
-                      <div style="padding-right: 16px;" class="text-right">
-                        <h3>{{ character.mana }}</h3>
-                        <h3 class="subtitle">Mana</h3>
-                      </div>
                     </template>
-                    <span>{{ character.mana }} / {{ character.mana_max }}</span>
+                    <span
+                      >Mana: {{ character.mana }} /
+                      {{ character.mana_max }}</span
+                    >
                   </v-tooltip>
                 </v-col>
               </v-row>

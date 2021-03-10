@@ -24,7 +24,7 @@ export default {
     },
     size: {
       type: Number,
-      default: 48
+      default: 64
     }
   },
   data() {
@@ -52,12 +52,12 @@ export default {
     wrapper() {
       return {
         borderRadius: '50%',
-        borderWidth: '1px',
+        borderWidth: '3px',
         borderStyle: 'solid',
         overflow: 'hidden',
         width: this.size + 'px',
         height: this.size + 'px',
-        borderColor: this.$vuetify.theme.themes.dark[this.color]
+        borderColor: this.$vuetify.theme.themes.dark.secondary
       };
     }
   }
