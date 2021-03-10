@@ -1,6 +1,6 @@
 <template>
-  <div v-bind:style="wrapper">
-    <div v-bind:style="progress"></div>
+  <div v-bind:style="wrapper" class="ovh bdrs50p wct">
+    <div v-bind:style="progress" class="wct"></div>
   </div>
 </template>
 
@@ -46,15 +46,13 @@ export default {
         width: this.size + 'px',
         height: this.size + 'px',
         background: this.$vuetify.theme.themes.dark[this.color],
-        transition: 'all 1s'
+        transition: 'transform 1s'
       };
     },
     wrapper() {
       return {
-        borderRadius: '50%',
         borderWidth: '3px',
         borderStyle: 'solid',
-        overflow: 'hidden',
         width: this.size + 'px',
         height: this.size + 'px',
         borderColor: this.$vuetify.theme.themes.dark.secondary
