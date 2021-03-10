@@ -1,5 +1,23 @@
 <template>
   <v-container>
+    <v-row no-gutters align="center" justify="center">
+      <v-col cols="12" sm="10" md="8" lg="6" xl="4" class="text-center">
+        <h1>Welcome to the freshly updated diablo.run</h1>
+        <h1 class="subtitle">
+          Dowload
+          <a
+            target="_blank"
+            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.9"
+            >Diablo Interface 0.6.9</a
+          >
+          for all the new features to work. Older versions are no longer
+          supported.
+        </h1>
+        <v-btn :to="{ name: 'Interface Setup' }">
+          Setup guide
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-row dense>
       <!-- Recently submitted speedruns -->
       <v-col cols="12">
