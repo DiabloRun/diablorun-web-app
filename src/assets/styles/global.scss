@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Texturina:ital,wght@0,400;0,500;0,600;0,700;1,100&display=swap");
 
 $title-font: "Texturina", serif;
+$background: hsl(240, 22%, 10%);
 
 body,
 html {
@@ -9,6 +10,8 @@ html {
     font-size: 16px;
 
     --v-anchor-base: var(--v-link-lighten1);
+    // for browser overscroll
+    background: $background;
 }
 
 .dr-nav {
@@ -20,9 +23,21 @@ html {
     line-height: 1.1;
 }
 
+.ovh {
+    overflow: hidden;
+}
+
+.bdrs50p {
+    border-radius: 50%;
+}
+
+.wct {
+    will-change: transform;
+}
+
 .v-application {
     .v-application--wrap {
-        background-color: hsl(240, 22%, 10%);
+        background-color: $background;
         background-image: url("assets/img/body-bg.jpg");
         background-attachment: fixed;
         background-repeat: repeat;
