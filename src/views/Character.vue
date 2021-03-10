@@ -84,7 +84,6 @@
                       <div v-bind="attrs" v-on="on">
                         <h5>{{ character.life }}</h5>
                         <VerticalProgress
-                          v-if="character.life"
                           :current="character.life"
                           :total="character.life_max"
                           color="error"
@@ -99,12 +98,11 @@
                 </v-col>
                 <v-col cols="6" class="d-flex justify-start text-center">
                   <!-- Mana -->
-                  <v-tooltip top v-if="character.mana">
+                  <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                       <div v-bind="attrs" v-on="on">
                         <h5>{{ character.mana }}</h5>
                         <VerticalProgress
-                          v-if="character.mana"
                           :current="character.mana"
                           :total="character.mana_max"
                           color="primary"
