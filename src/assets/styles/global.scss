@@ -64,6 +64,10 @@ html {
         width: 0;
     }
 
+    .v-navigation-drawer--is-mobile {
+        background-color: hsla(240, 22%, 20%, 0.99) !important;
+    }
+
     h1,
     h2,
     h2.subtitle {
