@@ -19,7 +19,7 @@ export default new Vuetify({
         silver: '#C0C0C0',
         bronze: '#CD7F32',
 
-        error: '#ED9276',
+        error: '#ea6363',
         info: '#7695ED',
         success: '#76ED92',
         warning: '#fbc02d'

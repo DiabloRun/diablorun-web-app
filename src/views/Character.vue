@@ -76,44 +76,46 @@
         <v-card>
           <v-row no-gutters>
             <v-col cols="12" sm="4" lg="3" xl="2">
-              <v-row class="my-1">
-                <!-- Life -->
-                <v-col cols="6" class="text-right">
-                  <v-progress-circular
-                    :rotate="90"
-                    :size="64"
-                    :value="(character.life / character.life_max) * 100"
-                    color="error"
-                    width="3"
-                  >
-                    {{ character.life }}
-                  </v-progress-circular>
-                  <!--
-                    <v-progress-circular
-                    v-if="character.dead && character.hc"
-                    :rotate="90"
-                    :size="64"
-                    :value="0"
-                    color="error"
-                    width="3"
-                  >
-                    <v-icon color="error">
-                      mdi-skull-crossbones
-                    </v-icon>
-                  </v-progress-circular>
-                  -->
+              <v-row class="pt-3 px-4">
+                <v-col cols="6" class="d-flex justify-end text-center">
+                  <!-- Life -->
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <h5>{{ character.life }}</h5>
+                        <VerticalProgress
+                          v-if="character.life"
+                          :current="character.life"
+                          :total="character.life_max"
+                          color="error"
+                        />
+                      </div>
+                    </template>
+                    <span
+                      >Life: {{ character.life }} /
+                      {{ character.life_max }}</span
+                    >
+                  </v-tooltip>
                 </v-col>
-                <!-- Mana -->
-                <v-col cols="6">
-                  <v-progress-circular
-                    :rotate="90"
-                    :size="64"
-                    :value="(character.mana / character.mana_max) * 100"
-                    color="primary darken-1"
-                    width="3"
-                  >
-                    {{ character.mana }}
-                  </v-progress-circular>
+                <v-col cols="6" class="d-flex justify-start text-center">
+                  <!-- Mana -->
+                  <v-tooltip top v-if="character.mana">
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <h5>{{ character.mana }}</h5>
+                        <VerticalProgress
+                          v-if="character.mana"
+                          :current="character.mana"
+                          :total="character.mana_max"
+                          color="primary"
+                        />
+                      </div>
+                    </template>
+                    <span
+                      >Mana: {{ character.mana }} /
+                      {{ character.mana_max }}</span
+                    >
+                  </v-tooltip>
                 </v-col>
               </v-row>
               <v-list dense color="transparent">
@@ -333,6 +335,7 @@ import {
 import Icon from '@/components/Icon.vue';
 import CharacterItem from '@/components/CharacterItem.vue';
 import TwitchEmbed from '@/components/TwitchEmbed.vue';
+import VerticalProgress from '@/components/VerticalProgress.vue';
 
 export default {
   name: 'Character',
@@ -346,7 +349,8 @@ export default {
   components: {
     Icon,
     CharacterItem,
-    TwitchEmbed
+    TwitchEmbed,
+    VerticalProgress
   },
   data() {
     return {
