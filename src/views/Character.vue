@@ -245,14 +245,6 @@
                 </v-tab-item>
                 <!-- Stash tab -->
                 <v-tab-item class="pa-2">
-                  <v-alert
-                    v-if="!stashItems.length"
-                    text
-                    color="primary"
-                    class="ma-0 font-weight-medium text-center"
-                  >
-                    Stash is empty
-                  </v-alert>
                   <v-row dense class="py-3 text-center">
                     <v-col>
                       <v-icon left>mdi-gold</v-icon
