@@ -221,6 +221,13 @@
                 </v-tab-item>
                 <!-- Inventory tab -->
                 <v-tab-item class="pa-2">
+                  <v-row dense class="py-3 text-center">
+                    <v-col>
+                      <v-icon left>mdi-gold</v-icon
+                      >{{ character.gold_total - character.gold_stash }} gold in
+                      inventory
+                    </v-col>
+                  </v-row>
                   <v-row dense>
                     <v-col
                       cols="12"
@@ -235,6 +242,20 @@
                 </v-tab-item>
                 <!-- Stash tab -->
                 <v-tab-item class="pa-2">
+                  <v-alert
+                    v-if="!stashItems.length"
+                    text
+                    color="primary"
+                    class="ma-0 font-weight-medium text-center"
+                  >
+                    Stash is empty
+                  </v-alert>
+                  <v-row dense class="py-3 text-center">
+                    <v-col>
+                      <v-icon left>mdi-gold</v-icon
+                      >{{ character.gold_stash }} gold in stash
+                    </v-col>
+                  </v-row>
                   <v-row dense>
                     <v-col
                       cols="12"
@@ -247,8 +268,16 @@
                     </v-col>
                   </v-row>
                 </v-tab-item>
-                <!-- Stash tab -->
+                <!-- Cube tab -->
                 <v-tab-item class="pa-2">
+                  <v-alert
+                    v-if="!cubeItems.length"
+                    text
+                    color="primary"
+                    class="ma-0 font-weight-medium text-center"
+                  >
+                    Cube is empty
+                  </v-alert>
                   <v-row dense>
                     <v-col
                       cols="12"
@@ -404,13 +433,18 @@ export default {
         },
         {
           value: 'gold_total',
-          title: 'Gold',
+          title: 'Total gold',
           icon: 'mdi-gold'
         },
         {
           value: 'town_visits',
           title: 'Town visits',
           icon: 'mdi-castle'
+        },
+        {
+          value: 'total_kills',
+          title: 'Enemies killed',
+          icon: 'mdi-grave-stone'
         }
       ],
       hirelingAttributes: [
