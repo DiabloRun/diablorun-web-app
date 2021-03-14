@@ -343,6 +343,12 @@
                       </v-card>
                     </v-col>
                   </v-row>
+                  <v-row dense class="py-3 text-center silver--text body-2">
+                    <v-col>
+                      Running Diablo II v{{ character.d2_version }}
+                      {{ character.d2_args }}
+                    </v-col>
+                  </v-row>
                 </v-tab-item>
               </v-tabs-items>
             </v-col>
