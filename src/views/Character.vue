@@ -136,13 +136,15 @@
                     </span>
                   </v-tooltip>
                 </v-col>
-                <!-- Experience -->
-                <v-col v-if="character.level < 99" cols="12">
-                  <v-progress-linear
-                    :value="experiencePercentage"
-                  ></v-progress-linear>
-                </v-col>
               </v-row>
+              <!-- Experience -->
+              <v-progress-linear
+                v-if="character.level < 99"
+                color="link darken-1"
+                height="3"
+                :value="experiencePercentage"
+                class="mt-4"
+              ></v-progress-linear>
               <v-list dense color="transparent">
                 <v-list-item>
                   <v-list-item-content>
