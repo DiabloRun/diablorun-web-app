@@ -137,7 +137,7 @@
                   </v-tooltip>
                 </v-col>
                 <!-- Experience -->
-                <v-col cols="12">
+                <v-col v-if="character.level < 99" cols="12">
                   <v-progress-linear
                     :value="(character.experience / maxExperience) * 100"
                   ></v-progress-linear>
@@ -147,7 +147,7 @@
                 <v-list-item>
                   <v-list-item-content>
                     <h3>Level {{ character.level }}</h3>
-                    <h3 class="subtitle">
+                    <h3 v-if="character.level < 99" class="subtitle">
                       {{ experiencePercentage }}% Experience
                     </h3>
                   </v-list-item-content>
