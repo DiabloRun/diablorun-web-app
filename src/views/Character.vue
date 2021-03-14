@@ -357,14 +357,49 @@
                       </v-card>
                     </v-col>
                   </v-row>
-                  <v-row dense class="py-3 text-center silver--text body-2">
+                  <v-row
+                    v-if="character.d2_version"
+                    dense
+                    class="py-3 text-center secondary--text text--lighten-2 body-2 mt-5"
+                  >
                     <v-col>
-                      Running Diablo II v{{ character.d2_version }}
+                      Diablo II version {{ character.d2_version }}
                       {{ character.d2_args }}
                     </v-col>
                   </v-row>
                 </v-tab-item>
               </v-tabs-items>
+            </v-col>
+            <v-col cols="12">
+              <v-divider />
+              <v-row dense class="pa-3">
+                <v-col cols="auto mr-1">
+                  <v-avatar size="32">
+                    <img
+                      v-if="character.user_profile_image_url !== ''"
+                      :src="character.user_profile_image_url"
+                    />
+                    <v-icon
+                      v-if="character.user_profile_image_url == ''"
+                      size="32"
+                      color="primary"
+                    >
+                      mdi-account-circle
+                    </v-icon>
+                  </v-avatar>
+                </v-col>
+                <v-col class="my-auto">
+                  <h4>
+                    Created
+                    {{ character.start_time | FromNowFilter }}
+                  </h4>
+                </v-col>
+                <v-col v-if="character.in_game_time" cols="auto my-auto">
+                  <h4>
+                    {{ character.in_game_time | DurationFilter }} of playtime
+                  </h4>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-card>
