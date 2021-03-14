@@ -131,8 +131,11 @@
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-content>
-                    <h3>{{ character.difficulty | DifficultyFilter }}</h3>
-                    <h3 class="subtitle">Players {{ character.players }}</h3>
+                    <h3>{{ character.area | AreaNameFilter }}</h3>
+                    <h3 class="subtitle">
+                      {{ character.difficulty | DifficultyFilter }} Players
+                      {{ character.players }}
+                    </h3>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -221,6 +224,13 @@
                 </v-tab-item>
                 <!-- Inventory tab -->
                 <v-tab-item class="pa-2">
+                  <v-row dense class="py-3 text-center">
+                    <v-col>
+                      <v-icon left>mdi-gold</v-icon
+                      >{{ character.gold_total - character.gold_stash }} gold in
+                      inventory
+                    </v-col>
+                  </v-row>
                   <v-row dense>
                     <v-col
                       cols="12"
@@ -235,6 +245,20 @@
                 </v-tab-item>
                 <!-- Stash tab -->
                 <v-tab-item class="pa-2">
+                  <v-alert
+                    v-if="!stashItems.length"
+                    text
+                    color="primary"
+                    class="ma-0 font-weight-medium text-center"
+                  >
+                    Stash is empty
+                  </v-alert>
+                  <v-row dense class="py-3 text-center">
+                    <v-col>
+                      <v-icon left>mdi-gold</v-icon
+                      >{{ character.gold_stash }} gold in stash
+                    </v-col>
+                  </v-row>
                   <v-row dense>
                     <v-col
                       cols="12"
@@ -247,8 +271,16 @@
                     </v-col>
                   </v-row>
                 </v-tab-item>
-                <!-- Stash tab -->
+                <!-- Cube tab -->
                 <v-tab-item class="pa-2">
+                  <v-alert
+                    v-if="!cubeItems.length"
+                    text
+                    color="primary"
+                    class="ma-0 font-weight-medium text-center"
+                  >
+                    Cube is empty
+                  </v-alert>
                   <v-row dense>
                     <v-col
                       cols="12"
@@ -309,6 +341,12 @@
                           </v-col>
                         </v-row>
                       </v-card>
+                    </v-col>
+                  </v-row>
+                  <v-row dense class="py-3 text-center silver--text body-2">
+                    <v-col>
+                      Running Diablo II v{{ character.d2_version }}
+                      {{ character.d2_args }}
                     </v-col>
                   </v-row>
                 </v-tab-item>
@@ -404,13 +442,18 @@ export default {
         },
         {
           value: 'gold_total',
-          title: 'Gold',
+          title: 'Total gold',
           icon: 'mdi-gold'
         },
         {
           value: 'town_visits',
           title: 'Town visits',
           icon: 'mdi-castle'
+        },
+        {
+          value: 'total_kills',
+          title: 'Enemies killed',
+          icon: 'mdi-grave-stone'
         }
       ],
       hirelingAttributes: [
