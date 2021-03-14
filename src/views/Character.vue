@@ -94,12 +94,12 @@
                         />
                       </div>
                     </template>
-                    <span v-if="character.hc"
-                      >Your deeds of valor will be remembered</span
-                    >
-                    <span v-if="!character.hc"
-                      >Life: 0 / {{ character.life_max }}</span
-                    >
+                    <span v-if="character.hc">
+                      Your deeds of valor will be remembered
+                    </span>
+                    <span v-if="!character.hc">
+                      Life: 0 / {{ character.life_max }}
+                    </span>
                   </v-tooltip>
                   <!-- Life -->
                   <v-tooltip top v-if="!character.dead">
@@ -131,18 +131,25 @@
                         />
                       </div>
                     </template>
-                    <span
-                      >Mana: {{ character.mana }} /
-                      {{ character.mana_max }}</span
-                    >
+                    <span>
+                      Mana: {{ character.mana }} / {{ character.mana_max }}
+                    </span>
                   </v-tooltip>
+                </v-col>
+                <!-- Experience -->
+                <v-col v-if="character.level < 99" cols="12">
+                  <v-progress-linear
+                    :value="(character.experience / maxExperience) * 100"
+                  ></v-progress-linear>
                 </v-col>
               </v-row>
               <v-list dense color="transparent">
                 <v-list-item>
                   <v-list-item-content>
-                    <h3>{{ character.level }}</h3>
-                    <h3 class="subtitle">Level</h3>
+                    <h3>Level {{ character.level }}</h3>
+                    <h3 v-if="character.level < 99" class="subtitle">
+                      {{ experiencePercentage }}% Experience
+                    </h3>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-if="!character.hc">
@@ -374,19 +381,26 @@
               <v-divider />
               <v-row dense class="pa-3">
                 <v-col cols="auto mr-1">
-                  <v-avatar size="32">
-                    <img
-                      v-if="character.user_profile_image_url !== ''"
-                      :src="character.user_profile_image_url"
-                    />
-                    <v-icon
-                      v-if="character.user_profile_image_url == ''"
-                      size="32"
-                      color="primary"
-                    >
-                      mdi-account-circle
-                    </v-icon>
-                  </v-avatar>
+                  <router-link
+                    :to="{
+                      name: 'User',
+                      params: { user_name: character.user_name }
+                    }"
+                  >
+                    <v-avatar size="32">
+                      <img
+                        v-if="character.user_profile_image_url !== ''"
+                        :src="character.user_profile_image_url"
+                      />
+                      <v-icon
+                        v-if="character.user_profile_image_url == ''"
+                        size="32"
+                        color="primary"
+                      >
+                        mdi-account-circle
+                      </v-icon>
+                    </v-avatar>
+                  </router-link>
                 </v-col>
                 <v-col class="my-auto">
                   <h4>
@@ -421,6 +435,7 @@ import Icon from '@/components/Icon.vue';
 import CharacterItem from '@/components/CharacterItem.vue';
 import TwitchEmbed from '@/components/TwitchEmbed.vue';
 import VerticalProgress from '@/components/VerticalProgress.vue';
+import { levelExperience } from '@diablorun/diablorun-data';
 
 export default {
   name: 'Character',
@@ -594,7 +609,15 @@ export default {
       cubeItems(state) {
         return state.ws.items.filter(item => item.container === 'cube');
       },
-      streamOverlay: state => state.app.windowStyle === 'overlay'
+      streamOverlay: state => state.app.windowStyle === 'overlay',
+      maxExperience: state => levelExperience[state.ws.character.level],
+      experiencePercentage(state) {
+        const p =
+          (state.ws.character.experience /
+            levelExperience[state.ws.character.level]) *
+          100;
+        return Math.round(p * 100) / 100;
+      }
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
