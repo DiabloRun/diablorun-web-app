@@ -96,6 +96,7 @@
                     <th>Core</th>
                     <th>Hero</th>
                     <th>Area</th>
+                    <th>Playtime</th>
                     <th>Added</th>
                     <th v-if="isEditor">Edit</th>
                   </tr>
@@ -136,6 +137,7 @@
                       {{ character.hero | HeroNameFilter }}
                     </td>
                     <td>{{ character.area | AreaNameFilter }}</td>
+                    <td>{{ character.in_game_time | DurationFilter }}</td>
                     <td>{{ character.start_time | FromNowFilter }}</td>
                     <td v-if="isEditor">
                       <a @click="deleteCharacter(character)"> Delete </a>
