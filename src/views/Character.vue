@@ -139,7 +139,7 @@
                 <!-- Experience -->
                 <v-col v-if="character.level < 99" cols="12">
                   <v-progress-linear
-                    :value="(character.experience / maxExperience) * 100"
+                    :value="experiencePercentage"
                   ></v-progress-linear>
                 </v-col>
               </v-row>
@@ -612,10 +612,11 @@ export default {
       streamOverlay: state => state.app.windowStyle === 'overlay',
       maxExperience: state => levelExperience[state.ws.character.level],
       experiencePercentage(state) {
+        const prev = levelExperience[state.ws.character.level - 1];
+        const next = levelExperience[state.ws.character.level];
+
         const p =
-          (state.ws.character.experience /
-            levelExperience[state.ws.character.level]) *
-          100;
+          ((state.ws.character.experience - prev) / (next - prev)) * 100;
         return Math.round(p * 100) / 100;
       }
     }),
