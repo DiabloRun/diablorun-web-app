@@ -79,7 +79,30 @@
               <v-row class="pt-3 px-4">
                 <v-col cols="6" class="d-flex justify-end text-center">
                   <!-- Life -->
-                  <v-tooltip top>
+                  <v-tooltip top v-if="character.dead">
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <h5>
+                          <v-icon small color="error"
+                            >mdi-skull-crossbones</v-icon
+                          >
+                        </h5>
+                        <VerticalProgress
+                          current="0"
+                          :total="character.life_max"
+                          color="error"
+                        />
+                      </div>
+                    </template>
+                    <span v-if="character.hc"
+                      >Your deeds of valor will be remembered</span
+                    >
+                    <span v-if="!character.hc"
+                      >Life: 0 / {{ character.life_max }}</span
+                    >
+                  </v-tooltip>
+                  <!-- Life -->
+                  <v-tooltip top v-if="!character.dead">
                     <template v-slot:activator="{ on, attrs }">
                       <div v-bind="attrs" v-on="on">
                         <h5>{{ character.life }}</h5>
@@ -90,10 +113,9 @@
                         />
                       </div>
                     </template>
-                    <span
-                      >Life: {{ character.life }} /
-                      {{ character.life_max }}</span
-                    >
+                    <span>
+                      Life: {{ character.life }} / {{ character.life_max }}
+                    </span>
                   </v-tooltip>
                 </v-col>
                 <v-col cols="6" class="d-flex justify-start text-center">
@@ -123,7 +145,7 @@
                     <h3 class="subtitle">Level</h3>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item v-if="!character.hc">
                   <v-list-item-content>
                     <h3>{{ character.deaths }}</h3>
                     <h3 class="subtitle">Deaths</h3>
