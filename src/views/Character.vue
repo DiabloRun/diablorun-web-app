@@ -139,7 +139,7 @@
                 <!-- Experience -->
                 <v-col v-if="character.level < 99" cols="12">
                   <v-progress-linear
-                    :value="(character.experience / maxExperience) * 100"
+                    :value="experiencePercentage"
                   ></v-progress-linear>
                 </v-col>
               </v-row>
@@ -178,7 +178,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                          character[resistance.stat] < 75
+                        character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -573,49 +573,50 @@ export default {
           'ring_right'
         ];
 
-        return slots.map(slot => ({
+        return slots.map((slot) => ({
           slot,
           item: state.ws.items.find(
-            item => item.container === 'character' && item.slot === slot
+            (item) => item.container === 'character' && item.slot === slot
           )
         }));
       },
       hirelingItems(state) {
         const slots = ['primary_left', 'head', 'body_armor', 'primary_right'];
 
-        return slots.map(slot => ({
+        return slots.map((slot) => ({
           slot,
           item: state.ws.items.find(
-            item => item.container === 'hireling' && item.slot === slot
+            (item) => item.container === 'hireling' && item.slot === slot
           )
         }));
       },
       hirelingExtraItems(state) {
         const slots = ['gloves', 'belt', 'boots'];
 
-        return slots.map(slot => ({
+        return slots.map((slot) => ({
           slot,
           item: state.ws.items.find(
-            item => item.container === 'hireling' && item.slot === slot
+            (item) => item.container === 'hireling' && item.slot === slot
           )
         }));
       },
       inventoryItems(state) {
-        return state.ws.items.filter(item => item.container === 'inventory');
+        return state.ws.items.filter((item) => item.container === 'inventory');
       },
       stashItems(state) {
-        return state.ws.items.filter(item => item.container === 'stash');
+        return state.ws.items.filter((item) => item.container === 'stash');
       },
       cubeItems(state) {
-        return state.ws.items.filter(item => item.container === 'cube');
+        return state.ws.items.filter((item) => item.container === 'cube');
       },
-      streamOverlay: state => state.app.windowStyle === 'overlay',
-      maxExperience: state => levelExperience[state.ws.character.level],
+      streamOverlay: (state) => state.app.windowStyle === 'overlay',
+      maxExperience: (state) => levelExperience[state.ws.character.level],
       experiencePercentage(state) {
+        const prev = levelExperience[state.ws.character.level - 1];
+        const next = levelExperience[state.ws.character.level];
+
         const p =
-          (state.ws.character.experience /
-            levelExperience[state.ws.character.level]) *
-          100;
+          ((state.ws.character.experience - prev) / (next - prev)) * 100;
         return Math.round(p * 100) / 100;
       }
     }),
