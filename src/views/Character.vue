@@ -131,8 +131,11 @@
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-content>
-                    <h3>{{ character.difficulty | DifficultyFilter }}</h3>
-                    <h3 class="subtitle">Players {{ character.players }}</h3>
+                    <h3>{{ character.area | AreaNameFilter }}</h3>
+                    <h3 class="subtitle">
+                      {{ character.difficulty | DifficultyFilter }} Players
+                      {{ character.players }}
+                    </h3>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
