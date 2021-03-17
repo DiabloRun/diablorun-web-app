@@ -614,11 +614,11 @@ export default {
       streamOverlay: state => state.app.windowStyle === 'overlay',
       maxExperience: state => levelExperience[state.ws.character.level],
       experiencePercentage(state) {
-        const prev = levelExperience[state.ws.character.level - 1];
-        const next = levelExperience[state.ws.character.level];
+        const { level, experience } = state.ws.character;
+        const prev = levelExperience[level - 1];
+        const next = levelExperience[level];
+        const p = ((Number(experience) - prev) / (next - prev)) * 100;
 
-        const p =
-          ((state.ws.character.experience - prev) / (next - prev)) * 100;
         return Math.round(p * 100) / 100;
       }
     }),
