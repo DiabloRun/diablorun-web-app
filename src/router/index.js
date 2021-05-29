@@ -69,21 +69,27 @@ const routes = [
       import(/* webpackChunkName: "leaderboard" */ '../views/Users.vue')
   },
   {
+    path: '/table/*',
+    name: 'Table',
+    component: () =>
+      import(/* webpackChunkName: "table" */ '../views/Table.vue')
+  },
+  {
     path: '/:user_name',
     name: 'User',
-    component: () => import(/* webpackChunkName: "races" */ '../views/User.vue')
+    component: () => import(/* webpackChunkName: "leaderboard" */ '../views/User.vue')
   },
   {
     path: '/:user_name/:character_slug',
     name: 'Character',
     component: () =>
-      import(/* webpackChunkName: "races" */ '../views/Character.vue')
+      import(/* webpackChunkName: "leaderboard" */ '../views/Character.vue')
   },
   {
     path: '/:user_name/:character_slug/statistics',
     name: 'CharacterStatistics',
     component: () =>
-      import(/* webpackChunkName: "races" */ '../views/CharacterStatistics.vue')
+      import(/* webpackChunkName: "leaderboard" */ '../views/CharacterStatistics.vue')
   }
 ];
 

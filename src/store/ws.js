@@ -10,6 +10,7 @@ export default {
     unfinishedCharacters: [],
     // notifications: [],
     character: {},
+    characters: {},
     items: [],
     subscribedToCharacterById: false,
     timeOffset: 0,
@@ -60,6 +61,7 @@ export default {
       ].slice(0, 6);
     },
 
+    /*
     updateRaceRankings(state) {
       let forceFinish = false;
 
@@ -121,6 +123,7 @@ export default {
         };
       });
     },
+    */
 
     setSubscribedToCharacterById(state, subscribedToCharacterById) {
       state.subscribedToCharacterById = subscribedToCharacterById;
@@ -155,6 +158,8 @@ export default {
           )
           .concat(itemUpdates.addedItems);
       }
+
+      state.characters = { ...state.characters, [state.character.user_name.toLowerCase()]: state.character };
     },
 
     setQueueing(state, queueing) {
