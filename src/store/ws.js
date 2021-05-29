@@ -371,12 +371,6 @@ export default {
       commit('setQueueing', true);
       commit('setSubscribedToCharacterById', !!id);
 
-      await dispatch('connect');
-      await dispatch('send', {
-        action: 'subscribe',
-        payload: `user/${name.toLowerCase()}`
-      });
-
       if (!lastUpdate) {
         const res = await fetch(
           id
@@ -389,6 +383,12 @@ export default {
       } else {
         commit('updateCharacter', lastUpdate);
       }
+
+      await dispatch('connect');
+      await dispatch('send', {
+        action: 'subscribe',
+        payload: `user/${name.toLowerCase()}`
+      });
 
       await dispatch('flushQueue');
     },
