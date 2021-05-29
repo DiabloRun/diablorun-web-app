@@ -8,8 +8,10 @@
     <v-simple-table dense class="text-no-wrap">
       <thead>
         <tr>
+          <!--
           <th>#</th>
           <th>Points</th>
+          -->
           <th>Runner</th>
           <th>Area</th>
           <th>Level</th>
@@ -26,6 +28,7 @@
       </thead>
       <tbody>
         <tr v-for="character of characters" :key="character.id">
+          <!--
           <td>
             <span v-if="character.rank > 3" class="grey--text">
               {{ character.rank }}
@@ -43,6 +46,7 @@
           <td>
             {{ character.points }}
           </td>
+          -->
           <td>
             <CharacterUser :character="character" />
             <v-icon v-if="character.dead" small color="error">

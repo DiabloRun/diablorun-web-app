@@ -133,21 +133,29 @@ export default {
       state,
       { id, name, character, items, characterUpdates, itemUpdates }
     ) {
-      if (id && state.character.id !== id) {
-        state.character = { ...state.character, id, name };
+      id = id || character.id;
+
+      if (!character && !state.characters[id]) {
+        return;
+      }
+
+      let updatedCharacter = state.characters[id] || { id, name };
+
+      if (id && state.character && state.character.id !== id) {
+        updatedCharacter = { ...updatedCharacter, id, name };
         state.items = [];
       }
 
       if (character) {
-        state.character = character;
+        updatedCharacter = character;
+      }
+
+      if (characterUpdates) {
+        updatedCharacter = { ...updatedCharacter, ...characterUpdates };
       }
 
       if (items) {
         state.items = items;
-      }
-
-      if (characterUpdates) {
-        state.character = { ...state.character, ...characterUpdates };
       }
 
       if (itemUpdates) {
@@ -159,7 +167,8 @@ export default {
           .concat(itemUpdates.addedItems);
       }
 
-      state.characters = { ...state.characters, [state.character.user_name.toLowerCase()]: state.character };
+      state.character = updatedCharacter;
+      state.characters = { ...state.characters, [id]: updatedCharacter };
     },
 
     setQueueing(state, queueing) {
@@ -350,6 +359,13 @@ export default {
       state.ws.send(JSON.stringify(data));
     },
 
+    async unsubscribeFromCharacter({ dispatch }, name) {
+      await dispatch('send', {
+        action: 'unsubscribe',
+        payload: `user/${name.toLowerCase()}`
+      });
+    },
+
     async subscribeToCharacter({ commit, dispatch }, { name, id, lastUpdate }) {
       commit('reset');
       commit('setQueueing', true);
@@ -374,7 +390,7 @@ export default {
         commit('updateCharacter', lastUpdate);
       }
 
-      dispatch('flushQueue');
+      await dispatch('flushQueue');
     },
 
     async subscribeToRace({ commit, dispatch }, id) {
@@ -418,12 +434,12 @@ export default {
           break;
         */
         case 'update_character':
-          if (
-            !state.subscribedToCharacterById ||
-            state.character.id === data.id
-          ) {
+          //if (
+          //  !state.subscribedToCharacterById ||
+          //  state.character.id === data.id
+          //) {
             commit('updateCharacter', data);
-          }
+          //}
           break;
         case 'update_race_character':
           commit('updateRace', data);

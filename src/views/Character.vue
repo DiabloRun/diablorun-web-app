@@ -649,6 +649,9 @@ export default {
     toggleTwitchEmbed() {
       this.showTwitchEmbed = !this.showTwitchEmbed;
     }
+  },
+  async destroyed() {
+    await this.$store.dispatch('ws/unsubscribeFromCharacter', this.username);
   }
 };
 </script>

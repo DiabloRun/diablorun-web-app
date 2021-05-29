@@ -23,7 +23,17 @@ export default {
   computed: {
     ...mapState({
       characters(state) {
-        return this.usernames.map(username => state.ws.characters[username]).filter(character => !!character);
+        const table = [];
+
+        for (const id in state.ws.characters) {
+          const character = state.ws.characters[id];
+
+          if (this.usernames.includes(character.user_name.toLowerCase())) {
+            table.push(character);
+          }
+        }
+        
+        return table;
       }
     })
   },
@@ -40,6 +50,11 @@ export default {
           });
         }
       }
+    }
+  },
+  async destroyed() {
+    for (const name of this.usernames) {
+      await this.$store.dispatch('ws/unsubscribeFromCharacter', name);
     }
   }
 };
