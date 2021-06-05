@@ -89,7 +89,7 @@
                         </h5>
                         <VerticalProgress
                           current="0"
-                          :total="character.life_max"
+                          :total="lifeMax"
                           color="error"
                         />
                       </div>
@@ -97,9 +97,7 @@
                     <span v-if="character.hc">
                       Your deeds of valor will be remembered
                     </span>
-                    <span v-if="!character.hc">
-                      Life: 0 / {{ character.life_max }}
-                    </span>
+                    <span v-if="!character.hc"> Life: 0 / {{ lifeMax }} </span>
                   </v-tooltip>
                   <!-- Life -->
                   <v-tooltip top v-if="!character.dead">
@@ -108,14 +106,12 @@
                         <h5>{{ character.life }}</h5>
                         <VerticalProgress
                           :current="character.life"
-                          :total="character.life_max"
+                          :total="lifeMax"
                           color="error"
                         />
                       </div>
                     </template>
-                    <span>
-                      Life: {{ character.life }} / {{ character.life_max }}
-                    </span>
+                    <span> Life: {{ character.life }} / {{ lifeMax }} </span>
                   </v-tooltip>
                 </v-col>
                 <v-col cols="6" class="d-flex justify-start text-center">
@@ -139,7 +135,7 @@
               </v-row>
               <!-- Experience -->
               <v-progress-linear
-                v-if="character.level < 99"
+                v-if="level < 99"
                 color="link darken-1"
                 height="3"
                 :value="experiencePercentage"
@@ -148,8 +144,8 @@
               <v-list dense color="transparent">
                 <v-list-item>
                   <v-list-item-content>
-                    <h3>Level {{ character.level }}</h3>
-                    <h3 v-if="character.level < 99" class="subtitle">
+                    <h3>Level {{ level }}</h3>
+                    <h3 v-if="level < 99" class="subtitle">
                       {{ experiencePercentage }}% Experience
                     </h3>
                   </v-list-item-content>
@@ -559,6 +555,32 @@ export default {
       character(state) {
         return state.ws.character;
       },
+      experience(state) {
+        return Number(state.ws.character.experience);
+      },
+      level(state) {
+        const { level } = state.ws.character;
+        const next = levelExperience[level];
+
+        if (next > this.experience) {
+          return level;
+        }
+
+        for (let i = level; i < levelExperience.length; i++) {
+          if (levelExperience[i] > this.experience) {
+            return i;
+          }
+        }
+      },
+      lifeMax(state) {
+        const { life, life_max } = state.ws.character;
+
+        if (life > life_max) {
+          return life;
+        }
+
+        return life_max;
+      },
       characterItems(state) {
         const slots = [
           'primary_left',
@@ -612,13 +634,11 @@ export default {
         return state.ws.items.filter(item => item.container === 'cube');
       },
       streamOverlay: state => state.app.windowStyle === 'overlay',
-      maxExperience: state => levelExperience[state.ws.character.level],
-      experiencePercentage(state) {
-        const prev = levelExperience[state.ws.character.level - 1];
-        const next = levelExperience[state.ws.character.level];
+      experiencePercentage() {
+        const prev = levelExperience[this.level - 1];
+        const next = levelExperience[this.level];
+        const p = ((this.experience - prev) / (next - prev)) * 100;
 
-        const p =
-          ((state.ws.character.experience - prev) / (next - prev)) * 100;
         return Math.round(p * 100) / 100;
       }
     }),

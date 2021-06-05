@@ -41,7 +41,9 @@ export default {
     progress() {
       return {
         transform: this.show
-          ? 'translateY(' + (1 - this.current / this.total) * 100 + '%)'
+          ? 'translateY(' +
+            Math.max(0, 1 - this.current / this.total) * 100 +
+            '%)'
           : 'translateY(100%)',
         width: this.size + 'px',
         height: this.size + 'px',
