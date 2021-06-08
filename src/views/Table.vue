@@ -25,11 +25,12 @@ export default {
       characters(state) {
         const table = [];
 
-        for (const id in state.ws.characters) {
-          const character = state.ws.characters[id];
+        for (const name of this.usernames) {
+          const id = state.characters.latestIds[name];
+          const snapshot = state.characters.snapshots[id];
 
-          if (this.usernames.includes(character.user_name.toLowerCase())) {
-            table.push(character);
+          if (snapshot) {
+            table.push(snapshot.character);
           }
         }
         
@@ -44,17 +45,15 @@ export default {
         this.usernames = to.params.pathMatch.split('/').map(username => username.toLowerCase());
 
         for (const name of this.usernames) {
-          await this.$store.dispatch('ws/subscribeToCharacter', {
-            name,
-            id: ''
-          });
+          await this.$store.dispatch('characters/fetchLatestCharacter', name);
+          this.$store.dispatch('characters/subscribeToUser', name);
         }
       }
     }
   },
-  async destroyed() {
+  destroyed() {
     for (const name of this.usernames) {
-      await this.$store.dispatch('ws/unsubscribeFromCharacter', name);
+      this.$store.dispatch('characters/unsubscribeFromUser', name);
     }
   }
 };

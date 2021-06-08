@@ -311,7 +311,10 @@ export default {
   }),
   computed: {
     ...mapState({
-      latestCharacter: state => state.ws.character
+      latestCharacter(state) {
+        const id = state.characters.latestIds[this.username];
+        return state.characters.snapshots[id].character;
+      }
     }),
     isEditor() {
       if (!this.$store.state.auth.user) {
@@ -333,12 +336,6 @@ export default {
         const { user, lastUpdate, characters, speedruns } = await res.json();
 
         this.user = user;
-
-        await this.$store.dispatch('ws/subscribeToCharacter', {
-          name: this.username,
-          lastUpdate
-        });
-
         this.characters = characters.data;
         this.moreCharacters = characters.meta.more;
         this.offsetCharacters = characters.meta.offset;
@@ -348,6 +345,9 @@ export default {
         this.speedrunsStatistics = speedruns.statistics;
         this.speedrunsPagination = speedruns.pagination;
         this.loadingSpeedruns = false;
+
+        this.$store.commit('characters/set', lastUpdate);
+        this.$store.dispatch('characters/subscribeToUser', this.username);
       }
     }
   },
@@ -420,6 +420,9 @@ export default {
         }
       }
     }
+  },
+  destroyed() {
+    this.$store.dispatch('characters/unsubscribeFromUser', this.username);
   }
 };
 </script>

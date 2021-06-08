@@ -56,7 +56,8 @@ export default {
       }
 
       const time = Math.floor(
-        (new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
+        (new Date().getTime()) / 1000
+        //(new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
       );
 
       /*

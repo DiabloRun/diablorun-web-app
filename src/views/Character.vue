@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="character.name" class="mt-5">
+  <v-container v-if="character" class="mt-5">
     <v-row dense>
       <!-- Hero icon -->
       <v-col cols="auto" class="mr-3">
@@ -180,7 +180,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                          character[resistance.stat] < 75
+                        character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -244,7 +244,13 @@
                       >
                         <v-flex>
                           <p
-                            class="text-center grey--text body-2 font-italic mb-0"
+                            class="
+                              text-center
+                              grey--text
+                              body-2
+                              font-italic
+                              mb-0
+                            "
                           >
                             empty
                           </p>
@@ -369,7 +375,14 @@
                   <v-row
                     v-if="character.d2_version"
                     dense
-                    class="py-3 text-center secondary--text text--lighten-2 body-2 mt-5"
+                    class="
+                      py-3
+                      text-center
+                      secondary--text
+                      text--lighten-2
+                      body-2
+                      mt-5
+                    "
                   >
                     <v-col>
                       Diablo II version {{ character.d2_version }}
@@ -460,6 +473,7 @@ export default {
       tab: 0,
       user: null,
       username: '',
+      characterId: '',
 
       attributes: [
         { stat: 'strength', title: 'Strength', icon: 'mdi-arm-flex' },
@@ -556,72 +570,78 @@ export default {
   },
   computed: {
     ...mapState({
-      character(state) {
-        return state.ws.character;
+      snapshot(state) {
+        const id =
+          this.characterId || state.characters.latestIds[this.username];
+        return state.characters.snapshots[id];
       },
-      characterItems(state) {
-        const slots = [
-          'primary_left',
-          'head',
-          'primary_right',
-          'secondary_left',
-          'body_armor',
-          'secondary_right',
-          'gloves',
-          'belt',
-          'boots',
-          'ring_left',
-          'amulet',
-          'ring_right'
-        ];
-
-        return slots.map(slot => ({
-          slot,
-          item: state.ws.items.find(
-            item => item.container === 'character' && item.slot === slot
-          )
-        }));
-      },
-      hirelingItems(state) {
-        const slots = ['primary_left', 'head', 'body_armor', 'primary_right'];
-
-        return slots.map(slot => ({
-          slot,
-          item: state.ws.items.find(
-            item => item.container === 'hireling' && item.slot === slot
-          )
-        }));
-      },
-      hirelingExtraItems(state) {
-        const slots = ['gloves', 'belt', 'boots'];
-
-        return slots.map(slot => ({
-          slot,
-          item: state.ws.items.find(
-            item => item.container === 'hireling' && item.slot === slot
-          )
-        }));
-      },
-      inventoryItems(state) {
-        return state.ws.items.filter(item => item.container === 'inventory');
-      },
-      stashItems(state) {
-        return state.ws.items.filter(item => item.container === 'stash');
-      },
-      cubeItems(state) {
-        return state.ws.items.filter(item => item.container === 'cube');
-      },
-      streamOverlay: state => state.app.windowStyle === 'overlay',
-      maxExperience: state => levelExperience[state.ws.character.level],
-      experiencePercentage(state) {
-        const prev = levelExperience[state.ws.character.level - 1];
-        const next = levelExperience[state.ws.character.level];
-
-        const p =
-          ((state.ws.character.experience - prev) / (next - prev)) * 100;
-        return Math.round(p * 100) / 100;
-      }
+      streamOverlay: (state) => state.app.windowStyle === 'overlay'
     }),
+    character() {
+      return this.snapshot?.character;
+    },
+    characterItems() {
+      const slots = [
+        'primary_left',
+        'head',
+        'primary_right',
+        'secondary_left',
+        'body_armor',
+        'secondary_right',
+        'gloves',
+        'belt',
+        'boots',
+        'ring_left',
+        'amulet',
+        'ring_right'
+      ];
+
+      return slots.map((slot) => ({
+        slot,
+        item: this.snapshot.items.find(
+          (item) => item.container === 'character' && item.slot === slot
+        )
+      }));
+    },
+    hirelingItems() {
+      const slots = ['primary_left', 'head', 'body_armor', 'primary_right'];
+
+      return slots.map((slot) => ({
+        slot,
+        item: this.snapshot.items.find(
+          (item) => item.container === 'hireling' && item.slot === slot
+        )
+      }));
+    },
+    hirelingExtraItems() {
+      const slots = ['gloves', 'belt', 'boots'];
+
+      return slots.map((slot) => ({
+        slot,
+        item: this.snapshot.items.find(
+          (item) => item.container === 'hireling' && item.slot === slot
+        )
+      }));
+    },
+    inventoryItems() {
+      return this.snapshot.items.filter(
+        (item) => item.container === 'inventory'
+      );
+    },
+    stashItems() {
+      return this.snapshot.items.filter((item) => item.container === 'stash');
+    },
+    cubeItems() {
+      return this.snapshot.items.filter((item) => item.container === 'cube');
+    },
+    maxExperience: () => levelExperience[this.character.level],
+    experiencePercentage() {
+      const prev = levelExperience[this.character.level - 1];
+      const next = levelExperience[this.character.level];
+
+      const p = ((this.character.experience - prev) / (next - prev)) * 100;
+      return Math.round(p * 100) / 100;
+    },
     isEditor() {
       if (!this.$store.state.auth.user) {
         return false;
@@ -635,13 +655,23 @@ export default {
       immediate: true,
       async handler({ params: { user_name, character_slug } }) {
         this.username = user_name.toLowerCase();
-
-        const id = character_slug
+        this.characterId = character_slug
           ? character_slug.replace(/^[^0-9]+/i, '')
           : '';
-        const name = user_name.toLowerCase();
 
-        await this.$store.dispatch('ws/subscribeToCharacter', { name, id });
+        if (this.characterId) {
+          await this.$store.dispatch(
+            'characters/fetchCharacter',
+            this.characterId
+          );
+        } else {
+          await this.$store.dispatch(
+            'characters/fetchLatestCharacter',
+            this.username
+          );
+        }
+
+        this.$store.dispatch('characters/subscribeToUser', this.username);
       }
     }
   },
@@ -650,8 +680,8 @@ export default {
       this.showTwitchEmbed = !this.showTwitchEmbed;
     }
   },
-  async destroyed() {
-    await this.$store.dispatch('ws/unsubscribeFromCharacter', this.username);
+  destroyed() {
+    this.$store.dispatch('characters/unsubscribeFromUser', this.username);
   }
 };
 </script>

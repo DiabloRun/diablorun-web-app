@@ -5,6 +5,7 @@ import router from './router';
 import store from './store';
 import HighchartsVue from 'highcharts-vue';
 import vuetify from './plugins/vuetify';
+import ws from './plugins/ws';
 import '@babel/polyfill';
 
 Vue.use(HighchartsVue);
@@ -22,6 +23,7 @@ async function run() {
     router,
     store,
     vuetify,
+    ws,
     render: h => h(App)
   }).$mount('#app');
 }
