@@ -1,108 +1,145 @@
 <template>
-  <v-container fill-height fluid class="pa-6">
-    <v-row v-if="user" align="center" justify="center">
-      <v-col cols="12" sm="8" md="8" lg="6">
-        <v-card v-if="user.patreon_id">
-          <v-card-title>
-            <v-icon left>mdi-patreon</v-icon>
-            Patreon
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-row justify="center" class="text-center pa-9">
-            <v-col>
-              <v-card-title class="justify-center">
-                Thank you, {{ user.name }}!
-              </v-card-title>
-              <v-card-subtitle class="pb-0">
-                You've pledged
-                <v-chip color="primary" class="ma-1">
-                  {{ user.patreon_amount_cents / 100 }}€
-                </v-chip>
-                to Diablo.run
-              </v-card-subtitle>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-btn
-              text
-              href="https://www.patreon.com/diablorun"
-              target="_blank"
-            >
-              Diablo.run Patreon page
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-        <v-card v-if="!user.patreon_id">
-          <v-card-title>
-            <v-icon left>mdi-patreon</v-icon>
-            Patreon
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-row justify="center" class="text-center pa-9">
-            <v-col>
-              <v-card-title class="justify-center">
-                Hey, {{ user.name }}! Patreon already?
-              </v-card-title>
-              <v-card-subtitle class="pb-0">
-                Link your Patreon account to get access to extra features.
-              </v-card-subtitle>
-              <v-btn
-                class="mt-3"
-                v-if="!user.patreon_id"
-                :href="patreonAuthenticationUrl"
-                target="_blank"
-              >
-                <v-icon left>mdi-connection</v-icon>
-                Link your Patreon with Diablo.run
-              </v-btn>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-btn
-              text
-              href="https://www.patreon.com/diablorun"
-              target="_blank"
-            >
-              Diablo.run Patreon page
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+  <v-container>
+    <v-row>
+      <!-- Bot commands -->
+      <v-col cols="12">
+        <h1>Twitch bot commands</h1>
+        <h2 class="subtitle">
+          Adding
+          <a href="https://www.twitch.tv/diablorun"> DiabloRun</a>
+          Twitch bot account as moderator is recommended
+        </h2>
       </v-col>
-    </v-row>
-    <v-row v-if="!user" align="center" justify="center">
-      <v-col cols="12" sm="8" md="8" lg="6">
-        <v-card>
-          <v-card-title>
-            <v-icon left>mdi-patreon</v-icon>
-            Patreon
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-row justify="center" class="text-center pa-9">
-            <v-col>
-              <v-card-title class="justify-center">
-                You're not logged in to Diablo.run
-              </v-card-title>
-              <v-card-subtitle class="pb-0">
-                Login to link your account
-              </v-card-subtitle>
-              <v-btn class="mt-3" :href="twitchAuthenticationUrl">
-                Login
-              </v-btn>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-btn
-              text
-              href="https://www.patreon.com/diablorun"
-              target="_blank"
-            >
-              Diablo.run Patreon page
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+      <v-col cols="12">
+        <v-simple-table dense class="text-no-wrap">
+          <thead>
+            <tr>
+              <th>Commands</th>
+              <th>Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                !gear
+              </td>
+              <td>
+                Links to active character diablo.run gear page
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-col>
+      <v-col cols="12">
+        <h1>Socketing</h1>
+        <h2 class="subtitle">
+          Recipes to socket bases with the cube. Can't socket superior bases.
+          It's fine if the item is ethereal.
+        </h2>
+      </v-col>
+      <v-col cols="12">
+        <v-simple-table dense class="text-no-wrap">
+          <thead>
+            <tr>
+              <th>Commands</th>
+              <th>Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                !socket weapon
+              </td>
+              <td>
+                Ral + Amn + Perfect Amethyst
+              </td>
+            </tr>
+            <tr>
+              <td>
+                !socket armor
+              </td>
+              <td>
+                Tal + Thul + Perfect Topaz
+              </td>
+            </tr>
+            <tr>
+              <td>
+                !socket helm
+              </td>
+              <td>
+                Tal + Thul + Perfect Topaz
+              </td>
+            </tr>
+            <tr>
+              <td>
+                !socket shield
+              </td>
+              <td>
+                Tal + Amn + Perfect Ruby
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+      </v-col>
+      <v-col cols="12">
+        <h1>Cube recipes</h1>
+        <h2 class="subtitle">
+          Possible crafting bases are weapon, shield, helm, armor, gloves, belt,
+          boots, ring and amulet. For example
+          <strong>!caster amulet</strong> outputs "Caster Amulet: Magic Amulet +
+          Amn + Amethyst + Jewel".
+        </h2>
+      </v-col>
+      <v-col cols="12">
+        <v-simple-table dense class="text-no-wrap">
+          <thead>
+            <tr>
+              <th>Commands</th>
+              <th>Output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                !blood "base"
+              </td>
+              <td>Blood recipes</td>
+            </tr>
+            <tr>
+              <td>
+                !caster "base"
+              </td>
+              <td>
+                Caster recipes
+              </td>
+            </tr>
+            <tr>
+              <td>
+                !hit "base"
+              </td>
+              <td>
+                Hit power recipes
+              </td>
+            </tr>
+            <tr>
+              <td>
+                !safety "base"
+              </td>
+              <td>
+                Safety recipes
+              </td>
+            </tr>
+            <tr>
+              <td>
+                !"rune"
+              </td>
+              <td>
+                Recipe to build the rune. For example
+                <strong>!ral</strong> outputs "Ral: 3 Tal".
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
       </v-col>
     </v-row>
   </v-container>

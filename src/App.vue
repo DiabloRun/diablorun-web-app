@@ -174,12 +174,12 @@ export default {
         { title: 'Ladder', icon: 'mdi-earth', exact: false },
         // { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
         // { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
-        { title: 'Users', icon: 'mdi-account-group', exact: true }
+        { title: 'Users', icon: 'mdi-account-group', exact: true },
+        { title: 'Bot', icon: 'mdi-robot-outline' }
       ],
       otherItems: [
         { title: 'Patreon', icon: 'mdi-patreon' },
         { title: 'Team', icon: 'mdi-human-greeting' }
-        // { title: 'Bot', icon: 'mdi-robot-outline' }
       ],
       socialItems: [
         {
