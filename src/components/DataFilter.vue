@@ -6,15 +6,16 @@
 
 <script>
 export default {
-  name: 'LeaderboardFilter',
+  name: 'DataFilter',
   props: {
-    column: String
+    column: String,
+    store: String
   },
   computed: {
     value() {
-      return this.$store.state.leaderboard.filters[this.column] === ''
+      return this.$store.state[this.store].filters[this.column] === ''
         ? 'any'
-        : this.$store.state.leaderboard.filters[this.column];
+        : this.$store.state[this.store].filters[this.column];
     }
   }
 };

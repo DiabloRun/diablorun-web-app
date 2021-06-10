@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import auth from './auth';
 import leaderboard from './leaderboard';
+import ladder from './ladder';
 import app from './app';
 import characters from './characters';
 import race from './race';
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     leaderboard,
+    ladder,
     app,
     characters,
     race

@@ -11,7 +11,7 @@
 import Icon from '@/components/Icon.vue';
 
 export default {
-  name: 'LeaderboardFilterItem',
+  name: 'DataFilterItem',
   components: {
     Icon
   },
@@ -22,8 +22,19 @@ export default {
     label: String
   },
   methods: {
+    getFilter() {
+      let parent = this.$parent;
+
+      while (parent && parent.$options._componentTag !== 'DataFilter') {
+        parent = parent.$parent;
+      }
+
+      return parent;
+    },
     async select() {
-      await this.$store.dispatch('leaderboard/selectFilter', {
+      const filter = this.getFilter();
+
+      await this.$store.dispatch(`${filter.store}/selectFilter`, {
         column: this.$parent.$parent.column,
         value: this.any ? '' : this.value
       });

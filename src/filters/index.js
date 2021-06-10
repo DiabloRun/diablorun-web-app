@@ -49,6 +49,18 @@ export function HeroNameFilter(id) {
   return heroes.find(hero => hero.id === id)?.name;
 }
 
+export function BigNumberFilter(n) {
+  if (n > 1000000) {
+    return Math.round(n / 1000000) + ' mil';
+  }
+
+  if (n > 1000) {
+    return Math.round(n / 1000) + 'k';
+  }
+
+  return n;
+}
+
 export function PlayersCategoryNameFilter(id) {
   switch (id) {
     case 'p1':

@@ -23,6 +23,12 @@ const routes = [
       import(/* webpackChunkName: "leaderboard" */ '../views/Leaderboard.vue')
   },
   {
+    path: '/ladder',
+    name: 'Ladder',
+    component: () =>
+      import(/* webpackChunkName: "leaderboard" */ '../views/Ladder.vue')
+  },
+  {
     path: '/team',
     name: 'Team',
     component: () => import(/* webpackChunkName: "team" */ '../views/Team.vue')
@@ -32,6 +38,11 @@ const routes = [
     name: 'Interface Setup',
     component: () =>
       import(/* webpackChunkName: "setup" */ '../views/Profile.vue')
+  },
+  {
+    path: '/Bot',
+    name: 'Bot',
+    component: () => import(/* webpackChunkName: "setup" */ '../views/Bot.vue')
   },
   {
     path: '/profile',
