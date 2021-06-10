@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="race">
     <v-container fluid v-if="!streamOverlay && !isPopup" class="pa-2">
       <v-row dense>
         <v-col cols="12" md="4">
@@ -180,6 +180,26 @@
             </v-col>
             -->
 
+            <!-- Unfinished characters table -->
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-title>Currently running</v-card-title>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-card-text v-if="!unfinishedCharacters.length">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No one is currently running in this race.
+                </v-card-text>
+                <RaceCharactersTable
+                  v-if="unfinishedCharacters.length"
+                  :characters="unfinishedCharacters"
+                />
+              </v-card>
+            </v-col>
+
             <!-- Finished characters table -->
             <v-col cols="12">
               <v-card>
@@ -209,26 +229,6 @@
                 <RaceCharactersTable
                   v-if="finishedCharacters.length"
                   :characters="finishedCharacters"
-                />
-              </v-card>
-            </v-col>
-
-            <!-- Unfinished characters table -->
-            <v-col cols="12">
-              <v-card>
-                <v-row no-gutters>
-                  <v-col>
-                    <v-card-title>Currently running</v-card-title>
-                  </v-col>
-                </v-row>
-                <v-divider></v-divider>
-                <v-card-text v-if="!unfinishedCharacters.length">
-                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-                  No one is currently running in this race.
-                </v-card-text>
-                <RaceCharactersTable
-                  v-if="unfinishedCharacters.length"
-                  :characters="unfinishedCharacters"
                 />
               </v-card>
             </v-col>
@@ -472,107 +472,61 @@ export default {
   methods: {
     openPopup() {
       window.open(`/race/${this.race.id}`, 'popup', 'width=500,height=900');
-      console.log('hey');
       return false;
     }
   },
   computed: {
     ...mapState({
-      race: state => state.ws.race,
-      rules: state => state.ws.rules,
-      positivePoints: state =>
-        state.ws.rules.filter(
-          rule => rule.context === 'points' && rule.amount > 0
-        ),
-      negativePoints: state =>
-        state.ws.rules.filter(
-          rule => rule.context === 'points' && rule.amount < 0
-        ),
-      finish_conditions: state =>
-        state.ws.rules.filter(rule => rule.context === 'finish_conditions'),
-      finishedCharacters: state => state.ws.finishedCharacters,
-      unfinishedCharacters: state => state.ws.unfinishedCharacters,
-      notifications: state => state.ws.notifications,
-      entry_heroes(state) {
-        if (!state.ws.race) {
-          return [];
-        }
-
-        const heroes = [];
-
-        if (state.ws.race.entry_ama) heroes.push('ama');
-        if (state.ws.race.entry_sor) heroes.push('sor');
-        if (state.ws.race.entry_nec) heroes.push('nec');
-        if (state.ws.race.entry_pal) heroes.push('pal');
-        if (state.ws.race.entry_bar) heroes.push('bar');
-        if (state.ws.race.entry_dru) heroes.push('dru');
-        if (state.ws.race.entry_asn) heroes.push('asn');
-
-        return heroes;
-      },
+      race: state => state.race.settings,
+      rules: state => state.race.rules,
+      finishedCharacters: state => state.race.finishedCharacters,
+      unfinishedCharacters: state => state.race.unfinishedCharacters,
+      notifications: state => state.race.notifications,
       streamOverlay: state => state.app.windowStyle === 'overlay',
       isPopup: state => state.app.windowStyle === 'popup'
       // lastUpdateTime: (state) => state.ws.lastUpdateTime
-    })
+    }),
+    entry_heroes() {
+      if (!this.race) {
+        return [];
+      }
+
+      const heroes = [];
+
+      if (this.race.entry_ama) heroes.push('ama');
+      if (this.race.entry_sor) heroes.push('sor');
+      if (this.race.entry_nec) heroes.push('nec');
+      if (this.race.entry_pal) heroes.push('pal');
+      if (this.race.entry_bar) heroes.push('bar');
+      if (this.race.entry_dru) heroes.push('dru');
+      if (this.race.entry_asn) heroes.push('asn');
+
+      return heroes;
+    },
+    positivePoints() {
+      return this.rules.filter(
+        rule => rule.context === 'points' && rule.amount > 0
+      );
+    },
+    negativePoints() {
+      return this.rules.filter(
+        rule => rule.context === 'points' && rule.amount < 0
+      );
+    },
+    finish_conditions() {
+      return this.rules.filter(rule => rule.context === 'finish_conditions');
+    }
   },
   watch: {
     $route: {
       immediate: true,
       async handler({ params: { slug } }) {
-        await this.$store.dispatch('ws/subscribeToRace', slug);
+        await this.$store.dispatch('race/subscribe', slug);
       }
     }
-    /*
-    lastUpdateTime() {
-      let updateChart = false;
-
-      while (this.pointsLogIndex < this.$store.state.ws.pointsLog.length) {
-        const { user_id, update_time, value } = this.$store.state.ws.pointsLog[
-          this.pointsLogIndex
-        ];
-        const character = this.characters.find(
-          (character) => character.user_id === user_id
-        );
-
-        if (!character) {
-          continue;
-        }
-
-        let dataset = this.pointsChartData.datasets.find(
-          (d) => d.label === character.user_name
-        );
-
-        if (!dataset) {
-          dataset = {
-            label: character.user_name,
-            data: [],
-            borderColor: character.user_color,
-            fill: false,
-            showLine: true
-          };
-
-          this.pointsChartData.datasets.push(dataset);
-        }
-
-        dataset.data.push({
-          x: update_time - (this.race.start_time || 0),
-          y: value
-        });
-
-        ++this.pointsLogIndex;
-        updateChart = true;
-      }
-
-      if (updateChart && this.$refs.pointsChart) {
-        try {
-          this.$refs.pointsChart.update();
-        } catch (err) {
-          // TODO: find out what these errors are about
-          console.warn(err);
-        }
-      }
-    }
-    */
+  },
+  destroyed() {
+    this.$store.dispatch('race/unsubscribe');
   }
 };
 </script>

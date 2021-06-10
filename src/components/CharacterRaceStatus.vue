@@ -33,19 +33,52 @@ export default {
   },
   data() {
     return {
-      interval: null,
-      status: '',
+      // interval: null,
+      // status: '',
       finish_time_from_now: null,
       time_left: null,
-      time: null
+      // time: null
     };
   },
+  computed: {
+    status() {
+      if (this.character.disqualified) {
+        return 'disqualified';
+      }
+
+      if (this.character.finish_time) {
+        return 'finished';
+      }
+
+      if (this.character.hc && this.character.dead) {
+        return 'dead';
+      }
+
+      return 'playing';
+    },
+    time() {
+      if (this.character.finish_time) {
+        return TrimmedDurationFilter(this.character.finish_time - this.character.start_time);
+      }
+
+      return TrimmedDurationFilter(this.character.seconds_played);
+    }
+  }
+  /*
   mounted() {
     this.interval = setInterval(() => this.update(), 1000);
     this.update();
   },
   destroyed() {
     clearInterval(this.interval);
+  },
+  $watch: {
+    character: {
+      handler() {
+        console.log(this.character);
+      },
+      immediate: true
+    }
   },
   methods: {
     update() {
@@ -59,16 +92,6 @@ export default {
         (new Date().getTime()) / 1000
         //(new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
       );
-
-      /*
-      if (!this.start || time <= this.start) {
-        this.status = 'ready';
-        return;
-      }
-      */
-
-      // const finish = this.character.finish_time || this.finish;
-      // const prevStatus = this.status;
 
       if (this.character.finish_time) {
         this.status = 'finished';
@@ -85,28 +108,8 @@ export default {
         //this.time_left = finish ? TrimmedDurationFilter(finish - time) : null;
         this.time = TrimmedDurationFilter(time - this.character.start_time);
       }
-
-      /*
-      if (
-        prevStatus !== 'finished' &&
-        this.status === 'finished' &&
-        !this.character.is_finished &&
-        this.character.finish_time !== this.finish
-      ) {
-        this.character.is_finished = true;
-        this.$store.dispatch('ws/updateRace', {
-          characters: [
-            {
-              id: this.character.id,
-              user_id: this.character.user_id,
-              is_finished: true
-            }
-          ],
-          notifications: []
-        });
-      }
-      */
     }
   }
+  */
 };
 </script>

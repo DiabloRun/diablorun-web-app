@@ -29,6 +29,9 @@ class WsPlugin {
                 case 'update_character':
                     store.commit('characters/update', data);
                     break;
+                case 'update_race_character':
+                    store.commit('race/updateCharacter', data);
+                    break;
             }
         });
     }

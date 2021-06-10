@@ -45,18 +45,18 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "setup" */ '../views/Patreon.vue')
   },
-  /*
   {
     path: '/race-editor/:editor_token',
     name: 'Race Editor',
     component: () =>
-      import(/* webpackChunkName: "editor" * '../views/RaceEditor.vue')
+      import(/* webpackChunkName: "editor" */ '../views/RaceEditor.vue')
   },
   {
     path: '/race/:slug',
     name: 'Race',
-    component: () => import(/* webpackChunkName: "races" * '../views/Race.vue')
+    component: () => import(/* webpackChunkName: "races" */ '../views/Race.vue')
   },
+  /*
   {
     path: '/races',
     name: 'Races',

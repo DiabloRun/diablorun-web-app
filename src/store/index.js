@@ -4,6 +4,7 @@ import auth from './auth';
 import leaderboard from './leaderboard';
 import app from './app';
 import characters from './characters';
+import race from './race';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     auth,
     leaderboard,
     app,
-    characters
+    characters,
+    race
   }
 });
