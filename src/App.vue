@@ -171,7 +171,7 @@ export default {
       mainItems: [
         { title: 'Home', icon: 'mdi-home', exact: true },
         { title: 'Leaderboard', icon: 'mdi-trophy', exact: false },
-        // { title: 'Ladder', icon: 'mdi-earth', exact: false },
+        { title: 'Ladder', icon: 'mdi-earth', exact: false },
         // { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
         // { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
         { title: 'Users', icon: 'mdi-account-group', exact: true }

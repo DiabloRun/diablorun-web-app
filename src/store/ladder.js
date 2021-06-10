@@ -10,7 +10,7 @@ export default {
       hero: ''
     },
     statistics: {
-      speedruns: 0,
+      characters: 0,
       users: 0
     },
     pagination: {
@@ -29,8 +29,9 @@ export default {
       state.pagination = { ...state.pagination, loading };
     },
 
-    setCharacters(state, { characters, pagination }) {
+    setCharacters(state, { characters, pagination, statistics }) {
       state.characters = characters;
+      state.statistics = statistics;
       state.pagination = { ...state.pagination, ...pagination };
     },
 
@@ -64,10 +65,11 @@ export default {
       commit(paginate ? 'setPaginationLoading' : 'setLoading', true);
 
       const rest = await fetch(`${process.env.VUE_APP_API_URL}/ladder${query}`);
-      const { rows, pagination } = await rest.json();
+      const { rows, pagination, statistics } = await rest.json();
       const data = {
         characters: paginate ? state.characters.concat(rows) : rows,
-        pagination
+        pagination,
+        statistics
       };
 
       commit('setCharacters', data);

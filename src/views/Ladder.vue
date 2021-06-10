@@ -8,11 +8,10 @@
         </v-avatar>
       </v-col>
       <v-col class="my-auto">
-        <h2>
-          Ladder
-        </h2>
+        <h2>{{ categoryName }} Single Player Ladder</h2>
         <h2 class="subtitle">
-          {{ statistics.speedruns }} runs by {{ statistics.users }} runners
+          {{ statistics.users }} players with
+          {{ statistics.characters }} characters this season
         </h2>
       </v-col>
       <v-col cols="auto" class="my-auto">
@@ -57,7 +56,7 @@
       color="primary"
       class="mb-0 font-weight-medium text-center"
     >
-      {{ categoryName }} category is empty
+      {{ categoryName }} ladder is empty
     </v-alert>
 
     <v-simple-table v-if="characters.length" dense class="text-no-wrap">
@@ -181,18 +180,11 @@ export default {
     }),
 
     categoryName() {
-      let categoryName = 'Any% ';
+      let categoryName = '';
       const filters = this.$store.state.ladder.filters;
 
-      if (filters.category_id !== '') {
-        switch (filters.category_id + '') {
-          case '2':
-            categoryName += 'Hell ';
-            break;
-          case '3':
-            categoryName += 'Pacifist ';
-            break;
-        }
+      if (filters.d2_mod == 'PD2') {
+        categoryName += 'PD2 ';
       }
 
       if (filters.hc !== '') {
@@ -228,20 +220,6 @@ export default {
             break;
           case 'dru':
             categoryName += 'Druid ';
-            break;
-        }
-      }
-
-      if (filters.players_category !== '') {
-        switch (filters.players_category) {
-          case 'p1':
-            categoryName += 'Players 1 ';
-            break;
-          case 'px':
-            categoryName += 'Players X ';
-            break;
-          case 'p8':
-            categoryName += 'Players 8 ';
             break;
         }
       }
