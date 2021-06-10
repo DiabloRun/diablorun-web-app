@@ -17,13 +17,23 @@ export default {
       state.unfinishedCharacters = unfinishedCharacters;
     },
 
-    updateCharacter(state, { user, characterId, characterName, raceCharacterUpdates }) {
-      const finishedIndex = state.finishedCharacters.findIndex(character => character.id === characterId);
-      const unfinishedIndex = state.unfinishedCharacters.findIndex(character => character.id === characterId);
+    updateCharacter(
+      state,
+      { user, characterId, characterName, raceCharacterUpdates }
+    ) {
+      const finishedIndex = state.finishedCharacters.findIndex(
+        character => character.id === characterId
+      );
+      const unfinishedIndex = state.unfinishedCharacters.findIndex(
+        character => character.id === characterId
+      );
 
       if (raceCharacterUpdates.finish_time) {
         if (unfinishedIndex !== -1) {
-          state.finishedCharacters.push({ ...state.unfinishedCharacters[unfinishedIndex], ...raceCharacterUpdates });
+          state.finishedCharacters.push({
+            ...state.unfinishedCharacters[unfinishedIndex],
+            ...raceCharacterUpdates
+          });
 
           state.unfinishedCharacters = [
             ...state.unfinishedCharacters.slice(0, unfinishedIndex),
@@ -32,7 +42,10 @@ export default {
         } else if (finishedIndex !== -1) {
           state.finishedCharacters = [
             ...state.finishedCharacters.slice(0, unfinishedIndex),
-            { ...state.finishedCharacters[unfinishedIndex], ...raceCharacterUpdates },
+            {
+              ...state.finishedCharacters[unfinishedIndex],
+              ...raceCharacterUpdates
+            },
             ...state.finishedCharacters.slice(unfinishedIndex + 1)
           ];
         } else {
@@ -58,7 +71,10 @@ export default {
         } else {
           state.unfinishedCharacters = [
             ...state.unfinishedCharacters.slice(0, unfinishedIndex),
-            { ...state.unfinishedCharacters[unfinishedIndex], ...raceCharacterUpdates },
+            {
+              ...state.unfinishedCharacters[unfinishedIndex],
+              ...raceCharacterUpdates
+            },
             ...state.unfinishedCharacters.slice(unfinishedIndex + 1)
           ];
         }
@@ -71,7 +87,7 @@ export default {
       const snapshot = await res.json();
 
       commit('set', snapshot);
-      
+
       ws.subscribe(`race/${id}`);
     },
 

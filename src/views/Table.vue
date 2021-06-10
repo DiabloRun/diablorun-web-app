@@ -9,8 +9,7 @@ import { mapState } from 'vuex';
 import RaceCharactersTable from '@/components/RaceCharactersTable.vue';
 
 export default {
-  filters: {
-  },
+  filters: {},
   components: {
     RaceCharactersTable
   },
@@ -33,7 +32,7 @@ export default {
             table.push(snapshot.character);
           }
         }
-        
+
         return table;
       }
     })
@@ -42,7 +41,9 @@ export default {
     $route: {
       immediate: true,
       async handler(to) {
-        this.usernames = to.params.pathMatch.split('/').map(username => username.toLowerCase());
+        this.usernames = to.params.pathMatch
+          .split('/')
+          .map(username => username.toLowerCase());
 
         for (const name of this.usernames) {
           await this.$store.dispatch('characters/fetchLatestCharacter', name);

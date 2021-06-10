@@ -79,7 +79,8 @@ const routes = [
   {
     path: '/:user_name',
     name: 'User',
-    component: () => import(/* webpackChunkName: "leaderboard" */ '../views/User.vue')
+    component: () =>
+      import(/* webpackChunkName: "leaderboard" */ '../views/User.vue')
   },
   {
     path: '/:user_name/:character_slug',
@@ -91,7 +92,9 @@ const routes = [
     path: '/:user_name/:character_slug/statistics',
     name: 'CharacterStatistics',
     component: () =>
-      import(/* webpackChunkName: "leaderboard" */ '../views/CharacterStatistics.vue')
+      import(
+        /* webpackChunkName: "leaderboard" */ '../views/CharacterStatistics.vue'
+      )
   }
 ];
 

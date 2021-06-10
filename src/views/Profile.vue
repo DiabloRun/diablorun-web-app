@@ -96,7 +96,7 @@ export default {
     return {
       loading: false,
       invalid: false,
-      updateUrl: 'https://api-1.diablo.run/sync',
+      updateUrl: 'https://api.diablo.run/sync',
       twitchAuthenticationUrl: `https://id.twitch.tv/oauth2/authorize?client_id=${process.env.VUE_APP_TWITCH_CLIENT_ID}&redirect_uri=${redirect_uri}&response_type=token&scope=`
     };
   },

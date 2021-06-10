@@ -2,9 +2,9 @@
   <v-container>
     <v-row no-gutters align="center" justify="center">
       <v-col cols="12" sm="10" md="8" lg="6" xl="4" class="text-center">
-        <h1>Welcome to the freshly updated diablo.run</h1>
+        <h1>Welcome to diablo.run</h1>
         <h1 class="subtitle">
-          Dowload
+          Download
           <a
             target="_blank"
             href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.9"
@@ -14,6 +14,7 @@
           supported.
         </h1>
         <v-btn :to="{ name: 'Interface Setup' }">
+          <v-icon small left>mdi-cog</v-icon>
           Setup guide
         </v-btn>
       </v-col>

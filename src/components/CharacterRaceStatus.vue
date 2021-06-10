@@ -36,7 +36,7 @@ export default {
       // interval: null,
       // status: '',
       finish_time_from_now: null,
-      time_left: null,
+      time_left: null
       // time: null
     };
   },
@@ -58,7 +58,9 @@ export default {
     },
     time() {
       if (this.character.finish_time) {
-        return TrimmedDurationFilter(this.character.finish_time - this.character.start_time);
+        return TrimmedDurationFilter(
+          this.character.finish_time - this.character.start_time
+        );
       }
 
       return TrimmedDurationFilter(this.character.seconds_played);

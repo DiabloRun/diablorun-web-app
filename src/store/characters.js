@@ -20,7 +20,10 @@ export default {
     },
 
     update(state, { id, name, characterUpdates, itemUpdates }) {
-      let { character, items } = state.snapshots[id] || { character: { id, name }, items: [] };
+      let { character, items } = state.snapshots[id] || {
+        character: { id, name },
+        items: []
+      };
 
       if (characterUpdates) {
         character = { ...character, ...characterUpdates };
@@ -28,7 +31,10 @@ export default {
 
       if (itemUpdates) {
         items = items
-          .filter(item => !itemUpdates.removedItemHashes.includes(Number(item.item_hash)))
+          .filter(
+            item =>
+              !itemUpdates.removedItemHashes.includes(Number(item.item_hash))
+          )
           .concat(itemUpdates.addedItems);
       }
 
@@ -41,20 +47,24 @@ export default {
   },
   actions: {
     async fetchCharacter({ commit }, id) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/snapshots/characters/${id}`);
+      const res = await fetch(
+        `${process.env.VUE_APP_API_URL}/snapshots/characters/${id}`
+      );
       const snapshot = await res.json();
 
       commit('set', snapshot);
-      
+
       return snapshot;
     },
 
     async fetchLatestCharacter({ commit }, username) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/snapshots/users/${username}`);
+      const res = await fetch(
+        `${process.env.VUE_APP_API_URL}/snapshots/users/${username}`
+      );
       const snapshot = await res.json();
 
       commit('set', snapshot);
-      
+
       return snapshot;
     },
 

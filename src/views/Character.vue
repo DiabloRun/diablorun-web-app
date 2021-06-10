@@ -180,7 +180,7 @@
                     <h3
                       v-if="
                         character[resistance.stat] >= 0 &&
-                        character[resistance.stat] < 75
+                          character[resistance.stat] < 75
                       "
                     >
                       {{ character[resistance.stat] }}
@@ -575,7 +575,7 @@ export default {
           this.characterId || state.characters.latestIds[this.username];
         return state.characters.snapshots[id];
       },
-      streamOverlay: (state) => state.app.windowStyle === 'overlay'
+      streamOverlay: state => state.app.windowStyle === 'overlay'
     }),
     character() {
       return this.snapshot?.character;
@@ -596,43 +596,41 @@ export default {
         'ring_right'
       ];
 
-      return slots.map((slot) => ({
+      return slots.map(slot => ({
         slot,
         item: this.snapshot.items.find(
-          (item) => item.container === 'character' && item.slot === slot
+          item => item.container === 'character' && item.slot === slot
         )
       }));
     },
     hirelingItems() {
       const slots = ['primary_left', 'head', 'body_armor', 'primary_right'];
 
-      return slots.map((slot) => ({
+      return slots.map(slot => ({
         slot,
         item: this.snapshot.items.find(
-          (item) => item.container === 'hireling' && item.slot === slot
+          item => item.container === 'hireling' && item.slot === slot
         )
       }));
     },
     hirelingExtraItems() {
       const slots = ['gloves', 'belt', 'boots'];
 
-      return slots.map((slot) => ({
+      return slots.map(slot => ({
         slot,
         item: this.snapshot.items.find(
-          (item) => item.container === 'hireling' && item.slot === slot
+          item => item.container === 'hireling' && item.slot === slot
         )
       }));
     },
     inventoryItems() {
-      return this.snapshot.items.filter(
-        (item) => item.container === 'inventory'
-      );
+      return this.snapshot.items.filter(item => item.container === 'inventory');
     },
     stashItems() {
-      return this.snapshot.items.filter((item) => item.container === 'stash');
+      return this.snapshot.items.filter(item => item.container === 'stash');
     },
     cubeItems() {
-      return this.snapshot.items.filter((item) => item.container === 'cube');
+      return this.snapshot.items.filter(item => item.container === 'cube');
     },
     maxExperience: () => levelExperience[this.character.level],
     experiencePercentage() {
