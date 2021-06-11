@@ -6,7 +6,9 @@
         <h1>Twitch bot commands</h1>
         <h2 class="subtitle">
           Adding
-          <a href="https://www.twitch.tv/diablorun"> DiabloRun</a>
+          <a target="_blank" href="https://www.twitch.tv/diablorun">
+            DiabloRun</a
+          >
           Twitch bot account as moderator is recommended
         </h2>
       </v-col>
@@ -163,8 +165,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.auth.user,
-      patreonUserLink: state => {
+      user: (state) => state.auth.user,
+      patreonUserLink: (state) => {
         if (state.auth.user && state.auth.user.patreon_id) {
           return `https://www.patreon.com/api/user/${state.auth.user.patreon_id}`;
         }
