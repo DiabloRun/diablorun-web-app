@@ -105,9 +105,7 @@
                   <tr v-for="character of characters" :key="character.id">
                     <td>
                       <router-link
-                        :to="
-                          `/${character.user_name}/${character.name}${character.id}`
-                        "
+                        :to="`/${character.user_name}/${character.name}${character.id}`"
                         >{{ character.name }}
                       </router-link>
                       <v-icon v-if="character.dead" small color="error">
@@ -158,7 +156,7 @@
 
           <div v-if="speedruns.length">
             <v-divider />
-            <v-card-title> Race standings </v-card-title>
+            <v-card-title> Speedrunning standings </v-card-title>
             <v-card-text>
               <v-simple-table dense class="text-no-wrap">
                 <thead>
@@ -413,7 +411,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter(c => c !== character);
+        this.characters = this.characters.filter((c) => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();
