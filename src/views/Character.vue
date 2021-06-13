@@ -148,9 +148,13 @@
               <v-list dense color="transparent">
                 <v-list-item>
                   <v-list-item-content>
-                    <h3>Level {{ character.level }}</h3>
+                    <h3>
+                      <strong>Level {{ character.level }}</strong> ({{
+                        experiencePercentage
+                      }}%)
+                    </h3>
                     <h3 v-if="character.level < 99" class="subtitle">
-                      {{ experiencePercentage }}% Experience
+                      {{ character.experience | BigNumberFilter }} experience
                     </h3>
                   </v-list-item-content>
                 </v-list-item>
@@ -244,13 +248,7 @@
                       >
                         <v-flex>
                           <p
-                            class="
-                              text-center
-                              grey--text
-                              body-2
-                              font-italic
-                              mb-0
-                            "
+                            class="text-center grey--text body-2 font-italic mb-0"
                           >
                             empty
                           </p>
@@ -375,14 +373,7 @@
                   <v-row
                     v-if="character.d2_version"
                     dense
-                    class="
-                      py-3
-                      text-center
-                      secondary--text
-                      text--lighten-2
-                      body-2
-                      mt-5
-                    "
+                    class="py-3 text-center secondary--text text--lighten-2 body-2 mt-5"
                   >
                     <v-col>
                       Diablo II version {{ character.d2_version }}
@@ -444,7 +435,8 @@ import {
   FromNowFilter,
   DifficultyFilter,
   AreaNameFilter,
-  HeroNameFilter
+  HeroNameFilter,
+  BigNumberFilter
 } from '@/filters';
 import Icon from '@/components/Icon.vue';
 import CharacterItem from '@/components/CharacterItem.vue';
@@ -459,7 +451,8 @@ export default {
     DurationFilter,
     DifficultyFilter,
     AreaNameFilter,
-    HeroNameFilter
+    HeroNameFilter,
+    BigNumberFilter
   },
   components: {
     Icon,
