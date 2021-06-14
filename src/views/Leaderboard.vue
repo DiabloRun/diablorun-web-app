@@ -25,14 +25,11 @@
       <!--Category-->
       <v-col>
         <DataFilter store="leaderboard" column="category_id">
-          <DataFilterItem :value="1" label="Normal" />
-          <DataFilterItem :value="2" label="Hell" />
-          <DataFilterItem :value="3" label="Pacifist" />
-          <DataFilterItem :value="6" label="Twink" />
+          <DataFilterItem v-for="category in categories" :key="category.id" :value="category.id" :label="category.name" />
         </DataFilter>
       </v-col>
       <!--Players-->
-      <v-col cols="12" md="auto">
+      <v-col cols="12" md="auto" v-if="!category.px_only">
         <DataFilter store="leaderboard" column="players_category">
           <DataFilterItem any label="Any Players" />
           <DataFilterItem value="p1" icon="p1" />
@@ -172,6 +169,8 @@ export default {
   computed: {
     ...mapState({
       loading: state => state.leaderboard.loading,
+      category: state => state.leaderboard.categories.find(c => c.id === parseInt(state.leaderboard.filters.category_id)),
+      categories: state => state.leaderboard.categories,
       runs: state => state.leaderboard.runs,
       statistics: state => state.leaderboard.statistics,
       pagination: state => state.leaderboard.pagination,
@@ -179,18 +178,11 @@ export default {
     }),
 
     categoryName() {
-      let categoryName = 'Any% ';
+      let categoryName = '';
       const filters = this.$store.state.leaderboard.filters;
 
-      if (filters.category_id !== '') {
-        switch (filters.category_id + '') {
-          case '2':
-            categoryName += 'Hell ';
-            break;
-          case '3':
-            categoryName += 'Pacifist ';
-            break;
-        }
+      if (this.category) {
+        categoryName += `${this.category.name} `;
       }
 
       if (filters.hc !== '') {
@@ -230,7 +222,7 @@ export default {
         }
       }
 
-      if (filters.players_category !== '') {
+      if (filters.players_category !== '' && (!this.category || !this.category.px_only)) {
         switch (filters.players_category) {
           case 'p1':
             categoryName += 'Players 1 ';
@@ -251,13 +243,8 @@ export default {
       const parts = [];
       const filters = this.$store.state.leaderboard.filters;
 
-      switch (filters.category_id + '') {
-        case '2':
-          parts.push('hell');
-          break;
-        case '3':
-          parts.push('pacifist');
-          break;
+      if (this.category) {
+        parts.push(this.category.name.toLowerCase());
       }
 
       if (filters.hc === 0) {
@@ -278,6 +265,8 @@ export default {
     }
   },
   async mounted() {
+    await this.$store.dispatch('leaderboard/loadCategories');
+
     this.hashchangeHandler = () => this.hashchange();
     window.addEventListener('hashchange', this.hashchangeHandler);
     this.hashchange();
@@ -300,10 +289,10 @@ export default {
         hero: ''
       };
 
-      if (parts.includes('hell') || parts.includes('2')) {
-        hashFilters.category_id = 2;
-      } else if (parts.includes('pacifist') || parts.includes('3')) {
-        hashFilters.category_id = 3;
+      for (const category of this.categories) {
+        if (parts.includes(category.id + '') || parts.includes(category.name.toLowerCase())) {
+          hashFilters.category_id = category.id;
+        }
       }
 
       if (parts.includes('sc')) {

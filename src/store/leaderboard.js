@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state: {
     loading: true,
+    categories: [],
     runs: [],
     users: 0,
     filters: {
@@ -30,6 +31,10 @@ export default {
       state.pagination = { ...state.pagination, loading };
     },
 
+    setCategories(state, categories) {
+      state.categories = categories;
+    },
+
     setRuns(state, { runs, statistics, pagination }) {
       state.runs = runs;
       state.statistics = statistics;
@@ -45,6 +50,13 @@ export default {
     }
   },
   actions: {
+    async loadCategories({ commit }) {
+      const rest = await fetch(`${process.env.VUE_APP_API_URL}/categories`);
+      const categories = await rest.json();
+
+      commit('setCategories', categories);
+    },
+
     async loadRuns({ state, commit }, paginate = false) {
       let query = '?';
 
