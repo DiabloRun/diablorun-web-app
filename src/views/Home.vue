@@ -55,29 +55,7 @@
                 </v-icon>
               </td>
               <td>
-                <a
-                  v-if="!run.user_id"
-                  :style="`color: ${run.speedrun_user_dark_color_from};`"
-                  :href="run.speedrun_user_weblink"
-                  target="_blank"
-                >
-                  {{ run.speedrun_user_name
-                  }}<v-icon small right color="grey">mdi-open-in-new</v-icon>
-                </a>
-                <router-link
-                  v-if="run.user_id"
-                  :to="{
-                    name: 'User',
-                    params: { user_name: run.user_name }
-                  }"
-                  :style="
-                    `color: ${run.user_color ||
-                      run.speedrun_user_dark_color_from};`
-                  "
-                >
-                  <CountryIcon :code="run.speedrun_user_country_code" />
-                  <strong>{{ run.user_name }}</strong>
-                </router-link>
+                <SpeedrunUser :run="run" />
               </td>
               <td>
                 <a :href="run.speedrun_link" target="_blank">
@@ -150,29 +128,7 @@
                 <v-icon small color="gold"> mdi-trophy-outline </v-icon>
               </td>
               <td>
-                <a
-                  v-if="!run.user_id"
-                  :style="`color: ${run.speedrun_user_dark_color_from};`"
-                  :href="run.speedrun_user_weblink"
-                  target="_blank"
-                >
-                  {{ run.speedrun_user_name
-                  }}<v-icon small right color="grey">mdi-open-in-new</v-icon>
-                </a>
-                <router-link
-                  v-if="run.user_id"
-                  :to="{
-                    name: 'User',
-                    params: { user_name: run.user_name }
-                  }"
-                  :style="
-                    `color: ${run.user_color ||
-                      run.speedrun_user_dark_color_from};`
-                  "
-                >
-                  <CountryIcon :code="run.speedrun_user_country_code" />
-                  <strong>{{ run.user_name }}</strong>
-                </router-link>
+                <SpeedrunUser :run="run" />
               </td>
               <td>
                 <a :href="run.speedrun_link" target="_blank">
@@ -260,29 +216,7 @@
                 </v-icon>
               </td>
               <td>
-                <a
-                  v-if="!runner.user_id"
-                  :style="`color: ${runner.speedrun_user_dark_color_from};`"
-                  :href="runner.speedrun_user_weblink"
-                  target="_blank"
-                >
-                  {{ runner.speedrun_user_name
-                  }}<v-icon small right color="grey">mdi-open-in-new</v-icon>
-                </a>
-                <router-link
-                  v-if="runner.user_id"
-                  :to="{
-                    name: 'User',
-                    params: { user_name: runner.user_name }
-                  }"
-                  :style="
-                    `color: ${runner.user_color ||
-                      runner.speedrun_user_dark_color_from};`
-                  "
-                >
-                  <CountryIcon :code="runner.speedrun_user_country_code" />
-                  <strong>{{ runner.user_name }}</strong>
-                </router-link>
+                <SpeedrunUser :run="runner" />
               </td>
               <td>
                 {{ runner.gold }}
@@ -305,7 +239,7 @@
 import { HeroNameFilter } from '@/filters';
 import { FromNowFilter } from '@/filters';
 import { DurationFilter } from '@/filters';
-import CountryIcon from '@/components/CountryIcon.vue';
+import SpeedrunUser from '@/components/SpeedrunUser.vue';
 // import BlogPostBox from '@/components/BlogPostBox.vue';
 import blog from '@/router/wiki.js';
 
@@ -316,7 +250,7 @@ export default {
     DurationFilter
   },
   components: {
-    CountryIcon
+    SpeedrunUser,
     // BlogPostBox
   },
   name: 'Home',

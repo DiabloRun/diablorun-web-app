@@ -28,6 +28,7 @@
           <DataFilterItem :value="1" label="Normal" />
           <DataFilterItem :value="2" label="Hell" />
           <DataFilterItem :value="3" label="Pacifist" />
+          <DataFilterItem :value="6" label="Twink" />
         </DataFilter>
       </v-col>
       <!--Players-->
@@ -96,27 +97,7 @@
             </v-icon>
           </td>
           <td>
-            <a
-              v-if="!run.user_id"
-              :style="`color: ${run.speedrun_user_dark_color_from};`"
-              :href="run.speedrun_user_weblink"
-              target="_blank"
-            >
-              {{ run.speedrun_user_name }}
-            </a>
-            <router-link
-              v-if="run.user_id"
-              :to="{
-                name: 'User',
-                params: { user_name: run.user_name }
-              }"
-              :style="
-                `color: ${run.user_color || run.speedrun_user_dark_color_from};`
-              "
-            >
-              <CountryIcon :code="run.speedrun_user_country_code" />
-              <strong>{{ run.user_name }}</strong>
-            </router-link>
+            <SpeedrunUser :run="run" />
           </td>
           <td>
             <a :href="run.speedrun_link" target="_blank">
@@ -166,7 +147,7 @@
 import { mapState } from 'vuex';
 import { DurationFilter, FromNowFilter, HeroNameFilter } from '@/filters';
 import Icon from '@/components/Icon.vue';
-import CountryIcon from '@/components/CountryIcon.vue';
+import SpeedrunUser from '@/components/SpeedrunUser.vue';
 import DataFilter from '@/components/DataFilter.vue';
 import DataFilterItem from '@/components/DataFilterItem.vue';
 
@@ -179,7 +160,7 @@ export default {
   },
   components: {
     Icon,
-    CountryIcon,
+    SpeedrunUser,
     DataFilter,
     DataFilterItem
   },

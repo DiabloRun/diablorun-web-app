@@ -105,15 +105,7 @@
             </v-icon>
           </td>
           <td>
-            <router-link
-              :to="{
-                name: 'User',
-                params: { user_name: character.user_name }
-              }"
-              :style="`color: ${character.user_color};`"
-            >
-              <strong>{{ character.user_name }}</strong>
-            </router-link>
+            <SpeedrunUser :run="character" />
           </td>
           <td>
             <router-link
@@ -170,6 +162,7 @@ import {
 import Icon from '@/components/Icon.vue';
 import DataFilter from '@/components/DataFilter.vue';
 import DataFilterItem from '@/components/DataFilterItem.vue';
+import SpeedrunUser from '@/components/SpeedrunUser.vue';
 
 export default {
   name: 'Leaderboard',
@@ -182,7 +175,8 @@ export default {
   components: {
     Icon,
     DataFilter,
-    DataFilterItem
+    DataFilterItem,
+    SpeedrunUser
   },
   data() {
     return {
