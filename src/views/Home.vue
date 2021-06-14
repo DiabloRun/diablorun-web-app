@@ -7,8 +7,8 @@
           Download
           <a
             target="_blank"
-            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v0.6.9"
-            >Diablo Interface 0.6.9</a
+            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.14"
+            >Diablo Interface v21.6.14</a
           >
           for all the new features to work. Older versions are no longer
           supported.
