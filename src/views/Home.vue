@@ -7,8 +7,8 @@
           Download
           <a
             target="_blank"
-            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.14"
-            >Diablo Interface v21.6.14</a
+            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.16"
+            >Diablo Interface v21.6.16</a
           >
           for all the new features to work. Older versions are no longer
           supported.
@@ -250,7 +250,7 @@ export default {
     DurationFilter
   },
   components: {
-    SpeedrunUser,
+    SpeedrunUser
     // BlogPostBox
   },
   name: 'Home',

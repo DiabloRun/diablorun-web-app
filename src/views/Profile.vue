@@ -67,10 +67,10 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn
-              href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.14"
+              href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.16"
               target="_blank"
             >
-              <v-icon left>mdi-download</v-icon>Diablo Interface v21.6.14
+              <v-icon left>mdi-download</v-icon>Diablo Interface v21.6.16
             </v-btn>
             <v-btn
               text

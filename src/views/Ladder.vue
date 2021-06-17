@@ -7,8 +7,8 @@
           Create a new character with
           <a
             target="_blank"
-            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.14"
-            >Diablo Interface v21.6.14</a
+            href="https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.16"
+            >Diablo Interface v21.6.16</a
           >
           opened and connected to diablo.run. Alpha ladder ends at the end of
           June.

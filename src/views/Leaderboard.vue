@@ -25,7 +25,12 @@
       <!--Category-->
       <v-col>
         <DataFilter store="leaderboard" column="category_id">
-          <DataFilterItem v-for="category in categories" :key="category.id" :value="category.id" :label="category.name" />
+          <DataFilterItem
+            v-for="category in categories"
+            :key="category.id"
+            :value="category.id"
+            :label="category.name"
+          />
         </DataFilter>
       </v-col>
       <!--Players-->
@@ -169,7 +174,10 @@ export default {
   computed: {
     ...mapState({
       loading: state => state.leaderboard.loading,
-      category: state => state.leaderboard.categories.find(c => c.id === parseInt(state.leaderboard.filters.category_id)),
+      category: state =>
+        state.leaderboard.categories.find(
+          c => c.id === parseInt(state.leaderboard.filters.category_id)
+        ),
       categories: state => state.leaderboard.categories,
       runs: state => state.leaderboard.runs,
       statistics: state => state.leaderboard.statistics,
@@ -222,7 +230,10 @@ export default {
         }
       }
 
-      if (filters.players_category !== '' && (!this.category || !this.category.px_only)) {
+      if (
+        filters.players_category !== '' &&
+        (!this.category || !this.category.px_only)
+      ) {
         switch (filters.players_category) {
           case 'p1':
             categoryName += 'Players 1 ';
@@ -290,7 +301,10 @@ export default {
       };
 
       for (const category of this.categories) {
-        if (parts.includes(category.id + '') || parts.includes(category.name.toLowerCase())) {
+        if (
+          parts.includes(category.id + '') ||
+          parts.includes(category.name.toLowerCase())
+        ) {
           hashFilters.category_id = category.id;
         }
       }

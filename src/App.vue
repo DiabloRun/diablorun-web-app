@@ -193,10 +193,10 @@ export default {
           url: 'https://github.com/diablorun'
         },
         {
-          title: 'Diablo Interface v21.6.14',
+          title: 'Diablo Interface v21.6.16',
           icon: 'mdi-download',
           url:
-            'https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.14'
+            'https://github.com/DiabloRun/DiabloInterface/releases/tag/v21.6.16'
         }
       ],
       loading: false,
