@@ -33,6 +33,7 @@
           </router-link>
         </h2>
         <h2 class="subtitle">
+          <span v-if="!character.lod">Classic</span>
           <span v-if="character.hc"> Hardcore </span>
           {{ character.hero | HeroNameFilter }}
           by
