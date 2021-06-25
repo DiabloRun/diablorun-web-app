@@ -172,6 +172,7 @@ export default {
         { title: 'Home', icon: 'mdi-home', exact: true },
         { title: 'Leaderboard', icon: 'mdi-trophy', exact: false },
         { title: 'Ladder', icon: 'mdi-earth', exact: false },
+        // { title: 'Bounties', icon: 'mdi-target', exact: false },
         // { title: 'Wiki', icon: 'mdi-book-open-variant', exact: true },
         // { title: 'Races', icon: 'mdi-flag-checkered', exact: false },
         { title: 'Users', icon: 'mdi-account-group', exact: true },
@@ -209,9 +210,9 @@ export default {
 
   computed: {
     ...mapState({
-      user: state => state.auth.user,
+      user: (state) => state.auth.user,
       // confirmModal: (state) => state.app.confirmModal,
-      showHeaderAndFooter: state => state.app.windowStyle === 'window'
+      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
     })
   },
   methods: {

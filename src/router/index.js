@@ -29,6 +29,12 @@ const routes = [
       import(/* webpackChunkName: "leaderboard" */ '../views/Ladder.vue')
   },
   {
+    path: '/bounties',
+    name: 'Bounties',
+    component: () =>
+      import(/* webpackChunkName: "bounties" */ '../views/Bounties.vue')
+  },
+  {
     path: '/team',
     name: 'Team',
     component: () => import(/* webpackChunkName: "team" */ '../views/Team.vue')
