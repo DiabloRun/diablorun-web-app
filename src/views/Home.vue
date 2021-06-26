@@ -81,6 +81,7 @@
                 </v-icon>
                 <router-link
                   class="ml-1"
+                  :class="{ 'hc--text': item.hc }"
                   :to="{
                     name: 'Character',
                     params: {
@@ -158,6 +159,7 @@
                 </v-icon>
                 <router-link
                   class="ml-1"
+                  :class="{ 'hc--text': item.hc }"
                   :to="{
                     name: 'Character',
                     params: {
@@ -239,7 +241,7 @@ export default {
       latestPost: blog[0],
       mostMedals: [],
       headers: [
-        { text: '#', value: 'rank', sortable: false },
+        { text: 'Rank', value: 'rank', sortable: false },
         { text: 'Time', value: 'seconds_played', sortable: false },
         { text: 'Runner', value: 'user_name', sortable: false },
         { text: 'Category', value: 'category_name', sortable: false },
@@ -252,7 +254,7 @@ export default {
         }
       ],
       mostMedalsHeaders: [
-        { text: '#', value: 'rank', sortable: false },
+        { text: 'Rank', value: 'rank', sortable: false },
         { text: 'Runner', value: 'user_name', sortable: false },
         { text: 'Gold', value: 'gold' },
         { text: 'Silver', value: 'silver' },

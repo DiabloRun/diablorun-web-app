@@ -17,7 +17,7 @@
       </v-col>
       <v-col cols="auto" class="my-auto">
         <v-btn outlined color="primary" @click="resetFilters()">
-          <v-icon left>mdi-refresh</v-icon> Reset
+          <v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -74,6 +74,7 @@
     </v-alert>
 
     <v-data-table
+      v-if="runs.length"
       class="text-no-wrap"
       :headers="headers"
       :items="runs"
@@ -108,6 +109,7 @@
             </v-icon>
             <router-link
               class="ml-1"
+              :class="{ 'hc--text': item.hc }"
               :to="{
                 name: 'Character',
                 params: {
@@ -154,7 +156,7 @@ export default {
     return {
       heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru'],
       headers: [
-        { text: '#', value: 'rank' },
+        { text: 'Rank', value: 'rank' },
         { text: 'Time', value: 'seconds_played' },
         { text: 'Runner', value: 'user_name' },
         { text: 'Hero', value: 'hero' },
