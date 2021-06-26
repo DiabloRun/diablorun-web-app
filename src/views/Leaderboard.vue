@@ -142,6 +142,73 @@
     <v-btn small v-if="pagination.more" class="mt-5" @click="loadMore()">
       <v-icon left>mdi-chevron-down</v-icon> Load more
     </v-btn>
+    <template>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search runners..."
+        single-line
+        hide-details
+      ></v-text-field>
+      <v-data-table
+        class="text-no-wrap"
+        :headers="headers"
+        :items="runs"
+        :search="search"
+        :items-per-page="30"
+      >
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.rank }}</td>
+            <td>
+              <a :href="item.speedrun_link" target="_blank" class="monospace">
+                {{ item.seconds_played | DurationFilter }}
+              </a>
+            </td>
+            <td><SpeedrunUser :run="item" /></td>
+            <td>
+              <v-avatar size="30px">
+                <Icon :name="item.players_category" />
+              </v-avatar>
+              <v-avatar size="30px" class="ml-1">
+                <Icon v-if="item.hc" :name="item.hero" />
+                <Icon v-if="!item.hc" :name="item.hero" class="hc" />
+              </v-avatar>
+              <v-icon v-if="item.category_rank == 1" color="gold" class="ml-1">
+                mdi-trophy-outline
+              </v-icon>
+              <v-icon
+                v-if="item.category_rank == 2"
+                color="silver"
+                class="ml-1"
+              >
+                mdi-trophy-outline
+              </v-icon>
+              <v-icon
+                v-if="item.category_rank == 3"
+                color="bronze"
+                class="ml-1"
+              >
+                mdi-trophy-outline
+              </v-icon>
+              <router-link
+                class="ml-1"
+                :to="{
+                  name: 'Character',
+                  params: {
+                    user_name: item.user_name,
+                    character_slug: item.character_name + item.character_id
+                  }
+                }"
+              >
+                {{ item.character_name }}
+              </router-link>
+            </td>
+            <td class="text-right">{{ item.submit_time | FromNowFilter }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+    </template>
   </v-container>
 </template>
 
@@ -168,7 +235,15 @@ export default {
   },
   data() {
     return {
-      heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru']
+      heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru'],
+      search: '',
+      headers: [
+        { text: '#', value: 'rank' },
+        { text: 'Time', value: 'seconds_played' },
+        { text: 'Runner', value: 'user_name' },
+        { text: 'Hero', value: 'hero' },
+        { text: 'Submitted', value: 'submit_time', align: 'end' }
+      ]
     };
   },
   computed: {
