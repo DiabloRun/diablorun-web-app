@@ -82,182 +82,155 @@
           </v-col>
         </v-row>
       </v-col>
-      <!-- Content -->
-      <v-col cols="12" class="mt-3">
-        <v-card>
-          <div v-if="characters.length">
-            <v-card-title> Hero history </v-card-title>
-            <v-card-text>
-              <v-simple-table dense class="text-no-wrap">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Level</th>
-                    <th>Core</th>
-                    <th>Hero</th>
-                    <th>Area</th>
-                    <th>Playtime</th>
-                    <th>Added</th>
-                    <th v-if="isEditor">Edit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="character of characters" :key="character.id">
-                    <td>
-                      <router-link
-                        :to="
-                          `/${character.user_name}/${character.name}${character.id}`
-                        "
-                        >{{ character.name }}
-                      </router-link>
-                      <v-icon v-if="character.dead" small color="error">
-                        mdi-skull-crossbones
-                      </v-icon>
-                    </td>
-                    <td>{{ character.level }}</td>
-                    <td>
-                      <span v-if="!character.hc">SC</span>
-                      <span v-if="character.hc" class="error--text">HC</span>
-                    </td>
-                    <td>
-                      <v-icon
-                        v-if="!character.hc"
-                        small
-                        :class="`${character.hero}`"
-                      >
-                        mdi-sword
-                      </v-icon>
-                      <v-icon
-                        v-if="character.hc"
-                        small
-                        :class="`${character.hero}`"
-                      >
-                        mdi-skull-outline
-                      </v-icon>
-                      {{ character.hero | HeroNameFilter }}
-                    </td>
-                    <td>{{ character.area | AreaNameFilter }}</td>
-                    <td>{{ character.in_game_time | DurationFilter }}</td>
-                    <td>{{ character.start_time | FromNowFilter }}</td>
-                    <td v-if="isEditor">
-                      <a @click="deleteCharacter(character)"> Delete </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-simple-table>
-              <v-btn
-                v-if="moreCharacters"
-                class="mt-3"
-                small
-                @click="loadMoreCharacters()"
-              >
-                <v-icon left>mdi-chevron-down</v-icon> Load more
-              </v-btn>
-            </v-card-text>
-          </div>
-
-          <div v-if="speedruns.length">
-            <v-divider />
-            <v-card-title> Speedrunning standings </v-card-title>
-            <v-card-text>
-              <v-simple-table dense class="text-no-wrap">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Time</th>
-                    <th>Category</th>
-                    <th>Hero</th>
-                    <th>Submitted</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="run of speedruns" :key="run.id">
-                    <td class="grey--text">
-                      <span v-if="run.category_rank > 3">{{
-                        run.category_rank
-                      }}</span>
-                      <v-icon
-                        v-if="run.category_rank == 1"
-                        small
-                        color="yellow accent-4"
-                      >
-                        mdi-trophy-outline
-                      </v-icon>
-                      <v-icon
-                        v-if="run.category_rank == 2"
-                        small
-                        color="grey lighten-1"
-                      >
-                        mdi-trophy-outline
-                      </v-icon>
-                      <v-icon v-if="run.category_rank == 3" small color="brown">
-                        mdi-trophy-outline
-                      </v-icon>
-                    </td>
-                    <td>
-                      <a :href="run.speedrun_link" target="_blank">
-                        {{ run.seconds_played | DurationFilter }}
-                      </a>
-                    </td>
-                    <td>
-                      <router-link
-                        :to="{
-                          name: 'Leaderboard',
-                          hash: `#${run.category_id}/${run.hc ? 'hc' : 'sc'}/${
-                            run.hero
-                          }/${run.players_category}`
-                        }"
-                      >
-                        {{ run.category_name }}
-                        {{ run.hc ? 'HC' : '' }}
-                        {{ run.players_category }}
-                      </router-link>
-                    </td>
-                    <td>
-                      <router-link
-                        v-if="run.character_id"
-                        :to="{
-                          name: 'Character',
-                          params: {
-                            user_name: run.user_name,
-                            character_slug:
-                              run.character_name + run.character_id
-                          }
-                        }"
-                      >
-                        <v-icon v-if="!run.hc" small :class="`${run.hero}`">
-                          mdi-sword
-                        </v-icon>
-                        <v-icon v-if="run.hc" small :class="`${run.hero}`">
-                          mdi-skull-outline
-                        </v-icon>
-                        {{ run.hero | HeroNameFilter }}
-                      </router-link>
-                      <span v-if="!run.character_id">
-                        <v-icon v-if="!run.hc" small :class="`${run.hero}`">
-                          mdi-sword
-                        </v-icon>
-                        <v-icon v-if="run.hc" small :class="`${run.hero}`">
-                          mdi-skull-outline
-                        </v-icon>
-                        {{ run.hero | HeroNameFilter }}
-                      </span>
-                    </td>
-                    <td>{{ run.submit_time | FromNowFilter }}</td>
-                  </tr>
-                </tbody>
-              </v-simple-table>
-              <v-btn
-                v-if="speedrunsPagination.more"
-                class="mt-3"
-                small
-                @click="loadMoreSpeedruns()"
-              >
-                <v-icon left>mdi-chevron-down</v-icon> Load more
-              </v-btn>
-            </v-card-text>
-          </div>
-        </v-card>
+    </v-row>
+    <v-row dense>
+      <v-col cols="12" v-if="characters.length">
+        <h1>Hero History</h1>
+        <v-data-table
+          class="text-no-wrap"
+          :headers="headers"
+          :items="characters"
+          :items-per-page="-1"
+          :hide-default-footer="true"
+        >
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>
+                <router-link
+                  class="ml-1"
+                  :class="{ 'hc--text': item.hc }"
+                  :to="{
+                    name: 'Character',
+                    params: {
+                      user_name: item.user_name,
+                      character_slug: item.character_name + item.character_id
+                    }
+                  }"
+                >
+                  <v-avatar size="30px" class="mr-1">
+                    <Icon v-if="item.hc" :name="item.hero" class="hc" />
+                    <Icon v-if="!item.hc" :name="item.hero" />
+                  </v-avatar>
+                  <v-icon v-if="item.dead" class="mr-1" color="error">
+                    mdi-skull-crossbones
+                  </v-icon>
+                  {{ item.name }}
+                </router-link>
+              </td>
+              <td>
+                {{ item.level }}
+              </td>
+              <td>{{ item.area | AreaNameFilter }}</td>
+              <td>{{ item.difficulty | DifficultyFilter }}</td>
+              <td class="monospace">
+                {{ item.in_game_time | DurationFilter }}
+              </td>
+              <td class="text-right">
+                {{ item.start_time | FromNowFilter }}
+                <!-- TODO: Deleting characters. Doesn't work, not sure why
+                  <td v-if="isEditor">
+                    <a @click="deleteCharacter(character)"> Delete </a>
+                  </td>
+                -->
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+        <v-btn
+          v-if="moreCharacters"
+          class="mt-3"
+          small
+          @click="loadMoreCharacters()"
+        >
+          <v-icon left>mdi-chevron-down</v-icon> Load more
+        </v-btn>
+      </v-col>
+      <v-col v-if="speedruns.length">
+        <h1>Leaderboard standings</h1>
+        <v-data-table
+          class="text-no-wrap"
+          :headers="speedrunsHeaders"
+          :items="speedruns"
+          :items-per-page="-1"
+          :hide-default-footer="true"
+        >
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>
+                {{ item.category_rank }}
+              </td>
+              <td class="monospace">
+                <a :href="item.speedrun_link" target="_blank">
+                  {{ item.seconds_played | DurationFilter }}
+                </a>
+              </td>
+              <td>
+                <router-link
+                  :to="{
+                    name: 'Leaderboard',
+                    hash: `#${item.category_id}/${item.hc ? 'hc' : 'sc'}/${
+                      item.hero
+                    }/${item.players_category}`
+                  }"
+                >
+                  {{ item.category_name }}
+                </router-link>
+              </td>
+              <td>
+                <v-avatar size="30px">
+                  <Icon :name="item.players_category" />
+                </v-avatar>
+                <v-avatar size="30px" class="ml-1">
+                  <Icon v-if="item.hc" :name="item.hero" class="hc" />
+                  <Icon v-if="!item.hc" :name="item.hero" />
+                </v-avatar>
+                <v-icon
+                  v-if="item.category_rank == 1"
+                  color="gold"
+                  class="ml-1"
+                >
+                  mdi-trophy-outline
+                </v-icon>
+                <v-icon
+                  v-if="item.category_rank == 2"
+                  color="silver"
+                  class="ml-1"
+                >
+                  mdi-trophy-outline
+                </v-icon>
+                <v-icon
+                  v-if="item.category_rank == 3"
+                  color="bronze"
+                  class="ml-1"
+                >
+                  mdi-trophy-outline
+                </v-icon>
+                <router-link
+                  class="ml-1"
+                  :class="{ 'hc--text': item.hc }"
+                  :to="{
+                    name: 'Character',
+                    params: {
+                      user_name: item.user_name,
+                      character_slug: item.character_name + item.character_id
+                    }
+                  }"
+                >
+                  {{ item.character_name }}
+                </router-link>
+              </td>
+              <td class="text-right">{{ item.submit_time | FromNowFilter }}</td>
+            </tr>
+          </template>
+        </v-data-table>
+        <v-btn
+          v-if="speedrunsPagination.more"
+          class="mt-3"
+          small
+          @click="loadMoreSpeedruns()"
+        >
+          <v-icon left>mdi-chevron-down</v-icon> Load more
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -280,9 +253,10 @@ import {
   AreaNameFilter,
   DurationFilter,
   HeroNameFilter,
-  PlayersCategoryNameFilter
+  PlayersCategoryNameFilter,
+  BigNumberFilter
 } from '@/filters';
-// import Icon from '@/components/Icon.vue';
+import Icon from '@/components/Icon.vue';
 
 export default {
   name: 'Character',
@@ -292,10 +266,11 @@ export default {
     AreaNameFilter,
     DurationFilter,
     HeroNameFilter,
-    PlayersCategoryNameFilter
+    PlayersCategoryNameFilter,
+    BigNumberFilter
   },
   components: {
-    // Icon
+    Icon
   },
   data: () => ({
     user: null,
@@ -307,7 +282,26 @@ export default {
     speedruns: [],
     speedrunsStatistics: {},
     speedrunsPagination: {},
-    loadingSpeedruns: true
+    loadingSpeedruns: true,
+    headers: [
+      { text: 'Hero', value: 'character_name', sortable: false },
+      { text: 'Level', value: 'level', sortable: false },
+      { text: 'Area', value: 'area', sortable: false },
+      { text: 'Difficulty', value: 'difficulty', sortable: false },
+      {
+        text: 'Playtime',
+        value: 'in_game_time',
+        sortable: false
+      },
+      { text: 'Added', value: 'start_time', sortable: false, align: 'end' }
+    ],
+    speedrunsHeaders: [
+      { text: 'Rank', value: 'category_rank', sortable: false },
+      { text: 'Time', value: 'seconds_played', sortable: false },
+      { text: 'Category', value: 'category_name', sortable: false },
+      { text: 'Hero', value: 'character_name', sortable: false },
+      { text: 'Submitted', value: 'submit_time', sortable: false, align: 'end' }
+    ]
   }),
   computed: {
     ...mapState({

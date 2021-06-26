@@ -19,7 +19,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row dense>
+    <v-row>
       <!-- Recently submitted speedruns -->
       <v-col cols="12">
         <h1>Recently submitted speedruns</h1>
