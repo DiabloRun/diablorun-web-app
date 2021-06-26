@@ -1,5 +1,16 @@
 <template>
   <v-container>
+    <v-btn
+      small
+      :href="'https://kadgar.net/live/' + usernames.join('/')"
+      target="_blank"
+      class="mb-3"
+    >
+      <v-icon small left>
+        mdi-play-box-multiple
+      </v-icon>
+      Kadgar.net Multitwitch
+    </v-btn>
     <RaceCharactersTable v-if="characters.length" :characters="characters" />
   </v-container>
 </template>
