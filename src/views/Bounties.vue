@@ -45,33 +45,35 @@
                 </router-link>
               </td>
               <td>
-                <CountryIcon
-                  :code="bounty.claimed_character.user_country_code"
-                />
-                <router-link
-                  :to="{
-                    name: 'User',
-                    params: { user_name: bounty.claimed_character.user_name }
-                  }"
-                  :style="`color: ${bounty.claimed_character.user_color};`"
-                >
-                  {{ bounty.claimed_character.user_name }}
-                </router-link>
-                with
-                <router-link
-                  :to="{
-                    name: 'Character',
-                    params: {
-                      user_name: bounty.claimed_character.user_name,
-                      character_slug:
-                        bounty.claimed_character.name +
-                        bounty.claimed_character.id
-                    }
-                  }"
-                >
-                  {{ bounty.claimed_character.hero | HeroNameFilter }}
-                  {{ bounty.claimed_character.name }}
-                </router-link>
+                <template v-if="bounty.claimed_character">
+                  <CountryIcon
+                    :code="bounty.claimed_character.user_country_code"
+                  />
+                  <router-link
+                    :to="{
+                      name: 'User',
+                      params: { user_name: bounty.claimed_character.user_name }
+                    }"
+                    :style="`color: ${bounty.claimed_character.user_color};`"
+                  >
+                    {{ bounty.claimed_character.user_name }}
+                  </router-link>
+                  with
+                  <router-link
+                    :to="{
+                      name: 'Character',
+                      params: {
+                        user_name: bounty.claimed_character.user_name,
+                        character_slug:
+                          bounty.claimed_character.name +
+                          bounty.claimed_character.id
+                      }
+                    }"
+                  >
+                    {{ bounty.claimed_character.hero | HeroNameFilter }}
+                    {{ bounty.claimed_character.name }}
+                  </router-link>
+                </template>
               </td>
               <td>
                 <template v-if="!bounty.claimed_character"
