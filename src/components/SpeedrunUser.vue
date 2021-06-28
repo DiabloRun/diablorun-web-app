@@ -8,7 +8,7 @@
       target="_blank"
     >
       {{ run.user_name }}
-      <v-icon small right color="grey">mdi-open-in-new</v-icon>
+      <v-icon small color="grey">mdi-open-in-new</v-icon>
     </a>
     <router-link
       v-if="run.user_id"

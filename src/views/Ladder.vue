@@ -35,7 +35,7 @@
       </v-col>
       <v-col cols="auto" class="my-auto">
         <v-btn outlined color="primary" @click="resetFilters()">
-          <v-icon left>mdi-refresh</v-icon> Reset
+          <v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -78,73 +78,54 @@
       {{ categoryName }} ladder is empty
     </v-alert>
 
-    <v-simple-table v-if="characters.length" dense class="text-no-wrap">
-      <thead>
+    <v-data-table
+      v-if="characters.length"
+      class="text-no-wrap"
+      :headers="headers"
+      :items="characters"
+      :items-per-page="-1"
+      :hide-default-footer="true"
+    >
+      <template v-slot:item="{ item, index }">
         <tr>
-          <th>#</th>
-          <th>Runner</th>
-          <th>Hero</th>
-          <th>Level</th>
-          <th>Experience</th>
-          <th>Core</th>
-          <th>Playtime</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(character, index) of characters" :key="character.id">
-          <td class="silver--text">
-            {{ index + 1 }}
-            <v-icon v-if="index == 0" small color="gold">
-              mdi-trophy-outline
-            </v-icon>
-            <v-icon v-if="index == 1" small color="silver">
-              mdi-trophy-outline
-            </v-icon>
-            <v-icon v-if="index == 2" small color="bronze">
-              mdi-trophy-outline
-            </v-icon>
-          </td>
+          <td>{{ index + 1 }}</td>
+          <td><SpeedrunUser :run="item" /></td>
           <td>
-            <SpeedrunUser :run="character" />
-          </td>
-          <td>
+            <v-avatar size="30px" class="ml-1">
+              <Icon v-if="item.hc" :name="item.hero" class="hc" />
+              <Icon v-if="!item.hc" :name="item.hero" />
+            </v-avatar>
+            <v-icon v-if="index == 0" color="gold" class="ml-1">
+              mdi-trophy-outline
+            </v-icon>
+            <v-icon v-if="index == 1" color="silver" class="ml-1">
+              mdi-trophy-outline
+            </v-icon>
+            <v-icon v-if="index == 2" color="bronze" class="ml-1">
+              mdi-trophy-outline
+            </v-icon>
             <router-link
+              class="ml-1"
+              :class="{ 'hc--text': item.hc }"
               :to="{
                 name: 'Character',
                 params: {
-                  user_name: character.user_name,
-                  character_slug: character.name + character.id
+                  user_name: item.user_name,
+                  character_slug: item.name + item.id
                 }
               }"
             >
-              <v-icon v-if="!character.hc" small :class="`${character.hero}`">
-                mdi-sword
-              </v-icon>
-              <v-icon v-if="character.hc" small :class="`${character.hero}`">
-                mdi-skull-outline
-              </v-icon>
-              {{ character.hero | HeroNameFilter }}
-              {{ character.name }}
+              {{ item.name }}
             </router-link>
           </td>
-          <td>
-            {{ character.level }}
-          </td>
-          <td>
-            {{ character.experience | BigNumberFilter }}
-          </td>
-          <td>
-            <span v-if="!character.hc">SC</span>
-            <span v-if="character.hc" class="error--text text--lighten-2"
-              >HC</span
-            >
-          </td>
-          <td>
-            {{ character.in_game_time | DurationFilter }}
+          <td>{{ item.level }}</td>
+          <td>{{ item.experience | BigNumberFilter }}</td>
+          <td class="text-right monospace">
+            {{ item.in_game_time | DurationFilter }}
           </td>
         </tr>
-      </tbody>
-    </v-simple-table>
+      </template>
+    </v-data-table>
     <v-btn small v-if="pagination.more" class="mt-5" @click="loadMore()">
       <v-icon left>mdi-chevron-down</v-icon> Load more
     </v-btn>
@@ -180,7 +161,15 @@ export default {
   },
   data() {
     return {
-      heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru']
+      heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru'],
+      headers: [
+        { text: 'Rank', value: 'rank', sortable: false },
+        { text: 'Runner', value: 'user_name', sortable: false },
+        { text: 'Hero', value: 'character', sortable: false },
+        { text: 'Level', value: 'level' },
+        { text: 'Experience', value: 'xp' },
+        { text: 'Playtime', value: 'in_game_time', align: 'end' }
+      ]
     };
   },
   computed: {

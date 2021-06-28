@@ -1,6 +1,6 @@
 <template>
-  <v-avatar size="18" class="mb-1 mr-1">
-    <v-img height="18" contain :src="icons[`./${code}.svg`]" />
+  <v-avatar size="24" class="mr-2">
+    <v-img contain :src="icons[`./${code}.svg`]" />
   </v-avatar>
 </template>
 
