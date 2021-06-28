@@ -54,31 +54,75 @@
                 <v-avatar size="30px">
                   <Icon :name="item.players_category" />
                 </v-avatar>
-                <v-avatar size="30px" class="ml-1">
-                  <Icon v-if="item.hc" :name="item.hero" class="hc" />
-                  <Icon v-if="!item.hc" :name="item.hero" />
-                </v-avatar>
-                <v-icon
-                  v-if="item.category_rank == 1"
-                  color="gold"
-                  class="ml-1"
-                >
-                  mdi-trophy-outline
-                </v-icon>
-                <v-icon
-                  v-if="item.category_rank == 2"
-                  color="silver"
-                  class="ml-1"
-                >
-                  mdi-trophy-outline
-                </v-icon>
-                <v-icon
-                  v-if="item.category_rank == 3"
-                  color="bronze"
-                  class="ml-1"
-                >
-                  mdi-trophy-outline
-                </v-icon>
+                <v-tooltip bottom v-if="item.hc">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar
+                      v-bind="attrs"
+                      v-on="on"
+                      size="30px"
+                      class="ml-1 hc"
+                    >
+                      <Icon :name="item.hero" />
+                    </v-avatar>
+                  </template>
+                  <span> Hardcore {{ item.hero | HeroNameFilter }}</span>
+                </v-tooltip>
+                <v-tooltip bottom v-if="!item.hc">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <Icon :name="item.hero" />
+                    </v-avatar>
+                  </template>
+                  <span> Softcore {{ item.hero | HeroNameFilter }}</span>
+                </v-tooltip>
+                <v-tooltip bottom v-if="item.category_rank == 1">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <v-icon color="gold" class="ml-1">
+                        mdi-trophy-outline
+                      </v-icon>
+                    </v-avatar>
+                  </template>
+                  <span>
+                    Gold in {{ item.category_name }} ({{
+                      item.players_category
+                    }})
+                    {{ item.hc ? 'Harcore' : 'Softcore' }}
+                    {{ item.hero | HeroNameFilter }}</span
+                  >
+                </v-tooltip>
+                <v-tooltip bottom v-if="item.category_rank == 2">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <v-icon color="silver" class="ml-1">
+                        mdi-trophy-outline
+                      </v-icon>
+                    </v-avatar>
+                  </template>
+                  <span>
+                    Silver in {{ item.category_name }} ({{
+                      item.players_category
+                    }})
+                    {{ item.hc ? 'Harcore' : 'Softcore' }}
+                    {{ item.hero | HeroNameFilter }}</span
+                  >
+                </v-tooltip>
+                <v-tooltip bottom v-if="item.category_rank == 3">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <v-icon color="bronze" class="ml-1">
+                        mdi-trophy-outline
+                      </v-icon>
+                    </v-avatar>
+                  </template>
+                  <span>
+                    Bronze in {{ item.category_name }} ({{
+                      item.players_category
+                    }})
+                    {{ item.hc ? 'Harcore' : 'Softcore' }}
+                    {{ item.hero | HeroNameFilter }}</span
+                  >
+                </v-tooltip>
                 <router-link
                   class="ml-1"
                   :class="{ 'hc--text': item.hc }"
@@ -132,31 +176,75 @@
                 <v-avatar size="30px">
                   <Icon :name="item.players_category" />
                 </v-avatar>
-                <v-avatar size="30px" class="ml-1">
-                  <Icon v-if="item.hc" :name="item.hero" class="hc" />
-                  <Icon v-if="!item.hc" :name="item.hero" />
-                </v-avatar>
-                <v-icon
-                  v-if="item.category_rank == 1"
-                  color="gold"
-                  class="ml-1"
-                >
-                  mdi-trophy-outline
-                </v-icon>
-                <v-icon
-                  v-if="item.category_rank == 2"
-                  color="silver"
-                  class="ml-1"
-                >
-                  mdi-trophy-outline
-                </v-icon>
-                <v-icon
-                  v-if="item.category_rank == 3"
-                  color="bronze"
-                  class="ml-1"
-                >
-                  mdi-trophy-outline
-                </v-icon>
+                <v-tooltip bottom v-if="item.hc">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar
+                      v-bind="attrs"
+                      v-on="on"
+                      size="30px"
+                      class="ml-1 hc"
+                    >
+                      <Icon :name="item.hero" />
+                    </v-avatar>
+                  </template>
+                  <span> Hardcore {{ item.hero | HeroNameFilter }}</span>
+                </v-tooltip>
+                <v-tooltip bottom v-if="!item.hc">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <Icon :name="item.hero" />
+                    </v-avatar>
+                  </template>
+                  <span> Softcore {{ item.hero | HeroNameFilter }}</span>
+                </v-tooltip>
+                <v-tooltip bottom v-if="item.category_rank == 1">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <v-icon color="gold" class="ml-1">
+                        mdi-trophy-outline
+                      </v-icon>
+                    </v-avatar>
+                  </template>
+                  <span>
+                    Gold in {{ item.category_name }} ({{
+                      item.players_category
+                    }})
+                    {{ item.hc ? 'Harcore' : 'Softcore' }}
+                    {{ item.hero | HeroNameFilter }}</span
+                  >
+                </v-tooltip>
+                <v-tooltip bottom v-if="item.category_rank == 2">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <v-icon color="silver" class="ml-1">
+                        mdi-trophy-outline
+                      </v-icon>
+                    </v-avatar>
+                  </template>
+                  <span>
+                    Silver in {{ item.category_name }} ({{
+                      item.players_category
+                    }})
+                    {{ item.hc ? 'Harcore' : 'Softcore' }}
+                    {{ item.hero | HeroNameFilter }}</span
+                  >
+                </v-tooltip>
+                <v-tooltip bottom v-if="item.category_rank == 3">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                      <v-icon color="bronze" class="ml-1">
+                        mdi-trophy-outline
+                      </v-icon>
+                    </v-avatar>
+                  </template>
+                  <span>
+                    Bronze in {{ item.category_name }} ({{
+                      item.players_category
+                    }})
+                    {{ item.hc ? 'Harcore' : 'Softcore' }}
+                    {{ item.hero | HeroNameFilter }}</span
+                  >
+                </v-tooltip>
                 <router-link
                   class="ml-1"
                   :class="{ 'hc--text': item.hc }"
