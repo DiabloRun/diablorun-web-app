@@ -11,10 +11,26 @@
       <tr>
         <td><CharacterUser :character="item" /></td>
         <td>
-          <v-avatar size="30px" class="mr-1">
-            <Icon v-if="item.hc" :name="item.hero" class="hc" />
-            <Icon v-if="!item.hc" :name="item.hero" />
-          </v-avatar>
+          <v-tooltip bottom v-if="item.hc">
+            <template v-slot:activator="{ on, attrs }">
+              <v-avatar v-bind="attrs" v-on="on" size="30px" class="mr-1 hc">
+                <Icon :name="item.hero" />
+              </v-avatar>
+            </template>
+            <span>
+              Hardcore {{ item.hero | HeroNameFilter }} {{ item.name }}</span
+            >
+          </v-tooltip>
+          <v-tooltip bottom v-if="!item.hc">
+            <template v-slot:activator="{ on, attrs }">
+              <v-avatar v-bind="attrs" v-on="on" size="30px" class="mr-1">
+                <Icon :name="item.hero" />
+              </v-avatar>
+            </template>
+            <span>
+              Softcore {{ item.hero | HeroNameFilter }} {{ item.name }}</span
+            >
+          </v-tooltip>
           {{ item.level }}
         </td>
         <td>
@@ -32,7 +48,9 @@
         <td>
           {{ item.difficulty | DifficultyFilter }} Players {{ item.players }}
         </td>
-        <td>{{ item.seconds_played | DurationFilter }}</td>
+        <td class="monospace text-right">
+          {{ item.seconds_played | DurationFilter }}
+        </td>
       </tr>
     </template>
   </v-data-table>
@@ -46,7 +64,7 @@ import {
   DurationFilter
 } from '@/filters';
 import CharacterUser from '@/components/CharacterUser.vue';
-import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
+// import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
 import Icon from '@/components/Icon.vue';
 
 export default {
@@ -62,7 +80,7 @@ export default {
   },
   components: {
     CharacterUser,
-    CharacterRaceStatus,
+    // CharacterRaceStatus,
     Icon
   },
   data() {
@@ -77,7 +95,7 @@ export default {
         { text: 'Gold', value: 'gold_total', sortable: true },
         { text: 'Area', value: 'area', sortable: false },
         { text: 'Difficulty', value: 'players', sortable: false },
-        { text: 'Playtime', value: 'time', sortable: false }
+        { text: 'Playtime', value: 'time', align: 'end', sortable: false }
         /*
           text: string,
           value: string,
