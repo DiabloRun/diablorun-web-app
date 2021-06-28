@@ -37,5 +37,53 @@ export default [
     path: '/wiki/sc-sor-p1',
     component: () =>
       import(/* webpackChunkName: "wiki" */ '../wiki/sc-sor-p1.vue')
+  },
+  {
+    meta: {
+      date: 'December 28, 2021',
+      author: 'Indrek',
+      intro: 'Rules for Normal category.',
+      tags: ['Normal', 'Speedruns', 'Rules'],
+      title: 'Normal category speedrunning rules'
+    },
+    path: '/wiki/normal-rules',
+    component: () =>
+      import(/* webpackChunkName: "wiki" */ '../wiki/normal-rules.vue')
+  },
+  {
+    meta: {
+      date: 'December 28, 2021',
+      author: 'Indrek',
+      intro: 'Rules for Hell category.',
+      tags: ['Hell', 'Speedruns', 'Rules'],
+      title: 'Hell category speedrunning rules'
+    },
+    path: '/wiki/hell-rules',
+    component: () =>
+      import(/* webpackChunkName: "wiki" */ '../wiki/hell-rules.vue')
+  },
+  {
+    meta: {
+      date: 'December 28, 2021',
+      author: 'Indrek',
+      intro: 'Rules for Pacifist category.',
+      tags: ['Pacifist', 'Speedruns', 'Rules'],
+      title: 'Pacifist category speedrunning rules'
+    },
+    path: '/wiki/pacifist-rules',
+    component: () =>
+      import(/* webpackChunkName: "wiki" */ '../wiki/pacifist-rules.vue')
+  },
+  {
+    meta: {
+      date: 'December 28, 2021',
+      author: 'Indrek',
+      intro: 'Rules for Twink category.',
+      tags: ['Twink', 'Speedruns', 'Rules'],
+      title: 'Twink category speedrunning rules'
+    },
+    path: '/wiki/twink-rules',
+    component: () =>
+      import(/* webpackChunkName: "wiki" */ '../wiki/twink-rules.vue')
   }
 ];

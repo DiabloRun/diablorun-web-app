@@ -15,23 +15,46 @@
           {{ statistics.speedruns }} runs by {{ statistics.users }} runners
         </h2>
       </v-col>
-      <v-col cols="auto" class="my-auto">
-        <v-btn outlined color="primary" @click="resetFilters()">
-          <v-icon>mdi-refresh</v-icon>
-        </v-btn>
-      </v-col>
     </v-row>
     <v-row dense class="my-5">
       <!--Category-->
       <v-col cols="12">
-        <DataFilter store="leaderboard" column="category_id">
-          <DataFilterItem
-            v-for="category in categories"
-            :key="category.id"
-            :value="category.id"
-            :label="category.name"
-          />
-        </DataFilter>
+        <v-row dense>
+          <v-col>
+            <DataFilter store="leaderboard" column="category_id">
+              <DataFilterItem
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.id"
+                :label="category.name"
+              />
+            </DataFilter>
+          </v-col>
+          <v-col cols="auto" class="my-auto">
+            <router-link
+              :to="'/wiki/' + category.name.toLowerCase() + '-rules'"
+            >
+              <v-btn class="mr-3" color="primary">
+                <v-icon left>mdi-script-text</v-icon>
+                {{ categoryName }} category rules
+              </v-btn>
+            </router-link>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  outlined
+                  color="primary"
+                  @click="resetFilters()"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+              </template>
+              <span>Reset filters</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
       </v-col>
       <!--Class-->
       <v-col>
@@ -46,7 +69,7 @@
         </DataFilter>
       </v-col>
       <!--Players-->
-      <v-col cols="12" md="auto" v-if="!category.px_only">
+      <v-col md="auto" v-if="!category.px_only">
         <DataFilter store="leaderboard" column="players_category">
           <DataFilterItem any label="Any Players" />
           <DataFilterItem value="p1" icon="p1" />
@@ -55,7 +78,7 @@
         </DataFilter>
       </v-col>
       <!--Core-->
-      <v-col cols="12" md="auto">
+      <v-col cols="auto">
         <DataFilter store="leaderboard" column="hc">
           <DataFilterItem any label="Any Core" />
           <DataFilterItem :value="0" icon="sc" />
@@ -63,7 +86,6 @@
         </DataFilter>
       </v-col>
     </v-row>
-
     <v-alert
       v-if="!runs.length"
       text
