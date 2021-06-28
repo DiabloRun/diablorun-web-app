@@ -17,13 +17,13 @@
       </v-col>
       <v-col cols="auto" class="my-auto">
         <v-btn outlined color="primary" @click="resetFilters()">
-          <v-icon left>mdi-refresh</v-icon> Reset
+          <v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-col>
     </v-row>
     <v-row dense class="my-5">
       <!--Category-->
-      <v-col>
+      <v-col cols="12">
         <DataFilter store="leaderboard" column="category_id">
           <DataFilterItem
             v-for="category in categories"
@@ -31,15 +31,6 @@
             :value="category.id"
             :label="category.name"
           />
-        </DataFilter>
-      </v-col>
-      <!--Players-->
-      <v-col cols="12" md="auto" v-if="!category.px_only">
-        <DataFilter store="leaderboard" column="players_category">
-          <DataFilterItem any label="Any Players" />
-          <DataFilterItem value="p1" icon="p1" />
-          <DataFilterItem value="px" icon="px" />
-          <DataFilterItem value="p8" icon="p8" />
         </DataFilter>
       </v-col>
       <!--Class-->
@@ -52,6 +43,15 @@
             :value="hero"
             :icon="hero"
           />
+        </DataFilter>
+      </v-col>
+      <!--Players-->
+      <v-col cols="12" md="auto" v-if="!category.px_only">
+        <DataFilter store="leaderboard" column="players_category">
+          <DataFilterItem any label="Any Players" />
+          <DataFilterItem value="p1" icon="p1" />
+          <DataFilterItem value="px" icon="px" />
+          <DataFilterItem value="p8" icon="p8" />
         </DataFilter>
       </v-col>
       <!--Core-->
@@ -73,72 +73,58 @@
       {{ categoryName }} category is empty
     </v-alert>
 
-    <v-simple-table v-if="runs.length" dense class="text-no-wrap">
-      <thead>
+    <v-data-table
+      v-if="runs.length"
+      class="text-no-wrap"
+      :headers="headers"
+      :items="runs"
+      :items-per-page="-1"
+      :hide-default-footer="true"
+    >
+      <template v-slot:item="{ item, index }">
         <tr>
-          <th>#</th>
-          <th>Runner</th>
-          <th>Time</th>
-          <th>Hero</th>
-          <th>Core</th>
-          <th>Submitted</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(run, index) of runs" :key="run.id">
-          <td class="silver--text">
-            {{ index + 1 }}
-            <v-icon v-if="run.category_rank == 1" small color="gold">
-              mdi-trophy-outline
-            </v-icon>
-            <v-icon v-if="run.category_rank == 2" small color="silver">
-              mdi-trophy-outline
-            </v-icon>
-            <v-icon v-if="run.category_rank == 3" small color="bronze">
-              mdi-trophy-outline
-            </v-icon>
-          </td>
+          <td>{{ index + 1 }}</td>
           <td>
-            <SpeedrunUser :run="run" />
-          </td>
-          <td>
-            <a :href="run.speedrun_link" target="_blank">
-              {{ run.seconds_played | DurationFilter }}
+            <a :href="item.speedrun_link" target="_blank" class="monospace">
+              {{ item.seconds_played | DurationFilter }}
             </a>
           </td>
+          <td><SpeedrunUser :run="item" /></td>
           <td>
-            <v-icon v-if="!run.hc" small :class="`${run.hero}`">
-              mdi-sword
+            <v-avatar size="30px">
+              <Icon :name="item.players_category" />
+            </v-avatar>
+            <v-avatar size="30px" class="ml-1">
+              <Icon v-if="item.hc" :name="item.hero" class="hc" />
+              <Icon v-if="!item.hc" :name="item.hero" />
+            </v-avatar>
+            <v-icon v-if="item.category_rank == 1" color="gold" class="ml-1">
+              mdi-trophy-outline
             </v-icon>
-            <v-icon v-if="run.hc" small :class="`${run.hero}`">
-              mdi-skull-outline
+            <v-icon v-if="item.category_rank == 2" color="silver" class="ml-1">
+              mdi-trophy-outline
             </v-icon>
-            <span v-if="!run.character_id" class="silver--text">
-              {{ run.hero | HeroNameFilter }}
-            </span>
-            <span v-if="run.character_id">
-              <router-link
-                :to="{
-                  name: 'Character',
-                  params: {
-                    user_name: run.user_name,
-                    character_slug: run.character_name + run.character_id
-                  }
-                }"
-              >
-                {{ run.hero | HeroNameFilter }}
-              </router-link>
-            </span>
+            <v-icon v-if="item.category_rank == 3" color="bronze" class="ml-1">
+              mdi-trophy-outline
+            </v-icon>
+            <router-link
+              class="ml-1"
+              :class="{ 'hc--text': item.hc }"
+              :to="{
+                name: 'Character',
+                params: {
+                  user_name: item.user_name,
+                  character_slug: item.character_name + item.character_id
+                }
+              }"
+            >
+              {{ item.character_name }}
+            </router-link>
           </td>
-          <td>
-            <span v-if="!run.hc">SC</span>
-            <span v-if="run.hc" class="error--text text--lighten-2">HC</span>
-            <span class="silver--text ml-2">{{ run.players_category }}</span>
-          </td>
-          <td class="silver--text">{{ run.submit_time | FromNowFilter }}</td>
+          <td class="text-right">{{ item.submit_time | FromNowFilter }}</td>
         </tr>
-      </tbody>
-    </v-simple-table>
+      </template>
+    </v-data-table>
     <v-btn small v-if="pagination.more" class="mt-5" @click="loadMore()">
       <v-icon left>mdi-chevron-down</v-icon> Load more
     </v-btn>
@@ -168,7 +154,14 @@ export default {
   },
   data() {
     return {
-      heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru']
+      heroFilterValues: ['ama', 'asn', 'nec', 'bar', 'pal', 'sor', 'dru'],
+      headers: [
+        { text: 'Rank', value: 'rank' },
+        { text: 'Time', value: 'seconds_played' },
+        { text: 'Runner', value: 'user_name' },
+        { text: 'Hero', value: 'hero' },
+        { text: 'Submitted', value: 'submit_time', align: 'end' }
+      ]
     };
   },
   computed: {
