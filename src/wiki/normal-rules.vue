@@ -2,48 +2,72 @@
   <v-container>
     <v-row dense>
       <!-- Title -->
-
       <v-col cols="12">
-        <h1>Normal category rules</h1>
+        <v-row>
+          <v-col>
+            <h1>Normal category rules</h1>
+          </v-col>
+          <v-col cols="auto" class="my-auto">
+            <!--
+            <v-btn>
+              <v-icon small left :to="{ name: 'Leaderoard' }"
+                >mdi-arrow-left</v-icon
+              >
+              Back to leaderboard
+            </v-btn>
+            -->
+          </v-col>
+        </v-row>
         <v-card>
           <v-card-title>
-            Category specific
-          </v-card-title>
-          <v-card-text>
-            Timer starts right after character creation and ends when you land
-            the killing blow on normal Baal.
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card>
-          <v-card-title>
-            General rules
+            Timer
           </v-card-title>
           <v-card-text>
             <ul>
               <li>
-                Patch 1.14d
+                Timer starts right after character creation and ends when you
+                land the killing blow on normal Baal.
               </li>
               <li>
-                -w -sndbkg -3dfx are allowed
-              </li>
-              <li>-act -ns -direct -txt -ns are banned</li>
-            </ul>
-            <ul>
-              <li>
-                Using TCP/IP Host is allowed to reroll maps, but interacting
-                with other characters in a TCP/IP game is banned
-              </li>
-              <li>Joining a TCP/IP game or using Open Battle.net is banned</li>
-              <li>
-                Hacks, mods or map revealing tools are banned. Use of Diablo
-                Interface during a run is allowed.
+                Time is measured in Real Time and In-game Time.
               </li>
             </ul>
           </v-card-text>
+          <v-divider> </v-divider>
+          <v-card-title>
+            Players setting
+          </v-card-title>
+          <v-card-text>
+            <ul>
+              <li>
+                Players X runs have the freedom to change the setting during the
+                run to any value from 1 to 8.
+              </li>
+              <li>
+                Players 1 runs never change it from the default setting.
+              </li>
+              <li>
+                Players 8 runs must use /players 8 the entire run. In case of a
+                game crash you're allowed to set it back to /players 8 in town.
+              </li>
+            </ul>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-title>
+            Global rules
+          </v-card-title>
+          <GeneralRules> </GeneralRules>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
+<script>
+import GeneralRules from '@/components/GeneralRules.vue';
+
+export default {
+  components: { GeneralRules },
+  name: 'BlogPost'
+};
+</script>

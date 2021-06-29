@@ -2,17 +2,63 @@
   <v-container>
     <v-row dense>
       <!-- Title -->
-
       <v-col cols="12">
-        <h1>Hell Twink category rules</h1>
+        <v-row>
+          <v-col>
+            <h1>Hell Twink category rules</h1>
+          </v-col>
+          <v-col cols="auto" class="my-auto">
+            <!--
+            <v-btn>
+              <v-icon small left :to="{ name: 'Leaderoard' }"
+                >mdi-arrow-left</v-icon
+              >
+              Back to leaderboard
+            </v-btn>
+            -->
+          </v-col>
+        </v-row>
         <v-card>
           <v-card-title>
-            Category specific
+            Timer
           </v-card-title>
           <v-card-text>
-            Timer starts right after your character loads into the game and ends
-            when all quests, cow kings and level 80 is completed.
+            <ul>
+              <li>
+                Timer starts right after your character loads into the game.
+              </li>
+              <li>
+                Time is measured in Real Time and In-game Time.
+              </li>
+            </ul>
           </v-card-text>
+          <v-card-text>
+            <strong>Timer stops when following conditions are met:</strong>
+            <ul>
+              <li>
+                All quests in normal, nightmare and hell difficulty.
+              </li>
+              <li>
+                Killed Cow King in normal, nightmare and hell difficulty.
+              </li>
+              <li>
+                Reach level 80.
+              </li>
+            </ul>
+          </v-card-text>
+          <v-divider> </v-divider>
+          <v-card-title>
+            Players setting
+          </v-card-title>
+          <v-card-text>
+            Twink does not separate into multiple players setting categories.
+            All runs have the freedom to change players setting during the run
+            from 1 to 8.
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-title>
+            Hell Twink rules
+          </v-card-title>
           <v-card-text>
             <ul>
               <li>
@@ -24,30 +70,7 @@
                 Unseeded maps only. If you reset your run, you should reroll
                 your map seed using something like TCP/IP
               </li>
-            </ul>
-          </v-card-text>
-          <v-card-text>
-            <ul>
-              <li>
-                Complete all quests in all difficulties.
-              </li>
-              <li>
-                Kill all Cow Kings.
-              </li>
-              <li>
-                Reach level 80.
-              </li>
-            </ul>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-card>
-          <v-card-title>
-            Starting items
-          </v-card-title>
-          <v-card-text>
-            <ul>
+
               <li>
                 Start with any non-quest items you want in your stash/inventory,
                 limited to: Helms, Weapons, Shields, Chests, Gloves, Boots,
@@ -77,37 +100,22 @@
               </li>
             </ul>
           </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card>
+          <v-divider></v-divider>
           <v-card-title>
-            General rules
+            Global rules
           </v-card-title>
-          <v-card-text>
-            <ul>
-              <li>
-                Patch 1.14d.
-              </li>
-              <li>
-                -w -sndbkg -3dfx are allowed.
-              </li>
-              <li>-act -ns -direct -txt -ns are banned.</li>
-            </ul>
-            <ul>
-              <li>
-                Using TCP/IP Host is allowed to reroll maps, but interacting
-                with other characters in a TCP/IP game is banned.
-              </li>
-              <li>Joining a TCP/IP game or using Open Battle.net is banned.</li>
-              <li>
-                Hacks, mods or map revealing tools are banned. Use of Diablo
-                Interface during a run is allowed.
-              </li>
-            </ul>
-          </v-card-text>
+          <GeneralRules> </GeneralRules>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
+<script>
+import GeneralRules from '@/components/GeneralRules.vue';
+
+export default {
+  components: { GeneralRules },
+  name: 'BlogPost'
+};
+</script>
