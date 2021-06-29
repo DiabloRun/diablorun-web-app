@@ -85,5 +85,17 @@ export default [
     path: '/wiki/twink-rules',
     component: () =>
       import(/* webpackChunkName: "wiki" */ '../wiki/twink-rules.vue')
+  },
+  {
+    meta: {
+      date: 'December 28, 2021',
+      author: 'Indrek',
+      intro: 'Rules for Hell Twink category.',
+      tags: ['Hell', 'Twink', 'Speedruns', 'Rules'],
+      title: 'Hell Twink category speedrunning rules'
+    },
+    path: '/wiki/helltwink-rules',
+    component: () =>
+      import(/* webpackChunkName: "wiki" */ '../wiki/helltwink-rules.vue')
   }
 ];

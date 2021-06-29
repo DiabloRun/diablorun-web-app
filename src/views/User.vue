@@ -329,22 +329,21 @@ export default {
     loadingSpeedruns: true,
     headers: [
       { text: 'Hero', value: 'character_name', sortable: false },
-      { text: 'Level', value: 'level', sortable: false },
-      { text: 'Area', value: 'area', sortable: false },
-      { text: 'Difficulty', value: 'difficulty', sortable: false },
+      { text: 'Level', value: 'level' },
+      { text: 'Area', value: 'area' },
+      { text: 'Difficulty', value: 'difficulty' },
       {
         text: 'Playtime',
-        value: 'in_game_time',
-        sortable: false
+        value: 'in_game_time'
       },
-      { text: 'Added', value: 'start_time', sortable: false, align: 'end' }
+      { text: 'Added', value: 'start_time', align: 'end' }
     ],
     speedrunsHeaders: [
-      { text: 'Rank', value: 'category_rank', sortable: false },
-      { text: 'Time', value: 'seconds_played', sortable: false },
-      { text: 'Category', value: 'category_name', sortable: false },
+      { text: 'Rank', value: 'category_rank' },
+      { text: 'Time', value: 'seconds_played' },
+      { text: 'Category', value: 'category_name' },
       { text: 'Hero', value: 'character_name', sortable: false },
-      { text: 'Submitted', value: 'submit_time', sortable: false, align: 'end' }
+      { text: 'Submitted', value: 'submit_time', align: 'end' }
     ]
   }),
   computed: {
@@ -394,7 +393,7 @@ export default {
       this.loadingCharacters = true;
 
       const res = await fetch(
-        `${process.env.VUE_APP_API_URL}/characters?user_name=${this.username}&offset=${this.offsetCharacters}&limit=10`
+        `${process.env.VUE_APP_API_URL}/characters?user_name=${this.username}&offset=${this.offsetCharacters}&limit=30`
       );
       const { data, meta } = await res.json();
 
@@ -408,7 +407,7 @@ export default {
       this.loadingSpeedruns = true;
 
       const res = await fetch(
-        `${process.env.VUE_APP_API_URL}/speedruns?user_id=${this.user.id}&offset=${this.speedrunsPagination.offset}&limit=10&order_by=submit_time&order_dir=DESC`
+        `${process.env.VUE_APP_API_URL}/speedruns?user_id=${this.user.id}&offset=${this.speedrunsPagination.offset}&limit=30&order_by=submit_time&order_dir=DESC`
       );
       const { speedruns, statistics, pagination } = await res.json();
 

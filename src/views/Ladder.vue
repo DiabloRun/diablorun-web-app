@@ -91,10 +91,22 @@
           <td>{{ index + 1 }}</td>
           <td><SpeedrunUser :run="item" /></td>
           <td>
-            <v-avatar size="30px" class="ml-1">
-              <Icon v-if="item.hc" :name="item.hero" class="hc" />
-              <Icon v-if="!item.hc" :name="item.hero" />
-            </v-avatar>
+            <v-tooltip bottom v-if="item.hc">
+              <template v-slot:activator="{ on, attrs }">
+                <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1 hc">
+                  <Icon :name="item.hero" />
+                </v-avatar>
+              </template>
+              <span> Hardcore {{ item.hero | HeroNameFilter }}</span>
+            </v-tooltip>
+            <v-tooltip bottom v-if="!item.hc">
+              <template v-slot:activator="{ on, attrs }">
+                <v-avatar v-bind="attrs" v-on="on" size="30px" class="ml-1">
+                  <Icon :name="item.hero" />
+                </v-avatar>
+              </template>
+              <span> Softcore {{ item.hero | HeroNameFilter }}</span>
+            </v-tooltip>
             <v-icon v-if="index == 0" color="gold" class="ml-1">
               mdi-trophy-outline
             </v-icon>

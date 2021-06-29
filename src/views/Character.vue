@@ -12,7 +12,7 @@
             }
           }"
         >
-          <v-avatar size="64">
+          <v-avatar size="64" :class="{ hc: character.hc }">
             <Icon :name="`big-${character.hero}`" />
           </v-avatar>
         </router-link>
@@ -21,6 +21,7 @@
       <v-col class="my-auto">
         <h2>
           <router-link
+            :class="{ 'hc--text': character.hc }"
             :to="{
               name: 'Character',
               params: {
@@ -72,7 +73,6 @@
           <v-tab>Stash</v-tab>
           <v-tab>Cube</v-tab>
           <v-tab>Merc</v-tab>
-          <v-tab>Stats</v-tab>
         </v-tabs>
         <v-card>
           <v-row no-gutters>
@@ -159,12 +159,6 @@
                     </h3>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item v-if="!character.hc">
-                  <v-list-item-content>
-                    <h3>{{ character.deaths }}</h3>
-                    <h3 class="subtitle">Deaths</h3>
-                  </v-list-item-content>
-                </v-list-item>
                 <v-list-item>
                   <v-list-item-content>
                     <h3>{{ character.area | AreaNameFilter }}</h3>
@@ -174,54 +168,97 @@
                     </h3>
                   </v-list-item-content>
                 </v-list-item>
+                <v-list-item v-if="!character.hc">
+                  <v-list-item-content>
+                    <h3>{{ character.deaths }}</h3>
+                    <h3 class="subtitle">Deaths</h3>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>
+                    <h3>{{ character.total_kills }}</h3>
+                    <h3 class="subtitle">Enemies killed</h3>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>
+                    <h3>{{ character.mf }}%</h3>
+                    <h3 class="subtitle">Magic find</h3>
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
               <v-divider></v-divider>
-              <v-list dense color="transparent">
-                <v-list-item
+              <v-row dense class="text-center my-3">
+                <v-col
                   v-for="resistance in resistances"
                   :key="resistance.title"
                 >
-                  <v-list-item-content>
-                    <h3
-                      v-if="
-                        character[resistance.stat] >= 0 &&
-                          character[resistance.stat] < 75
-                      "
-                    >
-                      {{ character[resistance.stat] }}
-                    </h3>
-                    <h3
-                      v-if="character[resistance.stat] < 0"
-                      class="error--text text--lighten-2"
-                    >
-                      {{ character[resistance.stat] }}
-                    </h3>
-                    <h3
-                      v-if="character[resistance.stat] >= 75"
-                      class="link--text text--lighten-2"
-                    >
-                      {{ character[resistance.stat] }}
-                    </h3>
-                    <h3 class="subtitle">{{ resistance.title }}</h3>
-                  </v-list-item-content>
-                  <v-icon right :color="resistance.color">
-                    {{ resistance.icon }}
-                  </v-icon>
-                </v-list-item>
-              </v-list>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <v-icon :color="resistance.color">
+                          {{ resistance.icon }}
+                        </v-icon>
+                        <h3
+                          v-if="
+                            character[resistance.stat] >= 0 &&
+                              character[resistance.stat] < 75
+                          "
+                        >
+                          {{ character[resistance.stat] }}
+                        </h3>
+                        <h3
+                          v-if="character[resistance.stat] < 0"
+                          class="error--text text--lighten-2"
+                        >
+                          {{ character[resistance.stat] }}
+                        </h3>
+                        <h3
+                          v-if="character[resistance.stat] >= 75"
+                          class="link--text"
+                        >
+                          {{ character[resistance.stat] }}
+                        </h3>
+                      </div>
+                    </template>
+                    <span>{{ resistance.title }} Resistance</span>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
               <v-divider></v-divider>
-              <v-list dense color="transparent">
-                <v-list-item
-                  v-for="attribute in attributes"
-                  :key="attribute.title"
-                >
-                  <v-list-item-content>
-                    <h3>{{ character[attribute.stat] }}</h3>
-                    <h3 class="subtitle">{{ attribute.title }}</h3>
-                  </v-list-item-content>
-                  <v-icon right> {{ attribute.icon }} </v-icon>
-                </v-list-item>
-              </v-list>
+              <!--Attributes-->
+              <v-row dense class="text-center my-3">
+                <v-col v-for="attribute in attributes" :key="attribute.title">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <v-icon>
+                          {{ attribute.icon }}
+                        </v-icon>
+                        <h3>{{ character[attribute.stat] }}</h3>
+                      </div>
+                    </template>
+                    <span>{{ attribute.title }}</span>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
+              <v-divider></v-divider>
+              <!--Stats-->
+              <v-row dense class="text-center my-3">
+                <v-col v-for="stat in stats" :key="stat.title">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div v-bind="attrs" v-on="on">
+                        <v-icon>
+                          {{ stat.icon }}
+                        </v-icon>
+                        <h3>{{ character[stat.value] }}</h3>
+                      </div>
+                    </template>
+                    <span>{{ stat.title }}</span>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
               <v-divider class="hidden-sm-and-up"></v-divider>
             </v-col>
             <v-divider vertical class="hidden-xs-only"></v-divider>
@@ -230,6 +267,12 @@
               <!-- Items tab -->
               <v-tabs-items v-model="tab">
                 <v-tab-item class="pa-2">
+                  <v-row dense class="py-3 text-center">
+                    <v-col>
+                      <v-icon left>mdi-gold</v-icon
+                      >{{ character.gold_total }} gold in total
+                    </v-col>
+                  </v-row>
                   <v-row dense>
                     <!-- Character items -->
                     <v-col
@@ -346,42 +389,6 @@
                     </v-col>
                   </v-row>
                 </v-tab-item>
-                <!-- Stats -->
-                <v-tab-item class="pa-2">
-                  <v-row dense>
-                    <v-col
-                      cols="6"
-                      lg="3"
-                      v-for="stat in stats"
-                      :key="stat.title"
-                    >
-                      <v-card
-                        elevation="1"
-                        class="fill-height d-flex align-center pa-2"
-                      >
-                        <v-row dense>
-                          <v-col cols="auto" class="my-auto ml-2">
-                            <v-icon left> {{ stat.icon }} </v-icon>
-                          </v-col>
-                          <v-col class="dense-text">
-                            <h3>{{ character[stat.value] }}</h3>
-                            <h3 class="subtitle">{{ stat.title }}</h3>
-                          </v-col>
-                        </v-row>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                  <v-row
-                    v-if="character.d2_version"
-                    dense
-                    class="py-3 text-center secondary--text text--lighten-2 body-2 mt-5"
-                  >
-                    <v-col>
-                      Diablo II version {{ character.d2_version }}
-                      {{ character.d2_args }}
-                    </v-col>
-                  </v-row>
-                </v-tab-item>
               </v-tabs-items>
             </v-col>
             <v-col cols="12">
@@ -413,11 +420,20 @@
                   <h4>
                     Created
                     {{ character.start_time | FromNowFilter }}
+                    <template character.d2_version>
+                      with version {{ character.d2_version }}
+                      <span class="secondary--text text--lighten-3">{{
+                        character.d2_args
+                      }}</span>
+                    </template>
                   </h4>
                 </v-col>
                 <v-col v-if="character.in_game_time" cols="auto my-auto">
                   <h4>
-                    {{ character.in_game_time | DurationFilter }} of playtime
+                    Playtime:
+                    <span class="monospace">{{
+                      character.in_game_time | DurationFilter
+                    }}</span>
                   </h4>
                 </v-col>
               </v-row>
@@ -497,37 +513,21 @@ export default {
         }
       ],
       stats: [
-        { value: 'fcr', title: 'Cast speed', icon: 'mdi-auto-fix' },
+        { value: 'fcr', title: 'Faster Cast Speed', icon: 'mdi-auto-fix' },
         {
           value: 'fhr',
-          title: 'Hit recovery',
+          title: 'Faster Hit recovery',
           icon: 'mdi-human-handsdown'
         },
-        { value: 'frw', title: 'Run speed', icon: 'mdi-shoe-print' },
+        {
+          value: 'frw',
+          title: 'Faster Run/Walk speed',
+          icon: 'mdi-shoe-print'
+        },
         {
           value: 'ias',
-          title: 'Attack speed',
+          title: 'Faster Attack Speed',
           icon: 'mdi-sword-cross'
-        },
-        {
-          value: 'mf',
-          title: 'Magic find',
-          icon: 'mdi-horseshoe'
-        },
-        {
-          value: 'gold_total',
-          title: 'Total gold',
-          icon: 'mdi-gold'
-        },
-        {
-          value: 'town_visits',
-          title: 'Town visits',
-          icon: 'mdi-castle'
-        },
-        {
-          value: 'total_kills',
-          title: 'Enemies killed',
-          icon: 'mdi-grave-stone'
         }
       ],
       hirelingAttributes: [

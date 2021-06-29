@@ -4,14 +4,14 @@
       <!-- Title -->
 
       <v-col cols="12">
-        <h1>Twink category rules</h1>
+        <h1>Hell Twink category rules</h1>
         <v-card>
           <v-card-title>
             Category specific
           </v-card-title>
           <v-card-text>
             Timer starts right after your character loads into the game and ends
-            when all normal quests, cow kings and level 40 is completed.
+            when all quests, cow kings and level 80 is completed.
           </v-card-text>
           <v-card-text>
             <ul>
@@ -29,13 +29,13 @@
           <v-card-text>
             <ul>
               <li>
-                Complete all quests in normal difficulty.
+                Complete all quests in all difficulties.
               </li>
               <li>
-                Kill normal Cow King.
+                Kill all Cow Kings.
               </li>
               <li>
-                Reach level 40.
+                Reach level 80.
               </li>
             </ul>
           </v-card-text>

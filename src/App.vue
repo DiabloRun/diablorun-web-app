@@ -15,7 +15,7 @@
         <!-- Login -->
         <v-col v-if="!user" cols="auto" class="my-auto">
           <v-btn :href="twitchAuthenticationUrl" text>
-            <v-icon left>mdi-login</v-icon> login
+            <v-icon left>mdi-login</v-icon> login or signup
           </v-btn>
         </v-col>
         <!-- Menu -->
@@ -210,9 +210,9 @@ export default {
 
   computed: {
     ...mapState({
-      user: (state) => state.auth.user,
+      user: state => state.auth.user,
       // confirmModal: (state) => state.app.confirmModal,
-      showHeaderAndFooter: (state) => state.app.windowStyle === 'window'
+      showHeaderAndFooter: state => state.app.windowStyle === 'window'
     })
   },
   methods: {

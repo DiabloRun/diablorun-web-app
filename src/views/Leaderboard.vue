@@ -36,7 +36,7 @@
             >
               <v-btn class="mr-3" color="primary">
                 <v-icon left>mdi-script-text</v-icon>
-                {{ categoryName }} category rules
+                {{ category.name }} category rules
               </v-btn>
             </router-link>
             <v-tooltip bottom>
