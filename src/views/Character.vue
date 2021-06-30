@@ -51,7 +51,14 @@
       <!-- Twitch toggle -->
       <v-col cols="auto" class="my-auto">
         <v-btn icon @click="toggleTwitchEmbed()">
-          <v-icon v-if="!showTwitchEmbed"> mdi-twitch </v-icon>
+          <v-tooltip left v-if="!showTwitchEmbed">
+            <template v-slot:activator="{ on, attrs }">
+              <div v-bind="attrs" v-on="on">
+                <v-icon> mdi-twitch </v-icon>
+              </div>
+            </template>
+            <span>Open Twitch stream</span>
+          </v-tooltip>
           <v-icon v-if="showTwitchEmbed"> mdi-close </v-icon>
         </v-btn>
       </v-col>
@@ -215,9 +222,9 @@
                         </h3>
                         <h3
                           v-if="character[resistance.stat] >= 75"
-                          class="link--text"
+                          class="link--text text--lighten-1"
                         >
-                          {{ character[resistance.stat] }}
+                          <strong>{{ character[resistance.stat] }}</strong>
                         </h3>
                       </div>
                     </template>
@@ -420,7 +427,7 @@
                   <h4>
                     Created
                     {{ character.start_time | FromNowFilter }}
-                    <template character.d2_version>
+                    <template v-if="character.d2_version">
                       with version {{ character.d2_version }}
                       <span class="secondary--text text--lighten-3">{{
                         character.d2_args

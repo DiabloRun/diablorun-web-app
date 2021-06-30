@@ -35,6 +35,9 @@
         </h2>
       </v-col>
       <v-col cols="auto" class="my-auto">
+        <CountryIcon :code="user.country_code" />
+      </v-col>
+      <v-col cols="auto" class="my-auto">
         <v-btn icon :href="`https://twitch.com/${user.name}`" target="_blank">
           <v-icon> mdi-twitch </v-icon>
         </v-btn>
@@ -300,6 +303,7 @@ import {
   PlayersCategoryNameFilter,
   BigNumberFilter
 } from '@/filters';
+import CountryIcon from '@/components/CountryIcon.vue';
 import Icon from '@/components/Icon.vue';
 
 export default {
@@ -314,7 +318,8 @@ export default {
     BigNumberFilter
   },
   components: {
-    Icon
+    Icon,
+    CountryIcon
   },
   data: () => ({
     user: null,

@@ -1,10 +1,17 @@
 <template>
-  <v-avatar size="24" class="mr-2">
-    <v-img contain :src="icons[`./${code}.svg`]" />
-  </v-avatar>
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on, attrs }">
+      <v-avatar size="24" class="mr-2" v-bind="attrs" v-on="on">
+        <v-img contain :src="icons[`./${code}.svg`]" />
+      </v-avatar>
+    </template>
+    <span>{{ countryName }}</span>
+  </v-tooltip>
 </template>
 
 <script>
+import { countries } from '@diablorun/diablorun-data';
+
 const icons = {};
 const modules = require.context('@/assets/img/flags', true);
 
@@ -20,8 +27,14 @@ export default {
   },
   data() {
     return {
-      icons
+      icons,
+      countries
     };
+  },
+  computed: {
+    countryName() {
+      return countries[this.code.toUpperCase()];
+    }
   }
 };
 </script>

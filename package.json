@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@diablorun/diablorun-data": "github:DiabloRun/diablorun-data#0.1.5",
+    "@diablorun/diablorun-data": "github:DiabloRun/diablorun-data#0.1.8",
     "bulma": "^0.9.1",
     "bulma-tooltip": "^3.0.2",
     "chart.js": "^2.9.4",
