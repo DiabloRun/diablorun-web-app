@@ -1,6 +1,6 @@
 <template>
   <span>
-    <CountryIcon :code="run.user_country_code" />
+    <CountryIcon v-if="run.user_country_code" :code="run.user_country_code" />
     <a
       v-if="!run.user_id"
       :style="`color: ${run.user_color};`"
