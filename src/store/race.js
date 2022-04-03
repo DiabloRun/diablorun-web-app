@@ -35,10 +35,10 @@ export default {
       { user, characterId, characterName, raceCharacterUpdates }
     ) {
       const finishedIndex = state.finishedCharacters.findIndex(
-        character => character.id === characterId
+        character => character.user_id === user.id
       );
       const unfinishedIndex = state.unfinishedCharacters.findIndex(
-        character => character.id === characterId
+        character => character.user_id === user.id
       );
 
       if (raceCharacterUpdates.finish_time) {
