@@ -100,11 +100,10 @@ export default {
       const snapshot = await res.json();
 
       commit('set', snapshot);
-
       ws.subscribe(`race/${id}`);
     },
 
-    async unsubscribe(state) {
+    async unsubscribe({ state }) {
       ws.unsubscribe(`race/${state.settings.id}`);
     }
   }
