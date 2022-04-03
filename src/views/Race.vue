@@ -215,6 +215,16 @@
                           {{ condition.quest_id | QuestShortNameFilter }}
                           in {{ condition.difficulty | DifficultyFilter }}.
                         </v-list-item-title>
+                        <v-list-item-title
+                          v-if="condition.type === 'super_unique'"
+                        >
+                          <span class="subtitle is-5 has-text-danger"
+                            >Finish:</span
+                          >
+                          kill
+                          {{ condition.monster_id }}
+                          in {{ condition.difficulty | DifficultyFilter }}.
+                        </v-list-item-title>
                         <v-list-item-title v-if="condition.type === 'stat'">
                           <span class="subtitle is-5 has-text-danger"
                             >Finish:</span

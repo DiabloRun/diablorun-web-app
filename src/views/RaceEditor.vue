@@ -225,7 +225,12 @@
                       ></v-select>
                     </v-col>
                     <!-- Difficulty if quest type -->
-                    <v-col v-if="point.type === 'quest'" class="pr-1">
+                    <v-col
+                      v-if="
+                        point.type === 'quest' || point.type === 'super_unique'
+                      "
+                      class="pr-1"
+                    >
                       <v-select
                         v-model="point.difficulty"
                         :items="difficulties"
@@ -236,7 +241,7 @@
                         label="Difficulty"
                       />
                     </v-col>
-                    <!-- Difficulty if quest type -->
+                    <!-- Quest options if quest type -->
                     <v-col v-if="point.type === 'quest'" class="pr-1">
                       <v-select
                         v-model="point.quest_id"
@@ -247,6 +252,17 @@
                         hide-details
                         label="Quest"
                       />
+                    </v-col>
+                    <!-- Super unique options if super_unique type -->
+                    <v-col v-if="point.type === 'super_unique'" class="pr-1">
+                      <v-text-field
+                        v-model="point.monster_id"
+                        label="Super Unique"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                      ></v-text-field>
                     </v-col>
                     <!-- Time type -->
                     <v-col class="pr-1">
@@ -356,8 +372,14 @@
                       ></v-select>
                     </v-col>
 
-                    <!-- Difficulty and quest if quest type -->
-                    <v-col v-if="condition.type === 'quest'" class="pr-1">
+                    <!-- Difficulty if quest type or super_unique type -->
+                    <v-col
+                      v-if="
+                        condition.type === 'quest' ||
+                          condition.type === 'super_unique'
+                      "
+                      class="pr-1"
+                    >
                       <v-select
                         v-model="condition.difficulty"
                         :items="difficulties"
@@ -368,6 +390,7 @@
                         label="Difficulty"
                       />
                     </v-col>
+                    <!-- Quest options if quest type -->
                     <v-col v-if="condition.type === 'quest'">
                       <v-select
                         v-model="condition.quest_id"
@@ -378,6 +401,17 @@
                         hide-details
                         label="Quest"
                       />
+                    </v-col>
+                    <!-- Super unique options if super_unique type -->
+                    <v-col v-if="condition.type === 'super_unique'">
+                      <v-text-field
+                        v-model="condition.monster_id"
+                        label="Super Unique"
+                        dense
+                        outlined
+                        required
+                        hide-details
+                      ></v-text-field>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -464,20 +498,22 @@ export default {
         { text: '8', value: 'p8' }
       ],
       pointTypes: [
-        { text: 'For completing', value: 'quest' },
+        { text: 'For quest', value: 'quest' },
         { text: 'Per', value: 'per' },
-        { text: 'For', value: 'for' }
+        { text: 'For', value: 'for' },
+        { text: 'For super unique', value: 'super_unique' }
       ],
       pointTimeTypes: [
-        { text: 'by latest state', value: 'state' },
-        { text: 'by max value', value: 'max' },
-        { text: 'in under', value: 'in_under' },
-        { text: 'for first claimed', value: 'first' }
+        { text: 'by latest state', value: 'state' }
+        //{ text: 'by max value', value: 'max' },
+        //{ text: 'in under', value: 'in_under' },
+        //{ text: 'for first claimed', value: 'first' }
       ],
       finishConditionTypes: [
         { text: 'After quest', value: 'quest' },
         { text: 'When stat reached', value: 'stat' },
-        { text: 'After time', value: 'time' }
+        { text: 'After time', value: 'time' },
+        { text: 'After super unique', value: 'super_unique' }
       ],
       finishConditionTimeTypes: [
         { text: 'from race start', value: 'race' },
@@ -604,6 +640,7 @@ export default {
         stat: '',
         difficulty: 'normal',
         quest_id: '',
+        monster_id: '',
         time_type: 'state',
         time: ''
       });
@@ -620,6 +657,7 @@ export default {
         stat: '',
         difficulty: 'normal',
         quest_id: '',
+        monster_id: '',
         time_type: 'race',
         time: ''
       });

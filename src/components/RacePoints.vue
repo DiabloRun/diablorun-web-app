@@ -22,6 +22,14 @@
             in under {{ point.time }}
           </span>
         </span>
+        <span v-if="point.type === 'super_unique'">
+          for {{ point.monster_id }} in
+          {{ point.difficulty | DifficultyFilter }}
+          <span v-if="point.time_type === 'first'"> first </span>
+          <span v-if="point.time_type === 'in_under'">
+            in under {{ point.time }}
+          </span>
+        </span>
         <span v-if="point.type === 'per'">
           per {{ point.counter }} {{ point.stat | StatNameFilter }}
           <span v-if="point.time_type === 'max'">(for max reached)</span>
