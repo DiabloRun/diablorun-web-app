@@ -45,9 +45,7 @@
         <td>
           {{ item.area | AreaNameFilter }}
         </td>
-        <td>
-          {{ item.difficulty | DifficultyFilter }} Players {{ item.players }}
-        </td>
+        <td>{{ item.difficulty | DifficultyFilter }} P{{ item.players }}</td>
         <td class="monospace text-right">
           <CharacterRaceStatus :race="race" :character="item" />
         </td>

@@ -1,29 +1,78 @@
-<template>
+<template v-if="race">
   <div v-if="race">
-    <v-container fluid v-if="!streamOverlay && !isPopup" class="pa-2">
+    <v-container v-if="!streamOverlay && !isPopup" class="mt-5">
+      <!-- Header -->
       <v-row dense>
+        <v-col class="my-auto">
+          <h2>{{ race.name }}</h2>
+        </v-col>
+        <v-col cols="auto">
+          <v-text-field
+            outlined
+            dense
+            :value="race.id"
+            label="Race"
+            readonly
+            hide-details
+            class="mt-3"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="auto">
+          <v-text-field
+            outlined
+            dense
+            prepend-inner-icon="mdi-share"
+            :value="'https://diablo.run/race/' + race.id"
+            :label="'Share ' + race.name"
+            readonly
+            hide-details
+            class="my-3"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
+      <!-- Content -->
+      <v-row dense>
+        <!-- Leaderboard -->
+        <v-col cols="12" md="8">
+          <v-row dense>
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <RaceCountdown
+                      :start="race.start_time"
+                      :finish="race.finish_time"
+                    />
+                  </v-col>
+                </v-row>
+
+                <v-divider></v-divider>
+
+                <v-card-text v-if="!characters.length">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No one has finished the race yet.
+                </v-card-text>
+                <RaceCharactersTable
+                  v-if="characters.length"
+                  :race="race"
+                  :characters="characters"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+        <!-- Sidebar -->
         <v-col cols="12" md="4">
           <v-row dense>
             <v-col cols="12">
               <v-card>
-                <RaceCountdown
-                  :start="race.start_time"
-                  :finish="race.finish_time"
-                />
+                <v-card-title>Rules</v-card-title>
                 <v-divider></v-divider>
-                <v-card-text class="white--text">
-                  <!-- Finish condition type
-                  <span v-if="race.finish_conditions_global">
-                    Type: race ends for everybody when any runner fulfils a
-                    finish condition.
-                  </span>
-                  <span v-if="!race.finish_conditions_global">
-                    Type: race ends for each runner separately when they fulfil
-                    a finish condition.
-                  </span>
-                  -->
-                  <!-- Conditions -->
-                  <div
+
+                <!-- Conditions -->
+                <v-card-text>
+                  <span
                     v-for="condition of finish_conditions"
                     :key="condition.id"
                   >
@@ -33,7 +82,7 @@
                           condition.time_type === 'race'
                       "
                     >
-                      <span class="subtitle is-5 has-text-danger">Finish:</span>
+                      <span class="subtitle is-5 text--danger">Finish:</span>
                       race ends {{ condition.time }} after the start of the
                       race.
                     </p>
@@ -58,7 +107,10 @@
                       reach {{ condition.counter }}
                       {{ condition.stat | StatNameFilter }}.
                     </p>
-                  </div>
+                  </span>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-text>
                   <!-- In-game requirements -->
                   <v-row class="pt-3">
                     <v-col v-if="!race.entry_hc" cols="auto">
@@ -125,29 +177,6 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="12">
-              <v-text-field
-                outlined
-                dense
-                :value="race.name"
-                label="Race"
-                readonly
-                hide-details
-                class="mt-3"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                outlined
-                dense
-                prepend-inner-icon="mdi-share"
-                :value="'https://diablo.run/race/' + race.id"
-                :label="'Share ' + race.name"
-                readonly
-                hide-details
-                class="my-3"
-              ></v-text-field>
-            </v-col>
 
             <!-- Users in race lobby -->
             <v-col cols="12">
@@ -169,90 +198,6 @@
                     </tr>
                   </tbody>
                 </v-simple-table>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="12" md="8">
-          <v-row dense>
-            <!--
-            <v-col cols="12" lg="6" v-if="notifications.length">
-              <v-card class="fill-height">
-                <v-card-text class="white--text">
-                  <RaceNotification
-                    v-for="(notification, index) of notifications"
-                    :key="notification.id"
-                    :index="index"
-                    :rules="rules"
-                    :characters="characters"
-                    :notification="notification"
-                  />
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col v-if="pointsChartData.datasets.length" cols="12" lg="6">
-              <v-card>
-                <ScatterChart
-                  ref="pointsChart"
-                  :style="{ height: '250px', position: 'relative' }"
-                  :chartData="pointsChartData"
-                />
-              </v-card>
-            </v-col>
-            -->
-
-            <!-- Unfinished characters table -->
-            <v-col cols="12">
-              <v-card>
-                <v-row no-gutters>
-                  <v-col>
-                    <v-card-title>Currently running</v-card-title>
-                  </v-col>
-                </v-row>
-                <v-divider></v-divider>
-                <v-card-text v-if="!characters.length">
-                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-                  No one is currently running in this race.
-                </v-card-text>
-                <RaceCharactersTable
-                  v-if="characters.length"
-                  :race="race"
-                  :characters="characters"
-                />
-              </v-card>
-            </v-col>
-
-            <!-- Finished characters table -->
-            <v-col cols="12">
-              <v-card>
-                <v-row no-gutters>
-                  <v-col>
-                    <v-card-title> {{ race.name }} Leaderboard </v-card-title>
-                  </v-col>
-                  <!--
-                  <v-col cols="auto" class="my-auto mr-4">
-                    <v-btn
-                      fab
-                      small
-                      :onclick="`window.open('/race/${race.id}','popup','width=550,height=900'); return false;`"
-                      target="popup"
-                      :href="`/race/${race.id}`"
-                    >
-                      <v-icon>mdi-open-in-new</v-icon>
-                    </v-btn>
-                  </v-col>
-                  -->
-                </v-row>
-                <v-divider></v-divider>
-                <v-card-text v-if="!characters.length">
-                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
-                  No one has finished the race yet.
-                </v-card-text>
-                <RaceCharactersTable
-                  v-if="characters.length"
-                  :race="race"
-                  :characters="characters"
-                />
               </v-card>
             </v-col>
           </v-row>
