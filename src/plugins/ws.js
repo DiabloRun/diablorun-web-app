@@ -32,6 +32,12 @@ class WsPlugin {
         case 'update_race_character':
           store.commit('race/updateCharacter', data);
           break;
+        case 'join_race_lobby':
+          store.commit('race/joinLobby', data);
+          break;
+        case 'leave_race_lobby':
+          store.commit('race/leaveLobby', data);
+          break;
       }
     });
   }

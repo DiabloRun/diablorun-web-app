@@ -150,6 +150,29 @@
                 class="my-3"
               ></v-text-field>
             </v-col>
+
+            <!-- Users in race lobby -->
+            <v-col cols="12">
+              <v-card>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-title> Lobby </v-card-title>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-card-text v-if="!lobby.length">
+                  <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
+                  No users in the lobby.
+                </v-card-text>
+                <v-simple-table v-if="lobby.length > 0" class="text-no-wrap">
+                  <tbody>
+                    <tr v-for="user of lobby" :key="user.id">
+                      <td><DiabloRunUser :user="user" /></td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </v-card>
+            </v-col>
           </v-row>
         </v-col>
         <v-col cols="12" md="8">
@@ -431,6 +454,7 @@ import {
 import Icon from '@/components/Icon.vue';
 import RaceCountdown from '@/components/RaceCountdown.vue';
 // import RaceNotification from '@/components/RaceNotification.vue';
+import DiabloRunUser from '@/components/DiabloRunUser.vue';
 import CharacterUser from '@/components/CharacterUser.vue';
 import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
 // import ScatterChart from '@/components/ScatterChart.vue';
@@ -454,6 +478,7 @@ export default {
     Icon,
     RaceCountdown,
     // RaceNotification,
+    DiabloRunUser,
     CharacterUser,
     CharacterRaceStatus,
     // ScatterChart,
@@ -479,6 +504,7 @@ export default {
     ...mapState({
       race: state => state.race.settings,
       rules: state => state.race.rules,
+      lobby: state => state.race.lobby,
       finishedCharacters: state => state.race.finishedCharacters,
       unfinishedCharacters: state => state.race.unfinishedCharacters,
       notifications: state => state.race.notifications,

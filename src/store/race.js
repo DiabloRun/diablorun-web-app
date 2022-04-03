@@ -6,15 +6,28 @@ export default {
     id: null,
     settings: null,
     rules: [],
+    lobby: [],
     finishedCharacters: [],
     unfinishedCharacters: []
   },
   mutations: {
-    set(state, { race, rules, finishedCharacters, unfinishedCharacters }) {
+    set(
+      state,
+      { race, rules, lobby, finishedCharacters, unfinishedCharacters }
+    ) {
       state.settings = race;
       state.rules = rules;
+      state.lobby = lobby;
       state.finishedCharacters = finishedCharacters;
       state.unfinishedCharacters = unfinishedCharacters;
+    },
+
+    joinLobby(state, { user }) {
+      state.lobby = [...state.lobby, user];
+    },
+
+    leaveLobby(state, { user }) {
+      state.lobby = state.lobby.filter(u => u.id !== user.id);
     },
 
     updateCharacter(
