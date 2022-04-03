@@ -31,7 +31,7 @@
             Start the race
           </v-btn>
           <v-btn
-            v-if="token && start_time !== null && canHost"
+            v-if="token && start_time !== null && !finish_time && canHost"
             @click="endRace()"
           >
             End the race
