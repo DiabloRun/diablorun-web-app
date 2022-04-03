@@ -49,7 +49,11 @@
           {{ item.difficulty | DifficultyFilter }} Players {{ item.players }}
         </td>
         <td class="monospace text-right">
-          {{ item.seconds_played | DurationFilter }}
+          <CharacterRaceStatus
+            :character="item"
+            :start="race.start_time"
+            :finish="item.finish_time"
+          />
         </td>
       </tr>
     </template>
@@ -64,12 +68,13 @@ import {
   DurationFilter
 } from '@/filters';
 import CharacterUser from '@/components/CharacterUser.vue';
-// import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
+import CharacterRaceStatus from '@/components/CharacterRaceStatus.vue';
 import Icon from '@/components/Icon.vue';
 
 export default {
   name: 'RaceCharactersTable',
   props: {
+    race: Object,
     characters: Array
   },
   filters: {
@@ -80,7 +85,7 @@ export default {
   },
   components: {
     CharacterUser,
-    // CharacterRaceStatus,
+    CharacterRaceStatus,
     Icon
   },
   data() {

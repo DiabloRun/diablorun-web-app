@@ -19,27 +19,28 @@
 </template>
 
 <script>
+import ws from '@/plugins/ws';
 import { FromNowFilter, TrimmedDurationFilter } from '@/filters';
 
 export default {
   name: 'CharacterRaceStatus',
   props: {
     character: Object,
-    start: Number,
-    finish: Number
+    start: Number
   },
   filters: {
     FromNowFilter
   },
   data() {
     return {
-      // interval: null,
-      // status: '',
+      interval: null,
+      status: '',
       finish_time_from_now: null,
-      time_left: null
-      // time: null
+      time_left: null,
+      time: null
     };
   },
+  /*
   computed: {
     status() {
       if (this.character.disqualified) {
@@ -65,22 +66,14 @@ export default {
 
       return TrimmedDurationFilter(this.character.seconds_played);
     }
-  }
-  /*
+  },
+  */
   mounted() {
     this.interval = setInterval(() => this.update(), 1000);
     this.update();
   },
   destroyed() {
     clearInterval(this.interval);
-  },
-  $watch: {
-    character: {
-      handler() {
-        console.log(this.character);
-      },
-      immediate: true
-    }
   },
   methods: {
     update() {
@@ -91,7 +84,7 @@ export default {
       }
 
       const time = Math.floor(
-        (new Date().getTime()) / 1000
+        new Date().getTime() / 1000 + ws.timeOffset
         //(new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
       );
 
@@ -99,7 +92,7 @@ export default {
         this.status = 'finished';
         //this.finish_time_from_now = FromNowFilter(finish + this.$store.state.ws.timeOffset / 1000);
         this.time = TrimmedDurationFilter(
-          this.character.finish_time - this.character.start_time
+          this.character.finish_time - this.start
         );
         clearInterval(this.interval);
       } else if (this.character.hc && this.character.dead) {
@@ -108,10 +101,9 @@ export default {
       } else {
         this.status = 'playing';
         //this.time_left = finish ? TrimmedDurationFilter(finish - time) : null;
-        this.time = TrimmedDurationFilter(time - this.character.start_time);
+        this.time = TrimmedDurationFilter(time - this.start);
       }
     }
   }
-  */
 };
 </script>

@@ -30,6 +30,13 @@
             <v-icon left color="primary">mdi-timer-10</v-icon>
             Start the race
           </v-btn>
+          <v-btn
+            v-if="token && start_time !== null && canHost"
+            @click="endRace()"
+          >
+            End the race
+          </v-btn>
+
           <v-btn v-if="canEdit && dirty" @click="save()">
             <v-icon left>mdi-content-save-alert</v-icon>
             Save changes
@@ -622,7 +629,7 @@ export default {
       this.form.finish_conditions.splice(index, 1);
     },
 
-    async save(update_rules = true) {
+    async save(update_rules = true, end = false) {
       this.saving = true;
 
       try {
@@ -642,8 +649,9 @@ export default {
             start_time: this.start_time,
             finish_time: this.finish_time,
             start_in: this.start_time
-              ? this.start_time - Math.floor(new Date() / 1000)
-              : undefined
+              ? this.start_time - Math.floor(Date.now() / 1000)
+              : undefined,
+            end
           })
         });
 
@@ -672,7 +680,7 @@ export default {
     },
 
     async startCountdown() {
-      this.start_time = Math.floor(new Date() / 1000) + 10;
+      this.start_time = Math.floor(Date.now() / 1000) + 10;
 
       const raceTimeConditions = this.form.finish_conditions.filter(
         ({ type, time_type }) => type === 'time' && time_type === 'race'
@@ -689,6 +697,11 @@ export default {
       }
 
       await this.save(false);
+    },
+
+    async endRace() {
+      this.finish_time = Math.floor(Date.now() / 1000);
+      await this.save(false, true);
     },
 
     getRules() {

@@ -216,6 +216,7 @@
                 </v-card-text>
                 <RaceCharactersTable
                   v-if="unfinishedCharacters.length"
+                  :race="race"
                   :characters="unfinishedCharacters"
                 />
               </v-card>
@@ -249,6 +250,7 @@
                 </v-card-text>
                 <RaceCharactersTable
                   v-if="finishedCharacters.length"
+                  :race="race"
                   :characters="finishedCharacters"
                 />
               </v-card>
