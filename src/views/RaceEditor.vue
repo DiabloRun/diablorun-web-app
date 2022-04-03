@@ -682,6 +682,7 @@ export default {
     async startCountdown() {
       this.start_time = Math.floor(Date.now() / 1000) + 10;
 
+      /*
       const raceTimeConditions = this.form.finish_conditions.filter(
         ({ type, time_type }) => type === 'time' && time_type === 'race'
       );
@@ -695,6 +696,7 @@ export default {
             ...raceTimeConditions.map(({ time_seconds }) => time_seconds)
           );
       }
+      */
 
       await this.save(false);
     },
