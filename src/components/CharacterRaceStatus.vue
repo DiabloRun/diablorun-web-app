@@ -25,8 +25,8 @@ import { FromNowFilter, TrimmedDurationFilter } from '@/filters';
 export default {
   name: 'CharacterRaceStatus',
   props: {
-    character: Object,
-    start: Number
+    race: Object,
+    character: Object
   },
   filters: {
     FromNowFilter
@@ -40,34 +40,6 @@ export default {
       time: null
     };
   },
-  /*
-  computed: {
-    status() {
-      if (this.character.disqualified) {
-        return 'disqualified';
-      }
-
-      if (this.character.finish_time) {
-        return 'finished';
-      }
-
-      if (this.character.hc && this.character.dead) {
-        return 'dead';
-      }
-
-      return 'playing';
-    },
-    time() {
-      if (this.character.finish_time) {
-        return TrimmedDurationFilter(
-          this.character.finish_time - this.character.start_time
-        );
-      }
-
-      return TrimmedDurationFilter(this.character.seconds_played);
-    }
-  },
-  */
   mounted() {
     this.interval = setInterval(() => this.update(), 1000);
     this.update();
@@ -75,33 +47,42 @@ export default {
   destroyed() {
     clearInterval(this.interval);
   },
+  watch: {
+    race() {
+      this.update();
+    },
+    character() {
+      this.update();
+    }
+  },
   methods: {
     update() {
       if (this.character.disqualified) {
         this.status = 'disqualified';
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
         return;
       }
 
-      const time = Math.floor(
-        new Date().getTime() / 1000 + ws.timeOffset
-        //(new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
-      );
+      const time = Math.floor(Date.now() / 1000 + ws.timeOffset);
 
       if (this.character.finish_time) {
         this.status = 'finished';
         //this.finish_time_from_now = FromNowFilter(finish + this.$store.state.ws.timeOffset / 1000);
         this.time = TrimmedDurationFilter(
-          this.character.finish_time - this.start
+          this.character.finish_time - this.race.start_time
         );
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
       } else if (this.character.hc && this.character.dead) {
         this.status = 'dead';
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
       } else {
         this.status = 'playing';
         //this.time_left = finish ? TrimmedDurationFilter(finish - time) : null;
-        this.time = TrimmedDurationFilter(time - this.start);
+        this.time = TrimmedDurationFilter(time - this.race.start_time);
+      }
+
+      if (this.race.type === 'points_chase') {
+        this.time = this.character.points;
       }
     }
   }

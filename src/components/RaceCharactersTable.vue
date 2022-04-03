@@ -49,11 +49,7 @@
           {{ item.difficulty | DifficultyFilter }} Players {{ item.players }}
         </td>
         <td class="monospace text-right">
-          <CharacterRaceStatus
-            :character="item"
-            :start="race.start_time"
-            :finish="item.finish_time"
-          />
+          <CharacterRaceStatus :race="race" :character="item" />
         </td>
       </tr>
     </template>
@@ -99,8 +95,13 @@ export default {
         { text: 'Kills', value: 'total_kills', sortable: true },
         { text: 'Gold', value: 'gold_total', sortable: true },
         { text: 'Area', value: 'area', sortable: false },
-        { text: 'Difficulty', value: 'players', sortable: false },
-        { text: 'Playtime', value: 'time', align: 'end', sortable: false }
+        { text: 'Difficulty', value: 'players', sortable: true },
+        {
+          text: this.race.type === 'points_chase' ? 'Points' : 'Playtime',
+          value: this.race.type === 'points_chase' ? 'points' : 'finish_time',
+          align: 'end',
+          sortable: true
+        }
         /*
           text: string,
           value: string,
