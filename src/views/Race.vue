@@ -210,14 +210,14 @@
                   </v-col>
                 </v-row>
                 <v-divider></v-divider>
-                <v-card-text v-if="!unfinishedCharacters.length">
+                <v-card-text v-if="!characters.length">
                   <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
                   No one is currently running in this race.
                 </v-card-text>
                 <RaceCharactersTable
-                  v-if="unfinishedCharacters.length"
+                  v-if="characters.length"
                   :race="race"
-                  :characters="unfinishedCharacters"
+                  :characters="characters"
                 />
               </v-card>
             </v-col>
@@ -244,14 +244,14 @@
                   -->
                 </v-row>
                 <v-divider></v-divider>
-                <v-card-text v-if="!finishedCharacters.length">
+                <v-card-text v-if="!characters.length">
                   <v-icon left color="primary">mdi-emoticon-sad-outline</v-icon>
                   No one has finished the race yet.
                 </v-card-text>
                 <RaceCharactersTable
-                  v-if="finishedCharacters.length"
+                  v-if="characters.length"
                   :race="race"
-                  :characters="finishedCharacters"
+                  :characters="characters"
                 />
               </v-card>
             </v-col>
@@ -505,8 +505,7 @@ export default {
       race: state => state.race.settings,
       rules: state => state.race.rules,
       lobby: state => state.race.lobby,
-      finishedCharacters: state => state.race.finishedCharacters,
-      unfinishedCharacters: state => state.race.unfinishedCharacters,
+      characters: state => state.race.characters,
       notifications: state => state.race.notifications,
       streamOverlay: state => state.app.windowStyle === 'overlay',
       isPopup: state => state.app.windowStyle === 'popup'
