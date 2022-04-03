@@ -160,9 +160,7 @@
               <v-row dense>
                 <v-col v-if="positivePoints.length">
                   <v-card class="fill-height">
-                    <h5 class="py-2 pl-4">
-                      {{ race.type === 'speedrun' ? 'Splits' : 'Points' }}
-                    </h5>
+                    <h5 class="py-2 pl-4">Points</h5>
                     <v-divider></v-divider>
                     <RacePoints :points="positivePoints" />
                   </v-card>
@@ -173,6 +171,61 @@
                     <v-divider></v-divider>
                     <v-card-tex></v-card-tex>
                     <RacePoints :points="negativePoints" />
+                  </v-card>
+                </v-col>
+                <v-col>
+                  <!-- Finish conditions -->
+                  <v-card class="fill-height">
+                    <h5 class="py-2 pl-4">Finish conditions</h5>
+                    <v-divider></v-divider>
+                    <v-card-tex></v-card-tex>
+                    <v-list dense>
+                      <v-list-item
+                        v-for="condition of finish_conditions"
+                        :key="condition.id"
+                      >
+                        <v-list-item-title
+                          v-if="
+                            condition.type === 'time' &&
+                              condition.time_type === 'race'
+                          "
+                        >
+                          <span class="subtitle is-5 has-text-danger"
+                            >Finish:</span
+                          >
+                          race ends {{ condition.time }} after the start of the
+                          race.
+                        </v-list-item-title>
+                        <v-list-item-title
+                          v-if="
+                            condition.type === 'time' &&
+                              condition.time_type === 'character'
+                          "
+                        >
+                          <span class="subtitle is-5 has-text-danger"
+                            >Finish:</span
+                          >
+                          race ends {{ condition.time }} after character
+                          creation.
+                        </v-list-item-title>
+                        <v-list-item-title v-if="condition.type === 'quest'">
+                          <!--<QuestIcon :id="condition.quest_id" />-->
+                          <span class="subtitle is-5 has-text-danger"
+                            >Finish:</span
+                          >
+                          complete
+                          {{ condition.quest_id | QuestShortNameFilter }}
+                          in {{ condition.difficulty | DifficultyFilter }}.
+                        </v-list-item-title>
+                        <v-list-item-title v-if="condition.type === 'stat'">
+                          <span class="subtitle is-5 has-text-danger"
+                            >Finish:</span
+                          >
+                          reach {{ condition.counter }}
+                          {{ condition.stat | StatNameFilter }}.
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
                   </v-card>
                 </v-col>
               </v-row>
