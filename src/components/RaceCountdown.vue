@@ -88,6 +88,7 @@
 <script>
 import moment from 'moment';
 import 'moment-duration-format';
+import ws from '@/plugins/ws';
 
 export default {
   name: 'RaceCountdown',
@@ -116,10 +117,8 @@ export default {
   },
   methods: {
     update() {
-      const time = Math.floor(
-        (new Date().getTime() + this.$store.state.ws.timeOffset) / 1000
-      );
-      const prevStatus = this.status;
+      const time = Math.floor((new Date().getTime() + ws.timeOffset) / 1000);
+      // const prevStatus = this.status;
 
       if (this.start && this.finish && time > this.finish) {
         this.status = 'finished';
@@ -131,6 +130,7 @@ export default {
         this.status = 'starting';
         this.seconds = this.start + 1 - time;
 
+        /*
         switch (this.seconds) {
           case 5:
             this.$refs.whip1.volume = 0.4;
@@ -153,6 +153,7 @@ export default {
             this.$refs.whip3.play();
             break;
         }
+        */
       } else {
         this.status = '';
         this.seconds = null;
@@ -166,10 +167,12 @@ export default {
         this.duration = '';
       }
 
+      /*
       if (prevStatus === 'starting' && this.status === 'started') {
         this.$refs.hostile.volume = 0.4;
         this.$refs.hostile.play();
       }
+      */
     }
   }
 };

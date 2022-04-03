@@ -1,7 +1,7 @@
 <template>
   <v-form
     v-if="!loading"
-    :disabled="start_time || !canEdit"
+    :disabled="start_time !== null || !canEdit"
     class="race-editor"
   >
     <v-container class="mt-5">
@@ -15,25 +15,21 @@
             <v-icon left>mdi-flag</v-icon>
             Edit race
           </h2>
-          <!--
-                <RaceCountdown
-                  v-if="token && !start_time"
-                  ref="countdown"
-                  :start="start_time"
-                  :finish="finish_time"
-                />
-                -->
+          <RaceCountdown
+            v-if="token && start_time !== null"
+            ref="countdown"
+            :start="start_time"
+            :finish="finish_time"
+          />
         </v-col>
         <v-col cols="auto" class="my-auto">
-          <!--
-                <v-btn
-                  v-if="token && !start_time && canHost"
-                  @click="startCountdown()"
-                >
-                  <v-icon left color="primary">mdi-timer-10</v-icon>
-                  Start the race
-                </v-btn>
-                -->
+          <v-btn
+            v-if="token && !start_time && canHost"
+            @click="startCountdown()"
+          >
+            <v-icon left color="primary">mdi-timer-10</v-icon>
+            Start the race
+          </v-btn>
           <v-btn v-if="canEdit && dirty" @click="save()">
             <v-icon left>mdi-content-save-alert</v-icon>
             Save changes
@@ -408,14 +404,14 @@
 
 <script>
 import { mapState } from 'vuex';
-// import RaceCountdown from '@/components/RaceCountdown.vue';
+import RaceCountdown from '@/components/RaceCountdown.vue';
 // import DateTimeInput from '@/components/DateTimeInput.vue';
 import { heroes, quests, stats } from '@diablorun/diablorun-data';
 
 export default {
-  name: 'Race Editor',
+  name: 'RaceEditor',
   components: {
-    // RaceCountdown
+    RaceCountdown
     // DateTimeInput
   },
   data() {

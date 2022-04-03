@@ -4,21 +4,20 @@ import store from '@/store';
 class WsPlugin {
   rooms = [];
   unsubscribeTimeout = {};
+  pingTime = 0;
+  timeOffset = 0;
 
   constructor() {
     this.ws = new WebSocket(process.env.VUE_APP_WS_URL);
 
     this.ws.addEventListener('open', () => {
       console.log('[WS] connected');
+
+      this.sendPing();
+      setInterval(() => this.sendPing(), 30000);
     });
 
-    setInterval(() => this.ws.send('ping'), 30000);
-
     this.ws.addEventListener('message', message => {
-      if (message.data === 'pong') {
-        return;
-      }
-
       const data = JSON.parse(message.data);
 
       if (process.env.NODE_ENV === 'development') {
@@ -26,8 +25,14 @@ class WsPlugin {
       }
 
       switch (data.action) {
+        case 'pong':
+          this.receivePong(data.time);
+          break;
         case 'update_character':
           store.commit('characters/update', data);
+          break;
+        case 'race':
+          store.commit('race/set', data.payload);
           break;
         case 'update_race_character':
           store.commit('race/updateCharacter', data);
@@ -40,6 +45,15 @@ class WsPlugin {
           break;
       }
     });
+  }
+
+  sendPing() {
+    this.pingTime = Date.now();
+    this.ws.send('ping');
+  }
+
+  receivePong(time) {
+    console.log('pong', time - this.pingTime);
   }
 
   install(Vue_) {

@@ -26,6 +26,7 @@
 <script>
 import { FromNowFilter, QuestShortNameFilter, StatNameFilter } from '@/filters';
 import CharacterUser from '@/components/CharacterUser.vue';
+import ws from '@/plugins/ws';
 
 export default {
   name: 'RaceNotification',
@@ -67,7 +68,7 @@ export default {
   methods: {
     update() {
       this.timeFromNow = FromNowFilter(
-        this.notification.time + this.$store.state.ws.timeOffset / 1000
+        this.notification.time + ws.timeOffset / 1000
       );
     }
   }

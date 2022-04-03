@@ -107,7 +107,7 @@ const routes = [
   },
   {
     path: '/:user_name/:character_slug/statistics',
-    name: 'CharacterStatistics',
+    name: 'Character Statistics',
     component: () =>
       import(
         /* webpackChunkName: "leaderboard" */ '../views/CharacterStatistics.vue'
@@ -130,7 +130,7 @@ router.beforeEach((to, _from, next) => {
   } else if (to.params.user_name) {
     document.title = `${to.params.user_name} - diablo.run`;
   } else {
-    document.title = 'diablo.run';
+    document.title = `${to.name} - diablo.run`;
   }
 
   next();

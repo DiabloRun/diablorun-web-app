@@ -6,13 +6,11 @@
           <v-row dense>
             <v-col cols="12">
               <v-card>
-                <!--
                 <RaceCountdown
                   :start="race.start_time"
                   :finish="race.finish_time"
                 />
                 <v-divider></v-divider>
-                -->
                 <v-card-text class="white--text">
                   <!-- Finish condition type
                   <span v-if="race.finish_conditions_global">

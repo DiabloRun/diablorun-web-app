@@ -11,15 +11,15 @@ export default {
     unfinishedCharacters: []
   },
   mutations: {
-    set(
-      state,
-      { race, rules, lobby, finishedCharacters, unfinishedCharacters }
-    ) {
-      state.settings = race;
-      state.rules = rules;
-      state.lobby = lobby;
-      state.finishedCharacters = finishedCharacters;
-      state.unfinishedCharacters = unfinishedCharacters;
+    set(state, update) {
+      console.log(update);
+      if (update.race) state.settings = update.race;
+      if (update.rules) state.rules = update.rules;
+      if (update.lobby) state.lobby = update.lobby;
+      if (update.finishedCharacters)
+        state.finishedCharacters = update.finishedCharacters;
+      if (update.unfinishedCharacters)
+        state.unfinishedCharacters = update.unfinishedCharacters;
     },
 
     joinLobby(state, { user }) {

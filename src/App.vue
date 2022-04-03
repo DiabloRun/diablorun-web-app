@@ -93,7 +93,7 @@
           <v-list-item
           link
           exact
-          :to="{ name: 'Race Editor', params: { editor_token: 'new' } }"
+          :to="{ name: 'RaceEditor', params: { editor_token: 'new' } }"
         >
           <v-icon left>mdi-flag-plus</v-icon>
           <v-list-item-content>
