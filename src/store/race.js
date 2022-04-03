@@ -39,6 +39,7 @@ export default {
           {
             id: characterId,
             name: characterName,
+            user_id: user.id,
             user_name: user.name,
             user_color: user.color,
             user_country_code: user.country_code,
@@ -47,12 +48,12 @@ export default {
         ];
       } else {
         state.characters = [
-          ...state.unfinishedCharacters.slice(0, index),
+          ...state.characters.slice(0, index),
           {
-            ...state.unfinishedCharacters[index],
+            ...state.characters[index],
             ...raceCharacterUpdates
           },
-          ...state.unfinishedCharacters.slice(index + 1)
+          ...state.characters.slice(index + 1)
         ];
       }
     }

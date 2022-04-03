@@ -169,7 +169,6 @@
                   <v-card class="fill-height">
                     <h5 class="py-2 pl-4">Penalties</h5>
                     <v-divider></v-divider>
-                    <v-card-tex></v-card-tex>
                     <RacePoints :points="negativePoints" />
                   </v-card>
                 </v-col>
@@ -178,7 +177,6 @@
                   <v-card class="fill-height">
                     <h5 class="py-2 pl-4">Finish conditions</h5>
                     <v-divider></v-divider>
-                    <v-card-tex></v-card-tex>
                     <v-list dense>
                       <v-list-item
                         v-for="condition of finish_conditions"
