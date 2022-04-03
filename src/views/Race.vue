@@ -1,6 +1,6 @@
 <template v-if="race">
   <div v-if="race">
-    <v-container v-if="!streamOverlay && !isPopup" class="mt-5">
+    <v-container fluid v-if="!streamOverlay && !isPopup" class="mt-5">
       <!-- Header -->
       <v-row dense>
         <v-col class="my-auto">
@@ -34,7 +34,7 @@
       <!-- Content -->
       <v-row dense>
         <!-- Leaderboard -->
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="9" sm="12">
           <v-row dense>
             <v-col cols="12">
               <v-card>
@@ -63,7 +63,7 @@
           </v-row>
         </v-col>
         <!-- Sidebar -->
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-row dense>
             <v-col cols="12">
               <v-card>
