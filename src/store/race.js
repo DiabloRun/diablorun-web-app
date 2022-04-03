@@ -11,7 +11,6 @@ export default {
   },
   mutations: {
     set(state, update) {
-      console.log(update);
       if (update.race) state.settings = update.race;
       if (update.rules) state.rules = update.rules;
       if (update.lobby) state.lobby = update.lobby;

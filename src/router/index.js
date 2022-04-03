@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BlogRouter from './wiki';
+import Race from '@/views/Race.vue';
 
 Vue.use(VueRouter);
 
@@ -71,7 +72,7 @@ const routes = [
   {
     path: '/race/:slug',
     name: 'Race',
-    component: () => import(/* webpackChunkName: "races" */ '../views/Race.vue')
+    component: Race
   },
   /*
   {

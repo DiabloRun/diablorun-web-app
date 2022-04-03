@@ -53,7 +53,6 @@ class WsPlugin {
   }
 
   receivePong(time) {
-    console.log('pong', time - this.pingTime);
     this.timeOffset = time - this.pingTime;
   }
 

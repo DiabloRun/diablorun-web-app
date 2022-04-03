@@ -318,11 +318,7 @@
               {{ character.hero }}
             </td>
             <td>
-              <CharacterRaceStatus
-                :character="character"
-                :start="race.start_time"
-                :finish="race.finish_time"
-              />
+              <CharacterRaceStatus :race="race" :character="character" />
             </td>
           </tr>
         </tbody>

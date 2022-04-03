@@ -1,26 +1,31 @@
 <template>
-  <div>
+  <span>
     <v-icon v-if="status === 'ready'" color="success">mdi-account-check</v-icon>
     <v-icon v-if="status === 'disqualified'" color="warning"
       >mdi-account-cancel</v-icon
     >
-    <span v-if="status === 'finished'">
-      <v-icon color="primary">mdi-flag-variant-outline</v-icon>
-      {{ time }}
-    </span>
-
+    <v-icon v-if="status === 'playing'" small color="white"
+      >mdi-run-fast</v-icon
+    >
     <v-icon v-if="status === 'dead'" color="error">mdi-skull-crossbones</v-icon>
+    <v-icon v-if="status === 'finished'" color="primary"
+      >mdi-flag-variant-outline</v-icon
+    >
 
-    <span v-if="status === 'playing'">
-      <v-icon small color="white">mdi-run-fast</v-icon>
-      <span v-if="time !== null">{{ time }}</span>
+    <span v-if="time !== null">
+      {{ time }}
+
+      <v-chip v-if="bonus < 0" color="success">
+        {{ bonus }}
+      </v-chip>
+      <v-chip v-if="bonus > 0" color="error"> +{{ bonus }} </v-chip>
     </span>
-  </div>
+  </span>
 </template>
 
 <script>
 import ws from '@/plugins/ws';
-import { FromNowFilter, TrimmedDurationFilter } from '@/filters';
+import { TrimmedDurationFilter } from '@/filters';
 
 export default {
   name: 'CharacterRaceStatus',
@@ -28,16 +33,14 @@ export default {
     race: Object,
     character: Object
   },
-  filters: {
-    FromNowFilter
-  },
   data() {
     return {
       interval: null,
       status: '',
       finish_time_from_now: null,
       time_left: null,
-      time: null
+      time: null,
+      bonus: 0
     };
   },
   mounted() {
@@ -69,7 +72,9 @@ export default {
         this.status = 'finished';
         //this.finish_time_from_now = FromNowFilter(finish + this.$store.state.ws.timeOffset / 1000);
         this.time = TrimmedDurationFilter(
-          this.character.finish_time - this.race.start_time
+          this.character.finish_time -
+            this.race.start_time -
+            this.character.points
         );
         //clearInterval(this.interval);
       } else if (this.character.hc && this.character.dead) {
@@ -78,11 +83,16 @@ export default {
       } else {
         this.status = 'playing';
         //this.time_left = finish ? TrimmedDurationFilter(finish - time) : null;
-        this.time = TrimmedDurationFilter(time - this.race.start_time);
+        this.time = TrimmedDurationFilter(
+          time - this.race.start_time - this.character.points
+        );
       }
 
       if (this.race.type === 'points_chase') {
         this.time = this.character.points;
+        this.bonus = 0;
+      } else {
+        this.bonus = -this.character.points;
       }
     }
   }
