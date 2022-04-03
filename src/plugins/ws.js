@@ -53,7 +53,8 @@ class WsPlugin {
   }
 
   receivePong(time) {
-    // console.log('pong', time - this.pingTime);
+    console.log('pong', time - this.pingTime);
+    this.timeOffset = time - this.pingTime;
   }
 
   install(Vue_) {

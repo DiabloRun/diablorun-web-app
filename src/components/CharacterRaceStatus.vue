@@ -63,7 +63,7 @@ export default {
         return;
       }
 
-      const time = Math.floor(Date.now() / 1000 + ws.timeOffset);
+      const time = Math.floor((Date.now() + ws.timeOffset) / 1000);
 
       if (this.character.finish_time) {
         this.status = 'finished';

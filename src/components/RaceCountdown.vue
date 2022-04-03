@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     update() {
-      const time = Math.floor((new Date().getTime() + ws.timeOffset) / 1000);
+      const time = Math.floor((Date.now() + ws.timeOffset) / 1000);
       // const prevStatus = this.status;
 
       if (this.start && this.finish && time > this.finish) {
