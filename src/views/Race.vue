@@ -172,7 +172,7 @@
                     <RacePoints :points="negativePoints" />
                   </v-card>
                 </v-col>
-                <v-col>
+                <v-col cols="12">
                   <!-- Finish conditions -->
                   <v-card class="fill-height">
                     <h5 class="py-2 pl-4">Finish conditions</h5>
