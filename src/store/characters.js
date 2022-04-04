@@ -19,7 +19,7 @@ export default {
       };
     },
 
-    update(state, { id, name, characterUpdates, itemUpdates }) {
+    update(state, { user, id, name, characterUpdates, itemUpdates }) {
       let { character, items } = state.snapshots[id] || {
         character: { id, name },
         items: []
@@ -32,7 +32,7 @@ export default {
       if (itemUpdates) {
         items = items
           .filter(
-            item =>
+            (item) =>
               !itemUpdates.removedItemHashes.includes(Number(item.item_hash))
           )
           .concat(itemUpdates.addedItems);
@@ -41,7 +41,7 @@ export default {
       state.snapshots[id] = { character, items };
       state.latestIds = {
         ...state.latestIds,
-        [character.user_name.toLowerCase()]: id
+        [user.name.toLowerCase()]: id
       };
     }
   },

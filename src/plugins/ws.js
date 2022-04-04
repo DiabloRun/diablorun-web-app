@@ -17,7 +17,7 @@ class WsPlugin {
       setInterval(() => this.sendPing(), 30000);
     });
 
-    this.ws.addEventListener('message', message => {
+    this.ws.addEventListener('message', (message) => {
       const data = JSON.parse(message.data);
 
       if (process.env.NODE_ENV === 'development') {
@@ -85,7 +85,7 @@ class WsPlugin {
       return;
     }
 
-    this.rooms = this.rooms.filter(r => r !== room);
+    this.rooms = this.rooms.filter((r) => r !== room);
 
     if (room in this.unsubscribeTimeout) {
       clearTimeout(this.unsubscribeTimeout[room]);
