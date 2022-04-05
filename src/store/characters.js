@@ -21,7 +21,14 @@ export default {
 
     update(state, { user, id, name, characterUpdates, itemUpdates }) {
       let { character, items } = state.snapshots[id] || {
-        character: { id, name },
+        character: {
+          id,
+          name,
+          user_id: user.id,
+          user_name: user.name,
+          user_color: user.color,
+          user_country_code: user.country_code
+        },
         items: []
       };
 
