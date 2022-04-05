@@ -1,6 +1,10 @@
 <template>
   <span>
-    <CountryIcon imgClass="flag" :code="character.user_country_code" />
+    <CountryIcon
+      v-if="character.user_country_code"
+      imgClass="flag"
+      :code="character.user_country_code"
+    />
     <router-link
       :style="`color: ${character.user_color};`"
       :to="`/${character.user_name}/${character.name}${character.id}`"

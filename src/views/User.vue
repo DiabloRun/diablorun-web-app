@@ -35,7 +35,7 @@
         </h2>
       </v-col>
       <v-col cols="auto" class="my-auto">
-        <CountryIcon :code="user.country_code" />
+        <CountryIcon v-if="user.country_code" :code="user.country_code" />
       </v-col>
       <v-col cols="auto" class="my-auto">
         <v-btn icon :href="`https://twitch.com/${user.name}`" target="_blank">
@@ -455,7 +455,7 @@ export default {
           return;
         }
 
-        this.characters = this.characters.filter(c => c !== character);
+        this.characters = this.characters.filter((c) => c !== character);
 
         if (!this.characters.length) {
           await this.loadMoreCharacters();
